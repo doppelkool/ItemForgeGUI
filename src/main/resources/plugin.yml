@@ -1,0 +1,14 @@
+name: ItemForgeGUI
+version: '${project.version}'
+main: de.doppelkool.itemforgegui.Main.Main
+api-version: '1.21'
+depend:
+  - NBTAPI
+permissions:
+  ifgui.use:
+    description: Allows player to use command
+commands:
+  edit:
+    description: Command to customize given item
+    usage: /<command>
+    permission: ifgui.use
