@@ -1,8 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.tr7zw.nbtapi.NBT;
-import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import net.minecraft.world.item.component.ResolvableProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
