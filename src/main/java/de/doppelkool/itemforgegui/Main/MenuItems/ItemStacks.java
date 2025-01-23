@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import net.minecraft.world.item.component.ResolvableProfile;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * Class Description
@@ -236,7 +238,7 @@ public class ItemStacks {
 	public static void modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
 		SkullMeta meta = (SkullMeta) itemToEdit.getItemMeta();
 
-		CraftPlayerProfile craftPlayerProfile = new CraftPlayerProfile(UUID.randomUUID(), "thisIsATest");
+		CraftPlayerProfile craftPlayerProfile = new CraftPlayerProfile(UUID.randomUUID(), "itemforgegui");
 		try {
 			Class<?> propertyClass = Class.forName("com.mojang.authlib.properties.Property");
 			Constructor<?> propertyConstructor = propertyClass.getConstructor(String.class, String.class);
@@ -252,8 +254,8 @@ public class ItemStacks {
 			profileField.setAccessible(true);
 			profileField.set(meta, resolvableProfile);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to set custom head profile", e);
+			Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
+			Bukkit.getLogger().log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
 		}
 
 		itemToEdit.setItemMeta(meta);

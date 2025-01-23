@@ -45,7 +45,7 @@ public class ItemEditMenu extends Menu {
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
 		if (e.getSlot() == 18) {
-			this.playerMenuUtility.getOwner().closeInventory();
+			handleClose();
 			return;
 		}
 		if (e.getSlot() == 10) {
@@ -99,7 +99,9 @@ public class ItemEditMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		this.inventory.setItem(18, closeInventory);
+		//No back Button in Main Menu
+		this.inventory.setItem(this.getSlots() - 8, FILLER_GLASS);
+
 		this.inventory.setItem(10, editName);
 		this.inventory.setItem(11, editLore);
 		this.inventory.setItem(12, editEnchantments);

@@ -1,13 +1,10 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Class Description
@@ -16,22 +13,20 @@ import java.util.Map;
  */
 public abstract class EditNumberMenu extends Menu {
 
-	protected HashMap<Integer, ItemStack> inventoryItems = new HashMap<>();
+	protected List<SlotItemAction> SLOT_ITEMS = List.of(
+		new SlotItemAction(9, ItemStacks.toMin, e -> handleToZero()),
+		new SlotItemAction(17, ItemStacks.toMax, e -> handleToMax()),
+		new SlotItemAction(10, ItemStacks.minus100, e -> handleMinus100()),
+		new SlotItemAction(11, ItemStacks.minus10, e -> handleMinus10()),
+		new SlotItemAction(12, ItemStacks.minus1, e -> handleMinus1()),
+		new SlotItemAction(14, ItemStacks.plus1, e -> handlePlus1()),
+		new SlotItemAction(15, ItemStacks.plus10, e -> handlePlus10()),
+		new SlotItemAction(16, ItemStacks.plus100, e -> handlePlus100()),
+		new SlotItemAction(22, ItemStacks.customValue, e -> handleCustomNumber())
+	);
 
 	public EditNumberMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
-
-		inventoryItems.put(27, ItemStacks.closeInventory);
-		inventoryItems.put(28, ItemStacks.backInventory);
-		inventoryItems.put(9, ItemStacks.toMin);
-		inventoryItems.put(17, ItemStacks.toMax);
-		inventoryItems.put(10, ItemStacks.minus100);
-		inventoryItems.put(11, ItemStacks.minus10);
-		inventoryItems.put(12, ItemStacks.minus1);
-		inventoryItems.put(14, ItemStacks.plus1);
-		inventoryItems.put(15, ItemStacks.plus10);
-		inventoryItems.put(16, ItemStacks.plus100);
-		inventoryItems.put(22, ItemStacks.customValue);
 	}
 
 	@Override
@@ -49,42 +44,13 @@ public abstract class EditNumberMenu extends Menu {
 			handleBack();
 			return;
 		}
-		if(e.getSlot() == 9) {
-			handleToZero();
-			return;
-		}
-		if(e.getSlot() == 17) {
-			handleToMax();
-			return;
-		}
-		if(e.getSlot() == 10) {
-			handleMinus100();
-			return;
-		}
-		if(e.getSlot() == 11) {
-			handleMinus10();
-			return;
-		}
-		if(e.getSlot() == 12) {
-			handleMinus1();
-			return;
-		}
-		if(e.getSlot() == 14) {
-			handlePlus1();
-			return;
-		}
-		if(e.getSlot() == 15) {
-			handlePlus10();
-			return;
-		}
-		if(e.getSlot() == 16) {
-			handlePlus100();
-			return;
-		}
-		if(e.getSlot() == 22) {
-			handleCustomNumber();
-			return;
-		}
+
+		SLOT_ITEMS.stream()
+			.filter(si -> si.slot() == e.getSlot())
+			.findFirst()
+			.orElseThrow()
+			.onClick()
+			.accept(e);
 
 		onCustomItemClick(e);
 	}
@@ -93,18 +59,11 @@ public abstract class EditNumberMenu extends Menu {
 	@Override
 	public void setMenuItems() {
 		addMenuBorder();
-		for(Map.Entry<Integer,ItemStack> e : inventoryItems.entrySet())
-			this.inventory.setItem(e.getKey(), e.getValue());
+		for(SlotItemAction item : SLOT_ITEMS)
+			this.inventory.setItem(item.slot(), item.item());
 		setFillerGlass();
 	}
 
-	protected void handleClose() {
-		this.playerMenuUtility.getOwner().closeInventory();
-	}
-	protected void handleBack() {
-		new ItemEditMenu(this.playerMenuUtility)
-			.open();
-	}
 	protected abstract void handleToZero();
 	protected abstract void handleToMax();
 	protected abstract void handleMinus100();
@@ -113,13 +72,9 @@ public abstract class EditNumberMenu extends Menu {
 	protected abstract void handlePlus1();
 	protected abstract void handlePlus10();
 	protected abstract void handlePlus100();
-	protected int handleCustomNumber() {
-		return editCustomNumberDefault();
-	}
-	protected void onCustomItemClick(InventoryClickEvent e) {}
-
 	//ToDo
-	private int editCustomNumberDefault() {
+	protected int handleCustomNumber() {
 		return 0;
 	}
+	protected void onCustomItemClick(InventoryClickEvent e) {}
 }
