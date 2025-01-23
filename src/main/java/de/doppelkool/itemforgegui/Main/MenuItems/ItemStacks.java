@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.MenuItems;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.tr7zw.nbtapi.NBT;
 import de.tr7zw.nbtapi.iface.ReadWriteNBT;
+import net.minecraft.world.item.component.ResolvableProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -233,7 +235,7 @@ public class ItemStacks {
 		stack.setItemMeta(itemMeta);
 	}
 
-	public static ItemStack modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
+	public static void modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
 		SkullMeta meta = (SkullMeta) itemToEdit.getItemMeta();
 
 		CraftPlayerProfile craftPlayerProfile = new CraftPlayerProfile(UUID.randomUUID(), "thisIsATest");
@@ -257,7 +259,6 @@ public class ItemStacks {
 		}
 
 		itemToEdit.setItemMeta(meta);
-		return itemToEdit;
 	}
 
 	public static ItemStack notAvailable(ItemStack itemStack) {
