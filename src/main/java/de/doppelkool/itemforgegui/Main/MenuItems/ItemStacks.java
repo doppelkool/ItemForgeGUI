@@ -6,6 +6,7 @@ import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_21_R3.profile.CraftPlayerProfile;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,6 +14,9 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -229,14 +233,31 @@ public class ItemStacks {
 		stack.setItemMeta(itemMeta);
 	}
 
-	public static void modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
-		NBT.modifyComponents(itemToEdit, nbt -> {
-			ReadWriteNBT profileNbt = nbt.getOrCreateCompound("minecraft:profile");
-			profileNbt.setUUID("id", UUID.randomUUID());
-			ReadWriteNBT propertiesNbt = profileNbt.getCompoundList("properties").addCompound();
-			propertiesNbt.setString("name", "textures");
-			propertiesNbt.setString("value", skullData.getBase64encoded());
-		});
+	public static ItemStack modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
+		SkullMeta meta = (SkullMeta) itemToEdit.getItemMeta();
+
+		CraftPlayerProfile craftPlayerProfile = new CraftPlayerProfile(UUID.randomUUID(), "thisIsATest");
+		try {
+			Class<?> propertyClass = Class.forName("com.mojang.authlib.properties.Property");
+			Constructor<?> propertyConstructor = propertyClass.getConstructor(String.class, String.class);
+			Object propertyInstance = propertyConstructor.newInstance("textures", skullData.getBase64encoded());
+
+			Method setproperty = craftPlayerProfile.getClass().getDeclaredMethod("setProperty", String.class, propertyClass);
+			setproperty.setAccessible(true);
+			setproperty.invoke(craftPlayerProfile, "textures", propertyInstance);
+
+			ResolvableProfile resolvableProfile = craftPlayerProfile.buildResolvableProfile();
+
+			Field profileField = meta.getClass().getDeclaredField("profile");
+			profileField.setAccessible(true);
+			profileField.set(meta, resolvableProfile);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Failed to set custom head profile", e);
+		}
+
+		itemToEdit.setItemMeta(meta);
+		return itemToEdit;
 	}
 
 	public static ItemStack notAvailable(ItemStack itemStack) {
