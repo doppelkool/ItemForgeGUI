@@ -1,7 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,10 +14,7 @@ import org.bukkit.potion.PotionType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.makeItem;
@@ -30,157 +26,157 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyItemFla
  * @author doppelkool | github.com/doppelkool
  */
 public class EnchantmentStacks {
-	public static final Pair<Enchantment, ItemStack> PROTECTION_item;
-	public static final Pair<Enchantment, ItemStack> FIRE_PROTECTION_item;
-	public static final Pair<Enchantment, ItemStack> FEATHER_FALLING_item;
-	public static final Pair<Enchantment, ItemStack> BLAST_PROTECTION_item;
-	public static final Pair<Enchantment, ItemStack> PROJECTILE_PROTECTION_item;
-	public static final Pair<Enchantment, ItemStack> RESPIRATION_item;
-	public static final Pair<Enchantment, ItemStack> AQUA_AFFINITY_item;
-	public static final Pair<Enchantment, ItemStack> THORNS_item;
-	public static final Pair<Enchantment, ItemStack> DEPTH_STRIDER_item;
-	public static final Pair<Enchantment, ItemStack> FROST_WALKER_item;
-	public static final Pair<Enchantment, ItemStack> BINDING_CURSE_item;
-	public static final Pair<Enchantment, ItemStack> SHARPNESS_item;
-	public static final Pair<Enchantment, ItemStack> SMITE_item;
-	public static final Pair<Enchantment, ItemStack> BANE_OF_ARTHROPODS_item;
-	public static final Pair<Enchantment, ItemStack> KNOCKBACK_item;
-	public static final Pair<Enchantment, ItemStack> FIRE_ASPECT_item;
-	public static final Pair<Enchantment, ItemStack> LOOTING_item;
-	public static final Pair<Enchantment, ItemStack> SWEEPING_EDGE_item;
-	public static final Pair<Enchantment, ItemStack> EFFICIENCY_item;
-	public static final Pair<Enchantment, ItemStack> SILK_TOUCH_item;
-	public static final Pair<Enchantment, ItemStack> UNBREAKING_item;
-	public static final Pair<Enchantment, ItemStack> FORTUNE_item;
-	public static final Pair<Enchantment, ItemStack> POWER_item;
-	public static final Pair<Enchantment, ItemStack> PUNCH_item;
-	public static final Pair<Enchantment, ItemStack> FLAME_item;
-	public static final Pair<Enchantment, ItemStack> INFINITY_item;
-	public static final Pair<Enchantment, ItemStack> LUCK_OF_THE_SEA_item;
-	public static final Pair<Enchantment, ItemStack> LURE_item;
-	public static final Pair<Enchantment, ItemStack> LOYALTY_item;
-	public static final Pair<Enchantment, ItemStack> IMPALING_item;
-	public static final Pair<Enchantment, ItemStack> RIPTIDE_item;
-	public static final Pair<Enchantment, ItemStack> CHANNELING_item;
-	public static final Pair<Enchantment, ItemStack> MULTISHOT_item;
-	public static final Pair<Enchantment, ItemStack> QUICK_CHARGE_item;
-	public static final Pair<Enchantment, ItemStack> PIERCING_item;
-	public static final Pair<Enchantment, ItemStack> DENSITY_item;
-	public static final Pair<Enchantment, ItemStack> BREACH_item;
-	public static final Pair<Enchantment, ItemStack> WIND_BURST_item;
-	public static final Pair<Enchantment, ItemStack> MENDING_item;
-	public static final Pair<Enchantment, ItemStack> VANISHING_CURSE_item;
-	public static final Pair<Enchantment, ItemStack> SOUL_SPEED_item;
-	public static final Pair<Enchantment, ItemStack> SWIFT_SNEAK_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> PROTECTION_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> FIRE_PROTECTION_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> FEATHER_FALLING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> BLAST_PROTECTION_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> PROJECTILE_PROTECTION_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> RESPIRATION_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> AQUA_AFFINITY_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> THORNS_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> DEPTH_STRIDER_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> FROST_WALKER_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> BINDING_CURSE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> SHARPNESS_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> SMITE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> BANE_OF_ARTHROPODS_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> KNOCKBACK_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> FIRE_ASPECT_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> LOOTING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> SWEEPING_EDGE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> EFFICIENCY_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> SILK_TOUCH_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> UNBREAKING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> FORTUNE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> POWER_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> PUNCH_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> FLAME_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> INFINITY_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> LUCK_OF_THE_SEA_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> LURE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> LOYALTY_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> IMPALING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> RIPTIDE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> CHANNELING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> MULTISHOT_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> QUICK_CHARGE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> PIERCING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> DENSITY_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> BREACH_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> WIND_BURST_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> MENDING_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> VANISHING_CURSE_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> SOUL_SPEED_item;
+	public static final AbstractMap.SimpleEntry<Enchantment, ItemStack> SWIFT_SNEAK_item;
 
 	public static final LinkedHashMap<Enchantment, ItemStack> enchantmentsToItemStack = new LinkedHashMap<>();
 	public static final LinkedHashMap<Integer, Enchantment> itemStackIDToEnchantment = new LinkedHashMap<>();
 
 	static {
-		PROTECTION_item = Pair.of(Enchantment.PROTECTION, makeItem(Material.DIAMOND_CHESTPLATE, ChatColor.GREEN + "Protection"));
-		modifyItemFlags(PROTECTION_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		PROTECTION_item = new AbstractMap.SimpleEntry<>(Enchantment.PROTECTION, makeItem(Material.DIAMOND_CHESTPLATE, ChatColor.GREEN + "Protection"));
+		modifyItemFlags(PROTECTION_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		FIRE_PROTECTION_item = Pair.of(Enchantment.FIRE_PROTECTION, makeItem(Material.POTION, ChatColor.GREEN + "Fire Protection"));
-		PotionMeta fireprotMeta = (PotionMeta) FIRE_PROTECTION_item.getRight().getItemMeta();
+		FIRE_PROTECTION_item = new AbstractMap.SimpleEntry<>(Enchantment.FIRE_PROTECTION, makeItem(Material.POTION, ChatColor.GREEN + "Fire Protection"));
+		PotionMeta fireprotMeta = (PotionMeta) FIRE_PROTECTION_item.getValue().getItemMeta();
 		fireprotMeta.setBasePotionType(PotionType.FIRE_RESISTANCE);
-		FIRE_PROTECTION_item.getRight().setItemMeta(fireprotMeta);
-		modifyItemFlags(FIRE_PROTECTION_item.getRight(), ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_ATTRIBUTES);
+		FIRE_PROTECTION_item.getValue().setItemMeta(fireprotMeta);
+		modifyItemFlags(FIRE_PROTECTION_item.getValue(), ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_ATTRIBUTES);
 
-		FEATHER_FALLING_item = Pair.of(Enchantment.FEATHER_FALLING, makeItem(Material.WIND_CHARGE, ChatColor.GREEN + "Feather Falling"));
-		BLAST_PROTECTION_item = Pair.of(Enchantment.BLAST_PROTECTION, makeItem(Material.TNT, ChatColor.GREEN + "Blast Protection"));
+		FEATHER_FALLING_item = new AbstractMap.SimpleEntry<>(Enchantment.FEATHER_FALLING, makeItem(Material.WIND_CHARGE, ChatColor.GREEN + "Feather Falling"));
+		BLAST_PROTECTION_item = new AbstractMap.SimpleEntry<>(Enchantment.BLAST_PROTECTION, makeItem(Material.TNT, ChatColor.GREEN + "Blast Protection"));
 
-		PROJECTILE_PROTECTION_item = Pair.of(Enchantment.PROJECTILE_PROTECTION, makeItem(Material.CHAINMAIL_LEGGINGS, ChatColor.GREEN + "Projectile Protection"));
-		modifyItemFlags(PROJECTILE_PROTECTION_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		PROJECTILE_PROTECTION_item = new AbstractMap.SimpleEntry<>(Enchantment.PROJECTILE_PROTECTION, makeItem(Material.CHAINMAIL_LEGGINGS, ChatColor.GREEN + "Projectile Protection"));
+		modifyItemFlags(PROJECTILE_PROTECTION_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		RESPIRATION_item = Pair.of(Enchantment.RESPIRATION, makeItem(Material.TROPICAL_FISH_BUCKET, ChatColor.GREEN + "Respiration"));
+		RESPIRATION_item = new AbstractMap.SimpleEntry<>(Enchantment.RESPIRATION, makeItem(Material.TROPICAL_FISH_BUCKET, ChatColor.GREEN + "Respiration"));
 
-		AQUA_AFFINITY_item = Pair.of(Enchantment.AQUA_AFFINITY, makeItem(Material.GOLDEN_PICKAXE, ChatColor.GREEN + "Aqua Affinity"));
-		modifyItemFlags(AQUA_AFFINITY_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		AQUA_AFFINITY_item = new AbstractMap.SimpleEntry<>(Enchantment.AQUA_AFFINITY, makeItem(Material.GOLDEN_PICKAXE, ChatColor.GREEN + "Aqua Affinity"));
+		modifyItemFlags(AQUA_AFFINITY_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		THORNS_item = Pair.of(Enchantment.THORNS, makeItem(Material.CACTUS, ChatColor.GREEN + "Thorns"));
+		THORNS_item = new AbstractMap.SimpleEntry<>(Enchantment.THORNS, makeItem(Material.CACTUS, ChatColor.GREEN + "Thorns"));
 
-		DEPTH_STRIDER_item = Pair.of(Enchantment.DEPTH_STRIDER, makeItem(Material.DIAMOND_BOOTS, ChatColor.GREEN + "Depth Strider"));
-		modifyItemFlags(DEPTH_STRIDER_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		DEPTH_STRIDER_item = new AbstractMap.SimpleEntry<>(Enchantment.DEPTH_STRIDER, makeItem(Material.DIAMOND_BOOTS, ChatColor.GREEN + "Depth Strider"));
+		modifyItemFlags(DEPTH_STRIDER_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		FROST_WALKER_item = Pair.of(Enchantment.FROST_WALKER, makeItem(Material.ICE, ChatColor.GREEN + "Frost Walker"));
-		BINDING_CURSE_item = Pair.of(Enchantment.BINDING_CURSE, makeItem(Material.LEAD, ChatColor.GREEN + "Curse of Binding"));
+		FROST_WALKER_item = new AbstractMap.SimpleEntry<>(Enchantment.FROST_WALKER, makeItem(Material.ICE, ChatColor.GREEN + "Frost Walker"));
+		BINDING_CURSE_item = new AbstractMap.SimpleEntry<>(Enchantment.BINDING_CURSE, makeItem(Material.LEAD, ChatColor.GREEN + "Curse of Binding"));
 
-		SHARPNESS_item = Pair.of(Enchantment.SHARPNESS, makeItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Sharpness"));
-		modifyItemFlags(SHARPNESS_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		SHARPNESS_item = new AbstractMap.SimpleEntry<>(Enchantment.SHARPNESS, makeItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Sharpness"));
+		modifyItemFlags(SHARPNESS_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		SMITE_item = Pair.of(Enchantment.SMITE, makeItem(Material.NETHERITE_AXE, ChatColor.GREEN + "Smite"));
-		modifyItemFlags(SMITE_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		SMITE_item = new AbstractMap.SimpleEntry<>(Enchantment.SMITE, makeItem(Material.NETHERITE_AXE, ChatColor.GREEN + "Smite"));
+		modifyItemFlags(SMITE_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		BANE_OF_ARTHROPODS_item = Pair.of(Enchantment.BANE_OF_ARTHROPODS, makeItem(Material.SPIDER_EYE, ChatColor.GREEN + "Bane of Arthropods"));
-		KNOCKBACK_item = Pair.of(Enchantment.KNOCKBACK, makeItem(Material.SLIME_BALL, ChatColor.GREEN + "Knockback"));
-		FIRE_ASPECT_item = Pair.of(Enchantment.FIRE_ASPECT, makeItem(Material.FIRE_CHARGE, ChatColor.GREEN + "Fire Aspect"));
+		BANE_OF_ARTHROPODS_item = new AbstractMap.SimpleEntry<>(Enchantment.BANE_OF_ARTHROPODS, makeItem(Material.SPIDER_EYE, ChatColor.GREEN + "Bane of Arthropods"));
+		KNOCKBACK_item = new AbstractMap.SimpleEntry<>(Enchantment.KNOCKBACK, makeItem(Material.SLIME_BALL, ChatColor.GREEN + "Knockback"));
+		FIRE_ASPECT_item = new AbstractMap.SimpleEntry<>(Enchantment.FIRE_ASPECT, makeItem(Material.FIRE_CHARGE, ChatColor.GREEN + "Fire Aspect"));
 
-		LOOTING_item = Pair.of(Enchantment.LOOTING, makeItem(Material.BUNDLE, ChatColor.GREEN + "Looting"));
-		modifyItemFlags(LOOTING_item.getRight(), ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+		LOOTING_item = new AbstractMap.SimpleEntry<>(Enchantment.LOOTING, makeItem(Material.BUNDLE, ChatColor.GREEN + "Looting"));
+		modifyItemFlags(LOOTING_item.getValue(), ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
-		SWEEPING_EDGE_item = Pair.of(Enchantment.SWEEPING_EDGE, makeItem(Material.STONE_SWORD, ChatColor.GREEN + "Sweeping Edge"));
-		modifyItemFlags(SWEEPING_EDGE_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		SWEEPING_EDGE_item = new AbstractMap.SimpleEntry<>(Enchantment.SWEEPING_EDGE, makeItem(Material.STONE_SWORD, ChatColor.GREEN + "Sweeping Edge"));
+		modifyItemFlags(SWEEPING_EDGE_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		EFFICIENCY_item = Pair.of(Enchantment.EFFICIENCY, makeItem(Material.NETHERITE_PICKAXE, ChatColor.GREEN + "Efficiency"));
-		modifyItemFlags(EFFICIENCY_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		EFFICIENCY_item = new AbstractMap.SimpleEntry<>(Enchantment.EFFICIENCY, makeItem(Material.NETHERITE_PICKAXE, ChatColor.GREEN + "Efficiency"));
+		modifyItemFlags(EFFICIENCY_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		SILK_TOUCH_item = Pair.of(Enchantment.SILK_TOUCH, makeItem(Material.BRUSH, ChatColor.GREEN + "Silk Touch"));
+		SILK_TOUCH_item = new AbstractMap.SimpleEntry<>(Enchantment.SILK_TOUCH, makeItem(Material.BRUSH, ChatColor.GREEN + "Silk Touch"));
 
-		UNBREAKING_item = Pair.of(Enchantment.UNBREAKING, makeItem(Material.NETHERITE_HOE, ChatColor.GREEN + "Unbreaking"));
-		modifyItemFlags(UNBREAKING_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		UNBREAKING_item = new AbstractMap.SimpleEntry<>(Enchantment.UNBREAKING, makeItem(Material.NETHERITE_HOE, ChatColor.GREEN + "Unbreaking"));
+		modifyItemFlags(UNBREAKING_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		FORTUNE_item = Pair.of(Enchantment.FORTUNE, makeItem(Material.DIAMOND, ChatColor.GREEN + "Fortune"));
+		FORTUNE_item = new AbstractMap.SimpleEntry<>(Enchantment.FORTUNE, makeItem(Material.DIAMOND, ChatColor.GREEN + "Fortune"));
 
-		POWER_item = Pair.of(Enchantment.POWER, makeItem(Material.DIAMOND_HORSE_ARMOR, ChatColor.GREEN + "Power"));
-		modifyItemFlags(POWER_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		POWER_item = new AbstractMap.SimpleEntry<>(Enchantment.POWER, makeItem(Material.DIAMOND_HORSE_ARMOR, ChatColor.GREEN + "Power"));
+		modifyItemFlags(POWER_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		PUNCH_item = Pair.of(Enchantment.PUNCH, makeItem(Material.ARROW, ChatColor.GREEN + "Punch"));
-		FLAME_item = Pair.of(Enchantment.FLAME, makeItem(Material.FIRE_CHARGE, ChatColor.GREEN + "Flame"));
-		INFINITY_item = Pair.of(Enchantment.INFINITY, makeItem(Material.BEDROCK, ChatColor.GREEN + "Infinity"));
-		LUCK_OF_THE_SEA_item = Pair.of(Enchantment.LUCK_OF_THE_SEA, makeItem(Material.HEART_OF_THE_SEA, ChatColor.GREEN + "Luck of the Sea"));
-		LURE_item = Pair.of(Enchantment.LURE, makeItem(Material.FISHING_ROD, ChatColor.GREEN + "Lure"));
+		PUNCH_item = new AbstractMap.SimpleEntry<>(Enchantment.PUNCH, makeItem(Material.ARROW, ChatColor.GREEN + "Punch"));
+		FLAME_item = new AbstractMap.SimpleEntry<>(Enchantment.FLAME, makeItem(Material.FIRE_CHARGE, ChatColor.GREEN + "Flame"));
+		INFINITY_item = new AbstractMap.SimpleEntry<>(Enchantment.INFINITY, makeItem(Material.BEDROCK, ChatColor.GREEN + "Infinity"));
+		LUCK_OF_THE_SEA_item = new AbstractMap.SimpleEntry<>(Enchantment.LUCK_OF_THE_SEA, makeItem(Material.HEART_OF_THE_SEA, ChatColor.GREEN + "Luck of the Sea"));
+		LURE_item = new AbstractMap.SimpleEntry<>(Enchantment.LURE, makeItem(Material.FISHING_ROD, ChatColor.GREEN + "Lure"));
 
-		LOYALTY_item = Pair.of(Enchantment.LOYALTY, makeItem(Material.TRIDENT, ChatColor.GREEN + "Loyalty"));
-		modifyItemFlags(LOYALTY_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		LOYALTY_item = new AbstractMap.SimpleEntry<>(Enchantment.LOYALTY, makeItem(Material.TRIDENT, ChatColor.GREEN + "Loyalty"));
+		modifyItemFlags(LOYALTY_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		IMPALING_item = Pair.of(Enchantment.IMPALING, makeItem(Material.PUFFERFISH, ChatColor.GREEN + "Impaling"));
-		RIPTIDE_item = Pair.of(Enchantment.RIPTIDE, makeItem(Material.SEAGRASS, ChatColor.GREEN + "Riptide"));
+		IMPALING_item = new AbstractMap.SimpleEntry<>(Enchantment.IMPALING, makeItem(Material.PUFFERFISH, ChatColor.GREEN + "Impaling"));
+		RIPTIDE_item = new AbstractMap.SimpleEntry<>(Enchantment.RIPTIDE, makeItem(Material.SEAGRASS, ChatColor.GREEN + "Riptide"));
 
-		CHANNELING_item = Pair.of(Enchantment.CHANNELING, makeItem(Material.TRIDENT, ChatColor.GREEN + "Channeling")); // enchanted
-		modifyItemFlags(CHANNELING_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		CHANNELING_item = new AbstractMap.SimpleEntry<>(Enchantment.CHANNELING, makeItem(Material.TRIDENT, ChatColor.GREEN + "Channeling")); // enchanted
+		modifyItemFlags(CHANNELING_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		MULTISHOT_item = Pair.of(Enchantment.MULTISHOT, makeItem(Material.CROSSBOW, ChatColor.GREEN + "Multishot"));
+		MULTISHOT_item = new AbstractMap.SimpleEntry<>(Enchantment.MULTISHOT, makeItem(Material.CROSSBOW, ChatColor.GREEN + "Multishot"));
 
-		QUICK_CHARGE_item = Pair.of(Enchantment.QUICK_CHARGE, makeItem(Material.MACE, ChatColor.GREEN + "Quick Charge"));
-		modifyItemFlags(QUICK_CHARGE_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		QUICK_CHARGE_item = new AbstractMap.SimpleEntry<>(Enchantment.QUICK_CHARGE, makeItem(Material.MACE, ChatColor.GREEN + "Quick Charge"));
+		modifyItemFlags(QUICK_CHARGE_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		PIERCING_item = Pair.of(Enchantment.PIERCING, makeItem(Material.CROSSBOW, ChatColor.GREEN + "Piercing")); // enchanted
+		PIERCING_item = new AbstractMap.SimpleEntry<>(Enchantment.PIERCING, makeItem(Material.CROSSBOW, ChatColor.GREEN + "Piercing")); // enchanted
 
-		DENSITY_item = Pair.of(Enchantment.DENSITY, makeItem(Material.MACE, ChatColor.GREEN + "Density")); // enchanted
-		modifyItemFlags(DENSITY_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		DENSITY_item = new AbstractMap.SimpleEntry<>(Enchantment.DENSITY, makeItem(Material.MACE, ChatColor.GREEN + "Density")); // enchanted
+		modifyItemFlags(DENSITY_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		BREACH_item = Pair.of(Enchantment.BREACH, makeItem(Material.MACE, ChatColor.GREEN + "Breach"));
-		modifyItemFlags(BREACH_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		BREACH_item = new AbstractMap.SimpleEntry<>(Enchantment.BREACH, makeItem(Material.MACE, ChatColor.GREEN + "Breach"));
+		modifyItemFlags(BREACH_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		WIND_BURST_item = Pair.of(Enchantment.WIND_BURST, makeItem(Material.MACE, ChatColor.GREEN + "Wind Burst"));
-		modifyItemFlags(WIND_BURST_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		WIND_BURST_item = new AbstractMap.SimpleEntry<>(Enchantment.WIND_BURST, makeItem(Material.MACE, ChatColor.GREEN + "Wind Burst"));
+		modifyItemFlags(WIND_BURST_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
-		MENDING_item = Pair.of(Enchantment.MENDING, makeItem(Material.EXPERIENCE_BOTTLE, ChatColor.GREEN + "Mending")); // enchanted
-		VANISHING_CURSE_item = Pair.of(Enchantment.VANISHING_CURSE, makeItem(Material.END_CRYSTAL, ChatColor.GREEN + "Curse of Vanishing"));
-		SOUL_SPEED_item = Pair.of(Enchantment.SOUL_SPEED, makeItem(Material.SOUL_SAND, ChatColor.GREEN + "Soul Speed"));
+		MENDING_item = new AbstractMap.SimpleEntry<>(Enchantment.MENDING, makeItem(Material.EXPERIENCE_BOTTLE, ChatColor.GREEN + "Mending")); // enchanted
+		VANISHING_CURSE_item = new AbstractMap.SimpleEntry<>(Enchantment.VANISHING_CURSE, makeItem(Material.END_CRYSTAL, ChatColor.GREEN + "Curse of Vanishing"));
+		SOUL_SPEED_item = new AbstractMap.SimpleEntry<>(Enchantment.SOUL_SPEED, makeItem(Material.SOUL_SAND, ChatColor.GREEN + "Soul Speed"));
 
-		SWIFT_SNEAK_item = Pair.of(Enchantment.SWIFT_SNEAK, makeItem(Material.GOLDEN_BOOTS, ChatColor.GREEN + "Swift Sneak"));
-		modifyItemFlags(SWIFT_SNEAK_item.getRight(), ItemFlag.HIDE_ATTRIBUTES);
+		SWIFT_SNEAK_item = new AbstractMap.SimpleEntry<>(Enchantment.SWIFT_SNEAK, makeItem(Material.GOLDEN_BOOTS, ChatColor.GREEN + "Swift Sneak"));
+		modifyItemFlags(SWIFT_SNEAK_item.getValue(), ItemFlag.HIDE_ATTRIBUTES);
 
 		for (Field field : EnchantmentStacks.class.getDeclaredFields()) {
 			int modifiers = field.getModifiers();
 			if (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
 				// Check if the field's type is ItemStack
-				if (Pair.class.isAssignableFrom(field.getType())) {
+				if (AbstractMap.SimpleEntry.class.isAssignableFrom(field.getType())) {
 					try {
 						@SuppressWarnings("unchecked")
-						Pair<Enchantment, ItemStack> itemStackPair = (Pair<Enchantment, ItemStack>) field.get(null);
-						ItemStack itemStack = itemStackPair.getRight();
+						AbstractMap.SimpleEntry<Enchantment, ItemStack> itemStackPair = (AbstractMap.SimpleEntry<Enchantment, ItemStack>) field.get(null);
+						ItemStack itemStack = itemStackPair.getValue();
 						ItemMeta itemMeta = itemStack.getItemMeta();
 
 						itemMeta.getPersistentDataContainer().set(
