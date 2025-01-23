@@ -34,47 +34,26 @@ public class SpecialsMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		ItemFlag clickedFlag = null;
-
 		if (e.getSlot() == 27) {
-			this.playerMenuUtility.getOwner().closeInventory();
+			handleClose();
 			return;
 		}
-
 		if (e.getSlot() == 28) {
-			new ItemEditMenu(this.playerMenuUtility)
-				.open();
+			handleBack();
 			return;
 		}
 
-		switch (e.getSlot()) {
-			case 10,16,19,20,24,25:
-				break;
-			case 11:
-				clickedFlag = ItemFlag.HIDE_ENCHANTS;
-				break;
-			case 12:
-				clickedFlag = ItemFlag.HIDE_ATTRIBUTES;
-				break;
-			case 13:
-				clickedFlag = ItemFlag.HIDE_UNBREAKABLE;
-				break;
-			case 14:
-				clickedFlag = ItemFlag.HIDE_DESTROYS;
-				break;
-			case 15:
-				clickedFlag = ItemFlag.HIDE_PLACED_ON;
-				break;
-			case 21:
-				clickedFlag = ItemFlag.HIDE_ADDITIONAL_TOOLTIP;
-				break;
-			case 22:
-				clickedFlag = ItemFlag.HIDE_DYE;
-				break;
-			case 23:
-				clickedFlag = ItemFlag.HIDE_ARMOR_TRIM;
-				break;
-		}
+		ItemFlag clickedFlag = switch (e.getSlot()) {
+			case 11 -> ItemFlag.HIDE_ENCHANTS;
+			case 12 -> ItemFlag.HIDE_ATTRIBUTES;
+			case 13 -> ItemFlag.HIDE_UNBREAKABLE;
+			case 14 -> ItemFlag.HIDE_DESTROYS;
+			case 15 -> ItemFlag.HIDE_PLACED_ON;
+			case 21 -> ItemFlag.HIDE_ADDITIONAL_TOOLTIP;
+			case 22 -> ItemFlag.HIDE_DYE;
+			case 23 -> ItemFlag.HIDE_ARMOR_TRIM;
+			default -> null;
+		};
 
 		if(clickedFlag == null) {
 			return;
@@ -96,11 +75,10 @@ public class SpecialsMenu extends Menu {
 
 	@Override
 	public void setMenuItems() {
+		addMenuBorder();
+
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
-
-		this.inventory.setItem(27, ItemStacks.closeInventory);
-		this.inventory.setItem(28, ItemStacks.backInventory);
 
 		ItemStack hideEnchantmentsClone = ItemStacks.hideEnchantments.clone();
 		setGlow(hideEnchantmentsClone, itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS));

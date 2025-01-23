@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItem;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
@@ -21,31 +22,25 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
  */
 public class ColorPickerMenu extends Menu {
 
-	private static final List<Integer> slots = List.of(
-		10,   12,13,14,15,16,
-		21,22,23,24,25,
-		29,30,31,32,33,34
+	private static final List<SlotItem> SLOT_ITEMS = List.of(
+		new SlotItem(10, ItemStacks.DEFAULT_dye),
+		new SlotItem(12, ItemStacks.WHITE_dye),
+		new SlotItem(13, ItemStacks.LIGHT_GRAY_dye),
+		new SlotItem(14, ItemStacks.GRAY_dye),
+		new SlotItem(15, ItemStacks.BLACK_dye),
+		new SlotItem(16, ItemStacks.BROWN_dye),
+		new SlotItem(21, ItemStacks.RED_dye),
+		new SlotItem(22, ItemStacks.ORANGE_dye),
+		new SlotItem(23, ItemStacks.YELLOW_dye),
+		new SlotItem(24, ItemStacks.LIME_dye),
+		new SlotItem(25, ItemStacks.GREEN_dye),
+		new SlotItem(29, ItemStacks.CYAN_dye),
+		new SlotItem(30, ItemStacks.LIGHT_BLUE_dye),
+		new SlotItem(31, ItemStacks.BLUE_dye),
+		new SlotItem(32, ItemStacks.PURPLE_dye),
+		new SlotItem(33, ItemStacks.MAGENTA_dye),
+		new SlotItem(34, ItemStacks.PINK_dye)
 	);
-
-	private static final ItemStack[] targetItems = new ItemStack[]{
-		ItemStacks.DEFAULT_dye,
-		ItemStacks.WHITE_dye,
-		ItemStacks.LIGHT_GRAY_dye,
-		ItemStacks.GRAY_dye,
-		ItemStacks.BLACK_dye,
-		ItemStacks.BROWN_dye,
-		ItemStacks.RED_dye,
-		ItemStacks.ORANGE_dye,
-		ItemStacks.YELLOW_dye,
-		ItemStacks.LIME_dye,
-		ItemStacks.GREEN_dye,
-		ItemStacks.CYAN_dye,
-		ItemStacks.LIGHT_BLUE_dye,
-		ItemStacks.BLUE_dye,
-		ItemStacks.PURPLE_dye,
-		ItemStacks.MAGENTA_dye,
-		ItemStacks.PINK_dye,
-	};
 
 	public ColorPickerMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
@@ -63,19 +58,12 @@ public class ColorPickerMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-
 		if (e.getSlot() == 36) {
-			this.playerMenuUtility.getOwner().closeInventory();
+			handleClose();
 			return;
 		}
 		if (e.getSlot() == 37) {
-			new ItemEditMenu(this.playerMenuUtility)
-				.open();
-			return;
-		}
-
-		Material clickedItemType = e.getCurrentItem().getType();
-		if(clickedItemType == Material.BARRIER) {
+			handleBack();
 			return;
 		}
 
@@ -88,6 +76,7 @@ public class ColorPickerMenu extends Menu {
 		}
 
 		//Target item is Colored
+		Material clickedItemType = e.getCurrentItem().getType();
 		String colorByColoredItem = getColorStringByDye(clickedItemType);
 
 		Material typeInMainHand = itemInMainHand.getType();
@@ -146,24 +135,19 @@ public class ColorPickerMenu extends Menu {
 		return itemToGetColor.name().replace("_" + defaultColorItem, "");
 	}
 
-
 	@Override
 	public void setMenuItems() {
 		addMenuBorder();
 
-		this.inventory.setItem(36, ItemStacks.closeInventory);
-		this.inventory.setItem(37, ItemStacks.backInventory);
-
 		Material typeInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType();
 
-		int i = 0;
-		for (int slot : slots) {
-			if(i == 0 && !doesDefaultColoredItemExist(typeInMainHand)) {
-				this.inventory.setItem(slot, notAvailable(targetItems[0]));
-				i++;
-				continue;
+		for (SlotItem slotItem : SLOT_ITEMS) {
+			if (slotItem == SLOT_ITEMS.get(0)
+				&& !doesDefaultColoredItemExist(typeInMainHand)) {
+				this.inventory.setItem(slotItem.slot(), notAvailable(slotItem.item()));
+			} else {
+				this.inventory.setItem(slotItem.slot(), slotItem.item());
 			}
-			this.inventory.setItem(slot, targetItems[i++]);
 		}
 		setFillerGlass();
 	}

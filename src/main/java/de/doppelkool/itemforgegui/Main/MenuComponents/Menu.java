@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -64,6 +65,17 @@ public abstract class Menu implements InventoryHolder {
 			inventory.setItem(i, ItemStacks.FILLER_GLASS); // Left column
 			inventory.setItem(i + 8, ItemStacks.FILLER_GLASS); // Right column
 		}
+
+		this.inventory.setItem(this.getSlots() - 9, ItemStacks.closeInventory);
+		this.inventory.setItem(this.getSlots() - 8, ItemStacks.backInventory);
+	}
+
+	protected void handleClose() {
+		this.playerMenuUtility.getOwner().closeInventory();
+	}
+	protected void handleBack() {
+		new ItemEditMenu(this.playerMenuUtility)
+			.open();
 	}
 
 }

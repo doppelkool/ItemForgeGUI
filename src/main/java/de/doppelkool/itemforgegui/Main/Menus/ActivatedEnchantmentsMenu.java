@@ -5,7 +5,6 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -45,18 +44,12 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-
 		if (e.getSlot() == 45) {
-			this.playerMenuUtility.getOwner().closeInventory();
+			handleClose();
 			return;
 		}
 		if (e.getSlot() == 46) {
-			new ItemEditMenu(this.playerMenuUtility)
-				.open();
-			return;
-		}
-
-		if(e.getCurrentItem().getType().equals(Material.BARRIER)) {
+			handleBack();
 			return;
 		}
 

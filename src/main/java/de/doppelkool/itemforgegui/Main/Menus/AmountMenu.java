@@ -24,17 +24,12 @@ public class AmountMenu extends EditNumberMenu {
 	public void setMenuItems() {
 		super.setMenuItems();
 
-		//Zero Items does not exist anymore
-		this.inventory.setItem(9, ItemStacks.toMin);
-
 		//Custom Item for default stack size
 		if (this.item.getMaxStackSize() != 1) {
 			ItemStack toDefault = ItemStacks.toDefault.clone();
 			toDefault.setAmount(this.item.getMaxStackSize());
 			this.inventory.setItem(13, toDefault);
 		}
-		this.inventory.setItem(10, ItemStacks.FILLER_GLASS);
-		this.inventory.setItem(16, ItemStacks.FILLER_GLASS);
 	}
 
 	@Override

@@ -64,14 +64,13 @@ public class LeatherItemColorMenu extends Menu {
 	public void handleMenu(InventoryClickEvent e) {
 		if(e.getSlot() == 45) {
 			this.playerMenuUtility.setTempStoredItem(null);
-			this.playerMenuUtility.getOwner().closeInventory();
+			handleClose();
 			return;
 		}
 
 		if(e.getSlot() == 46) {
 			this.playerMenuUtility.setTempStoredItem(null);
-			new ItemEditMenu(this.playerMenuUtility)
-				.open();
+			handleBack();
 			return;
 		}
 
@@ -99,31 +98,6 @@ public class LeatherItemColorMenu extends Menu {
 			this.playerMenuUtility.getOwner().getInventory().setItemInMainHand(newItem);
 			loadAllRGBCaps();
 		}
-	}
-
-	@Override
-	public void setMenuItems() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		this.playerMenuUtility.setTempStoredItem(
-			itemInMainHand
-		);
-
-		loadAllRGBCaps();
-		placeColorRow();
-
-		this.inventory.setItem(45, ItemStacks.closeInventory);
-		this.inventory.setItem(46, ItemStacks.backInventory);
-
-
-		ItemStack resetBackLeatherItem = ItemStacks.resetBackLeatherItem.clone();
-		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta)itemInMainHand.getItemMeta();
-
-		resetBackLeatherItem.setType(itemInMainHand.getType());
-		ItemStacks.modifyColor(resetBackLeatherItem, itemInMainHandItemMeta.getColor());
-
-		this.inventory.setItem(53, resetBackLeatherItem);
-
-		setFillerGlass();
 	}
 
 	private ItemStack editItem(ItemStack itemInMainHand, int slot) {
@@ -169,6 +143,27 @@ public class LeatherItemColorMenu extends Menu {
 		return Math.max(0, Math.min(255, val));
 	}
 
+	@Override
+	public void setMenuItems() {
+		addMenuBorder();
+
+		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		this.playerMenuUtility.setTempStoredItem(itemInMainHand);
+
+		loadAllRGBCaps();
+		placeColorRow();
+
+		ItemStack resetBackLeatherItem = ItemStacks.resetBackLeatherItem.clone();
+		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta)itemInMainHand.getItemMeta();
+
+		resetBackLeatherItem.setType(itemInMainHand.getType());
+		ItemStacks.modifyColor(resetBackLeatherItem, itemInMainHandItemMeta.getColor());
+
+		this.inventory.setItem(53, resetBackLeatherItem);
+
+		setFillerGlass();
+	}
+
 	private void loadAllRGBCaps() {
 		Color color = ((ColorableArmorMeta)this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta())
 			.getColor();
@@ -200,11 +195,11 @@ public class LeatherItemColorMenu extends Menu {
 	private void placeColorRow() {
 		for (int i = 0; i < 4; i++) {
 			this.inventory.setItem(slotsRow1.get(i), editNumbersMinus[i]);
-			this.inventory.setItem(slotsRow1.get(4 + i), editNumbersPlus[i]);
+			this.inventory.setItem(slotsRow1.get(i + 4), editNumbersPlus[i]);
 			this.inventory.setItem(slotsRow2.get(i), editNumbersMinus[i]);
-			this.inventory.setItem(slotsRow2.get(4 + i), editNumbersPlus[i]);
+			this.inventory.setItem(slotsRow2.get(i + 4), editNumbersPlus[i]);
 			this.inventory.setItem(slotsRow3.get(i), editNumbersMinus[i]);
-			this.inventory.setItem(slotsRow3.get(4 + i), editNumbersPlus[i]);
+			this.inventory.setItem(slotsRow3.get(i + 4), editNumbersPlus[i]);
 		}
 	}
 }
