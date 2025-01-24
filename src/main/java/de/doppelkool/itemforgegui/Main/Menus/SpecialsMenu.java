@@ -129,15 +129,19 @@ public class SpecialsMenu extends Menu {
 			lore = new ArrayList<>();
 		}
 
+		String activatedLorePart = "Aktiviert";
+		String deactivatedLorePart = "Deaktiviert";
+		if(lore.getFirst().contains(activatedLorePart) ||
+			lore.getFirst().contains(deactivatedLorePart)) {
+			lore.remove(0);
+		}
 		if(active) {
 			itemMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
-			lore.clear();
-			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + "Aktiviert");
+			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
 			itemMeta.setLore(lore);
 		} else {
 			itemMeta.removeEnchant(Enchantment.LUCK_OF_THE_SEA);
-			lore.clear();
-			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + "Deaktiviert");
+			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
 			itemMeta.setLore(lore);
 		}
 		item.setItemMeta(itemMeta);
