@@ -14,12 +14,14 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -30,7 +32,6 @@ import java.util.logging.Level;
  */
 public class ItemStacks {
 	public static final ItemStack FILLER_GLASS;
-	public static final ItemStack DEVIDE_BARS;
 
 	public static final ItemStack editName;
 	public static final ItemStack editLore;
@@ -39,9 +40,6 @@ public class ItemStacks {
 	public static final ItemStack editSpecials;
 	public static final ItemStack editAmount;
 	public static final ItemStack editColor;
-
-	public static final ItemStack activatedDye;
-	public static final ItemStack deactivatedDye;
 
 	public static final ItemStack hideEnchantments;
 	public static final ItemStack hideAttributes;
@@ -102,36 +100,47 @@ public class ItemStacks {
 
 	static {
 		FILLER_GLASS = makeItem(Material.BLACK_STAINED_GLASS_PANE, " ");
-		DEVIDE_BARS = makeItem(Material.IRON_BARS, " ");
 
 		editName = makeItem(Material.NAME_TAG, ChatColor.GREEN + "Edit Name");
+		modifyLore(editName, ChatColor.YELLOW + "Change the display name");
 		editLore = makeItem(Material.WRITABLE_BOOK, ChatColor.GREEN + "Edit Lore");
+		modifyLore(editLore, ChatColor.YELLOW + "Change the lore text");
 		editEnchantments = makeItem(Material.EXPERIENCE_BOTTLE, ChatColor.GREEN + "Edit Enchantments");
+		modifyLore(editEnchantments, ChatColor.YELLOW + "Add or Remove enchantments");
 		editDurability = makeItem(Material.DAMAGED_ANVIL, ChatColor.GREEN + "Edit Durability");
+		modifyLore(editDurability, ChatColor.YELLOW + "Increase or Decrease the durability");
 		editSpecials = makeItem(Material.END_CRYSTAL, ChatColor.GREEN + "Edit Specialities");
+		modifyLore(editSpecials, ChatColor.YELLOW + "Add or remove special ItemFlags");
 		editAmount = makeItem(Material.CHEST, ChatColor.GREEN + "Edit Amount");
+		modifyLore(editAmount, ChatColor.YELLOW + "Change the amount of items");
 		editColor = makeItem(Material.LEATHER_CHESTPLATE, ChatColor.GREEN + "Edit Color");
+		modifyLore(editColor, ChatColor.YELLOW + "Change the color of the item");
 		modifyColor(editColor,Color.BLUE);
 		modifyItemFlags(editColor, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
-		activatedDye = makeItem(Material.LIME_DYE, ChatColor.GREEN + "Aktiviert");
-		deactivatedDye = makeItem(Material.GRAY_DYE, ChatColor.RED + "Deaktiviert");
-
 		hideEnchantments = makeItem(Material.ENCHANTING_TABLE, ChatColor.GREEN + "Hide Enchantments");
+		modifyLore(hideEnchantments, ChatColor.YELLOW + "Hides the enchantment in the items description");
 		modifyItemFlags(hideEnchantments, ItemFlag.HIDE_ENCHANTS);
 		hideAttributes = makeItem(Material.PAPER, ChatColor.GREEN + "Hide Attributes");
+		modifyLore(hideAttributes, ChatColor.YELLOW + "Hide the items attributes in the description", ChatColor.YELLOW + "For example the attack damage of a sword");
 		modifyItemFlags(hideAttributes, ItemFlag.HIDE_ENCHANTS);
 		hideUnbreakable = makeItem(Material.CRYING_OBSIDIAN, ChatColor.GREEN + "Hide Unbreakable Property");
+		modifyLore(hideUnbreakable, ChatColor.YELLOW + "Hides the fact that the item is unbreakable");
 		modifyItemFlags(hideUnbreakable, ItemFlag.HIDE_ENCHANTS);
 		hideDestroys = makeItem(Material.STONE_PICKAXE, ChatColor.GREEN + "Hide Destorys Property");
+		modifyLore(hideDestroys, ChatColor.YELLOW + "Hides what the item is able to destroy");
 		modifyItemFlags(hideDestroys, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 		hidePlacedOn = makeItem(Material.STONE, ChatColor.GREEN + "Hide Place-On Property");
+		modifyLore(hidePlacedOn, ChatColor.YELLOW + "Hides what the item is able to be placed on");
 		modifyItemFlags(hidePlacedOn, ItemFlag.HIDE_ENCHANTS);
 		hideAdditionalToolTip = makeItem(Material.EMERALD, ChatColor.GREEN + "Hide Additional ToolTip");
+		modifyLore(hideAdditionalToolTip, ChatColor.YELLOW + "Hide the items additional tooltips in the description", ChatColor.YELLOW + "For example which smithing ingredients you need for an armor trim");
 		modifyItemFlags(hideAdditionalToolTip, ItemFlag.HIDE_ENCHANTS);
 		hideDye = makeItem(Material.MAGENTA_DYE, ChatColor.GREEN + "Hide Dye");
+		modifyLore(hideDye, ChatColor.YELLOW + "Hides the RGB hex value showed in a colored items description");
 		modifyItemFlags(hideDye, ItemFlag.HIDE_ENCHANTS);
 		hideArmorTrim = makeItem(Material.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ChatColor.GREEN + "Hide Armor Trim");
+		modifyLore(hideArmorTrim, ChatColor.YELLOW + "Hides the applied armor trim on an armor piece in its description");
 		modifyItemFlags(hideArmorTrim, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
 		minus100 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-100");
@@ -159,27 +168,38 @@ public class ItemStacks {
 		plus100 = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "+100");
 		modifyToCustomHead(plus100, SkullData.LIME_HUNDRED);
 		toMin = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Minimum");
+		modifyLore(toMin, ChatColor.YELLOW + "Sets the absolute minimum of the given value");
 		modifyToCustomHead(toMin, SkullData.REDSTONE_M);
 		toMax = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Maximum");
+		modifyLore(toMax, ChatColor.YELLOW + "Sets the absolute maximum of the given value");
 		modifyToCustomHead(toMax, SkullData.LIME_M);
 		customValue = makeItem(Material.WRITABLE_BOOK, ChatColor.GREEN + "Custom");
-		toDefault = makeItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, ChatColor.GREEN + "Default Stack Size");
+		modifyLore(customValue, ChatColor.YELLOW + "Set the value by directly typing it");
+		toDefault = makeItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, ChatColor.GREEN + "Default Max. Stack Size");
+		modifyLore(toDefault, ChatColor.YELLOW + "Sets the items amount to its natural default maximum stack size");
 
 		paginatedMenuLeft = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Left");
+		modifyLore(paginatedMenuLeft, ChatColor.YELLOW + "Go back a page");
 		modifyToCustomHead(paginatedMenuLeft, SkullData.QUARTZ_ARROW_LEFT);
 		paginatedMenuRight = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Right");
+		modifyLore(paginatedMenuRight, ChatColor.YELLOW + "Go forward a page");
 		modifyToCustomHead(paginatedMenuRight, SkullData.QUARTZ_ARROW_RIGHT);
 		closeInventory = makeItem(Material.PLAYER_HEAD, ChatColor.DARK_RED + "Close");
+		modifyLore(closeInventory, ChatColor.YELLOW + "Close the inventory");
 		modifyToCustomHead(closeInventory, SkullData.REDSTONE_BLOCK_ARROW_LEFT);
 		backInventory = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "Back");
+		modifyLore(backInventory, ChatColor.YELLOW + "Go back to the parent inventory");
 		modifyToCustomHead(backInventory, SkullData.REDSTONE_BLOCK_LEFT);
 
 		activatedEnchantments = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Activated Enchantments");
+		modifyLore(activatedEnchantments, ChatColor.YELLOW + "Display all active enchantments on the current item");
 		modifyToCustomHead(activatedEnchantments, SkullData.QUARTZ_CHECK);
 		deactivatedEnchantments = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "Deactivated Enchantments");
+		modifyLore(deactivatedEnchantments, ChatColor.YELLOW + "Display all inactive enchantments on the current item");
 		modifyToCustomHead(deactivatedEnchantments, SkullData.QUARTZ_X);
 
 		DEFAULT_dye = makeItem(Material.PAPER, ChatColor.WHITE + "No Color");
+		modifyLore(DEFAULT_dye, ChatColor.YELLOW + "Sets the items type to its natural, uncolored variant");
 		WHITE_dye = makeItem(Material.WHITE_DYE, ChatColor.WHITE + "White");
 		ORANGE_dye = makeItem(Material.ORANGE_DYE, ChatColor.GOLD + "Orange");
 		MAGENTA_dye = makeItem(Material.MAGENTA_DYE, ChatColor.WHITE + "Magenta");
@@ -198,18 +218,22 @@ public class ItemStacks {
 		BLACK_dye = makeItem(Material.BLACK_DYE, ChatColor.BLACK + "Black");
 
 		RED_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.RED + "Red");
+		modifyLore(RED_CAP, ChatColor.YELLOW + "Represents the red component in the RGB value");
 		modifyColor(RED_CAP, Color.fromRGB(255,0,0));
 		modifyItemFlags(RED_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		GREEN_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.GREEN + "Green");
+		modifyLore(GREEN_CAP, ChatColor.YELLOW + "Represents the green component in the RGB value");
 		modifyColor(GREEN_CAP, Color.fromRGB(0,255,0));
 		modifyItemFlags(GREEN_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		BLUE_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.RED + "Blue");
+		modifyLore(BLUE_CAP, ChatColor.YELLOW + "Represents the blue component in the RGB value");
 		modifyColor(BLUE_CAP, Color.fromRGB(0,0,255));
 		modifyItemFlags(BLUE_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		resetBackLeatherItem = makeItem(Material.LEATHER_BOOTS, ChatColor.RED + "Reset Color to Start");
+		modifyLore(resetBackLeatherItem, ChatColor.YELLOW + "Resets the item to the variant it was when editing began");
 		modifyItemFlags(resetBackLeatherItem, ItemFlag.HIDE_ATTRIBUTES);
 	}
 
@@ -221,6 +245,12 @@ public class ItemStacks {
 		item.setItemMeta(itemMeta);
 
 		return item;
+	}
+
+	public static void modifyLore(ItemStack itemStack, @NotNull String... lore) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.setLore(List.of(lore));
+		itemStack.setItemMeta(itemMeta);
 	}
 
 	public static void modifyItemFlags(ItemStack itemStack, ItemFlag... itemflags) {
