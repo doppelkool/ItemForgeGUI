@@ -118,12 +118,6 @@ public class ItemStackHelper {
 		ItemStack nextItem = null;
 		if(key.equals(Main.getPlugin().getCustomLoreEditBookKey())) {
 			nextItem = createCustomLoreBook(itemInMainHand);
-		} else if(key.equals(Main.getPlugin().getCustomDurabilityBookKey())) {
-			nextItem = createCustomDurabilityBook(itemInMainHand);
-		} else if(key.equals(Main.getPlugin().getCustomAmountBookKey())) {
-			nextItem = createCustomAmountBook(itemInMainHand);
-		} else if(key.equals(Main.getPlugin().getCustomEnchantmentBookKey())){
-			nextItem = createCustomSingleEnchantmentBook(itemInMainHand, util.getTargetEnchantment());
 		}
 		inventory.setItem(heldItemSlot, nextItem);
 	}
@@ -158,55 +152,5 @@ public class ItemStackHelper {
 
 			bookMeta.addPage(pageContent);
 		}
-	}
-
-	private static ItemStack createCustomDurabilityBook(ItemStack itemInMainHand) {
-		Damageable itemMeta = (Damageable) itemInMainHand.getItemMeta();
-		int damage = itemMeta.getDamage();
-		short maxDurability = itemInMainHand.getType().getMaxDurability();
-
-		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
-		BookMeta meta = (BookMeta) book.getItemMeta();
-		meta.setTitle("Edit the item durability");
-		meta.setAuthor(" ");
-		String pageString =
-					"" + (maxDurability - damage) + "/" + maxDurability + "\n" +
-					"Damage"                  + "/maxDurability"
-			;
-		meta.addPage(pageString);
-
-		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(Main.getPlugin().getCustomDurabilityBookKey(), PersistentDataType.BOOLEAN, true);
-
-		book.setItemMeta(meta);
-		return book;
-	}
-
-	private static ItemStack createCustomAmountBook(ItemStack itemInMainHand) {
-		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
-		BookMeta meta = (BookMeta) book.getItemMeta();
-		meta.setTitle("Edit the item amount");
-		meta.setAuthor(" ");
-		meta.addPage("" + itemInMainHand.getAmount());
-
-		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(Main.getPlugin().getCustomAmountBookKey(), PersistentDataType.BOOLEAN, true);
-
-		book.setItemMeta(meta);
-		return book;
-	}
-
-	private static ItemStack createCustomSingleEnchantmentBook(ItemStack itemInMainHand, Enchantment targetEnchantment) {
-		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
-		BookMeta meta = (BookMeta) book.getItemMeta();
-		meta.setTitle("Edit the enchantment strength");
-		meta.setAuthor(" ");
-		meta.addPage("" + itemInMainHand.getEnchantmentLevel(targetEnchantment));
-
-		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(Main.getPlugin().getCustomEnchantmentBookKey(), PersistentDataType.BOOLEAN, true);
-
-		book.setItemMeta(meta);
-		return book;
 	}
 }

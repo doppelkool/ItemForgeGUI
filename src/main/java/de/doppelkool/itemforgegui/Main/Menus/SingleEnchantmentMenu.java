@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.SignNumberEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -124,13 +125,12 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
 		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the enchantments future strength and click \"Done\"\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please change the number that represents the damage to set the items durability\n" +
-			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the enchantment strength won't be detected.";
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the enchantments future strength and click \"Done\".";
 
 		playerMenuUtility.getOwner().closeInventory();
-		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomEnchantmentBookKey());
+		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
+			.editEnchantment(this.itemToBeEnchanted, this.enchantmentToEdit)
+			.openSign());
 		playerMenuUtility.getOwner().sendMessage(message);
 	}
 }

@@ -44,6 +44,11 @@ public abstract class EditNumberMenu extends Menu {
 			handleBack();
 			return;
 		}
+
+		if(onCustomItemClick(e)) {
+			return;
+		}
+
 		SLOT_ITEMS.stream()
 			.filter(si -> si.slot() == e.getSlot())
 			.findFirst()
@@ -51,7 +56,6 @@ public abstract class EditNumberMenu extends Menu {
 			.onClick()
 			.accept(e);
 
-		onCustomItemClick(e);
 	}
 
 
@@ -73,5 +77,7 @@ public abstract class EditNumberMenu extends Menu {
 	protected abstract void handlePlus100();
 	protected abstract void handleCustomNumber(InventoryClickEvent e);
 
-	protected void onCustomItemClick(InventoryClickEvent e) {}
+	protected boolean onCustomItemClick(InventoryClickEvent e) {
+		return false;
+	}
 }
