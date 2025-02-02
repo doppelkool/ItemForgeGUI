@@ -1,8 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -77,6 +80,19 @@ public class AmountMenu extends EditNumberMenu {
 
 	@Override
 	protected void handlePlus100() {}
+
+	@Override
+	protected void handleCustomNumber(InventoryClickEvent e) {
+		String message = Main.prefix + "\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future amount and click \"Done\"\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please change the number that represents the damage to set the items durability\n" +
+			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the item amount won't be detected.";
+
+		playerMenuUtility.getOwner().closeInventory();
+		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomAmountBookKey());
+		playerMenuUtility.getOwner().sendMessage(message);
+	}
 
 	@Override
 	protected void onCustomItemClick(InventoryClickEvent e) {

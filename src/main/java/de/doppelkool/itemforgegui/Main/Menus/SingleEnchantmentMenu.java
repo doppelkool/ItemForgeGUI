@@ -1,9 +1,12 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -22,7 +25,6 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		this.itemToBeEnchanted = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		this.itemToBeEnchantedMeta = itemToBeEnchanted.getItemMeta();
 		this.enchantmentToEdit = this.playerMenuUtility.getTargetEnchantment();
-		this.playerMenuUtility.setTargetEnchantment(null);
 	}
 
 	@Override
@@ -117,5 +119,18 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int enchantLevel = itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, enchantLevel + 100, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+	}
+
+	@Override
+	protected void handleCustomNumber(InventoryClickEvent e) {
+		String message = Main.prefix + "\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the enchantments future strength and click \"Done\"\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please change the number that represents the damage to set the items durability\n" +
+			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the enchantment strength won't be detected.";
+
+		playerMenuUtility.getOwner().closeInventory();
+		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomEnchantmentBookKey());
+		playerMenuUtility.getOwner().sendMessage(message);
 	}
 }

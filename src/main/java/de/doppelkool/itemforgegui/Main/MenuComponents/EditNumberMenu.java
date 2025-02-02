@@ -1,10 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
-import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.List;
@@ -24,8 +21,8 @@ public abstract class EditNumberMenu extends Menu {
 		new SlotItemAction(12, ItemStacks.minus1, e -> handleMinus1()),
 		new SlotItemAction(14, ItemStacks.plus1, e -> handlePlus1()),
 		new SlotItemAction(15, ItemStacks.plus10, e -> handlePlus10()),
-		new SlotItemAction(16, ItemStacks.plus100, e -> handlePlus100())
-		//new SlotItemAction(22, ItemStacks.customValue, e -> handleCustomNumber())
+		new SlotItemAction(16, ItemStacks.plus100, e -> handlePlus100()),
+		new SlotItemAction(22, ItemStacks.customValue, e -> handleCustomNumber(e))
 	);
 
 	public EditNumberMenu(PlayerMenuUtility playerMenuUtility) {
@@ -74,9 +71,7 @@ public abstract class EditNumberMenu extends Menu {
 	protected abstract void handlePlus1();
 	protected abstract void handlePlus10();
 	protected abstract void handlePlus100();
-	//ToDo
-	protected int handleCustomNumber() {
-		return 0;
-	}
+	protected abstract void handleCustomNumber(InventoryClickEvent e);
+
 	protected void onCustomItemClick(InventoryClickEvent e) {}
 }

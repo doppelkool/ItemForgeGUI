@@ -6,18 +6,12 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.*;
 
@@ -132,48 +126,16 @@ public class ItemEditMenu extends Menu {
 	}
 
 	private void editLoreProcess() {
-		String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "ItemForgeGUI" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
-		String message = prefix + "\n" +
+		String message = Main.prefix + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " You have received a book\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content according to your futures item lore and click \"Done\"\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
 			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the item lore won't be detected.";
 		//, resulting in no chances
 
-		swapItemInHandWithEditLoreBook();
+		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.getOwner().sendMessage(message);
-	}
-
-	private void swapItemInHandWithEditLoreBook() {
-		PlayerInventory inventory = playerMenuUtility.getOwner().getInventory();
-		int heldItemSlot = inventory.getHeldItemSlot();
-		this.playerMenuUtility.setStoredSlot(heldItemSlot);
-
-		ItemStack item = inventory.getItem(heldItemSlot);
-		this.playerMenuUtility.setTempStoredItem(item);
-		inventory.setItem(heldItemSlot, createCustomLoreBook());
-	}
-
-	private ItemStack createCustomLoreBook() {
-		ItemMeta itemMeta = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta();
-
-		List<String> lore = List.of();
-		if (itemMeta.hasLore()) {
-			lore = itemMeta.getLore();
-		}
-
-		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
-		BookMeta meta = (BookMeta) book.getItemMeta();
-		meta.setTitle("Edit the item lore");
-		meta.setAuthor(" ");
-		meta.addPage(String.join("\n", lore).replace(ChatColor.COLOR_CHAR, '&'));
-
-		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(Main.getPlugin().getCustomLoreEditBookKey(), PersistentDataType.BOOLEAN, true);
-
-		book.setItemMeta(meta);
-		return book;
 	}
 
 	private void editNameProcess() {

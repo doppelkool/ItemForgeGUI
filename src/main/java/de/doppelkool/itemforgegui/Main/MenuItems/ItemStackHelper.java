@@ -1,10 +1,22 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
+import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -91,5 +103,110 @@ public class ItemStackHelper {
 
 	public static boolean isDamageable(ItemStack item) {
 		return item.getType().getMaxDurability() != 0;
+	}
+
+	public static void swapItemInHandWithEditAttributeBook(PlayerMenuUtility util, NamespacedKey key) {
+		PlayerInventory inventory = util.getOwner().getInventory();
+		int heldItemSlot = inventory.getHeldItemSlot();
+		util.setStoredSlot(heldItemSlot);
+
+		ItemStack item = inventory.getItem(heldItemSlot);
+		util.setTempStoredItem(item);
+
+		ItemStack itemInMainHand = inventory.getItemInMainHand();
+
+		ItemStack nextItem = null;
+		if(key.equals(Main.getPlugin().getCustomLoreEditBookKey())) {
+			nextItem = createCustomLoreBook(itemInMainHand);
+		} else if(key.equals(Main.getPlugin().getCustomDurabilityBookKey())) {
+			nextItem = createCustomDurabilityBook(itemInMainHand);
+		} else if(key.equals(Main.getPlugin().getCustomAmountBookKey())) {
+			nextItem = createCustomAmountBook(itemInMainHand);
+		} else if(key.equals(Main.getPlugin().getCustomEnchantmentBookKey())){
+			nextItem = createCustomSingleEnchantmentBook(itemInMainHand, util.getTargetEnchantment());
+		}
+		inventory.setItem(heldItemSlot, nextItem);
+	}
+
+	private static ItemStack createCustomLoreBook(ItemStack itemInMainHand) {
+		ItemMeta itemMeta = itemInMainHand.getItemMeta();
+
+		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
+		BookMeta meta = (BookMeta) book.getItemMeta();
+
+		if (itemMeta.hasLore()) {
+			setBookPagesFromExistingLore(meta, itemMeta.getLore());
+		}
+
+		PersistentDataContainer pdc = meta.getPersistentDataContainer();
+		pdc.set(Main.getPlugin().getCustomLoreEditBookKey(), PersistentDataType.BOOLEAN, true);
+
+		book.setItemMeta(meta);
+		return book;
+	}
+
+	private static void setBookPagesFromExistingLore(BookMeta bookMeta, List<String> lore) {
+		bookMeta.setTitle("Edit the item lore");
+		bookMeta.setAuthor(" ");
+
+		for (int i = 0; i < lore.size(); i += 13) {
+			int end = Math.min(i + 13, lore.size());
+			List<String> pageLines = lore.subList(i, end);
+
+			String pageContent = String.join("\n", pageLines)
+				.replace(ChatColor.COLOR_CHAR, '&');
+
+			bookMeta.addPage(pageContent);
+		}
+	}
+
+	private static ItemStack createCustomDurabilityBook(ItemStack itemInMainHand) {
+		Damageable itemMeta = (Damageable) itemInMainHand.getItemMeta();
+		int damage = itemMeta.getDamage();
+		short maxDurability = itemInMainHand.getType().getMaxDurability();
+
+		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
+		BookMeta meta = (BookMeta) book.getItemMeta();
+		meta.setTitle("Edit the item durability");
+		meta.setAuthor(" ");
+		String pageString =
+					"" + (maxDurability - damage) + "/" + maxDurability + "\n" +
+					"Damage"                  + "/maxDurability"
+			;
+		meta.addPage(pageString);
+
+		PersistentDataContainer pdc = meta.getPersistentDataContainer();
+		pdc.set(Main.getPlugin().getCustomDurabilityBookKey(), PersistentDataType.BOOLEAN, true);
+
+		book.setItemMeta(meta);
+		return book;
+	}
+
+	private static ItemStack createCustomAmountBook(ItemStack itemInMainHand) {
+		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
+		BookMeta meta = (BookMeta) book.getItemMeta();
+		meta.setTitle("Edit the item amount");
+		meta.setAuthor(" ");
+		meta.addPage("" + itemInMainHand.getAmount());
+
+		PersistentDataContainer pdc = meta.getPersistentDataContainer();
+		pdc.set(Main.getPlugin().getCustomAmountBookKey(), PersistentDataType.BOOLEAN, true);
+
+		book.setItemMeta(meta);
+		return book;
+	}
+
+	private static ItemStack createCustomSingleEnchantmentBook(ItemStack itemInMainHand, Enchantment targetEnchantment) {
+		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
+		BookMeta meta = (BookMeta) book.getItemMeta();
+		meta.setTitle("Edit the enchantment strength");
+		meta.setAuthor(" ");
+		meta.addPage("" + itemInMainHand.getEnchantmentLevel(targetEnchantment));
+
+		PersistentDataContainer pdc = meta.getPersistentDataContainer();
+		pdc.set(Main.getPlugin().getCustomEnchantmentBookKey(), PersistentDataType.BOOLEAN, true);
+
+		book.setItemMeta(meta);
+		return book;
 	}
 }
