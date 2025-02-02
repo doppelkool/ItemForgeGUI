@@ -2,16 +2,16 @@ package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuManager;
+import de.doppelkool.itemforgegui.Main.Menus.AmountMenu;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ import java.util.List;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class EditLoreBookListener implements Listener {
+public class EditAmountBookListener implements Listener {
 	@EventHandler
-	public void onPlayerEditLoreBook(PlayerEditBookEvent event) {
+	public void onPlayerEditAmountBook(PlayerEditBookEvent event) {
 		Player pl = event.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
 		ItemStack tempStoredItem = playerMenuUtility.getTempStoredItem();
@@ -31,20 +31,25 @@ public class EditLoreBookListener implements Listener {
 			.getItemInMainHand()
 			.getItemMeta()
 			.getPersistentDataContainer()
-			.has(Main.getPlugin().getCustomLoreEditBookKey())) {
+			.has(Main.getPlugin().getCustomAmountBookKey())) {
 			return;
 		}
-
 		BookMeta newBookMeta = event.getNewBookMeta();
-		String content = String.join("\n", newBookMeta.getPages());
-		String formattedString = ChatColor.translateAlternateColorCodes('&', content);
+		List<String> pages = newBookMeta.getPages();
+		event.setCancelled(true);
 
-		ItemMeta itemMeta = tempStoredItem.getItemMeta();
-		itemMeta.setLore(
-			List.of(formattedString.split("\n"))
-		);
-		tempStoredItem.setItemMeta(itemMeta);
-		endProcess(playerMenuUtility);
+		String content = pages.getFirst().trim();
+
+		try {
+			int amount = Integer.max(Integer.parseInt(content), 1);
+			tempStoredItem.setAmount(amount);
+			endProcess(playerMenuUtility);
+		} catch (NumberFormatException e) {
+			pl.sendMessage(Main.prefix + "The given format for the items amount is incorrect. Given input was: " + content);
+			Bukkit.getLogger().info("Amount book-NFException-" + pl.getName() + ": " + content + " is not an int.");
+			Bukkit.getLogger().info("Amount book-NFException-" + pl.getName() + ": " + e.getMessage());
+			endProcess(playerMenuUtility);
+		}
 	}
 
 	private void endProcess(PlayerMenuUtility util) {
@@ -54,7 +59,7 @@ public class EditLoreBookListener implements Listener {
 		util.setTempStoredItem(null);
 		util.setStoredSlot(-1);
 
-		new ItemEditMenu(util)
+		new AmountMenu(util)
 			.open();
 	}
 }

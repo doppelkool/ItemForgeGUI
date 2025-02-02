@@ -1,7 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import org.bukkit.ChatColor;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
@@ -74,5 +78,18 @@ public class DurabilityMenu extends EditNumberMenu {
 	protected void handlePlus100() {
 		damageableItemMeta.setDamage(damageableItemMeta.getDamage()-100);
 		damageableItem.setItemMeta(damageableItemMeta);
+	}
+
+	@Override
+	protected void handleCustomNumber(InventoryClickEvent e) {
+		String message = Main.prefix + "\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future durability and click \"Done\"\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please change the number that represents the damage to set the items durability\n" +
+			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the item durability won't be detected.";
+
+		playerMenuUtility.getOwner().closeInventory();
+		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomDurabilityBookKey());
+		playerMenuUtility.getOwner().sendMessage(message);
 	}
 }
