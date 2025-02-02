@@ -18,12 +18,6 @@ public final class Main extends JavaPlugin {
     @Getter
     private NamespacedKey customLoreEditBookKey;
     @Getter
-    private NamespacedKey customDurabilityBookKey;
-    @Getter
-    private NamespacedKey customAmountBookKey;
-    @Getter
-    private NamespacedKey customEnchantmentBookKey;
-    @Getter
     private NamespacedKey customEnchantmentStackIDKey;
     @Getter
     private NamespacedKey customNotAvailableStackIDKey;
@@ -32,9 +26,6 @@ public final class Main extends JavaPlugin {
     {
         plugin = this;
         customLoreEditBookKey = new NamespacedKey(this, "edit_lore");
-        customDurabilityBookKey = new NamespacedKey(Main.getPlugin(), "edit_durability");
-        customAmountBookKey = new NamespacedKey(Main.getPlugin(), "edit_amount");
-        customEnchantmentBookKey = new NamespacedKey(Main.getPlugin(), "edit_enchantmentStrength");
         customNotAvailableStackIDKey = new NamespacedKey(Main.getPlugin(), "not_available");
         customEnchantmentStackIDKey = new NamespacedKey(Main.getPlugin(), "id");
         getCommand("edit").setExecutor(new EditCommand());
@@ -42,8 +33,8 @@ public final class Main extends JavaPlugin {
         PluginManager pluginmanager = Bukkit.getPluginManager();
         pluginmanager.registerEvents(new MenuListener(), this);
         pluginmanager.registerEvents(new EditLoreBookListener(), this);
-        pluginmanager.registerEvents(new EditDurabilityBookListener(), this);
-        pluginmanager.registerEvents(new EditAmountBookListener(), this);
-        pluginmanager.registerEvents(new EditSingleEnchantmentStrengthBookListener(), this);
+        pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
+        pluginmanager.registerEvents(new EditAmountSignListener(), this);
+        pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
     }
 }

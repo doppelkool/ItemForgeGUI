@@ -2,8 +2,8 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.SignNumberEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -83,13 +83,15 @@ public class DurabilityMenu extends EditNumberMenu {
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
 		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future durability and click \"Done\"\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please change the number that represents the damage to set the items durability\n" +
-			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the item durability won't be detected.";
+			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future durability and click \"Done\".";
 
 		playerMenuUtility.getOwner().closeInventory();
-		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomDurabilityBookKey());
+		Damageable itemMeta = (Damageable) this.damageableItem.getItemMeta();
+		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
+			.editDurability(
+				this.damageableItem.getType().getMaxDurability() - itemMeta.getDamage(),
+				this.damageableItem.getType().getMaxDurability())
+			.openSign());
 		playerMenuUtility.getOwner().sendMessage(message);
 	}
 }
