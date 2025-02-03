@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Commands;
 
+import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import org.bukkit.Material;
@@ -19,19 +20,19 @@ public class EditCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player pl)) {
-			sender.sendMessage("Command cannot be executed as player");
+			sender.sendMessage(Main.prefix + "Command cannot be executed as player");
 			return true;
 		}
 
 		if(!pl.hasPermission("ifgui.use")) {
-			pl.sendMessage("You cannot execute this command");
+			pl.sendMessage(Main.prefix + "You cannot execute this command");
 			return true;
 		}
 
 		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
 
 		if(itemInMainHand.getType() == Material.AIR) {
-			pl.sendMessage("You cannot edit an empty item");
+			pl.sendMessage(Main.prefix + "You cannot edit an empty item");
 			return true;
 		}
 
