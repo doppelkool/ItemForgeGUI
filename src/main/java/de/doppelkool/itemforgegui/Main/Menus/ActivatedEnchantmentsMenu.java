@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.Menus;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.enchantments.Enchantment;
@@ -12,10 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
@@ -111,8 +110,20 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		Map<Enchantment, Integer> enchants = itemInMainHandItemMeta.getEnchants();
 		this.activatedEnchantmentsToStrength = new HashMap<>(enchants);
 
-
-		List<Enchantment> enchantmentList = new ArrayList<>(activatedEnchantmentsToStrength.keySet());
+		List<Enchantment> enchantmentList = new ArrayList<>(
+			activatedEnchantmentsToStrength.keySet()
+				.stream()
+				.sorted(Comparator.comparing(e -> {
+					if (e.equals(Enchantment.BINDING_CURSE)) {
+						return "Curse of Binding";
+					} else if (e.equals(Enchantment.VANISHING_CURSE)) {
+						return "Curse of Vanishing";
+					} else {
+						return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+					}
+				}))
+				.collect(Collectors.toList())
+		);
 
 		int startIndex = getMaxItemsPerPage() * page;
 		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), enchantmentList.size());

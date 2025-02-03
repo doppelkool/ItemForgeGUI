@@ -185,11 +185,11 @@ public class EnchantmentStacks {
 
 						itemMeta.getPersistentDataContainer().set(
 							Main.getPlugin().getCustomEnchantmentStackIDKey(),
-							PersistentDataType.INTEGER, enchantmentsToItemStack.size()+1);
+							PersistentDataType.INTEGER, enchantmentsToItemStack.size() + 1);
 
 						itemStack.setItemMeta(itemMeta);
 						//itemStackPair.setValue(itemStack);
-						itemStackIDToEnchantment.put(enchantmentsToItemStack.size()+1, itemStackPair.getKey());
+						itemStackIDToEnchantment.put(enchantmentsToItemStack.size() + 1, itemStackPair.getKey());
 						enchantmentsToItemStack.put(itemStackPair.getKey(), itemStackPair.getValue());
 					} catch (IllegalAccessException e) {
 						Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
@@ -205,8 +205,8 @@ public class EnchantmentStacks {
 
 		Map<Enchantment, Integer> activatedEnchantments = is.getItemMeta().getEnchants();
 
-		for(Enchantment enchantment : enchantmentsToItemStack.keySet()) {
-			if(activatedEnchantments.get(enchantment) == null) {
+		for (Enchantment enchantment : enchantmentsToItemStack.keySet()) {
+			if (activatedEnchantments.get(enchantment) == null) {
 				list.add(enchantment);
 			}
 		}
