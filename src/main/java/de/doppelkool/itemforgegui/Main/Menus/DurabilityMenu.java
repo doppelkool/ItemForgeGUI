@@ -46,37 +46,49 @@ public class DurabilityMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleMinus100() {
-		damageableItemMeta.setDamage(damageableItemMeta.getDamage()+100);
+		damageableItemMeta.setDamage(
+			clampDurability(
+				damageableItemMeta.getDamage() + 100));
 		damageableItem.setItemMeta(damageableItemMeta);
 	}
 
 	@Override
 	protected void handleMinus10() {
-		damageableItemMeta.setDamage(damageableItemMeta.getDamage()+10);
+		damageableItemMeta.setDamage(
+			clampDurability(
+				damageableItemMeta.getDamage() + 10));
 		damageableItem.setItemMeta(damageableItemMeta);
 	}
 
 	@Override
 	protected void handleMinus1() {
-		damageableItemMeta.setDamage(damageableItemMeta.getDamage()+1);
+		damageableItemMeta.setDamage(
+			clampDurability(
+				damageableItemMeta.getDamage() + 1));
 		damageableItem.setItemMeta(damageableItemMeta);
 	}
 
 	@Override
 	protected void handlePlus1() {
-		damageableItemMeta.setDamage(damageableItemMeta.getDamage()-1);
+		damageableItemMeta.setDamage(
+			clampDurability(
+				damageableItemMeta.getDamage() - 1));
 		damageableItem.setItemMeta(damageableItemMeta);
 	}
 
 	@Override
 	protected void handlePlus10() {
-		damageableItemMeta.setDamage(damageableItemMeta.getDamage()-10);
+		damageableItemMeta.setDamage(
+			clampDurability(
+				damageableItemMeta.getDamage() - 10));
 		damageableItem.setItemMeta(damageableItemMeta);
 	}
 
 	@Override
 	protected void handlePlus100() {
-		damageableItemMeta.setDamage(damageableItemMeta.getDamage()-100);
+		damageableItemMeta.setDamage(
+			clampDurability(
+				damageableItemMeta.getDamage() - 100));
 		damageableItem.setItemMeta(damageableItemMeta);
 	}
 
@@ -93,5 +105,10 @@ public class DurabilityMenu extends EditNumberMenu {
 				this.damageableItem.getType().getMaxDurability())
 			.openSign());
 		playerMenuUtility.getOwner().sendMessage(message);
+	}
+
+	private int clampDurability(int durability) {
+		// ensure 0 <= durability <= MAX
+		return Math.max(0, Math.min(durability, damageableItemMaxDurability));
 	}
 }
