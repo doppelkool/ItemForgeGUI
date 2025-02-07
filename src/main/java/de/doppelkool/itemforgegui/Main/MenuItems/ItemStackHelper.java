@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
@@ -150,5 +151,55 @@ public class ItemStackHelper {
 
 			bookMeta.addPage(pageContent);
 		}
+	}
+
+	public static boolean hasImmutability(ItemStack stack) {
+		return stack.getItemMeta().getPersistentDataContainer()
+			.has(Main.getPlugin().getCustomTagItemImmutabilityKey());
+	}
+
+	public static void setImmutability(ItemStack stack, boolean toggle) {
+		ItemMeta itemMeta = stack.getItemMeta();
+		PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+		if(toggle) {
+			//Boolean value is not used, but necessary
+			persistentDataContainer.set(Main.getPlugin().getCustomTagItemImmutabilityKey(), PersistentDataType.BOOLEAN, true);
+		} else {
+			persistentDataContainer.remove(Main.getPlugin().getCustomTagItemImmutabilityKey());
+		}
+		stack.setItemMeta(itemMeta);
+	}
+
+	public static boolean hasGlow(ItemStack item) {
+		return item.getItemMeta().hasEnchants()
+			&& (item.getItemMeta().getEnchantLevel(Enchantment.LUCK_OF_THE_SEA) == 1);
+	}
+
+	public static void setGlow(ItemStack item, boolean active) {
+		ItemMeta itemMeta = item.getItemMeta();
+
+		ArrayList<String> lore;
+		if(itemMeta.hasLore()) {
+			lore = new ArrayList<>(itemMeta.getLore());
+		} else {
+			lore = new ArrayList<>();
+		}
+
+		String activatedLorePart = "Activated";
+		String deactivatedLorePart = "Deactivated";
+		if(lore.getFirst().contains(activatedLorePart) ||
+			lore.getFirst().contains(deactivatedLorePart)) {
+			lore.remove(0);
+		}
+		if(active) {
+			itemMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
+			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
+			itemMeta.setLore(lore);
+		} else {
+			itemMeta.removeEnchant(Enchantment.LUCK_OF_THE_SEA);
+			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
+			itemMeta.setLore(lore);
+		}
+		item.setItemMeta(itemMeta);
 	}
 }
