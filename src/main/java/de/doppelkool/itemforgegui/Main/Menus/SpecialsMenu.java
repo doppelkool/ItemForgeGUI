@@ -12,6 +12,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
+
 /**
  * Class Description
  *
@@ -113,37 +116,5 @@ public class SpecialsMenu extends Menu {
 		this.inventory.setItem(23, hideArmorTrimClone);
 
 		setFillerGlass();
-	}
-
-	private boolean hasGlow(ItemStack item) {
-		return item.getItemMeta().hasEnchants()
-			&& (item.getItemMeta().getEnchantLevel(Enchantment.LUCK_OF_THE_SEA) == 1);
-	}
-	private void setGlow(ItemStack item, boolean active) {
-		ItemMeta itemMeta = item.getItemMeta();
-
-		ArrayList<String> lore;
-		if(itemMeta.hasLore()) {
-			lore = new ArrayList<>(itemMeta.getLore());
-		} else {
-			lore = new ArrayList<>();
-		}
-
-		String activatedLorePart = "Aktiviert";
-		String deactivatedLorePart = "Deaktiviert";
-		if(lore.getFirst().contains(activatedLorePart) ||
-			lore.getFirst().contains(deactivatedLorePart)) {
-			lore.remove(0);
-		}
-		if(active) {
-			itemMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
-			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
-			itemMeta.setLore(lore);
-		} else {
-			itemMeta.removeEnchant(Enchantment.LUCK_OF_THE_SEA);
-			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
-			itemMeta.setLore(lore);
-		}
-		item.setItemMeta(itemMeta);
 	}
 }

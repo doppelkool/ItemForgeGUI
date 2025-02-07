@@ -72,6 +72,8 @@ public class ItemStacks {
 	public static final ItemStack closeInventory;
 	public static final ItemStack backInventory;
 
+	public static final ItemStack editItemImmutability;
+
 	public static final ItemStack activatedEnchantments;
 	public static final ItemStack deactivatedEnchantments;
 
@@ -190,6 +192,9 @@ public class ItemStacks {
 		backInventory = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "Back");
 		modifyLore(backInventory, ChatColor.YELLOW + "Go back to the parent inventory");
 		modifyToCustomHead(backInventory, SkullData.REDSTONE_BLOCK_LEFT);
+		editItemImmutability = makeItem(Material.BEDROCK, ChatColor.GREEN + "Change Item Mutability");
+		modifyLore(editItemImmutability, ChatColor.YELLOW + "Toggles whether the item can be modified out of the bounds of this plugin");
+		modifyItemFlags(editItemImmutability, ItemFlag.HIDE_ENCHANTS);
 
 		activatedEnchantments = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Activated Enchantments");
 		modifyLore(activatedEnchantments, ChatColor.YELLOW + "Display all active enchantments on the current item");
@@ -310,5 +315,11 @@ public class ItemStacks {
 		itemStackNotAvailable.setItemMeta(itemMeta);
 		itemStackNotAvailable.setType(Material.BARRIER);
 		return itemStackNotAvailable;
+	}
+
+	public static ItemStack setImmutabilityItemTypeByHasTag(ItemStack itemStack) {
+		ItemStack editItemImmutabilityToSet = editItemImmutability.clone();
+		ItemStackHelper.setGlow(editItemImmutabilityToSet, ItemStackHelper.hasImmutability(itemStack));
+		return editItemImmutabilityToSet;
 	}
 }

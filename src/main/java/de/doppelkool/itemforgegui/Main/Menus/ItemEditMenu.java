@@ -1,14 +1,17 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,6 +43,10 @@ public class ItemEditMenu extends Menu {
 	public void handleMenu(InventoryClickEvent e) {
 		if (e.getSlot() == 18) {
 			handleClose();
+			return;
+		}
+		if (e.getSlot() == 0) {
+			handleToggleImmutability();
 			return;
 		}
 		if (e.getSlot() == 10) {
@@ -93,6 +100,11 @@ public class ItemEditMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
+		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		if (ConfigManager.getInstance().isItemImmutabilityEnabled()) {
+			this.inventory.setItem(0, setImmutabilityItemTypeByHasTag(item));
+		}
+
 		//No back Button in Main Menu
 		this.inventory.setItem(this.getSlots() - 8, FILLER_GLASS);
 
@@ -100,7 +112,6 @@ public class ItemEditMenu extends Menu {
 		this.inventory.setItem(11, editLore);
 		this.inventory.setItem(12, editEnchantments);
 
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		if(ItemStackHelper.isDamageable(item)) {
 			this.inventory.setItem(13, editDurability);
 		} else {
@@ -123,6 +134,18 @@ public class ItemEditMenu extends Menu {
 	private boolean editColorAvailable(ItemStack item) {
 		return ItemStackHelper.isLeather(item.getType()) ||
 			ItemStackHelper.isOnlyDyeColorableWithoutMixins(item.getType());
+	}
+
+	private void handleToggleImmutability() {
+		if (!ConfigManager.getInstance().isItemImmutabilityEnabled()) {
+			return;
+		}
+
+		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStackHelper.setImmutability(
+			itemInMainHand,
+			!ItemStackHelper.hasImmutability(itemInMainHand));
+		this.inventory.setItem(0, setImmutabilityItemTypeByHasTag(itemInMainHand));
 	}
 
 	private void editLoreProcess() {
