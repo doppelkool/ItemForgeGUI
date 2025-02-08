@@ -3,14 +3,10 @@ package de.doppelkool.itemforgegui.Main.Menus;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import org.bukkit.ChatColor;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;

@@ -17,11 +17,15 @@ public class ConfigManager {
 	@Getter
 	private boolean itemImmutabilityEnabled;
 
+	@Getter
+	private boolean uniqueIdOnEditedItemEnabled;
+
 
 	private ConfigManager() {
 		this.config = Main.getPlugin().getConfig();
 		Main.getPlugin().saveDefaultConfig();
 
+		this.uniqueIdOnEditedItemEnabled = this.config.getBoolean("unique-id-on-edited-item");
 		this.itemImmutabilityEnabled = this.config.getBoolean("item-immutability-enabled");
 	}
 

@@ -20,7 +20,7 @@ public class EditCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player pl)) {
-			sender.sendMessage(Main.prefix + "Command cannot be executed as player");
+			sender.sendMessage(Main.prefix + "Command cannot be executed as console");
 			return true;
 		}
 

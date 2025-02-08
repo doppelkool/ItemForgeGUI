@@ -9,8 +9,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.ObjectInputFilter;
-
 public final class Main extends JavaPlugin {
 
     public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "ItemForgeGUI" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
@@ -25,13 +23,19 @@ public final class Main extends JavaPlugin {
     private NamespacedKey customNotAvailableStackIDKey;
     @Getter
     private NamespacedKey customTagItemImmutabilityKey;
+    @Getter
+    private NamespacedKey itemforgeguiUniqueIdentifier;
 
     public void onEnable()
     {
         plugin = this;
 
-        ConfigManager instance = ConfigManager.getInstance();
-        if(instance.isItemImmutabilityEnabled()){
+        ConfigManager cMr = ConfigManager.getInstance();
+        if(cMr.isUniqueIdOnEditedItemEnabled()) {
+            itemforgeguiUniqueIdentifier = new NamespacedKey(this, "itemforgeguiUniqueIdentifier");
+        }
+
+        if(cMr.isItemImmutabilityEnabled()) {
             customTagItemImmutabilityKey = new NamespacedKey(this, "customTagItemImmutability");
         }
 
@@ -47,5 +51,6 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
         pluginmanager.registerEvents(new EditAmountSignListener(), this);
         pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
+        pluginmanager.registerEvents(new EditItemIDSignListener(), this);
     }
 }
