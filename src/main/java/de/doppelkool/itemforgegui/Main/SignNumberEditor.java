@@ -63,6 +63,21 @@ public class SignNumberEditor {
 		return this;
 	}
 
+	public SignNumberEditor editItemID(String uniqueItemIdentifierOrEmptyString) {
+		type = NUMBER_EDIT_TYPE.ITEM_ID;
+
+		final int chunkSize = 15;
+		final int length = uniqueItemIdentifierOrEmptyString.length();
+
+		for (int i = 0; i < length; i += chunkSize) {
+			int end = Math.min(i + chunkSize, length);
+			sign.getSide(Side.FRONT).setLine(i/chunkSize, uniqueItemIdentifierOrEmptyString.substring(i, end));
+		}
+
+		sign.update();
+		return this;
+	}
+
 	public SignNumberEditor openSign() {
 		Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
 			pl.openSign(sign);
@@ -73,7 +88,8 @@ public class SignNumberEditor {
 	public enum NUMBER_EDIT_TYPE {
 		AMOUNT,
 		DURABILITY,
-		ENCHANTMENT
+		ENCHANTMENT,
+		ITEM_ID
 	}
 
 	public static boolean isSameBlockLocation(Location loc1, Location loc2) {

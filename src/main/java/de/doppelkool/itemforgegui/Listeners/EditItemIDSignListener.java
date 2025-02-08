@@ -1,10 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuManager;
-import de.doppelkool.itemforgegui.Main.Menus.AmountMenu;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.*;
+import de.doppelkool.itemforgegui.Main.Menus.ItemUniquenessSettingsMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +13,7 @@ import org.bukkit.event.block.SignChangeEvent;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class EditAmountSignListener implements Listener {
+public class EditItemIDSignListener implements Listener {
 	@EventHandler
 	public void onPlayerEditAmountSign(SignChangeEvent event) {
 		Player pl = event.getPlayer();
@@ -24,29 +21,35 @@ public class EditAmountSignListener implements Listener {
 		SignNumberEditor signNumberEditor = playerMenuUtility.getSignNumberEditor();
 
 		if (signNumberEditor == null
-			|| signNumberEditor.getType() != SignNumberEditor.NUMBER_EDIT_TYPE.AMOUNT
+			|| signNumberEditor.getType() != SignNumberEditor.NUMBER_EDIT_TYPE.ITEM_ID
 			|| signNumberEditor.getSignLocation() == null
 			|| !SignNumberEditor.isSameBlockLocation(event.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
 			return;
 		}
 
 		if (event.getLines().length < 1) {
-			pl.sendMessage(Main.prefix + "The amount you entered is not valid");
+			pl.sendMessage(Main.prefix + "The ID you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;
 		}
 
-		Integer amount = SignNumberEditor.parseInteger(event.getLine(0).trim());
-		if (amount == null) {
-			pl.sendMessage(Main.prefix + "The amount you entered is not valid");
+		StringBuilder sb = new StringBuilder();
+
+		for (String line : event.getLines()) {
+			if (line != null) {
+				sb.append(line);
+			}
+		}
+
+		String uniqueID = sb.toString();
+
+		if (uniqueID.length() > 4*15) {
+			pl.sendMessage(Main.prefix + "The ID you entered was too long");
 			endProcess(playerMenuUtility);
 			return;
 		}
 
-		amount = Integer.min(amount, 99);
-		amount = Integer.max(amount, 1);
-
-		pl.getInventory().getItemInMainHand().setAmount(amount);
+		UniqueItemIdentifierManager.setUniqueItemIdentifier(pl.getInventory().getItemInMainHand(), uniqueID);
 		endProcess(playerMenuUtility);
 	}
 
@@ -54,7 +57,7 @@ public class EditAmountSignListener implements Listener {
 		util.getOwner().getLocation().getBlock().setType(Material.AIR);
 		util.setSignNumberEditor(null);
 
-		new AmountMenu(util)
+		new ItemUniquenessSettingsMenu(util)
 			.open();
 	}
 }

@@ -72,7 +72,11 @@ public class ItemStacks {
 	public static final ItemStack closeInventory;
 	public static final ItemStack backInventory;
 
+	public static final ItemStack itemIdentity;
 	public static final ItemStack editItemImmutability;
+	public static final ItemStack openItemUniquenessSettings;
+	public static final ItemStack copyUniqueIdentifier;
+	public static final ItemStack editUniqueIdentifier;
 
 	public static final ItemStack activatedEnchantments;
 	public static final ItemStack deactivatedEnchantments;
@@ -192,9 +196,20 @@ public class ItemStacks {
 		backInventory = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "Back");
 		modifyLore(backInventory, ChatColor.YELLOW + "Go back to the parent inventory");
 		modifyToCustomHead(backInventory, SkullData.REDSTONE_BLOCK_LEFT);
+
+		itemIdentity = makeItem(Material.ARMOR_STAND, ChatColor.GREEN + "Change Item Identity");
+		modifyLore(itemIdentity, ChatColor.YELLOW + "Manages the items identity settings");
+
 		editItemImmutability = makeItem(Material.BEDROCK, ChatColor.GREEN + "Change Item Mutability");
-		modifyLore(editItemImmutability, ChatColor.YELLOW + "Toggles whether the item can be modified out of the bounds of this plugin");
+		modifyLore(editItemImmutability, ChatColor.YELLOW + "Toggles whether the item can be modified", ChatColor.YELLOW + "out of the bounds of this plugin");
 		modifyItemFlags(editItemImmutability, ItemFlag.HIDE_ENCHANTS);
+
+		openItemUniquenessSettings = makeItem(Material.NETHER_STAR, ChatColor.GREEN + "Item Uniqueness Settings");
+		modifyLore(openItemUniquenessSettings, ChatColor.YELLOW + "Copy or change the items unique identifier");
+		copyUniqueIdentifier = makeItem(Material.PAPER, ChatColor.GREEN + "Copy");
+		modifyLore(copyUniqueIdentifier, ChatColor.YELLOW + "Copy the unique identifier to the clipboard");
+		editUniqueIdentifier = makeItem(Material.WRITABLE_BOOK, ChatColor.GREEN + "Item Uniqueness Settings");
+		modifyLore(editUniqueIdentifier, ChatColor.YELLOW + "Edit the unique identifier to your liking");
 
 		activatedEnchantments = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Activated Enchantments");
 		modifyLore(activatedEnchantments, ChatColor.YELLOW + "Display all active enchantments on the current item");
