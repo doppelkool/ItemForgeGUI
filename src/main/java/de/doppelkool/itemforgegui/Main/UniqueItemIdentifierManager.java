@@ -24,18 +24,21 @@ public class UniqueItemIdentifierManager {
 
 		String uniqueId;
 		if (persistentDataContainer.has(Main.getPlugin().getItemforgeguiUniqueIdentifier())) {
-			uniqueId = getUniqueItemIdentifierOrEmptyString(itemStack); //Empty String case not possible without prior errors
+			uniqueId = getUniqueItemIdentifierOrEmptyString(itemMeta); //Empty String case not possible without prior errors
 		} else {
 			uniqueId = UUID.randomUUID().toString();
-			setUniqueItemIdentifier(itemStack, uniqueId);
+			itemMeta.getPersistentDataContainer().set(
+				Main.getPlugin().getItemforgeguiUniqueIdentifier(),
+				PersistentDataType.STRING,
+				uniqueId);
 		}
 
 		itemStack.setItemMeta(itemMeta);
 		return uniqueId;
 	}
 
-	public static String getUniqueItemIdentifierOrEmptyString(ItemStack itemStack) {
-		String s = itemStack.getItemMeta()
+	public static String getUniqueItemIdentifierOrEmptyString(ItemMeta itemMeta) {
+		String s = itemMeta
 			.getPersistentDataContainer()
 			.get(Main.getPlugin().getItemforgeguiUniqueIdentifier(),
 				PersistentDataType.STRING);

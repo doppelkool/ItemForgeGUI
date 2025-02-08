@@ -75,7 +75,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(
 				UniqueItemIdentifierManager.getUniqueItemIdentifierOrEmptyString(
-					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()))
+					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta()))
 			.openSign());
 		playerMenuUtility.getOwner().sendMessage(message);
 	}
