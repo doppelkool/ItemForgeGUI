@@ -9,8 +9,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.FILLER_GLASS;
-
 /**
  * Class Description
  *
@@ -49,7 +47,7 @@ public abstract class Menu implements InventoryHolder {
 	public void setFillerGlass() {
 		for (int i = 0; i < getSlots(); i++) {
 			if (inventory.getItem(i) == null) {
-				inventory.setItem(i, FILLER_GLASS);
+				inventory.setItem(i, ItemStacks.FILLER_GLASS);
 			}
 		}
 	}

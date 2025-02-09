@@ -49,7 +49,9 @@ public class EditItemIDSignListener implements Listener {
 			return;
 		}
 
-		UniqueItemIdentifierManager.setUniqueItemIdentifier(pl.getInventory().getItemInMainHand(), uniqueID);
+		UniqueItemIdentifierManager.setUniqueItemIdentifier(
+			pl.getInventory().getItemInMainHand(),
+			uniqueID.trim().replace(" ", "_"));
 		endProcess(playerMenuUtility);
 	}
 

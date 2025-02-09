@@ -2,14 +2,15 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.UniqueItemIdentifierManager;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.copyUniqueIdentifier;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.editUniqueIdentifier;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
 
 /**
  * Class Description
@@ -60,8 +61,16 @@ public class ItemUniquenessSettingsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		this.inventory.setItem(12, copyUniqueIdentifier);
-		this.inventory.setItem(14, editUniqueIdentifier);
+		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+
+		ItemStack clone = ItemStacks.itemUniquenessSettingsShowID.clone();
+		modifyCurrentValueVariableInLore(
+			clone,
+			UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
+
+		this.inventory.setItem(4, clone);
+		this.inventory.setItem(12, ItemStacks.copyUniqueIdentifier);
+		this.inventory.setItem(14, ItemStacks.editUniqueIdentifier);
 
 		setFillerGlass();
 	}
@@ -69,7 +78,8 @@ public class ItemUniquenessSettingsMenu extends Menu {
 	private void editUniqueIdentifierProcess() {
 		String message = Main.prefix + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future identifier and click \"Done\".\n" +
-			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] The maximum characters per Line is 15.";
+			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] The maximum characters per Line is 15." +
+			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] Whitespaces will be replaced with underscores.";
 
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
