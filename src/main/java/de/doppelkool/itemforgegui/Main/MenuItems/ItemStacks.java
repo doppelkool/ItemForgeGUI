@@ -76,6 +76,7 @@ public class ItemStacks {
 	public static final ItemStack editItemImmutability;
 	public static final ItemStack openItemUniquenessSettings;
 	public static final ItemStack copyUniqueIdentifier;
+	public static final ItemStack itemUniquenessSettingsShowID;
 	public static final ItemStack editUniqueIdentifier;
 
 	public static final ItemStack activatedEnchantments;
@@ -205,11 +206,16 @@ public class ItemStacks {
 		modifyItemFlags(editItemImmutability, ItemFlag.HIDE_ENCHANTS);
 
 		openItemUniquenessSettings = makeItem(Material.NETHER_STAR, ChatColor.GREEN + "Item Uniqueness Settings");
-		modifyLore(openItemUniquenessSettings, ChatColor.YELLOW + "Copy or change the items unique identifier");
+		modifyLore(openItemUniquenessSettings,
+			ChatColor.YELLOW + "Copy or change the items unique identifier", "",
+			ChatColor.GRAY + "Current value:",
+			ChatColor.GRAY + "{currentValue}");
 		copyUniqueIdentifier = makeItem(Material.PAPER, ChatColor.GREEN + "Copy");
 		modifyLore(copyUniqueIdentifier, ChatColor.YELLOW + "Copy the unique identifier to the clipboard");
+		itemUniquenessSettingsShowID = makeItem(Material.NAME_TAG, ChatColor.GREEN + "Current Value" + ChatColor.GRAY + ":");
+		modifyLore(itemUniquenessSettingsShowID, ChatColor.GRAY + "{currentValue}");
 		editUniqueIdentifier = makeItem(Material.WRITABLE_BOOK, ChatColor.GREEN + "Item Uniqueness Settings");
-		modifyLore(editUniqueIdentifier, ChatColor.YELLOW + "Edit the unique identifier to your liking");
+		modifyLore(editUniqueIdentifier, ChatColor.YELLOW + "Edit the unique identifier according to your requirements");
 
 		activatedEnchantments = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Activated Enchantments");
 		modifyLore(activatedEnchantments, ChatColor.YELLOW + "Display all active enchantments on the current item");
@@ -238,17 +244,27 @@ public class ItemStacks {
 		BLACK_dye = makeItem(Material.BLACK_DYE, ChatColor.BLACK + "Black");
 
 		RED_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.RED + "Red");
-		modifyLore(RED_CAP, ChatColor.YELLOW + "Represents the red component in the RGB value");
+		modifyLore(RED_CAP,
+			ChatColor.YELLOW + "Represents the red component in the RGB value", "",
+			ChatColor.GRAY + "Current value (0-255):",
+			ChatColor.GRAY + "{currentValue}"
+		);
 		modifyColor(RED_CAP, Color.fromRGB(255,0,0));
 		modifyItemFlags(RED_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		GREEN_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.GREEN + "Green");
-		modifyLore(GREEN_CAP, ChatColor.YELLOW + "Represents the green component in the RGB value");
+		modifyLore(GREEN_CAP, ChatColor.YELLOW + "Represents the green component in the RGB value", "",
+			ChatColor.GRAY + "Current value (0-255):",
+			ChatColor.GRAY + "{currentValue}"
+		);
 		modifyColor(GREEN_CAP, Color.fromRGB(0,255,0));
 		modifyItemFlags(GREEN_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		BLUE_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.RED + "Blue");
-		modifyLore(BLUE_CAP, ChatColor.YELLOW + "Represents the blue component in the RGB value");
+		modifyLore(BLUE_CAP, ChatColor.YELLOW + "Represents the blue component in the RGB value", "",
+			ChatColor.GRAY + "Current value (0-255):",
+			ChatColor.GRAY + "{currentValue}"
+		);
 		modifyColor(BLUE_CAP, Color.fromRGB(0,0,255));
 		modifyItemFlags(BLUE_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
@@ -271,6 +287,17 @@ public class ItemStacks {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		itemMeta.setLore(List.of(lore));
 		itemStack.setItemMeta(itemMeta);
+	}
+
+	public static void modifyCurrentValueVariableInLore(ItemStack itemToChangeLore, String currentValue) {
+		ItemMeta itemMeta = itemToChangeLore.getItemMeta();
+		List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
+		for (int i = 0; i < lore.size(); i++) {
+			lore.set(i, lore.get(i).replace("{currentValue}", currentValue));
+		}
+
+		itemMeta.setLore(lore);
+		itemToChangeLore.setItemMeta(itemMeta);
 	}
 
 	public static void modifyItemFlags(ItemStack itemStack, ItemFlag... itemflags) {

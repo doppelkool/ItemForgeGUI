@@ -3,11 +3,13 @@ package de.doppelkool.itemforgegui.Main.Menus;
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.UniqueItemIdentifierManager;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.openItemUniquenessSettings;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.setImmutabilityItemTypeByHasTag;
 
 /**
@@ -58,15 +60,19 @@ public class ItemIdentityMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		//ToDo reactivate
-		//ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
+		//ToDo reactivate
 		//if (ConfigManager.getInstance().isItemImmutabilityEnabled()) {
 		//	this.inventory.setItem(10, setImmutabilityItemTypeByHasTag(item));
 		//}
 
 		if (ConfigManager.getInstance().isUniqueIdOnEditedItemEnabled()) {
-			this.inventory.setItem(13, openItemUniquenessSettings);
+			ItemStack clone = ItemStacks.openItemUniquenessSettings.clone();
+			modifyCurrentValueVariableInLore(
+				clone,
+				UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
+			this.inventory.setItem(13, clone);
 		}
 
 		setFillerGlass();

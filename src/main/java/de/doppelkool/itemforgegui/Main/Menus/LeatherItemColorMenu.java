@@ -8,10 +8,10 @@ import org.bukkit.Color;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ColorableArmorMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
 
 /**
  * Class Description
@@ -169,27 +169,22 @@ public class LeatherItemColorMenu extends Menu {
 			.getColor();
 
 		ItemStack redCap = ItemStacks.RED_CAP.clone();
-		loadSingleRGBCap(redCap, color.getRed());
+		modifyCurrentValueVariableInLore(
+			redCap,
+			String.valueOf(color.getRed()));
 		this.inventory.setItem(13, redCap);
 
 		ItemStack greenCap = ItemStacks.GREEN_CAP.clone();
-		loadSingleRGBCap(greenCap, color.getGreen());
+		modifyCurrentValueVariableInLore(
+			greenCap,
+			String.valueOf(color.getGreen()));
 		this.inventory.setItem(22, greenCap);
 
 		ItemStack blueCap = ItemStacks.BLUE_CAP.clone();
-		loadSingleRGBCap(blueCap, color.getBlue());
+		modifyCurrentValueVariableInLore(
+			blueCap,
+			String.valueOf(color.getBlue()));
 		this.inventory.setItem(31, blueCap);
-	}
-
-	private void loadSingleRGBCap(ItemStack rgbCap, int colorValue) {
-		ArrayList<String> capLore = new ArrayList<>();
-		ItemMeta capItemMeta = rgbCap.getItemMeta();
-		if (capItemMeta.hasLore()) {
-			capLore = new ArrayList<>(capItemMeta.getLore());
-		}
-		capLore.add(0, "Current Value: " + colorValue);
-		capItemMeta.setLore(capLore);
-		rgbCap.setItemMeta(capItemMeta);
 	}
 
 	private void placeColorRow() {

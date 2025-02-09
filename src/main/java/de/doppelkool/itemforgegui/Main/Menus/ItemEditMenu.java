@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.Menus;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.UniqueItemIdentifierManager;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.*;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
  * Class Description
@@ -101,31 +102,31 @@ public class ItemEditMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		this.inventory.setItem(26, itemIdentity);
+		this.inventory.setItem(26, ItemStacks.itemIdentity);
 
 		//No back Button in Main Menu
-		this.inventory.setItem(this.getSlots() - 8, FILLER_GLASS);
+		this.inventory.setItem(this.getSlots() - 8, ItemStacks.FILLER_GLASS);
 
-		this.inventory.setItem(10, editName);
-		this.inventory.setItem(11, editLore);
-		this.inventory.setItem(12, editEnchantments);
+		this.inventory.setItem(10, ItemStacks.editName);
+		this.inventory.setItem(11, ItemStacks.editLore);
+		this.inventory.setItem(12, ItemStacks.editEnchantments);
 
 		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		if(ItemStackHelper.isDamageable(item)) {
-			this.inventory.setItem(13, editDurability);
+			this.inventory.setItem(13, ItemStacks.editDurability);
 		} else {
-			this.inventory.setItem(13, notAvailable(editDurability));
+			this.inventory.setItem(13, notAvailable(ItemStacks.editDurability));
 		}
 
-		this.inventory.setItem(14, editAmount);
+		this.inventory.setItem(14, ItemStacks.editAmount);
 
 		if(editColorAvailable(item)) {
-			this.inventory.setItem(15, editColor);
+			this.inventory.setItem(15, ItemStacks.editColor);
 		} else {
-			this.inventory.setItem(15, notAvailable(editColor));
+			this.inventory.setItem(15, notAvailable(ItemStacks.editColor));
 		}
 
-		this.inventory.setItem(16, editSpecials);
+		this.inventory.setItem(16, ItemStacks.editSpecials);
 		setFillerGlass();
 
 	}
