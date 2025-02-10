@@ -32,16 +32,16 @@ public final class Main extends JavaPlugin {
 
         ConfigManager cMr = ConfigManager.getInstance();
         if(cMr.isUniqueIdOnEditedItemEnabled()) {
-            itemforgeguiUniqueIdentifier = new NamespacedKey(this, "itemforgeguiUniqueIdentifier");
+            itemforgeguiUniqueIdentifier = new NamespacedKey(this, "id");
         }
 
         if(cMr.isItemImmutabilityEnabled()) {
-            customTagItemImmutabilityKey = new NamespacedKey(this, "customTagItemImmutability");
+            customTagItemImmutabilityKey = new NamespacedKey(this, "isImmutable");
         }
 
-        customLoreEditBookKey = new NamespacedKey(this, "edit_lore");
-        customNotAvailableStackIDKey = new NamespacedKey(this, "not_available");
-        customEnchantmentStackIDKey = new NamespacedKey(this, "id");
+        customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
+        customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
+        customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");
 
         getCommand("edit").setExecutor(new EditCommand());
 
