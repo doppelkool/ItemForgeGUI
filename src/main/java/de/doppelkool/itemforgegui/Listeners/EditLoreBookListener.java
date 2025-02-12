@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,12 +50,17 @@ public class EditLoreBookListener implements Listener {
 
 	private void endProcess(PlayerMenuUtility util) {
 		Player pl = util.getOwner();
-		pl.getInventory().setItem(util.getStoredSlot(), util.getTempStoredItem());
 
-		util.setTempStoredItem(null);
-		util.setStoredSlot(-1);
+		Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+			pl.getInventory().setItem(util.getStoredSlot(), util.getTempStoredItem());
 
-		new ItemEditMenu(util)
-			.open();
+			util.setTempStoredItem(null);
+			util.setStoredSlot(-1);
+
+			new ItemEditMenu(util)
+				.open();
+		//Make sure server does finish book editing process and replacing it with the current slot before,
+		//so we can set the item *after* that process.
+		}, 2L);
 	}
 }

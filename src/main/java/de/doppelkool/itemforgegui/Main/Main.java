@@ -47,6 +47,7 @@ public final class Main extends JavaPlugin {
 
         PluginManager pluginmanager = Bukkit.getPluginManager();
         pluginmanager.registerEvents(new MenuListener(), this);
+        pluginmanager.registerEvents(new OnQuitListener(), this);
         pluginmanager.registerEvents(new EditLoreBookListener(), this);
         pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
         pluginmanager.registerEvents(new EditAmountSignListener(), this);
