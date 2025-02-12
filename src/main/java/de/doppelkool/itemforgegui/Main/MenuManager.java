@@ -12,16 +12,20 @@ import java.util.HashMap;
 public class MenuManager {
 	private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
 
-	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {
+	public static PlayerMenuUtility getPlayerMenuUtility(Player pl) {
 		PlayerMenuUtility playerMenuUtility;
-		if (!(playerMenuUtilityMap.containsKey(p))) {
+		if (!(playerMenuUtilityMap.containsKey(pl))) {
 
-			playerMenuUtility = new PlayerMenuUtility(p);
-			playerMenuUtilityMap.put(p, playerMenuUtility);
+			playerMenuUtility = new PlayerMenuUtility(pl);
+			playerMenuUtilityMap.put(pl, playerMenuUtility);
 
 			return playerMenuUtility;
 		}
-		return playerMenuUtilityMap.get(p);
+		return playerMenuUtilityMap.get(pl);
+	}
+
+	public static void removePlayerMenuUtility(Player pl) {
+		playerMenuUtilityMap.remove(pl);
 	}
 
 }
