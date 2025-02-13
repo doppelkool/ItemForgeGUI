@@ -24,7 +24,11 @@ public final class Main extends JavaPlugin {
     @Getter
     private NamespacedKey customTagItemImmutabilityKey;
     @Getter
-    private NamespacedKey itemforgeguiUniqueIdentifier;
+    private NamespacedKey customTagItemNotAllowedInInvType;
+    @Getter
+    private NamespacedKey customTagItemNotAllowedForgeActions;
+    @Getter
+    private NamespacedKey customTagUID;
 
     public void onEnable()
     {
@@ -32,11 +36,13 @@ public final class Main extends JavaPlugin {
 
         ConfigManager cMr = ConfigManager.getInstance();
         if(cMr.isUniqueIdOnEditedItemEnabled()) {
-            itemforgeguiUniqueIdentifier = new NamespacedKey(this, "id");
+            customTagUID = new NamespacedKey(this, "id");
         }
 
         if(cMr.isItemImmutabilityEnabled()) {
             customTagItemImmutabilityKey = new NamespacedKey(this, "isImmutable");
+            customTagItemNotAllowedInInvType = new NamespacedKey(this, "notAllowedInvTypes");
+            customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
         }
 
         customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
@@ -48,10 +54,11 @@ public final class Main extends JavaPlugin {
         PluginManager pluginmanager = Bukkit.getPluginManager();
         pluginmanager.registerEvents(new MenuListener(), this);
         pluginmanager.registerEvents(new OnQuitListener(), this);
-        pluginmanager.registerEvents(new EditLoreBookListener(), this);
+        pluginmanager.registerEvents(new LoreBookListeners(), this);
         pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
         pluginmanager.registerEvents(new EditAmountSignListener(), this);
         pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
         pluginmanager.registerEvents(new EditItemIDSignListener(), this);
+        pluginmanager.registerEvents(new PreventItemAlteringListeners(), this);
     }
 }

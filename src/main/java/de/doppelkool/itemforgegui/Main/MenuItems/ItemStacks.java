@@ -41,6 +41,11 @@ public class ItemStacks {
 	public static final ItemStack editAmount;
 	public static final ItemStack editColor;
 
+	public static final ItemStack itemFlags;
+	public static final ItemStack preventionFlags;
+	public static final ItemStack itemDrop;
+	public static final ItemStack itemFramePlace;
+
 	public static final ItemStack hideEnchantments;
 	public static final ItemStack hideAttributes;
 	public static final ItemStack hideUnbreakable;
@@ -125,6 +130,7 @@ public class ItemStacks {
 		modifyColor(editColor,Color.BLUE);
 		modifyItemFlags(editColor, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
+		itemFlags = makeItem(Material.WHITE_BANNER, ChatColor.GREEN + "Edit ItemFlags");
 		hideEnchantments = makeItem(Material.ENCHANTING_TABLE, ChatColor.GREEN + "Hide Enchantments");
 		modifyLore(hideEnchantments, ChatColor.YELLOW + "Hides the enchantment in the items description");
 		modifyItemFlags(hideEnchantments, ItemFlag.HIDE_ENCHANTS);
@@ -149,6 +155,10 @@ public class ItemStacks {
 		hideArmorTrim = makeItem(Material.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ChatColor.GREEN + "Hide Armor Trim");
 		modifyLore(hideArmorTrim, ChatColor.YELLOW + "Hides the applied armor trim on an armor piece in its description");
 		modifyItemFlags(hideArmorTrim, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+
+		preventionFlags = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Edit Prevention Flags");
+		itemDrop = makeItem(Material.FEATHER, ChatColor.GREEN + "Disable Item Drop");
+		itemFramePlace = makeItem(Material.ITEM_FRAME, ChatColor.GREEN + "Disable Item Frame Placement");
 
 		minus100 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-100");
 		modifyToCustomHead(minus100, SkullData.REDSTONE_HUNDRED);

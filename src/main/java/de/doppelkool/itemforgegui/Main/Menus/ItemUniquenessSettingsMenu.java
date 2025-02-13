@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.UniqueItemIdentifierManager;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -78,7 +78,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 	private void editUniqueIdentifierProcess() {
 		String message = Main.prefix + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future identifier and click \"Done\".\n" +
-			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] The maximum characters per Line is 15." +
+			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] The maximum characters per Line is 15.\n" +
 			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] Whitespaces will be replaced with underscores.";
 
 		playerMenuUtility.getOwner().closeInventory();
