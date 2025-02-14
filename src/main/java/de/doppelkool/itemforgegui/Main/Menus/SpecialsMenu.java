@@ -27,11 +27,11 @@ public class SpecialsMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 27) {
+		if (e.getSlot() == 18) {
 			handleClose();
 			return;
 		}
-		if (e.getSlot() == 28) {
+		if (e.getSlot() == 19) {
 			new ItemEditMenu(playerMenuUtility)
 				.open();
 			return;

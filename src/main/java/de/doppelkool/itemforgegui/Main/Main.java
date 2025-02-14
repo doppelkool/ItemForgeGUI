@@ -2,6 +2,8 @@ package de.doppelkool.itemforgegui.Main;
 
 import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventItemAlteringListeners;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventThrowListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -60,5 +62,6 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
         pluginmanager.registerEvents(new EditItemIDSignListener(), this);
         pluginmanager.registerEvents(new PreventItemAlteringListeners(), this);
+        pluginmanager.registerEvents(new PreventThrowListener(), this);
     }
 }

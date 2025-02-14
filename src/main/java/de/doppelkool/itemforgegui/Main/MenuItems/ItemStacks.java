@@ -7,8 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_21_R3.profile.CraftPlayerProfile;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -45,6 +47,14 @@ public class ItemStacks {
 	public static final ItemStack preventionFlags;
 	public static final ItemStack itemDrop;
 	public static final ItemStack itemFramePlace;
+	public static final ItemStack throwItem;
+	public static final ItemStack eatItem;
+	public static final ItemStack placeItem;
+	public static final ItemStack equipItem;
+	public static final ItemStack burnItem;
+	public static final ItemStack useTool;
+	public static final ItemStack repairItem;
+	public static final ItemStack upgradeItem;
 
 	public static final ItemStack hideEnchantments;
 	public static final ItemStack hideAttributes;
@@ -157,8 +167,38 @@ public class ItemStacks {
 		modifyItemFlags(hideArmorTrim, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
 		preventionFlags = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Edit Prevention Flags");
+		modifyLore(preventionFlags, ChatColor.YELLOW + "Edit what the player can/cannot do with that item");
 		itemDrop = makeItem(Material.FEATHER, ChatColor.GREEN + "Disable Item Drop");
-		itemFramePlace = makeItem(Material.ITEM_FRAME, ChatColor.GREEN + "Disable Item Frame Placement");
+		modifyLore(itemDrop, ChatColor.YELLOW + "The player will (not) be able to drop that item"); //ToDo find a way to let the editor drop the item but not the player
+		modifyItemFlags(itemDrop, ItemFlag.HIDE_ENCHANTS);
+		itemFramePlace = makeItem(Material.ITEM_FRAME, ChatColor.GREEN + "En-/Disable Item Frame Placement");
+		modifyLore(itemFramePlace, ChatColor.YELLOW + "The player will (not) be able to place that item in an item frame");
+		modifyItemFlags(itemFramePlace, ItemFlag.HIDE_ENCHANTS);
+		throwItem = makeItem(Material.EGG, ChatColor.GREEN + "En-/Disable Item Throw");
+		modifyLore(throwItem, ChatColor.YELLOW + "The player will (not) be able to throw that item (not equal Item Drop)");
+		modifyItemFlags(throwItem, ItemFlag.HIDE_ENCHANTS);
+		eatItem = makeItem(Material.APPLE, ChatColor.GREEN + "En-/Disable Item Edibility");
+		modifyLore(eatItem, ChatColor.YELLOW + "The player will (not) be able to eat that item");
+		modifyItemFlags(eatItem, ItemFlag.HIDE_ENCHANTS);
+		placeItem = makeItem(Material.GRASS_BLOCK, ChatColor.GREEN + "En-/Disable Item Placement");
+		modifyLore(placeItem, ChatColor.YELLOW + "The player will (not) be able to place that item");
+		modifyItemFlags(placeItem, ItemFlag.HIDE_ENCHANTS);
+		equipItem = makeItem(Material.GOLDEN_LEGGINGS, ChatColor.GREEN + "En-/Disable Item is equippable");
+		modifyLore(equipItem, ChatColor.YELLOW + "The player will (not) be able to equip that item"); //ToDo prevent quick equip and through inventory
+		modifyItemFlags(equipItem, ItemFlag.HIDE_ENCHANTS);
+		burnItem = makeItem(Material.FLINT_AND_STEEL, ChatColor.GREEN + "En-/Disable Item can be burned");
+		modifyLore(burnItem, ChatColor.YELLOW + "The player will (not) be able to burn that item");
+		modifyItemFlags(burnItem, ItemFlag.HIDE_ENCHANTS);
+		useTool = makeItem(Material.DIAMOND_HOE, ChatColor.GREEN + "En-/Disable Item is usable");
+		modifyLore(useTool, ChatColor.YELLOW + "The player will (not) be able to use that tool");
+		modifyItemFlags(useTool, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+		repairItem = makeItem(Material.ENCHANTED_BOOK, ChatColor.GREEN + "En-/Disable Item can be repaired");
+		modifyLore(repairItem, ChatColor.YELLOW + "The player will (not) be able to repair that item in any way");
+		modifyStoredEnchantment(repairItem, Enchantment.MENDING);
+		modifyItemFlags(repairItem, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+		upgradeItem = makeItem(Material.NETHERITE_INGOT, ChatColor.GREEN + "En-/Disable Item is upgradable");
+		modifyLore(upgradeItem, ChatColor.YELLOW + "The player will (not) be able to use a smithing table to upgrade the item");
+		modifyItemFlags(upgradeItem, ItemFlag.HIDE_ENCHANTS);
 
 		minus100 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-100");
 		modifyToCustomHead(minus100, SkullData.REDSTONE_HUNDRED);
@@ -314,6 +354,12 @@ public class ItemStacks {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		itemMeta.addItemFlags(itemflags);
 		itemStack.setItemMeta(itemMeta);
+	}
+
+	public static void modifyStoredEnchantment(ItemStack itemStack, Enchantment enchantment) {
+		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
+		meta.addStoredEnchant(enchantment, 1, true);
+		itemStack.setItemMeta(meta);
 	}
 
 	public static void modifyColor(ItemStack stack, Color color) {

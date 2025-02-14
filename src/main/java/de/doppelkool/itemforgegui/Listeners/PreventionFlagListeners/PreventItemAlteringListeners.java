@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Listeners;
+package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
@@ -7,11 +7,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class PreventItemAlteringListeners implements Listener {
 			return;
 		}
 
-		if (!UniqueItemIdentifierManager.isUniqueItem(currentItem.getItemMeta())) {
+		if (!UniqueItemIdentifierManager.isUniqueItem(currentItem)) {
 			return;
 		}
 
@@ -49,22 +48,19 @@ public class PreventItemAlteringListeners implements Listener {
 	}
 
 	@EventHandler
-	public void preventPuttingItemInItemFrame(PlayerInteractEvent e) {
+	public void preventPuttingItemInItemFrame(PlayerInteractEntityEvent e) {
 		// Check if the player is trying to place item in an item frame
-		if (!(e.getClickedBlock() instanceof ItemFrame)
-			|| e.getAction() != Action.RIGHT_CLICK_BLOCK) {
+		if (!(e.getRightClicked() instanceof ItemFrame)) {
 			return;
 		}
 
 		// Check if the player is trying to place a plugins item in an item frame
-		ItemStack itemStack = e.getItem();
-		if (itemStack == null
-			|| itemStack.getType() == Material.AIR //Possible Material
-			|| !UniqueItemIdentifierManager.isUniqueItem(itemStack.getItemMeta())) {
+		ItemStack itemInMainHand = e.getPlayer().getInventory().getItemInMainHand();
+		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
 			return;
 		}
 
-		if (UniqueItemIdentifierManager.isActionPrevented(itemStack, ForgeAction.ITEM_FRAME_PLACE)) {
+		if (UniqueItemIdentifierManager.isActionPrevented(itemInMainHand.getItemMeta(), ForgeAction.ITEM_FRAME_PLACE)) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 		}
@@ -74,11 +70,11 @@ public class PreventItemAlteringListeners implements Listener {
 	public void preventItemDrop(PlayerDropItemEvent e) {
 		ItemStack itemStack = e.getItemDrop().getItemStack();
 
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemStack.getItemMeta())) {
+		if (!UniqueItemIdentifierManager.isUniqueItem(itemStack)) {
 			return;
 		}
 
-		if (UniqueItemIdentifierManager.isActionPrevented(itemStack, ForgeAction.ITEM_DROP)) {
+		if (UniqueItemIdentifierManager.isActionPrevented(itemStack.getItemMeta(), ForgeAction.ITEM_DROP)) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 		}

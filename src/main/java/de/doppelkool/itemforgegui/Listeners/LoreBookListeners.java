@@ -8,6 +8,7 @@ import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -71,7 +72,8 @@ public class LoreBookListeners implements Listener {
 	public void preventItemDrop(PlayerDropItemEvent e) {
 		ItemStack itemStack = e.getItemDrop().getItemStack();
 
-		if (UniqueItemIdentifierManager.isActionPrevented(itemStack, ForgeAction.ITEM_DROP)) {
+		if (itemStack.getType() == Material.WRITABLE_BOOK
+			&& UniqueItemIdentifierManager.isActionPrevented(itemStack.getItemMeta(), ForgeAction.ITEM_DROP)) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 		}

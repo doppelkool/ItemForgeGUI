@@ -38,7 +38,8 @@ public class SpecialsItemFlagsMenu extends Menu {
 			return;
 		}
 		if (e.getSlot() == 28) {
-			handleBack();
+			new SpecialsMenu(playerMenuUtility)
+				.open();
 			return;
 		}
 
