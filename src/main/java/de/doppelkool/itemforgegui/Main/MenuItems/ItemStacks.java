@@ -46,6 +46,7 @@ public class ItemStacks {
 	public static final ItemStack itemFlags;
 	public static final ItemStack preventionFlags;
 	public static final ItemStack itemDrop;
+	public static final ItemStack itemCraft;
 	public static final ItemStack itemFramePlace;
 	public static final ItemStack throwItem;
 	public static final ItemStack eatItem;
@@ -54,6 +55,8 @@ public class ItemStacks {
 	public static final ItemStack burnItem;
 	public static final ItemStack useTool;
 	public static final ItemStack repairItem;
+	public static final ItemStack enchantItem;
+	public static final ItemStack disenchantitem;
 	public static final ItemStack upgradeItem;
 
 	public static final ItemStack hideEnchantments;
@@ -171,6 +174,9 @@ public class ItemStacks {
 		itemDrop = makeItem(Material.FEATHER, ChatColor.GREEN + "Disable Item Drop");
 		modifyLore(itemDrop, ChatColor.YELLOW + "The player will (not) be able to drop that item"); //ToDo find a way to let the editor drop the item but not the player
 		modifyItemFlags(itemDrop, ItemFlag.HIDE_ENCHANTS);
+		itemCraft = makeItem(Material.CRAFTING_TABLE, ChatColor.GREEN + "Disable Crafting");
+		modifyLore(itemCraft, ChatColor.YELLOW + "The player will (not) be able to craft with that item");
+		modifyItemFlags(itemCraft, ItemFlag.HIDE_ENCHANTS);
 		itemFramePlace = makeItem(Material.ITEM_FRAME, ChatColor.GREEN + "En-/Disable Item Frame Placement");
 		modifyLore(itemFramePlace, ChatColor.YELLOW + "The player will (not) be able to place that item in an item frame");
 		modifyItemFlags(itemFramePlace, ItemFlag.HIDE_ENCHANTS);
@@ -192,10 +198,15 @@ public class ItemStacks {
 		useTool = makeItem(Material.DIAMOND_HOE, ChatColor.GREEN + "En-/Disable Item is usable");
 		modifyLore(useTool, ChatColor.YELLOW + "The player will (not) be able to use that tool");
 		modifyItemFlags(useTool, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
-		repairItem = makeItem(Material.ENCHANTED_BOOK, ChatColor.GREEN + "En-/Disable Item can be repaired");
+		repairItem = makeItem(Material.ANVIL, ChatColor.GREEN + "En-/Disable Item can be repaired");
 		modifyLore(repairItem, ChatColor.YELLOW + "The player will (not) be able to repair that item in any way");
-		modifyStoredEnchantment(repairItem, Enchantment.MENDING);
-		modifyItemFlags(repairItem, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+		modifyItemFlags(repairItem, ItemFlag.HIDE_ENCHANTS);
+		enchantItem = makeItem(Material.ENCHANTING_TABLE, ChatColor.GREEN + "En-/Disable Item can be enchanted or enchanted with");
+		modifyLore(enchantItem, ChatColor.YELLOW + "The player will (not) be able to enchant that item or with that item");
+		modifyItemFlags(enchantItem, ItemFlag.HIDE_ENCHANTS);
+		disenchantitem = makeItem(Material.GRINDSTONE, ChatColor.GREEN + "En-/Disable Item can be disenchanted");
+		modifyLore(disenchantitem, ChatColor.YELLOW + "The player will (not) be able to disenchant that item");
+		modifyItemFlags(disenchantitem, ItemFlag.HIDE_ENCHANTS);
 		upgradeItem = makeItem(Material.NETHERITE_INGOT, ChatColor.GREEN + "En-/Disable Item is upgradable");
 		modifyLore(upgradeItem, ChatColor.YELLOW + "The player will (not) be able to use a smithing table to upgrade the item");
 		modifyItemFlags(upgradeItem, ItemFlag.HIDE_ENCHANTS);

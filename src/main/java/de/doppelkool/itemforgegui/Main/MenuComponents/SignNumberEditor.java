@@ -1,5 +1,6 @@
-package de.doppelkool.itemforgegui.Main;
+package de.doppelkool.itemforgegui.Main.MenuComponents;
 
+import de.doppelkool.itemforgegui.Main.Main;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

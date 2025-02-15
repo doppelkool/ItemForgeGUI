@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main;
+package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import lombok.Getter;
 import lombok.Setter;

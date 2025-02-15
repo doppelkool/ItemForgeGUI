@@ -2,7 +2,11 @@ package de.doppelkool.itemforgegui.Main;
 
 import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
-import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventItemAlteringListeners;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventAlteringListeners;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventApplyListener;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.AnvilListener;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.CraftListener;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.GrindstoneListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventThrowListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -61,7 +65,11 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new EditAmountSignListener(), this);
         pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
         pluginmanager.registerEvents(new EditItemIDSignListener(), this);
-        pluginmanager.registerEvents(new PreventItemAlteringListeners(), this);
+        pluginmanager.registerEvents(new PreventAlteringListeners(), this);
+        pluginmanager.registerEvents(new PreventApplyListener(), this);
+        pluginmanager.registerEvents(new GrindstoneListener(), this);
+        pluginmanager.registerEvents(new AnvilListener(), this);
+        pluginmanager.registerEvents(new CraftListener(), this);
         pluginmanager.registerEvents(new PreventThrowListener(), this);
     }
 }

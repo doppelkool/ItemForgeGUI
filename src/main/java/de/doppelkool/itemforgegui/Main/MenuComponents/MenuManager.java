@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main;
+package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import org.bukkit.entity.Player;
 

@@ -1,9 +1,9 @@
 package de.doppelkool.itemforgegui.Main;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +34,7 @@ public class Logger {
 			itemStack.getItemMeta().getDisplayName(),
 			itemStack.getItemMeta().getLore(),
 			itemStack.getType(),
-			UniqueItemIdentifierManager.getNotAllowedForgeActions(itemStack.getItemMeta()),
+			DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta()),
 			itemStack
 		));
 	}
@@ -89,17 +89,15 @@ public class Logger {
 		));
 	}
 
-	public static void log(ProjectileLaunchEvent e) {
+	public static void log(PrepareInventoryResultEvent e) {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
 			"Event Log ->\n" +
 				"at: %s\n" +
-				"Name: %s\n" +
-				"Entity: %s\n",
+				"Name: %s\n",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
-			e.getEventName(),
-			e.getEntity()
+			e.getEventName()
 		));
 	}
 
