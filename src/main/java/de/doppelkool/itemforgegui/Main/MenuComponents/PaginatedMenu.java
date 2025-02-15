@@ -1,7 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import lombok.Getter;
 
 import java.util.Arrays;

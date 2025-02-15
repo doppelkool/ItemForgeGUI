@@ -1,6 +1,6 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;

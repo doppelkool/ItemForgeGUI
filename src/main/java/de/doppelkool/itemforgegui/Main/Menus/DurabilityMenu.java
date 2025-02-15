@@ -2,8 +2,8 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

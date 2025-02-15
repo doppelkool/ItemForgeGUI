@@ -2,10 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

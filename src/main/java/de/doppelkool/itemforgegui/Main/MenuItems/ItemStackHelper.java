@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
