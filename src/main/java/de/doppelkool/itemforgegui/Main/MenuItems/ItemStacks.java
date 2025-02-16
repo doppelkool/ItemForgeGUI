@@ -58,6 +58,7 @@ public class ItemStacks {
 	public static final ItemStack enchantItem;
 	public static final ItemStack disenchantitem;
 	public static final ItemStack upgradeItem;
+	public static final ItemStack renameItem;
 
 	public static final ItemStack hideEnchantments;
 	public static final ItemStack hideAttributes;
@@ -210,6 +211,9 @@ public class ItemStacks {
 		upgradeItem = makeItem(Material.NETHERITE_INGOT, ChatColor.GREEN + "En-/Disable Item is upgradable");
 		modifyLore(upgradeItem, ChatColor.YELLOW + "The player will (not) be able to use a smithing table to upgrade the item");
 		modifyItemFlags(upgradeItem, ItemFlag.HIDE_ENCHANTS);
+		renameItem = makeItem(Material.NAME_TAG, ChatColor.GREEN + "En-/Disable Item is renamable");
+		modifyLore(renameItem, ChatColor.YELLOW + "The player will (not) be able to rename the item");
+		modifyItemFlags(renameItem, ItemFlag.HIDE_ENCHANTS);
 
 		minus100 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-100");
 		modifyToCustomHead(minus100, SkullData.REDSTONE_HUNDRED);

@@ -31,10 +31,10 @@ public class Logger {
 				"Disallowed Actions: %s\n" +
 				"AsString: %s",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
-			itemStack.getItemMeta().getDisplayName(),
-			itemStack.getItemMeta().getLore(),
+			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getDisplayName() : "meta null",
+			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getLore() : "meta null",
 			itemStack.getType(),
-			DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta()),
+			(itemStack.getItemMeta() != null) ? DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta()) : "meta null",
 			itemStack
 		));
 	}

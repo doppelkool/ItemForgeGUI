@@ -9,17 +9,18 @@ public enum ForgeAction {
 
 	DROP,
 	ITEM_FRAME_PLACE,
-	LAUNCH,      // -> Anything used with right clicking. Egg, Snowball, Enderpearl but also Arrows through bow and crossbow
+	LAUNCH,      // -> Anything used with right clicking. xEgg, Snowball, Enderpearl but also xArrows(bow and crossbow)
 	EAT,        // -> CONSUMABLE + Cake
 	PLACE,      // -> Block and BlockEntitys
-	EQUIP,      // -> Through Inventory and quick-equip and armorstand
+	EQUIP,      // -> Through Inventory and quick-equip and xarmorstand
 	BURN,       // -> Fire/Lava
 	USE_TOOL,   // -> Any tool
-	REPAIR,     // -> xSurvival Grid, xCrafting Table, xGrindstone, Anvil, Enchantment Table
+	REPAIR,     // -> xSurvival Grid, xCrafting Table, xGrindstone, xAnvil
 	UPGRADE,    // -> Smithing Table
-	CRAFT,      // -> Craft with
-	ENCHANT,     // -> Enchant or enchant with
+	CRAFT,      // -> xCraft with
+	ENCHANT,     // -> xEnchant, enchant with
 	DISENCHANT,
+	RENAME,
 
 	;
 

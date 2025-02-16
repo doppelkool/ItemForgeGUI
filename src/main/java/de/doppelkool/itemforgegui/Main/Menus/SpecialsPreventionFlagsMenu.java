@@ -37,6 +37,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 		slotToAction.put(22, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
 		slotToAction.put(23, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantitem));
 		slotToAction.put(24, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
+		slotToAction.put(25, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
 	}
 
 

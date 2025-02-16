@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventAlter
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventApplyListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.AnvilListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.CraftListener;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.EnchantingTableListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.GrindstoneListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventThrowListener;
 import lombok.Getter;
@@ -70,6 +71,7 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new GrindstoneListener(), this);
         pluginmanager.registerEvents(new AnvilListener(), this);
         pluginmanager.registerEvents(new CraftListener(), this);
+        pluginmanager.registerEvents(new EnchantingTableListener(), this);
         pluginmanager.registerEvents(new PreventThrowListener(), this);
     }
 }
