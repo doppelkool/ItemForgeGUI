@@ -27,6 +27,8 @@ public class CraftListener extends DuplicateEventManager<PrepareItemCraftEvent> 
 
 	@Override
 	protected boolean eventLogic(PrepareItemCraftEvent event) {
+		this.cancelString = Main.prefix + "You are not allowed to do this!";
+
 		for(ItemStack item : event.getInventory().getMatrix()) {
 			if (!UniqueItemIdentifierManager.isUniqueItem(item)) {
 				continue;
@@ -34,16 +36,13 @@ public class CraftListener extends DuplicateEventManager<PrepareItemCraftEvent> 
 
 			if(event.isRepair()) {
 				if(DisallowedActionsManager.isActionPrevented(item, ForgeAction.REPAIR)) {
-					event.getInventory().setResult(null);
-					event.getView().getPlayer().sendMessage(Main.prefix + "You are not allowed to do this.");
-					return false;
+					return true;
 				}
 				continue;
 			} else if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.CRAFT)) {
 				continue;
 			}
 
-			event.getView().getPlayer().sendMessage(Main.prefix + "You are not allowed to do this.");
 			return true;
 		}
 		return false;

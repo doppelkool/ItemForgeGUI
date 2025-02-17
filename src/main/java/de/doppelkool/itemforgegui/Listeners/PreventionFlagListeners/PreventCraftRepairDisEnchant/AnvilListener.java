@@ -4,7 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManage
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,6 +12,10 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Class Description
@@ -27,6 +31,8 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 
 	@Override
 	protected boolean eventLogic(PrepareAnvilEvent event) {
+		this.cancelString = Main.prefix + "You are not allowed to do this!";
+
 		Inventory anvilInventory = event.getInventory();
 
 		// Get the two input items: slot 0 (left) and slot 1 (right)
@@ -62,7 +68,18 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		boolean isEnchant = leftEnchanted || rightEnchanted;
 
 		// Determine if this is a repair operation: both inputs exist and are of the same type.
-		boolean isRepair = leftItem != null && rightItem != null && leftItem.getType() == rightItem.getType();
+		boolean isRepair = false;
+		if (leftItem != null && rightItem != null) {
+			if (leftItem.getType() == rightItem.getType()) {
+				// Standard repair combining two of the same item.
+				isRepair = true;
+			} else {
+				// Check if the right item is a valid repair material (ingot, membrane, etc.)
+				if (isMatchingRepairIngot(leftItem, rightItem)) {
+					isRepair = true;
+				}
+			}
+		}
 
 		/*
 		 * Prevention logic:
@@ -74,18 +91,114 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 			(isRepair && !isEnchant && preventRepairAny) ||
 			((isEnchant && isRepair) || (!isEnchant && !isRepair))) {
 
-			// Setting the result does not work reliably, so we manually clear the result slot.
 			return true;
 		}
 
 		return false;
 	}
 
+	private static final Set<Material> WOODEN_PLANKS = Set.of(
+		Material.OAK_PLANKS,
+		Material.SPRUCE_PLANKS,
+		Material.BIRCH_PLANKS,
+		Material.JUNGLE_PLANKS,
+		Material.ACACIA_PLANKS,
+		Material.CHERRY_PLANKS,
+		Material.DARK_OAK_PLANKS,
+		Material.PALE_OAK_PLANKS,
+		Material.MANGROVE_PLANKS,
+		Material.BAMBOO_PLANKS,
+		Material.CRIMSON_PLANKS,
+		Material.WARPED_PLANKS
+	);
+
+	private static final Map<Material, Material> REPAIR_INGOT_MAP = Map.ofEntries(
+		// Netherite tools and armor
+		Map.entry(Material.NETHERITE_SWORD, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_AXE, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_PICKAXE, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_SHOVEL, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_HOE, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_HELMET, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_CHESTPLATE, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_LEGGINGS, Material.NETHERITE_INGOT),
+		Map.entry(Material.NETHERITE_BOOTS, Material.NETHERITE_INGOT),
+
+		// Diamond tools and armor
+		Map.entry(Material.DIAMOND_SWORD, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_AXE, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_PICKAXE, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_SHOVEL, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_HOE, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_HELMET, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_CHESTPLATE, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_LEGGINGS, Material.DIAMOND),
+		Map.entry(Material.DIAMOND_BOOTS, Material.DIAMOND),
+
+		// Golden tools and armor
+		Map.entry(Material.GOLDEN_SWORD, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_AXE, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_PICKAXE, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_SHOVEL, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_HOE, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_HELMET, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_CHESTPLATE, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_LEGGINGS, Material.GOLD_INGOT),
+		Map.entry(Material.GOLDEN_BOOTS, Material.GOLD_INGOT),
+
+		// Iron tools and armor
+		Map.entry(Material.IRON_SWORD, Material.IRON_INGOT),
+		Map.entry(Material.IRON_AXE, Material.IRON_INGOT),
+		Map.entry(Material.IRON_PICKAXE, Material.IRON_INGOT),
+		Map.entry(Material.IRON_SHOVEL, Material.IRON_INGOT),
+		Map.entry(Material.IRON_HOE, Material.IRON_INGOT),
+		Map.entry(Material.IRON_HELMET, Material.IRON_INGOT),
+		Map.entry(Material.IRON_CHESTPLATE, Material.IRON_INGOT),
+		Map.entry(Material.IRON_LEGGINGS, Material.IRON_INGOT),
+		Map.entry(Material.IRON_BOOTS, Material.IRON_INGOT),
+
+		// Stone tools (using cobblestone)
+		Map.entry(Material.STONE_SWORD, Material.COBBLESTONE),
+		Map.entry(Material.STONE_AXE, Material.COBBLESTONE),
+		Map.entry(Material.STONE_PICKAXE, Material.COBBLESTONE),
+		Map.entry(Material.STONE_SHOVEL, Material.COBBLESTONE),
+		Map.entry(Material.STONE_HOE, Material.COBBLESTONE),
+
+		// Leather armor (using leather)
+		Map.entry(Material.LEATHER_HELMET, Material.LEATHER),
+		Map.entry(Material.LEATHER_CHESTPLATE, Material.LEATHER),
+		Map.entry(Material.LEATHER_LEGGINGS, Material.LEATHER),
+		Map.entry(Material.LEATHER_BOOTS, Material.LEATHER),
+
+		// Chainmail armor (using iron)
+		Map.entry(Material.CHAINMAIL_HELMET, Material.IRON_INGOT),
+		Map.entry(Material.CHAINMAIL_CHESTPLATE, Material.IRON_INGOT),
+		Map.entry(Material.CHAINMAIL_LEGGINGS, Material.IRON_INGOT),
+		Map.entry(Material.CHAINMAIL_BOOTS, Material.IRON_INGOT),
+
+		// Elytra repair (using phantom membrane)
+		Map.entry(Material.ELYTRA, Material.PHANTOM_MEMBRANE),
+		Map.entry(Material.TURTLE_HELMET, Material.TURTLE_SCUTE)
+	);
+
+	private boolean isMatchingRepairIngot(ItemStack left, ItemStack right) {
+		Material leftType = left.getType();
+		Material rightType = right.getType();
+
+		if (leftType.name().startsWith("WOODEN_")) {
+			return WOODEN_PLANKS.contains(rightType);
+		}
+
+		// Look up the required ingot/material for repair
+		Material requiredIngot = REPAIR_INGOT_MAP.get(leftType);
+		return requiredIngot != null && rightType == requiredIngot;
+	}
+
+
 	@Override
 	protected void customCancelLogic(PrepareAnvilEvent event) {
 		event.setResult(null);
 		event.getInventory().setItem(2, null);
-		event.getView().getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 
 	@EventHandler
@@ -133,7 +246,18 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		boolean isEnchant = leftEnchanted || rightEnchanted;
 
 		// Determine if this is a repair operation: both inputs exist and are of the same type.
-		boolean isRepair = rightItem != null && leftItem.getType() == rightItem.getType();
+		boolean isRepair = false;
+		if (leftItem != null && rightItem != null) {
+			if (leftItem.getType() == rightItem.getType()) {
+				// Standard repair combining two of the same item.
+				isRepair = true;
+			} else {
+				// Check if the right item is a valid repair material (ingot, membrane, etc.)
+				if (isMatchingRepairIngot(leftItem, rightItem)) {
+					isRepair = true;
+				}
+			}
+		}
 
 		/*
 		 * Prevention logic:
@@ -158,9 +282,6 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		event.getInventory().setItem(2, null);
 		event.setCurrentItem(null);
 		event.getWhoClicked().setItemOnCursor(null);
-
-		Player player = (Player) event.getWhoClicked();
-		player.sendMessage(Main.prefix + "You are not allowed to craft that item.");
 	}
 
 	/**

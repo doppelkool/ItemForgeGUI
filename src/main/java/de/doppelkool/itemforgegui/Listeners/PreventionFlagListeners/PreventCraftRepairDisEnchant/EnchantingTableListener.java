@@ -24,21 +24,20 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 
 	@Override
 	protected boolean eventLogic(PrepareItemEnchantEvent event) {
+		this.cancelString = Main.prefix + "You are not allowed to do this!";
+
 		ItemStack toEnchant = event.getItem();
 
 		// If the item already has enchantments, let it pass.
 		if (toEnchant.getItemMeta() != null && toEnchant.getItemMeta().hasEnchants()) {
-			Bukkit.getLogger().info("hat enchantments, action vanilla gar nicht möglich");
 			return false;
 		}
 
 		// Check if enchanting is disallowed for this item.
 		if (!DisallowedActionsManager.isActionPrevented(toEnchant, ForgeAction.ENCHANT)) {
-			Bukkit.getLogger().info("enchant nicht prevented");
 			return false;
 		}
 
-		event.getEnchanter().sendMessage(Main.prefix + "You are not allowed to do this!");
 		return true;
 	}
 }

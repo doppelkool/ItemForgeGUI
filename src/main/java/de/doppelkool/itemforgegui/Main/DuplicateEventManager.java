@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 
@@ -41,9 +42,15 @@ public abstract class DuplicateEventManager<E extends Event> {
 		}
 
 		boolean wasCancelled = eventLogic(event);
-		if(event instanceof Cancellable cancellableEvent
-			&& wasCancelled) {
-			cancellableEvent.setCancelled(true);
+		if(wasCancelled) {
+			if(event instanceof Cancellable cancellableEvent) {
+				cancellableEvent.setCancelled(true);
+			} else {
+				customCancelLogic(event);
+			}
+
+			Player player = Bukkit.getPlayer(playerUUID);
+			if(player != null) player.sendMessage(cancelString);
 		}
 
 		pendingPlayerUUIDs.put(playerUUID, wasCancelled);
@@ -52,4 +59,6 @@ public abstract class DuplicateEventManager<E extends Event> {
 	protected abstract boolean eventLogic(E event);
 
 	protected void customCancelLogic(E event) {}
+
+	protected String cancelString;
 }

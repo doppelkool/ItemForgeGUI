@@ -24,6 +24,8 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 
 	@Override
 	protected boolean eventLogic(PrepareGrindstoneEvent event) {
+		this.cancelString = Main.prefix + "You are not allowed to do this!";
+
 		//Next tick, remove the inventory again
 		ItemStack itemUp = event.getInventory().getItem(0);
 		ItemStack itemDown = event.getInventory().getItem(1);
@@ -65,7 +67,6 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 			isDisenchant && isRepair ||
 			!isDisenchant && !isRepair) {
 
-			event.getView().getPlayer().sendMessage(Main.prefix + "You are not allowed to do this.");
 			return true;
 		}
 
