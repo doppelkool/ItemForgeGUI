@@ -73,12 +73,18 @@
             <version>24.1.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.jeff-media</groupId>
+            <artifactId>custom-block-data</artifactId>
+            <version>2.2.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <!-- Build and Plugins -->
     <build>
         <plugins>
-
             <!-- Compiler Plugin (Java 17) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -102,19 +108,19 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-
-                            <!-- Disables creation of 'dependency-reduced-pom.xml' -->
+                            <!-- Prevents creation of a dependency-reduced-pom.xml -->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
 
-                            <!-- Shading: AnvilGUI -->
+                            <!-- Filters for shading specific artifacts -->
                             <filters>
+                                <!-- Include everything for the AnvilGUI artifact -->
                                 <filter>
                                     <artifact>net.wesjd:anvilgui</artifact>
                                     <includes>
                                         <include>**/*</include>
                                     </includes>
                                 </filter>
-
+                                <!-- Global filter to exclude some common files -->
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>
@@ -126,6 +132,14 @@
                                     </excludes>
                                 </filter>
                             </filters>
+
+                            <!-- Relocation to avoid conflicts with the custom block data API -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.jeff_media.customblockdata</pattern>
+                                    <shadedPattern>${project.groupId}.${project.artifactId}.customblockdata</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -140,4 +154,5 @@
             </resource>
         </resources>
     </build>
+
 </project>

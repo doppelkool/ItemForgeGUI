@@ -1,9 +1,11 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,10 +25,9 @@ public class UniqueItemIdentifierManager {
 
 	public static String getOrSetUniqueItemIdentifier(ItemStack itemStack) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
-		PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
 
 		String uniqueId;
-		if (persistentDataContainer.has(Main.getPlugin().getCustomTagUID())) {
+		if (itemMeta.getPersistentDataContainer().has(Main.getPlugin().getCustomTagUID())) {
 			uniqueId = getUniqueItemIdentifierOrEmptyString(itemMeta); //Empty String case not possible without prior errors
 		} else {
 			uniqueId = UUID.randomUUID().toString();
@@ -36,7 +37,25 @@ public class UniqueItemIdentifierManager {
 				uniqueId);
 		}
 
-		itemStack.setItemMeta(itemMeta);
+		setUniqueItemIdentifier(itemStack, uniqueId);
+		return uniqueId;
+	}
+
+	public static String getOrSetUniqueItemIdentifier(Block block) {
+		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
+
+		String uniqueId;
+		if (customBlockData.has(Main.getPlugin().getCustomTagUID())) {
+			uniqueId = getUniqueItemIdentifierOrEmptyString(customBlockData); //Empty String case not possible without prior errors
+		} else {
+			uniqueId = UUID.randomUUID().toString();
+			customBlockData.set(
+				Main.getPlugin().getCustomTagUID(),
+				PersistentDataType.STRING,
+				uniqueId);
+		}
+
+		setUniqueItemIdentifier(block, uniqueId);
 		return uniqueId;
 	}
 
@@ -44,7 +63,13 @@ public class UniqueItemIdentifierManager {
 		return itemStack != null
 			&& itemStack.getItemMeta() != null
 			&& !getUniqueItemIdentifierOrEmptyString(itemStack.getItemMeta())
-					.isEmpty();
+			.isEmpty();
+	}
+
+	public static boolean isUniqueItem(CustomBlockData blockData) {
+		return blockData != null
+			&& !getUniqueItemIdentifierOrEmptyString(blockData)
+			.isEmpty();
 	}
 
 	public static boolean isUniqueItem(Entity entity) {
@@ -53,8 +78,11 @@ public class UniqueItemIdentifierManager {
 	}
 
 	public static String getUniqueItemIdentifierOrEmptyString(PersistentDataHolder itemMeta) {
-		String s = itemMeta
-			.getPersistentDataContainer()
+		return getUniqueItemIdentifierOrEmptyString(itemMeta.getPersistentDataContainer());
+	}
+
+	public static String getUniqueItemIdentifierOrEmptyString(PersistentDataContainer dataContainer) {
+		String s = dataContainer
 			.get(Main.getPlugin().getCustomTagUID(),
 				PersistentDataType.STRING);
 		return s == null ? "" : s;
@@ -67,6 +95,14 @@ public class UniqueItemIdentifierManager {
 			PersistentDataType.STRING,
 			uniqueId);
 		itemStack.setItemMeta(itemMeta);
+	}
+
+	public static void setUniqueItemIdentifier(Block block, String uniqueId) {
+		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
+		customBlockData.set(
+			Main.getPlugin().getCustomTagUID(),
+			PersistentDataType.STRING,
+			uniqueId);
 	}
 
 	public static void sendCopyUniqueIdentifier(Player pl) {

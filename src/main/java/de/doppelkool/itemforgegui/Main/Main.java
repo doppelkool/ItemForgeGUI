@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventAlteringListeners;
@@ -8,6 +9,7 @@ import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraft
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.CraftListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.EnchantingTableListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchant.GrindstoneListener;
+import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventEatListener;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventThrowListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -73,5 +75,9 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new CraftListener(), this);
         pluginmanager.registerEvents(new EnchantingTableListener(), this);
         pluginmanager.registerEvents(new PreventThrowListener(), this);
+        pluginmanager.registerEvents(new PreventEatListener(), this);
+
+        //Enable Block location updates
+        CustomBlockData.registerListener(Main.getPlugin());
     }
 }

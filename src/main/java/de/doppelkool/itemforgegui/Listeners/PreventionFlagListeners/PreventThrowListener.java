@@ -3,12 +3,15 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -20,26 +23,36 @@ import java.util.Map;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class PreventThrowListener implements Listener {
+public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEvent> implements Listener {
 
-	//@EventHandler
-	//public void onThrow(ProjectileLaunchEvent e) {
-	//	Logger.log(e);
-//
-	//	//ToDo Not having pdc-values like the itemstack -> find another way to get the itemstack; another event or track the consumeditem; Prob need some kind of inventory event to prevent right click
-	//	Projectile projectile = e.getEntity();
-	//	Logger.log(projectile);
-	//	if (!UniqueItemIdentifierManager.isUniqueItem(projectile)) {
-	//		return;
-	//	}
-//
-	//	if (UniqueItemIdentifierManager.isActionPrevented(projectile, ForgeAction.LAUNCH)) {
-	//		e.setCancelled(true);
-	//		if (e.getEntity().getShooter() instanceof Player pl) {
-	//			pl.sendMessage(Main.prefix + "You are not allowed to do this!");
-	//		}
-	//	}
-	//}
+	@EventHandler
+	public void preventRightclickProjectile(PlayerInteractEvent e) {
+		duplicateExecutionSafeProcess(e.getPlayer().getUniqueId(), e);
+	}
+
+	@Override
+	protected boolean eventLogic(PlayerInteractEvent e) {
+		this.cancelString = Main.prefix + "You are not allowed to do this!";
+
+		ItemStack item = e.getItem();
+		if (item == null) return false;
+
+		if(e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock() != null
+			&& e.getClickedBlock().getType().isInteractable()
+			&& !e.getPlayer().isSneaking()) {
+			return false;
+		}
+
+		if (!UniqueItemIdentifierManager.isUniqueItem(item)) {
+			return false;
+		}
+
+		if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.LAUNCH)) {
+			return false;
+		}
+
+		return true;
+	}
 
 	@EventHandler
 	public void preventUniqueArrowShoot(EntityShootBowEvent e) {

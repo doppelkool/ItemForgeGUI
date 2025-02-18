@@ -34,7 +34,7 @@ public class Logger {
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getDisplayName() : "meta null",
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getLore() : "meta null",
 			itemStack.getType(),
-			(itemStack.getItemMeta() != null) ? DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta()) : "meta null",
+			(itemStack.getItemMeta() != null) ? DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
 			itemStack
 		));
 	}

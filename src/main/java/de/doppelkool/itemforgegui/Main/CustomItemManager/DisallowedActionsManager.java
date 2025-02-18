@@ -1,8 +1,9 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -22,22 +23,9 @@ import java.util.stream.Collectors;
  * @author doppelkool | github.com/doppelkool
  */
 public class DisallowedActionsManager {
-	public static List<InventoryType> mapNotAllowedInventoryTypes(ItemStack itemStack) {
-		PersistentDataContainer persistentDataContainer = itemStack.getItemMeta().getPersistentDataContainer();
-		if (!persistentDataContainer.has(
-			Main.getPlugin().getCustomTagItemNotAllowedInInvType())) {
-			return new ArrayList<>();
-		}
 
-		return Arrays.stream(
-				persistentDataContainer.get(Main.getPlugin().getCustomTagItemNotAllowedInInvType(), PersistentDataType.STRING)
-					.split(";"))
-			.map(type -> InventoryType.valueOf(type.trim()))
-			.toList();
-	}
-
-	public static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataHolder dataHolder) {
-		String notAllowedForgeActions = getNotAllowedForgeActions(dataHolder);
+	public static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataContainer dataContainer) {
+		String notAllowedForgeActions = getNotAllowedForgeActions(dataContainer);
 
 		if(notAllowedForgeActions.isEmpty()) {
 			return new ArrayList<>();
@@ -50,7 +38,7 @@ public class DisallowedActionsManager {
 	}
 
 	public static void toggleAllowedAction(ItemStack itemStack, ForgeAction forgeAction, boolean newStatus) {
-		ArrayList<ForgeAction> forgeActions = mapNotAllowedForgeActions(itemStack.getItemMeta());
+		ArrayList<ForgeAction> forgeActions = mapNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer());
 
 		//Already applied status
 		boolean forgeActionAlreadyApplied = forgeActions.contains(forgeAction);
@@ -68,6 +56,25 @@ public class DisallowedActionsManager {
 		Logger.log(itemStack);
 	}
 
+	public static void toggleAllowedAction(Block block, ForgeAction forgeAction, boolean newStatus) {
+		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
+		ArrayList<ForgeAction> forgeActions = mapNotAllowedForgeActions(customBlockData);
+
+		//Already applied status
+		boolean forgeActionAlreadyApplied = forgeActions.contains(forgeAction);
+		if ((forgeActionAlreadyApplied && newStatus) || (!forgeActionAlreadyApplied && !newStatus)) {
+			return;
+		}
+
+		if(newStatus) {
+			forgeActions.add(forgeAction);
+		} else {
+			forgeActions.remove(forgeAction);
+		}
+
+		applyActionsToItemStack(block, forgeActions);
+	}
+
 	private static void applyActionsToItemStack(ItemStack itemStack, List<ForgeAction> forgeActions) {
 		ItemMeta itemMeta = itemStack
 			.getItemMeta();
@@ -78,24 +85,35 @@ public class DisallowedActionsManager {
 		itemStack.setItemMeta(itemMeta);
 	}
 
+	private static void applyActionsToItemStack(Block block, List<ForgeAction> forgeActions) {
+		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
+		customBlockData
+			.set(Main.getPlugin().getCustomTagItemNotAllowedForgeActions(),
+				PersistentDataType.STRING,
+				serializeForgeActions(forgeActions));
+	}
+
 	private static String serializeForgeActions(List<ForgeAction> forgeActions) {
 		return forgeActions
 			.stream().map(ForgeAction::toString)
 			.collect(Collectors.joining(";"));
 	}
 
-	public static String getNotAllowedForgeActions(PersistentDataHolder dataHolder) {
-		PersistentDataContainer persistentDataContainer = dataHolder.getPersistentDataContainer();
-		if (!persistentDataContainer.has(Main.getPlugin().getCustomTagItemNotAllowedForgeActions(), PersistentDataType.STRING)) {
+	public static String getNotAllowedForgeActions(PersistentDataContainer dataContainer) {
+		if (!dataContainer.has(Main.getPlugin().getCustomTagItemNotAllowedForgeActions(), PersistentDataType.STRING)) {
 			return "";
 		}
 
-		String s = persistentDataContainer.get(Main.getPlugin().getCustomTagItemNotAllowedForgeActions(), PersistentDataType.STRING);
+		String s = dataContainer.get(Main.getPlugin().getCustomTagItemNotAllowedForgeActions(), PersistentDataType.STRING);
 		return s == null ? "" : s;
 	}
 
 	public static boolean isActionPrevented(@NotNull PersistentDataHolder dataHolder, @NotNull ForgeAction action) {
-		return mapNotAllowedForgeActions(dataHolder)
+		return isActionPrevented(dataHolder.getPersistentDataContainer(), action);
+	}
+
+	public static boolean isActionPrevented(@NotNull PersistentDataContainer dataContainer, @NotNull ForgeAction action) {
+		return mapNotAllowedForgeActions(dataContainer)
 			.contains(action);
 	}
 

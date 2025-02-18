@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedInvsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
@@ -44,7 +45,7 @@ public class PreventAlteringListeners implements Listener {
 	}
 
 	private List<InventoryType> loadDisabledInventoryTypes(ItemStack currentItem) {
-		return DisallowedActionsManager.mapNotAllowedInventoryTypes(currentItem);
+		return DisallowedInvsManager.mapNotAllowedInventoryTypes(currentItem);
 	}
 
 	@EventHandler
