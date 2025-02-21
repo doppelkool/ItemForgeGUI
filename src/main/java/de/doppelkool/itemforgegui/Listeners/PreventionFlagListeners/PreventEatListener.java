@@ -28,10 +28,6 @@ public class PreventEatListener implements Listener {
 	public void preventEat(PlayerItemConsumeEvent e) {
 		ItemStack item = e.getItem();
 
-		if (!UniqueItemIdentifierManager.isUniqueItem(item)) {
-			return;
-		}
-
 		if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.EAT)) {
 			return;
 		}
@@ -73,10 +69,6 @@ public class PreventEatListener implements Listener {
 		Logger.log(item);
 
 		if(item.getType() != Material.CAKE) {
-			return;
-		}
-
-		if (!UniqueItemIdentifierManager.isUniqueItem(item)) {
 			return;
 		}
 

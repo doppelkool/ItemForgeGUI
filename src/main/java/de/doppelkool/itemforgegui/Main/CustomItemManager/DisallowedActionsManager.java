@@ -1,7 +1,6 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -53,7 +52,6 @@ public class DisallowedActionsManager {
 		}
 
 		applyActionsToItemStack(itemStack, forgeActions);
-		Logger.log(itemStack);
 	}
 
 	public static void toggleAllowedAction(Block block, ForgeAction forgeAction, boolean newStatus) {
