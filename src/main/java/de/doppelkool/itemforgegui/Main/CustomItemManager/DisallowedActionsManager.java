@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class DisallowedActionsManager {
 
-	public static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataContainer dataContainer) {
+	private static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataContainer dataContainer) {
 		String notAllowedForgeActions = getNotAllowedForgeActions(dataContainer);
 
 		if(notAllowedForgeActions.isEmpty()) {
@@ -70,7 +70,7 @@ public class DisallowedActionsManager {
 			forgeActions.remove(forgeAction);
 		}
 
-		applyActionsToItemStack(block, forgeActions);
+		applyActionsToBlock(block, forgeActions);
 	}
 
 	private static void applyActionsToItemStack(ItemStack itemStack, List<ForgeAction> forgeActions) {
@@ -83,7 +83,7 @@ public class DisallowedActionsManager {
 		itemStack.setItemMeta(itemMeta);
 	}
 
-	private static void applyActionsToItemStack(Block block, List<ForgeAction> forgeActions) {
+	private static void applyActionsToBlock(Block block, List<ForgeAction> forgeActions) {
 		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
 		customBlockData
 			.set(Main.getPlugin().getCustomTagItemNotAllowedForgeActions(),

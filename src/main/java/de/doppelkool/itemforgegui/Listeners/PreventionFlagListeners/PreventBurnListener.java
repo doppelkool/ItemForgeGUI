@@ -6,6 +6,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 /**
  * Class Description
@@ -15,17 +16,28 @@ import org.bukkit.event.entity.EntityCombustEvent;
 public class PreventBurnListener implements Listener {
 
 	@EventHandler
-	public void onEntityCombust(EntityCombustEvent event) {
-
-		if (!(event.getEntity() instanceof Item)) {
+	public void onEntityCombust(EntityCombustEvent e) {
+		if (!(e.getEntity() instanceof Item)) {
 			return;
 		}
 
-		// When the global flag is active, we want to deny the placement.
-		if (!DisallowedActionsManager.isActionPrevented(event.getEntity(), ForgeAction.BURN)) {
+		if (!DisallowedActionsManager.isActionPrevented(((Item) e.getEntity()).getItemStack(), ForgeAction.BURN)) {
 			return;
 		}
 
-		event.setCancelled(true);
+		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void preventPFItemDamage(EntityDamageEvent e) {
+		if (!(e.getEntity() instanceof Item)) {
+			return;
+		}
+
+		if (!DisallowedActionsManager.isActionPrevented(((Item) e.getEntity()).getItemStack(), ForgeAction.BURN)) {
+			return;
+		}
+
+		e.setCancelled(true);
 	}
 }

@@ -73,13 +73,13 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 		//e#setConsumeItem(boolean) is currently non-functional. Workaround readd the item:
 		if(pl.getGameMode() != GameMode.CREATIVE) {
-			readdItem(e.getHand(), pl, consumedItem);
+			reAddItem(pl, e.getHand(), consumedItem);
 		}
 
 		pl.sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 
-	private void readdItem(EquipmentSlot es, Player pl, ItemStack consumedItem) {
+	private void reAddItem(Player pl, EquipmentSlot es, ItemStack consumedItem) {
 		PlayerInventory inventory = pl.getInventory();
 
 		EquipmentSlot toCheck =

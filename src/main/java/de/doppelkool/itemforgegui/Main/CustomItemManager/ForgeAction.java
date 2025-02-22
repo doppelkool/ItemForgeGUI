@@ -26,12 +26,23 @@ public enum ForgeAction {
 	ITEM_FRAME_PLACE,
 	LAUNCH,
 	EAT,
-	PLACE,      //Missing place prevention for Blocks and BlockEntitys
+	PLACE,
 	EQUIP,      //Missing equip prevention through users Inventory and quick-equip through rightclick
-	BURN,       //Missing burn prevention through fire/lava
+	BURN,
+
+	ALTER_BLOCKS, // for breaking blocks(BlockBreakEvent)? Axes aswell but + wood stripping(PlayerInteractEvent )?
+	//Buckets to cannot be filled or emptied? FNS only ignite TNT(BlockIgniteEvent), Fire(BlockPlaceEvent)?
+
+	ALTER_ENTITIES, // hitting another entity entirely; Shears for snow golem and sheeps; dyes to dye a sheep
+
+	NO_INTERACT, // Rod fishing, Shield blocking, glow ink for signs; Carrot on a Stick to not control pigs
+
+
+
 	USE_TOOL,   //Missing use prevention of every tool
+
 	REPAIR,
-	UPGRADE,    //Missing upgrade prevention (Smithing Table)
+	UPGRADE,
 	CRAFT,
 	ENCHANT,     //Missing prevention to use the item to enchant with. Enchanted Books through Anvil; Lapislazuli in enchanting table
 	DISENCHANT,

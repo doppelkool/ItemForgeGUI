@@ -2,14 +2,15 @@ package de.doppelkool.itemforgegui.Main;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +40,20 @@ public class Logger {
 		));
 	}
 
+	public static void log(Entity e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"ItemStack Log ->\n" +
+				"at: %s\n" +
+				"etype: %s\n" +
+				"PersistentDataContainer: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			e.getType().getTranslationKey(),
+			getKeysAndValuesAsString(e)
+		));
+	}
+
 	public static void log(PersistentDataHolder dataHolder) {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
@@ -48,13 +63,20 @@ public class Logger {
 				"PersistentDataContainer: %s\n" +
 				"AsString: %s",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
-			getKeysAndValuesAsString(dataHolder.getPersistentDataContainer().getKeys()),
+			getKeysAndValuesAsString(dataHolder),
 			dataHolder
 		));
 	}
 
-	private static String getKeysAndValuesAsString(Set<NamespacedKey> keys) {
-		return keys.stream().map(NamespacedKey::toString).collect(Collectors.joining(";"));
+	private static String getKeysAndValuesAsString(PersistentDataHolder holder) {
+		PersistentDataContainer pdc = holder.getPersistentDataContainer();
+
+		return pdc.getKeys().stream()
+			.map(key -> {
+				String value = pdc.get(key, PersistentDataType.STRING);
+				return "\"" + key.toString() + "\":\"" + (value != null ? value : "null") + "\"";
+			})
+			.collect(Collectors.joining(";"));
 	}
 
 	public static void log(PlayerEvent e) {

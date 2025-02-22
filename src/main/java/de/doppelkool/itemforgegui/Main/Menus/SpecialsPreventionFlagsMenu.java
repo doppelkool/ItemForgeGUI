@@ -27,17 +27,19 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 		slotToAction.put(10, new Pair<>(ForgeAction.DROP, ItemStacks.itemDrop));
 		slotToAction.put(11, new Pair<>(ForgeAction.CRAFT, ItemStacks.itemCraft));
 		slotToAction.put(12, new Pair<>(ForgeAction.ITEM_FRAME_PLACE, ItemStacks.itemFramePlace));
-		slotToAction.put(13, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));//ENDERPEARL+ARROW,..
+		slotToAction.put(13, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));
 		slotToAction.put(14, new Pair<>(ForgeAction.EAT, ItemStacks.eatItem));
 		slotToAction.put(15, new Pair<>(ForgeAction.PLACE, ItemStacks.placeItem));
 		slotToAction.put(16, new Pair<>(ForgeAction.EQUIP, ItemStacks.equipItem));
 		slotToAction.put(19, new Pair<>(ForgeAction.BURN, ItemStacks.burnItem));
-		slotToAction.put(20, new Pair<>(ForgeAction.USE_TOOL, ItemStacks.useTool));
-		slotToAction.put(21, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
-		slotToAction.put(22, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
-		slotToAction.put(23, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantitem));
-		slotToAction.put(24, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
-		slotToAction.put(25, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
+		slotToAction.put(20, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
+		slotToAction.put(21, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
+		slotToAction.put(22, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
+		slotToAction.put(23, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
+		slotToAction.put(24, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
+		slotToAction.put(25, new Pair<>(ForgeAction.ALTER_BLOCKS, ItemStacks.alterBlocksItem));
+		slotToAction.put(28, new Pair<>(ForgeAction.ALTER_ENTITIES, ItemStacks.alterEntitiesItem));
+		slotToAction.put(29, new Pair<>(ForgeAction.NO_INTERACT, ItemStacks.noInteractItem));
 	}
 
 
@@ -52,7 +54,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*5;
+		return 9*6;
 	}
 
 	@Override
