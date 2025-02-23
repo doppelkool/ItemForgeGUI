@@ -18,7 +18,8 @@ import java.util.Collections;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
- * Class Description
+ * Main menu to enter the main function of this plugin.
+ * It provides the way to alter the item in many ways including change its display name, lore, amount and item flags, etc.
  *
  * @author doppelkool | github.com/doppelkool
  */

@@ -12,7 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to add a single enchantment with a defined strength to the item.
+ * The enchantment can be unsafe
  *
  * @author doppelkool | github.com/doppelkool
  */

@@ -10,7 +10,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to change the amount of the item
  *
  * @author doppelkool | github.com/doppelkool
  */

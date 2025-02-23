@@ -13,7 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to change settings that regard the uniqueness of the item.
+ * Including the plugins UID for a forged item, copying it and editing it.
  *
  * @author doppelkool | github.com/doppelkool
  */

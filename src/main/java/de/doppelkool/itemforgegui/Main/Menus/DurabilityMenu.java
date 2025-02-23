@@ -10,7 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to change the items current damage, aka. the durability left on the item.
  *
  * @author doppelkool | github.com/doppelkool
  */

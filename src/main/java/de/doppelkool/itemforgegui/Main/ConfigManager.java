@@ -4,20 +4,16 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * Class Description
+ * Manager class to handle the plugins config file and its variables
  *
  * @author doppelkool | github.com/doppelkool
  */
+@Getter
 public class ConfigManager {
 	private static ConfigManager instance;
 
-	@Getter
 	private FileConfiguration config;
-
-	@Getter
 	private boolean itemImmutabilityEnabled;
-
-	@Getter
 	private boolean uniqueIdOnEditedItemEnabled;
 
 

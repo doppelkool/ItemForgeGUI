@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.stream.Collectors;
 
 /**
- * Class Description
+ * A temporary Logger class to provide quick debug message access
  *
  * @author doppelkool | github.com/doppelkool
  */

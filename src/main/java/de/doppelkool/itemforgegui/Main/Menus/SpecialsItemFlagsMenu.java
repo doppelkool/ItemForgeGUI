@@ -12,7 +12,8 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to apply item flags to change the items appearance.
  *
  * @author doppelkool | github.com/doppelkool
  */

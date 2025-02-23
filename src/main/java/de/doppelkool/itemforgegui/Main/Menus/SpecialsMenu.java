@@ -5,8 +5,11 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It divides between the item flags that change the items appearance
+ * and the prevention flags to prevent specific behaviour
  *
  * @author doppelkool | github.com/doppelkool
  */

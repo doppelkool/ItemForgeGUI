@@ -15,7 +15,8 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the ability to set PreventionFlags on the item that prevent specific behaviour as described in {@link ForgeAction}
  *
  * @author doppelkool | github.com/doppelkool
  */

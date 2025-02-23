@@ -13,7 +13,8 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrent
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.setImmutabilityItemTypeByHasTag;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * Currently, it's a middle man to provide future-proof design for further submenus
  *
  * @author doppelkool | github.com/doppelkool
  */

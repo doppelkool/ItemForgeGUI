@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Class Description
+ * Manager class to extend from to prevent multiple executions of one event at once
  *
  * @author doppelkool | github.com/doppelkool
  */

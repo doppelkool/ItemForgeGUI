@@ -12,6 +12,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * The plugins main class
+ * Provides cross-plugin objects, such as the plugins message prefix and its own instance
+ *
+ * @author doppelkool | github.com/doppelkool
+ */
 public final class Main extends JavaPlugin {
 
     public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "ItemForgeGUI" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;

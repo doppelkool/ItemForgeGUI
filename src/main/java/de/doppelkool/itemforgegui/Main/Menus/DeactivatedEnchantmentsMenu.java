@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to target a specific enchantment and apply it on the item
  *
  * @author doppelkool | github.com/doppelkool
  */

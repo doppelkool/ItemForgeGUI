@@ -16,7 +16,9 @@ import java.util.List;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to apply the non-RGB variants of the minecraft default {@link org.bukkit.Color} as item variation.
+ * Including items such as beds, wool and bundles, etc.
  *
  * @author doppelkool | github.com/doppelkool
  */
