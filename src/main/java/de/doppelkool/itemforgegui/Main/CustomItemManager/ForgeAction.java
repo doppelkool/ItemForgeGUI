@@ -95,7 +95,7 @@ public enum ForgeAction {
 	REPAIR,
 	UPGRADE,
 	CRAFT,
-	ENCHANT,     //Missing prevention to use the item to enchant with. Enchanted Books through Anvil; Lapislazuli in enchanting table
+	ENCHANT,
 	DISENCHANT,
 	RENAME,
 

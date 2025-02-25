@@ -17,8 +17,6 @@ import org.bukkit.inventory.ItemStack;
  */
 public class CraftListener extends DuplicateEventManager<PrepareItemCraftEvent> implements Listener {
 
-	//ToDo dont send messages if configurable string (todo) is empty
-
 	//Event can be fired for crafting and repairing
 	@EventHandler
 	public void preventCraftingWithItem(PrepareItemCraftEvent e) {
@@ -52,8 +50,4 @@ public class CraftListener extends DuplicateEventManager<PrepareItemCraftEvent> 
 	protected void customCancelLogic(PrepareItemCraftEvent event) {
 		event.getInventory().setResult(null);
 	}
-
-	//ToDo A way to prevent a crafter from doing the same thing as above
-	//@EventHandler
-	//public void preventCraftingCrafter(CrafterCraftEvent e) {}
 }

@@ -60,11 +60,11 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 36) {
+		if (e.getSlot() == 45) {
 			handleClose();
 			return;
 		}
-		if (e.getSlot() == 37) {
+		if (e.getSlot() == 46) {
 			new SpecialsMenu(playerMenuUtility)
 				.open();
 			return;

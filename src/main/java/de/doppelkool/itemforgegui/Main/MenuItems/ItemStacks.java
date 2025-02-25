@@ -175,7 +175,7 @@ public class ItemStacks {
 		preventionFlags = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Edit Prevention Flags");
 		modifyLore(preventionFlags, ChatColor.YELLOW + "Edit what the player can/cannot do with that item");
 		itemDrop = makeItem(Material.FEATHER, ChatColor.GREEN + "Disable Item Drop");
-		modifyLore(itemDrop, ChatColor.YELLOW + "The player will (not) be able to drop that item"); //ToDo find a way to let the editor drop the item but not the player
+		modifyLore(itemDrop, ChatColor.YELLOW + "The player will (not) be able to drop that item");
 		modifyItemFlags(itemDrop, ItemFlag.HIDE_ENCHANTS);
 		itemCraft = makeItem(Material.CRAFTING_TABLE, ChatColor.GREEN + "Disable Crafting");
 		modifyLore(itemCraft, ChatColor.YELLOW + "The player will (not) be able to craft with that item");
@@ -193,7 +193,7 @@ public class ItemStacks {
 		modifyLore(placeItem, ChatColor.YELLOW + "The player will (not) be able to place that item");
 		modifyItemFlags(placeItem, ItemFlag.HIDE_ENCHANTS);
 		equipItem = makeItem(Material.GOLDEN_LEGGINGS, ChatColor.GREEN + "En-/Disable Item is equippable");
-		modifyLore(equipItem, ChatColor.YELLOW + "The player will (not) be able to equip that item"); //ToDo prevent quick equip and through inventory
+		modifyLore(equipItem, ChatColor.YELLOW + "The player will (not) be able to equip that item");
 		modifyItemFlags(equipItem, ItemFlag.HIDE_ENCHANTS);
 		burnItem = makeItem(Material.FLINT_AND_STEEL, ChatColor.GREEN + "En-/Disable Item can be burned");
 		modifyLore(burnItem, ChatColor.YELLOW + "The player will (not) be able to burn that item");

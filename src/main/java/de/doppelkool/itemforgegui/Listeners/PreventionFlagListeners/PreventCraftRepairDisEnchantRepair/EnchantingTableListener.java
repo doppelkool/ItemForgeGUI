@@ -3,11 +3,14 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraf
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
+import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataHolder;
 
 /**
  * Class Description
@@ -26,17 +29,22 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 		this.cancelString = Main.prefix + "You are not allowed to do this!";
 
 		ItemStack toEnchant = event.getItem();
-
-		// If the item already has enchantments, let it pass.
 		if (toEnchant.getItemMeta() != null && toEnchant.getItemMeta().hasEnchants()) {
 			return false;
 		}
 
-		// Check if enchanting is disallowed for this item.
-		if (!DisallowedActionsManager.isActionPrevented(toEnchant, ForgeAction.ENCHANT)) {
+		//Cancel event if enchanting the first item is prevented
+		if (DisallowedActionsManager.isActionPrevented(toEnchant, ForgeAction.ENCHANT)) {
+			return true;
+		}
+
+		ItemStack enchantWith = event.getView().getItem(1);
+		//At this point its allowed if the secondItem is null
+		if (enchantWith == null) {
 			return false;
 		}
 
-		return true;
+		//Cancel event if enchanting *with* second item is prevented
+		return DisallowedActionsManager.isActionPrevented(enchantWith, ForgeAction.ENCHANT);
 	}
 }
