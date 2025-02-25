@@ -38,9 +38,6 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 		slotToAction.put(22, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
 		slotToAction.put(23, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
 		slotToAction.put(24, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
-		slotToAction.put(25, new Pair<>(ForgeAction.ALTER_BLOCKS, ItemStacks.alterBlocksItem));
-		slotToAction.put(28, new Pair<>(ForgeAction.ALTER_ENTITIES, ItemStacks.alterEntitiesItem));
-		slotToAction.put(29, new Pair<>(ForgeAction.NO_INTERACT, ItemStacks.noInteractItem));
 	}
 
 
@@ -55,16 +52,16 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*6;
+		return 9*5;
 	}
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 45) {
+		if (e.getSlot() == 36) {
 			handleClose();
 			return;
 		}
-		if (e.getSlot() == 46) {
+		if (e.getSlot() == 37) {
 			new SpecialsMenu(playerMenuUtility)
 				.open();
 			return;

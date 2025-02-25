@@ -58,9 +58,6 @@ public class ItemStacks {
 	public static final ItemStack disenchantItem;
 	public static final ItemStack upgradeItem;
 	public static final ItemStack renameItem;
-	public static final ItemStack alterBlocksItem;
-	public static final ItemStack alterEntitiesItem;
-	public static final ItemStack noInteractItem;
 
 	public static final ItemStack hideEnchantments;
 	public static final ItemStack hideAttributes;
@@ -213,15 +210,6 @@ public class ItemStacks {
 		renameItem = makeItem(Material.NAME_TAG, ChatColor.GREEN + "En-/Disable Item is renamable");
 		modifyLore(renameItem, ChatColor.YELLOW + "The player will (not) be able to rename the item");
 		modifyItemFlags(renameItem, ItemFlag.HIDE_ENCHANTS);
-		alterBlocksItem = makeItem(Material.DIAMOND_PICKAXE, ChatColor.GREEN + "En-/Disable Item is able to alter blocks");
-		modifyLore(alterBlocksItem, ChatColor.YELLOW + "The player will (not) be able to use that tool to alter a blocks state");
-		modifyItemFlags(alterBlocksItem, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
-		alterEntitiesItem = makeItem(Material.WARPED_FUNGUS_ON_A_STICK, ChatColor.GREEN + "En-/Disable Item is usable to alter entities");
-		modifyLore(alterEntitiesItem, ChatColor.YELLOW + "The player will (not) be able to use that tool to alter an entities state");
-		modifyItemFlags(alterEntitiesItem, ItemFlag.HIDE_ENCHANTS);
-		noInteractItem = makeItem(Material.STICK, ChatColor.GREEN + "En-/Disable Item is usable to interact with anything");
-		modifyLore(noInteractItem, ChatColor.YELLOW + "The player will (not) be able to use that tool to interact with anything");
-		modifyItemFlags(noInteractItem, ItemFlag.HIDE_ENCHANTS);
 
 		minus100 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-100");
 		modifyToCustomHead(minus100, SkullData.REDSTONE_HUNDRED);
