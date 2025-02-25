@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main;
 
+import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
@@ -82,7 +83,8 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new PreventToolUseListener(), this);
         pluginmanager.registerEvents(new PreventEquipListener(), this);
 
+        ArmorEquipEvent.registerListener(this);
         //Enable Block location updates
-        CustomBlockData.registerListener(Main.getPlugin());
+        CustomBlockData.registerListener(this);
     }
 }

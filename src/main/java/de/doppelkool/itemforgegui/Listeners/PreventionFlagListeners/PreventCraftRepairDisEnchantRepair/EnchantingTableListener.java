@@ -3,14 +3,11 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraf
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
-import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
-import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataHolder;
 
 /**
  * Class Description

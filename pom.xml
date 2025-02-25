@@ -80,6 +80,13 @@
             <version>2.2.3</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.jeff-media</groupId>
+            <artifactId>armor-equip-event</artifactId>
+            <version>1.0.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <!-- Build and Plugins -->
@@ -138,6 +145,10 @@
                                 <relocation>
                                     <pattern>com.jeff_media.customblockdata</pattern>
                                     <shadedPattern>${project.groupId}.${project.artifactId}.customblockdata</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.jeff_media.armorequipevent</pattern>
+                                    <shadedPattern>${project.groupId}.${project.artifactId}.armorequipevent</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
