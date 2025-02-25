@@ -80,7 +80,6 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new PreventPlaceListener(), this);
         pluginmanager.registerEvents(new PreventBurnListener(), this);
         pluginmanager.registerEvents(new SmithingTableListener(), this);
-        pluginmanager.registerEvents(new PreventToolUseListener(), this);
         pluginmanager.registerEvents(new PreventEquipListener(), this);
 
         ArmorEquipEvent.registerListener(this);
