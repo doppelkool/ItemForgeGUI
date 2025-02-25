@@ -29,7 +29,7 @@ public enum ForgeAction {
 	LAUNCH,
 	EAT,
 	PLACE,
-	EQUIP,      //Missing equip prevention through users Inventory and quick-equip through rightclick
+	EQUIP,
 	BURN,
 
 	//region ToDo
