@@ -2,15 +2,16 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to change the items current damage, aka. the durability left on the item.
  *
  * @author doppelkool | github.com/doppelkool
  */

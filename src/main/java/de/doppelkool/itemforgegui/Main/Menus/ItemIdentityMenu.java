@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.ConfigManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.UniqueItemIdentifierManager;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,7 +13,8 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrent
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.setImmutabilityItemTypeByHasTag;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * Currently, it's a middle man to provide future-proof design for further submenus
  *
  * @author doppelkool | github.com/doppelkool
  */

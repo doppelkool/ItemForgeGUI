@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -176,21 +176,21 @@ public class ItemStackHelper {
 	}
 
 	public static void setGlow(ItemStack item, boolean active) {
-		ItemMeta itemMeta = item.getItemMeta();
-
-		ArrayList<String> lore;
-		if(itemMeta.hasLore()) {
-			lore = new ArrayList<>(itemMeta.getLore());
-		} else {
-			lore = new ArrayList<>();
-		}
-
 		String activatedLorePart = "Activated";
 		String deactivatedLorePart = "Deactivated";
-		if(lore.getFirst().contains(activatedLorePart) ||
-			lore.getFirst().contains(deactivatedLorePart)) {
-			lore.remove(0);
+
+		ItemMeta itemMeta = item.getItemMeta();
+
+		ArrayList<String> lore = new ArrayList<>();
+		if(itemMeta.hasLore()) {
+			lore.addAll(itemMeta.getLore());
+
+			if(lore.getFirst().contains(activatedLorePart) ||
+				lore.getFirst().contains(deactivatedLorePart)) {
+				lore.remove(0);
+			}
 		}
+
 		if(active) {
 			itemMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
 			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);

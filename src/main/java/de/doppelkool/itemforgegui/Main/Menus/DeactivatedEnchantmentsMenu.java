@@ -1,10 +1,10 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to target a specific enchantment and apply it on the item
  *
  * @author doppelkool | github.com/doppelkool
  */
