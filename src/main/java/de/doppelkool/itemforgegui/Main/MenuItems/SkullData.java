@@ -3,7 +3,7 @@ package de.doppelkool.itemforgegui.Main.MenuItems;
 import lombok.Getter;
 
 /**
- * Class Description
+ * A simple storage class to hold encoded {@link org.bukkit.block.Skull} information containing a link to its texture
  *
  * @author doppelkool | github.com/doppelkool
  */

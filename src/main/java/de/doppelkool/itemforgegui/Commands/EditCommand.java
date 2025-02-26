@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Commands;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

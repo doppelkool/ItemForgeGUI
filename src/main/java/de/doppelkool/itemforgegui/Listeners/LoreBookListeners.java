@@ -1,14 +1,18 @@
 package de.doppelkool.itemforgegui.Listeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -21,7 +25,7 @@ import java.util.List;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class EditLoreBookListener implements Listener {
+public class LoreBookListeners implements Listener {
 	@EventHandler
 	public void onPlayerEditLoreBook(PlayerEditBookEvent event) {
 		Player pl = event.getPlayer();
@@ -62,5 +66,16 @@ public class EditLoreBookListener implements Listener {
 		//Make sure server does finish book editing process and replacing it with the current slot before,
 		//so we can set the item *after* that process.
 		}, 2L);
+	}
+
+	@EventHandler
+	public void preventItemDrop(PlayerDropItemEvent e) {
+		ItemStack itemStack = e.getItemDrop().getItemStack();
+
+		if (itemStack.getType() == Material.WRITABLE_BOOK
+			&& DisallowedActionsManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
+			e.setCancelled(true);
+			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		}
 	}
 }

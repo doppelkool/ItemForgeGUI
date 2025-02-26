@@ -1,9 +1,9 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.PlayerMenuUtility;
 import org.bukkit.Color;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +14,9 @@ import java.util.List;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
 
 /**
- * Class Description
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to apply a color to the leather armor item.
+ * It works by letting the user decide the RGB values independent of each other
  *
  * @author doppelkool | github.com/doppelkool
  */
