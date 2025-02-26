@@ -34,8 +34,6 @@ public final class Main extends JavaPlugin {
     @Getter
     private NamespacedKey customTagItemImmutabilityKey;
     @Getter
-    private NamespacedKey customTagItemNotAllowedInInvType;
-    @Getter
     private NamespacedKey customTagItemNotAllowedForgeActions;
     @Getter
     private NamespacedKey customTagUID;
@@ -51,7 +49,6 @@ public final class Main extends JavaPlugin {
 
         if(cMr.isItemImmutabilityEnabled()) {
             customTagItemImmutabilityKey = new NamespacedKey(this, "isImmutable");
-            customTagItemNotAllowedInInvType = new NamespacedKey(this, "notAllowedInvTypes");
             customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
         }
 
