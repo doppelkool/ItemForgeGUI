@@ -87,6 +87,13 @@
             <version>1.0.3</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.jeff-media</groupId>
+            <artifactId>MorePersistentDataTypes</artifactId>
+            <version>2.4.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <!-- Build and Plugins -->
@@ -149,6 +156,10 @@
                                 <relocation>
                                     <pattern>com.jeff_media.armorequipevent</pattern>
                                     <shadedPattern>${project.groupId}.${project.artifactId}.armorequipevent</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.jeff_media.morepersistentdatatypes</pattern>
+                                    <shadedPattern>YOUR.PACKAGE.morepersistentdatatypes</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

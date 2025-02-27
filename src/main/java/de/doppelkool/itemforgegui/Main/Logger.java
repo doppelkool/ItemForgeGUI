@@ -1,16 +1,21 @@
 package de.doppelkool.itemforgegui.Main;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +49,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"ItemStack Log ->\n" +
+			"Entity Log ->\n" +
 				"at: %s\n" +
 				"etype: %s\n" +
 				"PersistentDataContainer: %s\n",
@@ -58,7 +63,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"ItemStack Log ->\n" +
+			"PersistentDataHolder Log ->\n" +
 				"at: %s\n" +
 				"PersistentDataContainer: %s\n" +
 				"AsString: %s",
@@ -83,7 +88,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"Event Log ->\n" +
+			"PlayerEvent Log ->\n" +
 				"at: %s\n" +
 				"Name: %s\n" +
 				"Player: %s\n",
@@ -97,7 +102,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"Event Log ->\n" +
+			"PlayerInteractEntityEvent Log ->\n" +
 				"at: %s\n" +
 				"Name: %s\n" +
 				"Player: %s\n" +
@@ -115,11 +120,37 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"Event Log ->\n" +
+			"PrepareInventoryResultEvent Log ->\n" +
 				"at: %s\n" +
 				"Name: %s\n",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
 			e.getEventName()
+		));
+	}
+
+	public static void log(ItemMeta e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"ItemMeta Log ->\n" +
+				"at: %s\n" +
+				"Enchants: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			e.getEnchants()
+		));
+	}
+
+	public static void log(Set<ForgeArmorEffect> e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map Log ->\n" +
+				"at: %s\n" +
+				"Enchants: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			e.stream()
+				.map(eff -> eff.getType() + "-" + eff.getAmplifier())
+				.collect(Collectors.toList())
 		));
 	}
 
