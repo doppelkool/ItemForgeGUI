@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main.Menus;
+package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
@@ -61,7 +61,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleMinus100() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(this.enchantmentToEdit) -100 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -100 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
 			return;
@@ -76,7 +76,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleMinus10() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(this.enchantmentToEdit) -10 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -10 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
 			return;
@@ -91,7 +91,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleMinus1() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(this.enchantmentToEdit) -1 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -1 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
 			return;
@@ -131,7 +131,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
-			.editEnchantment(this.itemToBeEnchanted, this.enchantmentToEdit)
+			.editEnchantment(itemToBeEnchanted, enchantmentToEdit)
 			.openSign());
 		playerMenuUtility.getOwner().sendMessage(message);
 	}

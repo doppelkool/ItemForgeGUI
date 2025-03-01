@@ -159,7 +159,7 @@
                                 </relocation>
                                 <relocation>
                                     <pattern>com.jeff_media.morepersistentdatatypes</pattern>
-                                    <shadedPattern>YOUR.PACKAGE.morepersistentdatatypes</shadedPattern>
+                                    <shadedPattern>${project.groupId}.${project.artifactId}.morepersistentdatatypes</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

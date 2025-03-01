@@ -4,7 +4,6 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
-import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -66,7 +65,6 @@ public class PreventEatListener implements Listener {
 	@EventHandler
 	public void preventEatCake_PlaceCakeWithPF(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
-		Logger.log(item);
 
 		if(item.getType() != Material.CAKE) {
 			return;

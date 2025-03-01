@@ -1,16 +1,12 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.google.common.collect.ImmutableMap;
-import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableDataType;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.DelegateDeserialization;
-import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -23,10 +19,11 @@ import java.util.Map;
  * @author doppelkool | github.com/doppelkool
  */
 @Getter
+@Setter
 public class ForgeArmorEffect implements ConfigurationSerializable {
 
 	private final PotionEffectType type;
-	private final int amplifier;
+	private int amplifier;
 
 	public ForgeArmorEffect(PotionEffectType type, int amplifier) {
 		this.type = type;

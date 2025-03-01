@@ -1,40 +1,43 @@
-package de.doppelkool.itemforgegui.Main.Menus;
+package de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import org.bukkit.enchantments.Enchantment;
+import de.doppelkool.itemforgegui.Main.MenuItems.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
- * Submenu as part of the main function of this plugin.
- * It provides the way to target a specific enchantment and remove it from the item
+ * Class Description
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class ActivatedEnchantmentsMenu extends PaginatedMenu {
+public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 
-	private HashMap<Enchantment, Integer> activatedEnchantmentsToStrength = new HashMap<>();
+	private HashMap<PotionEffectType, Integer> activatedPotionEffectTypesToStrength = new HashMap<>();
 
-	public ActivatedEnchantmentsMenu(PlayerMenuUtility playerMenuUtility) {
+	public SpecialsActivatedArmorEffectsMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
 	}
 
 	@Override
 	public String getMenuName() {
-		return "Activated Enchantments";
+		return "Activated ArmorEffects";
 	}
 
 	@Override
@@ -49,7 +52,8 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 			return;
 		}
 		if (e.getSlot() == 46) {
-			handleBack();
+			new SpecialsMenu(this.playerMenuUtility)
+				.open();
 			return;
 		}
 
@@ -63,7 +67,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
 		if (e.getSlot() == 50) {
 			int nextPageStartIndex = (page + 1) * getMaxItemsPerPage();
-			if (nextPageStartIndex < activatedEnchantmentsToStrength.size()) {
+			if (nextPageStartIndex < activatedPotionEffectTypesToStrength.size()) {
 				page++;
 				super.open();
 			}
@@ -71,7 +75,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		}
 
 		if(e.getSlot() == 53) {
-			new DeactivatedEnchantmentsMenu(this.playerMenuUtility)
+			new SpecialsDeactivatedArmorEffectsMenu(this.playerMenuUtility)
 				.open();
 		}
 
@@ -79,11 +83,11 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 			int slot = e.getSlot();
 			ItemStack item = this.inventory.getItem(slot);
 			PersistentDataContainer persistentDataContainer = item.getItemMeta().getPersistentDataContainer();
-			Integer itemStackID = persistentDataContainer.get(Main.getPlugin().getCustomEnchantmentStackIDKey(), PersistentDataType.INTEGER);
-			Enchantment enchantment = EnchantmentStacks.itemStackIDToEnchantment.get(itemStackID);
-			this.playerMenuUtility.setTargetEnchantment(enchantment);
+			Integer itemStackID = persistentDataContainer.get(Main.getPlugin().getCustomArmorEffectsKeyStackIDKey(), PersistentDataType.INTEGER);
+			PotionEffectType potionEffectType = PotionEffectStacks.itemStackIDToPotionEffectType.get(itemStackID);
+			this.playerMenuUtility.setTargetPotionEffectType(potionEffectType);
 
-			new SingleEnchantmentMenu(this.playerMenuUtility)
+			new SinglePotionEffectTypeMenu(this.playerMenuUtility)
 				.open();
 		}
 	}
@@ -91,10 +95,10 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 	@Override
 	public void setMenuItems() {
 		addPaginatedItems();
-		addCustomEnchantmentMenuFilling();
+		addCustomMenuFillingForEffects();
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		if (EnchantmentStacks.getAllDeactivatedEnchantments(itemInMainHand)
+		if (ArmorEffectManager.getAllDeactivatedPotionEffectTypes(itemInMainHand)
 			.isEmpty()) {
 			this.inventory.setItem(53, notAvailable(ItemStacks.deactivatedEnchantments));
 		} else {
@@ -107,42 +111,37 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
 	private void fillMenuWithActivatedEnchantments() {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		ItemMeta itemInMainHandItemMeta = itemInMainHand.getItemMeta();
-		Map<Enchantment, Integer> enchants = itemInMainHandItemMeta.getEnchants();
-		this.activatedEnchantmentsToStrength = new HashMap<>(enchants);
+		Map<PotionEffectType, Integer> enchants = ArmorEffectManager.getAllActivatedPotionEffectTypesAsMap(itemInMainHand);
+		this.activatedPotionEffectTypesToStrength = new HashMap<>(enchants);
 
-		List<Enchantment> enchantmentList = new ArrayList<>(
-			activatedEnchantmentsToStrength.keySet()
-				.stream()
-				.sorted(Comparator.comparing(e -> {
-					if (e.equals(Enchantment.BINDING_CURSE)) {
-						return "Curse of Binding";
-					} else if (e.equals(Enchantment.VANISHING_CURSE)) {
-						return "Curse of Vanishing";
-					} else {
-						return ItemStackHelper.formatCAPSName(e.getTranslationKey());
-					}
-				}))
-				.collect(Collectors.toList())
-		);
+		List<PotionEffectType> enchantmentList = activatedPotionEffectTypesToStrength.keySet()
+			.stream()
+			.sorted(Comparator.comparing(e -> {
+				if (e.equals(PotionEffectType.SPEED)) {
+					return "Swiftness";
+				} else {
+					return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+				}
+			})).toList();
 
 		int startIndex = getMaxItemsPerPage() * page;
 		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), enchantmentList.size());
 		int slotIndex = 0;
 
 		for (int i = startIndex; i < endIndex; i++) {
-			Enchantment activatedEnchantment = enchantmentList.get(i);
-			Integer strength = activatedEnchantmentsToStrength.get(activatedEnchantment);
-			ItemStack activatedEnchantmentStack = EnchantmentStacks.enchantmentsToItemStack.get(activatedEnchantment).clone();
+			PotionEffectType potionEffectType = enchantmentList.get(i);
+			Integer strength = activatedPotionEffectTypesToStrength.get(potionEffectType);
+			ItemStack activatedPotionEffectTypesStack = PotionEffectStacks.potionEffectTypeToItemStack.get(potionEffectType).clone();
 
 			int inventorySlot = getInventorySlot(slotIndex);
 
-			ItemMeta itemMeta = activatedEnchantmentStack.getItemMeta();
+			ItemMeta itemMeta = activatedPotionEffectTypesStack.getItemMeta();
 			itemMeta.setLore(List.of("Strength: " + strength));
-			activatedEnchantmentStack.setItemMeta(itemMeta);
+			activatedPotionEffectTypesStack.setItemMeta(itemMeta);
 
-			inventory.setItem(inventorySlot, activatedEnchantmentStack);
+			inventory.setItem(inventorySlot, activatedPotionEffectTypesStack);
 			slotIndex++;
 		}
 	}
 }
+

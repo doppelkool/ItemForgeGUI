@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main.Menus;
+package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -91,7 +91,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 	@Override
 	public void setMenuItems() {
 		addPaginatedItems();
-		addCustomEnchantmentMenuFilling();
+		addCustomMenuFillingForEffects();
 
 		if (this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().hasEnchants()) {
 			this.inventory.setItem(52, ItemStacks.activatedEnchantments);
@@ -104,22 +104,19 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 	}
 
 	private void fillMenuWithDeactivatedEnchantments() {
-		deactivatedEnchantmentsToStrength = new ArrayList<>(
-			EnchantmentStacks.getAllDeactivatedEnchantments(
-					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()
-				)
-				.stream()
-				.sorted(Comparator.comparing(e -> {
-					if (e.equals(Enchantment.BINDING_CURSE)) {
-						return "Curse of Binding";
-					} else if (e.equals(Enchantment.VANISHING_CURSE)) {
-						return "Curse of Vanishing";
-					} else {
-						return ItemStackHelper.formatCAPSName(e.getTranslationKey());
-					}
-				}))
-				.collect(Collectors.toList())
-		);
+		deactivatedEnchantmentsToStrength = EnchantmentStacks.getAllDeactivatedEnchantments(
+				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()
+			)
+			.stream()
+			.sorted(Comparator.comparing(e -> {
+				if (e.equals(Enchantment.BINDING_CURSE)) {
+					return "Curse of Binding";
+				} else if (e.equals(Enchantment.VANISHING_CURSE)) {
+					return "Curse of Vanishing";
+				} else {
+					return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+				}
+			})).collect(Collectors.toCollection(ArrayList::new));
 
 		int startIndex = getMaxItemsPerPage() * page;
 		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), deactivatedEnchantmentsToStrength.size());

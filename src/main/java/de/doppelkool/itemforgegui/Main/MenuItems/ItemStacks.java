@@ -45,6 +45,7 @@ public class ItemStacks {
 
 	public static final ItemStack itemFlags;
 	public static final ItemStack preventionFlags;
+	public static final ItemStack armorEffects;
 	public static final ItemStack itemDrop;
 	public static final ItemStack itemCraft;
 	public static final ItemStack itemFramePlace;
@@ -99,6 +100,8 @@ public class ItemStacks {
 
 	public static final ItemStack activatedEnchantments;
 	public static final ItemStack deactivatedEnchantments;
+	public static final ItemStack activatedArmorEffects;
+	public static final ItemStack deactivatedArmorEffects;
 
 	public static final ItemStack DEFAULT_dye;
 	public static final ItemStack WHITE_dye;
@@ -171,6 +174,9 @@ public class ItemStacks {
 
 		preventionFlags = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Edit Prevention Flags");
 		modifyLore(preventionFlags, ChatColor.YELLOW + "Edit what the player can/cannot do with that item");
+		armorEffects = makeItem(Material.SPLASH_POTION, ChatColor.GREEN + "Edit ArmorEffects");
+		modifyLore(armorEffects, ChatColor.YELLOW + "Edit the effects the armor applies to the player when worn");
+		modifyItemFlags(armorEffects, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 		itemDrop = makeItem(Material.FEATHER, ChatColor.GREEN + "Disable Item Drop");
 		modifyLore(itemDrop, ChatColor.YELLOW + "The player will (not) be able to drop that item");
 		modifyItemFlags(itemDrop, ItemFlag.HIDE_ENCHANTS);
@@ -284,6 +290,13 @@ public class ItemStacks {
 		deactivatedEnchantments = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "Deactivated Enchantments");
 		modifyLore(deactivatedEnchantments, ChatColor.YELLOW + "Display all inactive enchantments on the current item");
 		modifyToCustomHead(deactivatedEnchantments, SkullData.QUARTZ_X);
+
+		activatedArmorEffects = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Activated ArmorEffects");
+		modifyLore(activatedArmorEffects, ChatColor.YELLOW + "Display all active effects on the current armor");
+		modifyToCustomHead(activatedArmorEffects, SkullData.QUARTZ_CHECK);
+		deactivatedArmorEffects = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "Deactivated ArmorEffects");
+		modifyLore(deactivatedArmorEffects, ChatColor.YELLOW + "Display all inactive effects on the current armor");
+		modifyToCustomHead(deactivatedArmorEffects, SkullData.QUARTZ_X);
 
 		DEFAULT_dye = makeItem(Material.PAPER, ChatColor.WHITE + "No Color");
 		modifyLore(DEFAULT_dye, ChatColor.YELLOW + "Sets the items type to its natural, uncolored variant");
