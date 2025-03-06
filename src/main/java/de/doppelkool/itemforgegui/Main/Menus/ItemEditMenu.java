@@ -1,11 +1,14 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.ActivatedEnchantmentsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.DeactivatedEnchantmentsMenu;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,8 +30,13 @@ public class ItemEditMenu extends Menu {
 
 	public ItemEditMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+
+		ItemStack itemInMainHand = playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		if(!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
+			new ItemInfoManager(itemInMainHand).initItemDescription();
+		}
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
-			playerMenuUtility.getOwner().getInventory().getItemInMainHand());
+			itemInMainHand);
 	}
 
 	@Override

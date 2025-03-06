@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
@@ -33,11 +33,11 @@ public class CraftListener extends DuplicateEventManager<PrepareItemCraftEvent> 
 			}
 
 			if(event.isRepair()) {
-				if(DisallowedActionsManager.isActionPrevented(item, ForgeAction.REPAIR)) {
+				if(PreventionFlagManager.isActionPrevented(item, ForgeAction.REPAIR)) {
 					return true;
 				}
 				continue;
-			} else if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.CRAFT)) {
+			} else if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.CRAFT)) {
 				continue;
 			}
 

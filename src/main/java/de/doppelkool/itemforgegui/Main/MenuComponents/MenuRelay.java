@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
@@ -29,12 +30,14 @@ public interface MenuRelay {
 		* - Item is FILLER_GLASS
 		* - Item has NOT_AVAILABLE as tag in its data container
 		* - Clicked Inventory is the inventory a player sees with another open Inventory
+		* - Event is caused by double click
 		* */
 		return
 			!(item.equals(ItemStacks.FILLER_GLASS)
 				|| (item.hasItemMeta() &&
 					item.getItemMeta().getPersistentDataContainer().has(Main.getPlugin().getCustomNotAvailableStackIDKey()))
 				|| e.getClickedInventory().getType() == InventoryType.PLAYER
+				|| e.getClick() == ClickType.DOUBLE_CLICK
 			);
 	}
 }

@@ -1,7 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -16,7 +17,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -44,11 +44,9 @@ public class LoreBookListeners implements Listener {
 		String content = String.join("\n", newBookMeta.getPages());
 		String formattedString = ChatColor.translateAlternateColorCodes('&', content);
 
-		ItemMeta itemMeta = tempStoredItem.getItemMeta();
-		itemMeta.setLore(
-			List.of(formattedString.split("\n"))
-		);
-		tempStoredItem.setItemMeta(itemMeta);
+		new ItemInfoManager(tempStoredItem)
+			.setItemLore(List.of(formattedString.split("\n")))
+			.updateItemInfo();
 		endProcess(playerMenuUtility);
 	}
 
@@ -73,7 +71,7 @@ public class LoreBookListeners implements Listener {
 		ItemStack itemStack = e.getItemDrop().getItemStack();
 
 		if (itemStack.getType() == Material.WRITABLE_BOOK
-			&& DisallowedActionsManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
+			&& PreventionFlagManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 		}

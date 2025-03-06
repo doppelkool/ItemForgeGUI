@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 		}
 
 		//Cancel event if enchanting the first item is prevented
-		if (DisallowedActionsManager.isActionPrevented(toEnchant, ForgeAction.ENCHANT)) {
+		if (PreventionFlagManager.isActionPrevented(toEnchant, ForgeAction.ENCHANT)) {
 			return true;
 		}
 
@@ -42,6 +42,6 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 		}
 
 		//Cancel event if enchanting *with* second item is prevented
-		return DisallowedActionsManager.isActionPrevented(enchantWith, ForgeAction.ENCHANT);
+		return PreventionFlagManager.isActionPrevented(enchantWith, ForgeAction.ENCHANT);
 	}
 }

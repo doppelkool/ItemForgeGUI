@@ -1,5 +1,6 @@
-package de.doppelkool.itemforgegui.Main.Menus;
+package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -50,20 +51,23 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	protected void handleToZero() {
 		itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handleToMax() {
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, 255, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handleMinus100() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(this.enchantmentToEdit) -100 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -100 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+			new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 			return;
 		}
 
@@ -71,14 +75,16 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int targetLevel = Math.max(enchantLevel - 100, 0);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, targetLevel, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handleMinus10() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(this.enchantmentToEdit) -10 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -10 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+			new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 			return;
 		}
 
@@ -86,14 +92,16 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int targetLevel = Math.max(enchantLevel - 10, 0);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, targetLevel, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handleMinus1() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(this.enchantmentToEdit) -1 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -1 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+			new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 			return;
 		}
 
@@ -101,6 +109,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int targetLevel = Math.max(enchantLevel - 1, 0);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, targetLevel, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -108,6 +117,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int enchantLevel = itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, enchantLevel + 1, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -115,6 +125,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int enchantLevel = itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, enchantLevel + 10, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -122,6 +133,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		int enchantLevel = itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit);
 		itemToBeEnchantedMeta.addEnchant(enchantmentToEdit, enchantLevel + 100, true);
 		itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -131,7 +143,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
-			.editEnchantment(this.itemToBeEnchanted, this.enchantmentToEdit)
+			.editEnchantment(itemToBeEnchanted, enchantmentToEdit)
 			.openSign());
 		playerMenuUtility.getOwner().sendMessage(message);
 	}

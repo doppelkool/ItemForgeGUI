@@ -1,16 +1,22 @@
 package de.doppelkool.itemforgegui.Main;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -30,12 +36,15 @@ public class Logger {
 				"Lore: %s\n" +
 				"Type: %s\n" +
 				"Disallowed Actions: %s\n" +
+				"Effects: %s\n" +
 				"AsString: %s",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getDisplayName() : "meta null",
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getLore() : "meta null",
 			itemStack.getType(),
-			(itemStack.getItemMeta() != null) ? DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
+			(itemStack.getItemMeta() != null) ? PreventionFlagManager.getNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
+			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getPersistentDataContainer().get(Main.getPlugin().getCustomArmorEffectsKey(),
+				Main.getPlugin().getCustomArmorEffectListDataType()) : "meta null",
 			itemStack
 		));
 	}
@@ -44,7 +53,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"ItemStack Log ->\n" +
+			"Entity Log ->\n" +
 				"at: %s\n" +
 				"etype: %s\n" +
 				"PersistentDataContainer: %s\n",
@@ -58,7 +67,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"ItemStack Log ->\n" +
+			"PersistentDataHolder Log ->\n" +
 				"at: %s\n" +
 				"PersistentDataContainer: %s\n" +
 				"AsString: %s",
@@ -83,7 +92,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"Event Log ->\n" +
+			"PlayerEvent Log ->\n" +
 				"at: %s\n" +
 				"Name: %s\n" +
 				"Player: %s\n",
@@ -97,7 +106,7 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"Event Log ->\n" +
+			"PlayerInteractEntityEvent Log ->\n" +
 				"at: %s\n" +
 				"Name: %s\n" +
 				"Player: %s\n" +
@@ -115,11 +124,71 @@ public class Logger {
 		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
 		Bukkit.getLogger().info(String.format(
-			"Event Log ->\n" +
+			"PrepareInventoryResultEvent Log ->\n" +
 				"at: %s\n" +
 				"Name: %s\n",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
 			e.getEventName()
+		));
+	}
+
+	public static void log(ItemMeta e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		ArrayList<ForgeArmorEffect> forgeArmorEffects = e.getPersistentDataContainer().get(Main.getPlugin().getCustomArmorEffectsKey(), Main.getPlugin().getCustomArmorEffectListDataType());
+		Bukkit.getLogger().info(String.format(
+			"ItemMeta Log ->\n" +
+				"at: %s\n" +
+				"Lore: %s\n" +
+				"Enchants: %s\n" +
+				"Activated Effects: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			String.join(", ", e.getLore() == null ? new ArrayList<>() : e.getLore()),
+			e.getEnchants(),
+			forgeArmorEffects == null ? "" : forgeArmorEffects
+				.stream()
+				.map(eff -> eff.getType() + "<->" + eff.getAmplifier())
+				.collect(Collectors.toList())
+		));
+	}
+
+	public static void log(ArrayList<ForgeArmorEffect> e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"ArrayList Log ->\n" +
+				"at: %s\n" +
+				"Enchants: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			e.stream()
+				.map(eff -> eff.getType() + "-" + eff.getAmplifier())
+				.collect(Collectors.joining(","))
+		));
+	}
+
+	public static void log(Map<PotionEffectType, Integer> e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			e.entrySet().stream()
+				.map(eff -> eff.getKey().getTranslationKey() + "-" + eff.getValue())
+				.collect(Collectors.toList())
+		));
+	}
+
+	public static void log(List<String> e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			String.join(", ", e)
 		));
 	}
 

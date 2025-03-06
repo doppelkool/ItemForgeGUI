@@ -1,7 +1,8 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
@@ -74,11 +75,12 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 		}
 
 		boolean newStatus = !hasGlow(e.getCurrentItem());
-		DisallowedActionsManager.toggleAllowedAction(
+		PreventionFlagManager.toggleAllowedAction(
 			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
 			clickedAction,
 			newStatus);
 		setGlow(e.getCurrentItem(), newStatus);
+		new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
 		return;
 	}
 
@@ -90,7 +92,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 		slotToAction.forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();
-			setGlow(itemStackClone, DisallowedActionsManager.isActionPrevented(itemInMainHand, pair.getA()));
+			setGlow(itemStackClone, PreventionFlagManager.isActionPrevented(itemInMainHand, pair.getA()));
 			this.inventory.setItem(slot, itemStackClone);
 		});
 

@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import org.bukkit.ChatColor;
@@ -128,7 +129,7 @@ public class ItemStackHelper {
 		BookMeta meta = (BookMeta) book.getItemMeta();
 
 		if (itemMeta.hasLore()) {
-			setBookPagesFromExistingLore(meta, itemMeta.getLore());
+			setBookPagesFromExistingLore(meta, new ItemInfoManager(itemInMainHand).getItemLore());
 		}
 
 		PersistentDataContainer pdc = meta.getPersistentDataContainer();

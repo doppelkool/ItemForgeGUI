@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import org.bukkit.block.sign.Side;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Class Description
@@ -64,6 +66,14 @@ public class SignNumberEditor {
 		return this;
 	}
 
+	public SignNumberEditor editPotionEffect(ItemStack itemToBeEffected, PotionEffectType potionEffectType) {
+		type = NUMBER_EDIT_TYPE.ARMOR_EFFECT;
+		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEffected, potionEffectType);
+		sign.getSide(Side.FRONT).setLine(0, strength == null ? "0" : "" + strength);
+		sign.update();
+		return this;
+	}
+
 	public SignNumberEditor editItemID(String uniqueItemIdentifierOrEmptyString) {
 		type = NUMBER_EDIT_TYPE.ITEM_ID;
 
@@ -90,7 +100,10 @@ public class SignNumberEditor {
 		AMOUNT,
 		DURABILITY,
 		ENCHANTMENT,
-		ITEM_ID
+		ARMOR_EFFECT,
+		ITEM_ID,
+
+		;
 	}
 
 	public static boolean isSameBlockLocation(Location loc1, Location loc2) {

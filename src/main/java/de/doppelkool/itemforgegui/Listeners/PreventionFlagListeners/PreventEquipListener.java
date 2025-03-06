@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +23,7 @@ public class PreventEquipListener implements Listener {
 			return;
 		}
 
-		if(!DisallowedActionsManager.isActionPrevented(newArmorPiece, ForgeAction.EQUIP)) {
+		if(!PreventionFlagManager.isActionPrevented(newArmorPiece, ForgeAction.EQUIP)) {
 			return;
 		}
 

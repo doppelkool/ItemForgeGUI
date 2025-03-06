@@ -57,26 +57,26 @@ public class AmountMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleMinus10() {
-		int targetLevel = Math.max(this.item.getAmount() - 10, 1);
-		this.item.setAmount(targetLevel);
+		int targetAmount = Math.max(this.item.getAmount() - 10, 1);
+		this.item.setAmount(targetAmount);
 	}
 
 	@Override
 	protected void handleMinus1() {
-		int targetLevel = Math.max(this.item.getAmount() - 1, 1);
-		this.item.setAmount(targetLevel);
+		int targetAmount = Math.max(this.item.getAmount() - 1, 1);
+		this.item.setAmount(targetAmount);
 	}
 
 	@Override
 	protected void handlePlus1() {
-		int targetLevel = this.item.getAmount() + 1;
-		this.item.setAmount(targetLevel);
+		int targetAmount = this.item.getAmount() + 1;
+		this.item.setAmount(targetAmount);
 	}
 
 	@Override
 	protected void handlePlus10() {
-		int targetLevel = this.item.getAmount() + 10;
-		this.item.setAmount(targetLevel);
+		int targetAmount = this.item.getAmount() + 10;
+		this.item.setAmount(targetAmount);
 	}
 
 	@Override

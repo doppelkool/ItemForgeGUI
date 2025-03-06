@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -21,7 +21,7 @@ public class PreventPlaceListener implements Listener {
 	public void preventPlace(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
 
-		if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.PLACE)) {
+		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.PLACE)) {
 			return;
 		}
 
@@ -34,7 +34,7 @@ public class PreventPlaceListener implements Listener {
 	public void preventPlace(EntityPlaceEvent e) {
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
-		if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.PLACE)) {
+		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.PLACE)) {
 			return;
 		}
 

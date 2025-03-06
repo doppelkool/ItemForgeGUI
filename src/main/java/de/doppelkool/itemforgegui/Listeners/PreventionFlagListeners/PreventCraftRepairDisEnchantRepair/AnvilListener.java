@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Material;
@@ -50,11 +50,11 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 
 		// Combine prevention flags for enchant and repair operations.
 		boolean preventEnchantAny =
-			DisallowedActionsManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)
-				|| DisallowedActionsManager.isActionPrevented(rightItem, ForgeAction.ENCHANT);
+			PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)
+				|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.ENCHANT);
 		boolean preventRepairAny =
-			DisallowedActionsManager.isActionPrevented(leftItem, ForgeAction.REPAIR)
-				|| DisallowedActionsManager.isActionPrevented(rightItem, ForgeAction.REPAIR);
+			PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.REPAIR)
+				|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.REPAIR);
 
 		// If neither prevention is active, allow the operation.
 		if (!preventEnchantAny && !preventRepairAny) {
@@ -229,10 +229,10 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		}
 
 		// Combine prevention flags for enchant and repair operations.
-		boolean preventEnchantAny = DisallowedActionsManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)
-			|| (DisallowedActionsManager.isActionPrevented(rightItem, ForgeAction.ENCHANT));
-		boolean preventRepairAny = DisallowedActionsManager.isActionPrevented(leftItem, ForgeAction.REPAIR)
-			|| (DisallowedActionsManager.isActionPrevented(rightItem, ForgeAction.REPAIR));
+		boolean preventEnchantAny = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)
+			|| (PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.ENCHANT));
+		boolean preventRepairAny = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.REPAIR)
+			|| (PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.REPAIR));
 
 		// If neither prevention is active, allow the operation.
 		if (!preventEnchantAny && !preventRepairAny) {
@@ -316,8 +316,8 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		}
 
 		// Check if renaming is disallowed via your DisallowedActionsManager.
-		boolean preventRename = DisallowedActionsManager.isActionPrevented(leftItem, ForgeAction.RENAME)
-			|| DisallowedActionsManager.isActionPrevented(rightItem, ForgeAction.RENAME);
+		boolean preventRename = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
+			|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME);
 
 		return isRename && preventRename;
 	}

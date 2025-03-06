@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class DisallowedActionsManager {
+public class PreventionFlagManager {
 
-	private static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataContainer dataContainer) {
+	public static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataContainer dataContainer) {
 		String notAllowedForgeActions = getNotAllowedForgeActions(dataContainer);
 
 		if(notAllowedForgeActions.isEmpty()) {

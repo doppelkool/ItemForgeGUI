@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main.Menus;
+package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
@@ -13,8 +13,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
@@ -91,7 +93,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 	@Override
 	public void setMenuItems() {
 		addPaginatedItems();
-		addCustomEnchantmentMenuFilling();
+		addCustomMenuFillingForEffects();
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		if (EnchantmentStacks.getAllDeactivatedEnchantments(itemInMainHand)
@@ -111,20 +113,17 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		Map<Enchantment, Integer> enchants = itemInMainHandItemMeta.getEnchants();
 		this.activatedEnchantmentsToStrength = new HashMap<>(enchants);
 
-		List<Enchantment> enchantmentList = new ArrayList<>(
-			activatedEnchantmentsToStrength.keySet()
-				.stream()
-				.sorted(Comparator.comparing(e -> {
-					if (e.equals(Enchantment.BINDING_CURSE)) {
-						return "Curse of Binding";
-					} else if (e.equals(Enchantment.VANISHING_CURSE)) {
-						return "Curse of Vanishing";
-					} else {
-						return ItemStackHelper.formatCAPSName(e.getTranslationKey());
-					}
-				}))
-				.collect(Collectors.toList())
-		);
+		List<Enchantment> enchantmentList = activatedEnchantmentsToStrength.keySet()
+			.stream()
+			.sorted(Comparator.comparing(e -> {
+				if (e.equals(Enchantment.BINDING_CURSE)) {
+					return "Curse of Binding";
+				} else if (e.equals(Enchantment.VANISHING_CURSE)) {
+					return "Curse of Vanishing";
+				} else {
+					return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+				}
+			})).toList();
 
 		int startIndex = getMaxItemsPerPage() * page;
 		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), enchantmentList.size());
