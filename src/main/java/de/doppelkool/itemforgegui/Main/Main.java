@@ -2,16 +2,24 @@ package de.doppelkool.itemforgegui.Main;
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import com.jeff_media.customblockdata.CustomBlockData;
+import com.jeff_media.morepersistentdatatypes.DataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.collections.CollectionDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableDataType;
 import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair.*;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
 
 /**
  * The plugins main class
@@ -38,6 +46,14 @@ public final class Main extends JavaPlugin {
     @Getter
     private NamespacedKey customTagUID;
 
+    @Getter
+    private NamespacedKey customArmorEffectsKeyStackIDKey;
+    @Getter
+    private NamespacedKey customArmorEffectsKey;
+    private PersistentDataType<byte[], ForgeArmorEffect> customPersistantDataTypeArmorEffect;
+    @Getter
+    private CollectionDataType<ArrayList<ForgeArmorEffect>, ForgeArmorEffect> customArmorEffectListDataType;
+
     public void onEnable()
     {
         plugin = this;
@@ -55,6 +71,11 @@ public final class Main extends JavaPlugin {
         customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
         customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
         customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");
+        customArmorEffectsKeyStackIDKey = new NamespacedKey(Main.getPlugin(), "armorEffectsInvID");
+
+        customArmorEffectsKey = new NamespacedKey(Main.getPlugin(), "armorEffects");
+        customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
+        customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
 
         getCommand("edit").setExecutor(new EditCommand());
 
@@ -65,6 +86,7 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
         pluginmanager.registerEvents(new EditAmountSignListener(), this);
         pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
+        pluginmanager.registerEvents(new EditSingleArmorEffectStrengthSignListener(), this);
         pluginmanager.registerEvents(new EditItemIDSignListener(), this);
         pluginmanager.registerEvents(new PreventAlteringListeners(), this);
         pluginmanager.registerEvents(new PreventApplyListener(), this);
@@ -78,9 +100,13 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new PreventBurnListener(), this);
         pluginmanager.registerEvents(new SmithingTableListener(), this);
         pluginmanager.registerEvents(new PreventEquipListener(), this);
+        pluginmanager.registerEvents(new UnEquipEffectArmorListener(), this);
+        pluginmanager.registerEvents(new DrinkMilkListener(), this);
 
         ArmorEquipEvent.registerListener(this);
         //Enable Block location updates
         CustomBlockData.registerListener(this);
+
+        ConfigurationSerialization.registerClass(ForgeArmorEffect.class);
     }
 }

@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.event.EventHandler;
@@ -36,11 +36,11 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 		}
 
 		boolean preventDisenchantAny =
-			DisallowedActionsManager.isActionPrevented(itemUp, ForgeAction.DISENCHANT)
-				|| DisallowedActionsManager.isActionPrevented(itemDown, ForgeAction.DISENCHANT);
+			PreventionFlagManager.isActionPrevented(itemUp, ForgeAction.DISENCHANT)
+				|| PreventionFlagManager.isActionPrevented(itemDown, ForgeAction.DISENCHANT);
 		boolean preventRepairAny =
-			DisallowedActionsManager.isActionPrevented(itemUp, ForgeAction.REPAIR)
-				|| DisallowedActionsManager.isActionPrevented(itemDown, ForgeAction.REPAIR);
+			PreventionFlagManager.isActionPrevented(itemUp, ForgeAction.REPAIR)
+				|| PreventionFlagManager.isActionPrevented(itemDown, ForgeAction.REPAIR);
 
 		// If neither prevention is active, no need to process further
 		if (!preventDisenchantAny && !preventRepairAny) {

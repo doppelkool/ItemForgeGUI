@@ -1,5 +1,7 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
+import lombok.Getter;
+
 /**
  *
  * <p>Item with Flag:
@@ -26,20 +28,26 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
  */
 public enum ForgeAction {
 
-	DROP,
-	ITEM_FRAME_PLACE,
-	LAUNCH,
-	EAT,
-	PLACE,
-	EQUIP,
-	BURN,
-	REPAIR,
-	UPGRADE,
-	CRAFT,
-	ENCHANT,
-	DISENCHANT,
-	RENAME,
+	DROP("Drop"),
+	ITEM_FRAME_PLACE("Place in item frame"),
+	LAUNCH("Launch"),
+	EAT("Consume"),
+	PLACE("Place"),
+	EQUIP("Equip"),
+	BURN("Burn"),
+	REPAIR("Repair"),
+	UPGRADE("Upgrade"),
+	CRAFT("Craft with"),
+	ENCHANT("Enchant or enchant with"),
+	DISENCHANT("Disenchant"),
+	RENAME("Rename"),
 
 	;
 
+	@Getter
+	private String loreDescription;
+
+	ForgeAction(String loreDescription) {
+		this.loreDescription = loreDescription;
+	}
 }

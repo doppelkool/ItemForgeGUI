@@ -174,28 +174,32 @@ public class EnchantmentStacks {
 
 		for (Field field : EnchantmentStacks.class.getDeclaredFields()) {
 			int modifiers = field.getModifiers();
-			if (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
-				// Check if the field's type is ItemStack
-				if (SimpleEntry.class.isAssignableFrom(field.getType())) {
-					try {
-						@SuppressWarnings("unchecked")
-						SimpleEntry<Enchantment, ItemStack> itemStackPair = (SimpleEntry<Enchantment, ItemStack>) field.get(null);
-						ItemStack itemStack = itemStackPair.getValue();
-						ItemMeta itemMeta = itemStack.getItemMeta();
+			if (!Modifier.isPublic(modifiers) || !Modifier.isStatic(modifiers) || !Modifier.isFinal(modifiers)) {
+				continue;
+			}
 
-						itemMeta.getPersistentDataContainer().set(
-							Main.getPlugin().getCustomEnchantmentStackIDKey(),
-							PersistentDataType.INTEGER, enchantmentsToItemStack.size() + 1);
+			// Check if the field's type is ItemStack
+			if (!SimpleEntry.class.isAssignableFrom(field.getType())) {
+				continue;
+			}
 
-						itemStack.setItemMeta(itemMeta);
-						//itemStackPair.setValue(itemStack);
-						itemStackIDToEnchantment.put(enchantmentsToItemStack.size() + 1, itemStackPair.getKey());
-						enchantmentsToItemStack.put(itemStackPair.getKey(), itemStackPair.getValue());
-					} catch (IllegalAccessException e) {
-						Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
-						Bukkit.getLogger().log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
-					}
-				}
+			try {
+				@SuppressWarnings("unchecked")
+				SimpleEntry<Enchantment, ItemStack> itemStackPair = (SimpleEntry<Enchantment, ItemStack>) field.get(null);
+				ItemStack itemStack = itemStackPair.getValue();
+				ItemMeta itemMeta = itemStack.getItemMeta();
+
+				itemMeta.getPersistentDataContainer().set(
+					Main.getPlugin().getCustomEnchantmentStackIDKey(),
+					PersistentDataType.INTEGER, enchantmentsToItemStack.size() + 1);
+
+				itemStack.setItemMeta(itemMeta);
+				//itemStackPair.setValue(itemStack);
+				itemStackIDToEnchantment.put(enchantmentsToItemStack.size() + 1, itemStackPair.getKey());
+				enchantmentsToItemStack.put(itemStackPair.getKey(), itemStackPair.getValue());
+			} catch (IllegalAccessException e) {
+				Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
+				Bukkit.getLogger().log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
 			}
 		}
 	}

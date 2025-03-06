@@ -1,9 +1,13 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 /**
@@ -39,14 +43,27 @@ public class SpecialsMenu extends Menu {
 				.open();
 			return;
 		}
-		if (e.getSlot() == 12) {
+		if (e.getSlot() == 11) {
 			new SpecialsItemFlagsMenu(playerMenuUtility)
 				.open();
 			return;
 		}
-		if (e.getSlot() == 14) {
+		if (e.getSlot() == 13) {
 			new SpecialsPreventionFlagsMenu(playerMenuUtility)
 				.open();
+			return;
+		}
+		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		if (e.getSlot() == 15) {
+			ArmorEffectManager.initPDCVariable(item);
+			if (ArmorEffectManager.getAllActivatedPotionEffectTypesAsList(item)
+				.isEmpty()) {
+				new SpecialsDeactivatedArmorEffectsMenu(this.playerMenuUtility)
+					.open();
+			} else {
+				new SpecialsActivatedArmorEffectsMenu(this.playerMenuUtility)
+					.open();
+			}
 			return;
 		}
 
@@ -56,8 +73,9 @@ public class SpecialsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		this.inventory.setItem(12, ItemStacks.itemFlags);
-		this.inventory.setItem(14, ItemStacks.preventionFlags);
+		this.inventory.setItem(11, ItemStacks.itemFlags);
+		this.inventory.setItem(13, ItemStacks.preventionFlags);
+		this.inventory.setItem(15, ItemStacks.armorEffects);
 
 		setFillerGlass();
 	}

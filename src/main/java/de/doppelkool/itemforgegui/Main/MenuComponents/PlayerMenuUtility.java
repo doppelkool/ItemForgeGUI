@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Class Description
@@ -19,6 +20,7 @@ public class PlayerMenuUtility {
 	private ItemStack tempStoredItem;
 	private int storedSlot;
 	private Enchantment targetEnchantment;
+	private PotionEffectType targetPotionEffectType;
 	private SignNumberEditor signNumberEditor;
 
 	public PlayerMenuUtility(Player pl) {

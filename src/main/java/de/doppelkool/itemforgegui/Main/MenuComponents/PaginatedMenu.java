@@ -30,7 +30,8 @@ public abstract class PaginatedMenu extends Menu {
 		inventory.setItem(50, ItemStacks.paginatedMenuRight);
 	}
 
-	public void addCustomEnchantmentMenuFilling() {
+	//For Enchantments and ArmorEffects
+	public void addCustomMenuFillingForEffects() {
 		for(Integer i : fillingGlassSlots) {
 			this.inventory.setItem(i, ItemStacks.FILLER_GLASS);
 		}
