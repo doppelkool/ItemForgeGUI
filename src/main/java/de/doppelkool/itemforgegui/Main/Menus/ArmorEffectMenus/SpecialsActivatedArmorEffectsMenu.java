@@ -87,7 +87,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 			PotionEffectType potionEffectType = PotionEffectStacks.itemStackIDToPotionEffectType.get(itemStackID);
 			this.playerMenuUtility.setTargetPotionEffectType(potionEffectType);
 
-			new SinglePotionEffectTypeMenu(this.playerMenuUtility)
+			new SingleArmorEffectTypeMenu(this.playerMenuUtility)
 				.open();
 		}
 	}

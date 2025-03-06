@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -66,6 +67,7 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		util.setSignNumberEditor(null);
 
 		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
+		new ItemInfoManager(item).updateItemInfo();
 		if (ArmorEffectManager.hasArmorEffects(item)) {
 			new SpecialsActivatedArmorEffectsMenu(util)
 				.open();

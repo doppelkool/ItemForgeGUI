@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
@@ -15,6 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class Logger {
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getDisplayName() : "meta null",
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getLore() : "meta null",
 			itemStack.getType(),
-			(itemStack.getItemMeta() != null) ? DisallowedActionsManager.getNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
+			(itemStack.getItemMeta() != null) ? PreventionFlagManager.getNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getPersistentDataContainer().get(Main.getPlugin().getCustomArmorEffectsKey(),
 				Main.getPlugin().getCustomArmorEffectListDataType()) : "meta null",
 			itemStack
@@ -176,6 +177,18 @@ public class Logger {
 			e.entrySet().stream()
 				.map(eff -> eff.getKey().getTranslationKey() + "-" + eff.getValue())
 				.collect(Collectors.toList())
+		));
+	}
+
+	public static void log(List<String> e) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			String.join(", ", e)
 		));
 	}
 

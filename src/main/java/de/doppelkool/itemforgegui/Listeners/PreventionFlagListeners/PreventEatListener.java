@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Material;
@@ -27,7 +27,7 @@ public class PreventEatListener implements Listener {
 	public void preventEat(PlayerItemConsumeEvent e) {
 		ItemStack item = e.getItem();
 
-		if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.EAT)) {
+		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.EAT)) {
 			return;
 		}
 
@@ -54,7 +54,7 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		if (!DisallowedActionsManager.isActionPrevented(customBlockData, ForgeAction.EAT)) {
+		if (!PreventionFlagManager.isActionPrevented(customBlockData, ForgeAction.EAT)) {
 			return;
 		}
 
@@ -70,12 +70,12 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		if (!DisallowedActionsManager.isActionPrevented(item, ForgeAction.EAT)) {
+		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.EAT)) {
 			return;
 		}
 
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(e.getBlockPlaced());
-		DisallowedActionsManager.toggleAllowedAction(e.getBlockPlaced(), ForgeAction.EAT, true);
+		PreventionFlagManager.toggleAllowedAction(e.getBlockPlaced(), ForgeAction.EAT, true);
 
 		e.getPlayer().sendMessage(Main.prefix + "Cake placed, but can never be eaten!");
 	}
@@ -94,7 +94,7 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		if (!DisallowedActionsManager.isActionPrevented(customBlockData, ForgeAction.EAT)) {
+		if (!PreventionFlagManager.isActionPrevented(customBlockData, ForgeAction.EAT)) {
 			return;
 		}
 
@@ -104,7 +104,7 @@ public class PreventEatListener implements Listener {
 		block.setType(Material.AIR);
 		ItemStack cakeDrop = new ItemStack(Material.CAKE, 1);
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(cakeDrop);
-		DisallowedActionsManager.toggleAllowedAction(cakeDrop, ForgeAction.EAT, true);
+		PreventionFlagManager.toggleAllowedAction(cakeDrop, ForgeAction.EAT, true);
 		block.getWorld().dropItemNaturally(block.getLocation(), cakeDrop);
 	}
 }

@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public class SmithingTableListener extends DuplicateEventManager<PrepareSmithing
 			return false;
 		}
 
-		if(!DisallowedActionsManager.isActionPrevented(item, ForgeAction.UPGRADE)) {
+		if(!PreventionFlagManager.isActionPrevented(item, ForgeAction.UPGRADE)) {
 			return false;
 		}
 

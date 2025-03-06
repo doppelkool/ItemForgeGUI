@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.DisallowedActionsManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +21,7 @@ public class PreventBurnListener implements Listener {
 			return;
 		}
 
-		if (!DisallowedActionsManager.isActionPrevented(((Item) e.getEntity()).getItemStack(), ForgeAction.BURN)) {
+		if (!PreventionFlagManager.isActionPrevented(((Item) e.getEntity()).getItemStack(), ForgeAction.BURN)) {
 			return;
 		}
 
@@ -34,7 +34,7 @@ public class PreventBurnListener implements Listener {
 			return;
 		}
 
-		if (!DisallowedActionsManager.isActionPrevented(((Item) e.getEntity()).getItemStack(), ForgeAction.BURN)) {
+		if (!PreventionFlagManager.isActionPrevented(((Item) e.getEntity()).getItemStack(), ForgeAction.BURN)) {
 			return;
 		}
 

@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
@@ -29,8 +30,13 @@ public class ItemEditMenu extends Menu {
 
 	public ItemEditMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+
+		ItemStack itemInMainHand = playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		if(!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
+			new ItemInfoManager(itemInMainHand).initItemDescription();
+		}
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
-			playerMenuUtility.getOwner().getInventory().getItemInMainHand());
+			itemInMainHand);
 	}
 
 	@Override

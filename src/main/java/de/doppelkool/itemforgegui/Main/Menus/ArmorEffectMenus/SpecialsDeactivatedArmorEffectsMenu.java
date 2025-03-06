@@ -86,7 +86,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 				.get(); //Handled every other case
 			this.playerMenuUtility.setTargetPotionEffectType(potionEffectType);
 
-			new SinglePotionEffectTypeMenu(this.playerMenuUtility)
+			new SingleArmorEffectTypeMenu(this.playerMenuUtility)
 				.open();
 		}
 

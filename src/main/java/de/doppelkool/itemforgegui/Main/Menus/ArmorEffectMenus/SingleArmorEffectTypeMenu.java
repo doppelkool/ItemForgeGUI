@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -16,11 +17,11 @@ import org.bukkit.potion.PotionEffectType;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class SinglePotionEffectTypeMenu extends EditNumberMenu {
+public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	private final ItemStack itemToBeEnchanted;
 	private final PotionEffectType potionEffectToEdit;
 
-	public SinglePotionEffectTypeMenu(PlayerMenuUtility playerMenuUtility) {
+	public SingleArmorEffectTypeMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
 		this.itemToBeEnchanted = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		this.potionEffectToEdit = this.playerMenuUtility.getTargetPotionEffectType();
@@ -45,11 +46,15 @@ public class SinglePotionEffectTypeMenu extends EditNumberMenu {
 	@Override
 	protected void handleToZero() {
 		ArmorEffectManager.removeArmorEffect(itemToBeEnchanted, potionEffectToEdit);
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handleToMax() {
 		ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, 255);
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -63,6 +68,8 @@ public class SinglePotionEffectTypeMenu extends EditNumberMenu {
 		} else {
 			ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, strength - 100);
 		}
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -76,6 +83,8 @@ public class SinglePotionEffectTypeMenu extends EditNumberMenu {
 		} else {
 			ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, strength - 10);
 		}
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
@@ -89,24 +98,62 @@ public class SinglePotionEffectTypeMenu extends EditNumberMenu {
 		} else {
 			ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, strength - 1);
 		}
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handlePlus1() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
-		ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, strength == null ? 1 : strength + 1);
+
+		if(strength != null && strength == 255) {
+			return;
+		}
+
+		ArmorEffectManager.addArmorEffect(
+			itemToBeEnchanted,
+			potionEffectToEdit,
+			strength == null
+				? 1
+				: Integer.min(strength + 1, 255));
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handlePlus10() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
-		ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, strength == null ? 10 : strength + 10);
+
+		if(strength != null && strength == 255) {
+			return;
+		}
+
+		ArmorEffectManager.addArmorEffect(
+			itemToBeEnchanted,
+			potionEffectToEdit,
+			strength == null
+				? 10
+				: Integer.min(strength + 10, 255));
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
 	protected void handlePlus100() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
-		ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, strength == null ? 100 : strength + 100);
+
+		if(strength != null && strength == 255) {
+			return;
+		}
+
+		ArmorEffectManager.addArmorEffect(
+			itemToBeEnchanted,
+			potionEffectToEdit,
+			strength == null
+				? 100
+				: Integer.min(strength + 100, 255));
+
+		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
 	}
 
 	@Override
