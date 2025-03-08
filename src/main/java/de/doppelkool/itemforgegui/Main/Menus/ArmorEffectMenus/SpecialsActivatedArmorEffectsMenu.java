@@ -1,6 +1,8 @@
 package de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus;
 
+import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -85,8 +87,23 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 			PersistentDataContainer persistentDataContainer = item.getItemMeta().getPersistentDataContainer();
 			Integer itemStackID = persistentDataContainer.get(Main.getPlugin().getCustomArmorEffectsKeyStackIDKey(), PersistentDataType.INTEGER);
 			PotionEffectType potionEffectType = PotionEffectStacks.itemStackIDToPotionEffectType.get(itemStackID);
-			this.playerMenuUtility.setTargetPotionEffectType(potionEffectType);
 
+			if(ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
+				ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+				ArmorEffectManager.removeArmorEffect(itemInMainHand, potionEffectType);
+				new ItemInfoManager(itemInMainHand).updateItemInfo();
+
+				if (ArmorEffectManager.hasArmorEffects(itemInMainHand)) {
+					new SpecialsActivatedArmorEffectsMenu(this.playerMenuUtility)
+						.open();
+				} else {
+					new SpecialsDeactivatedArmorEffectsMenu(this.playerMenuUtility)
+						.open();
+				}
+				return;
+			}
+
+			this.playerMenuUtility.setTargetPotionEffectType(potionEffectType);
 			new SingleArmorEffectTypeMenu(this.playerMenuUtility)
 				.open();
 		}

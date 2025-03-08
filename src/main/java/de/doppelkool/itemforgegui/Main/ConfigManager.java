@@ -15,6 +15,7 @@ public class ConfigManager {
 	private FileConfiguration config;
 	private boolean itemImmutabilityEnabled;
 	private boolean uniqueIdOnEditedItemEnabled;
+	private boolean differCappedEffectsEnabled;
 
 
 	private ConfigManager() {
@@ -22,7 +23,8 @@ public class ConfigManager {
 		Main.getPlugin().saveDefaultConfig();
 
 		this.uniqueIdOnEditedItemEnabled = this.config.getBoolean("unique-id-on-edited-item");
-		this.itemImmutabilityEnabled = this.config.getBoolean("item-immutability-enabled");
+		this.itemImmutabilityEnabled = this.config.getBoolean("item-immutability");
+		this.differCappedEffectsEnabled = this.config.getBoolean("differ-capped-effects");
 	}
 
 	public static ConfigManager getInstance() {

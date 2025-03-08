@@ -1,2 +1,22 @@
 "unique-id-on-edited-item": true
-"item-immutability-enabled": true
+"item-immutability": true
+
+# This config value has two effects:
+#- It differentiates between effects that are amplified by increasing the strength and effects that actually only have one strength.
+#- It allows/prevents the item editor from increasing an effects applied to an item beyond strength level 1.
+# The list of the effects that only have one strength level:
+  # BLINDNESS,
+  # DARKNESS,
+  # FIRE_RESISTANCE,
+  # GLOWING,
+  # INVISIBILITY,
+  # NAUSEA,
+  # NIGHT_VISION,
+  # TRIAL_OMEN,
+  # SLOW_FALLING,
+  # WATER_BREATHING,
+  # INFESTED,
+  # OOZING,
+  # WEAVING,
+  # WIND_CHARGED
+"differ-capped-effects": true
