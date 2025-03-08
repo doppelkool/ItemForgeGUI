@@ -11,6 +11,7 @@ import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair.*;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -57,6 +58,7 @@ public final class Main extends JavaPlugin {
     public void onEnable()
     {
         plugin = this;
+        new Metrics(this, 24997);
 
         ConfigManager cMr = ConfigManager.getInstance();
         if(cMr.isUniqueIdOnEditedItemEnabled()) {

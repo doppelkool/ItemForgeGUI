@@ -8,10 +8,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.bukkit.potion.PotionEffectType.*;
 
 /**
  * Class Description
@@ -19,6 +19,23 @@ import java.util.stream.Collectors;
  * @author doppelkool | github.com/doppelkool
  */
 public class ArmorEffectManager {
+
+	private static final Set<PotionEffectType> cappedTypes = new HashSet<>(Set.of(
+		BLINDNESS,
+		DARKNESS,
+		FIRE_RESISTANCE,
+		GLOWING,
+		INVISIBILITY,
+		NAUSEA,
+		NIGHT_VISION,
+		TRIAL_OMEN,
+		SLOW_FALLING,
+		WATER_BREATHING,
+		INFESTED,
+		OOZING,
+		WEAVING,
+		WIND_CHARGED
+	));
 
 	public static void initPDCVariable(ItemStack item) {
 		ItemMeta itemMeta = item.getItemMeta();
@@ -170,5 +187,9 @@ public class ArmorEffectManager {
 			}
 		}
 		return bestEffects;
+	}
+
+	public static boolean isCappedEffect(PotionEffectType potionEffectType) {
+		return cappedTypes.contains(potionEffectType);
 	}
 }
