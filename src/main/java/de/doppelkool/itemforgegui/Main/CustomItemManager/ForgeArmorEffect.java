@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.google.common.collect.ImmutableMap;
+import de.doppelkool.itemforgegui.Main.ConfigManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -49,13 +50,15 @@ public class ForgeArmorEffect implements ConfigurationSerializable {
 	}
 
 	public PotionEffect getPotionEffect() {
+		ConfigManager instance = ConfigManager.getInstance();
+
 		return new PotionEffect(
 			this.type,
 			PotionEffect.INFINITE_DURATION,
 			this.amplifier,
-			false, //ToDo configurable in config
-			false, //ToDo configurable in config
-			true //ToDo configurable in config
+			instance.isArmoreffectsShowAmbient(),
+			instance.isArmoreffectsShowParticles(),
+			instance.isArmoreffectsShowIcon()
 		);
 	}
 

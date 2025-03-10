@@ -154,23 +154,6 @@ public class ItemStackHelper {
 		}
 	}
 
-	public static boolean hasImmutability(ItemStack stack) {
-		return stack.getItemMeta().getPersistentDataContainer()
-			.has(Main.getPlugin().getCustomTagItemImmutabilityKey());
-	}
-
-	public static void setImmutability(ItemStack stack, boolean toggle) {
-		ItemMeta itemMeta = stack.getItemMeta();
-		PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-		if(toggle) {
-			//Boolean value is not used, but necessary
-			persistentDataContainer.set(Main.getPlugin().getCustomTagItemImmutabilityKey(), PersistentDataType.BOOLEAN, true);
-		} else {
-			persistentDataContainer.remove(Main.getPlugin().getCustomTagItemImmutabilityKey());
-		}
-		stack.setItemMeta(itemMeta);
-	}
-
 	public static boolean hasGlow(ItemStack item) {
 		return item.getItemMeta().hasEnchants()
 			&& (item.getItemMeta().getEnchantLevel(Enchantment.LUCK_OF_THE_SEA) == 1);
