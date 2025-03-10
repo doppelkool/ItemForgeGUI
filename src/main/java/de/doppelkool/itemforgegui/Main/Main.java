@@ -41,8 +41,6 @@ public final class Main extends JavaPlugin {
     @Getter
     private NamespacedKey customNotAvailableStackIDKey;
     @Getter
-    private NamespacedKey customTagItemImmutabilityKey;
-    @Getter
     private NamespacedKey customTagItemNotAllowedForgeActions;
     @Getter
     private NamespacedKey customTagUID;
@@ -65,11 +63,7 @@ public final class Main extends JavaPlugin {
             customTagUID = new NamespacedKey(this, "id");
         }
 
-        if(cMr.isItemImmutabilityEnabled()) {
-            customTagItemImmutabilityKey = new NamespacedKey(this, "isImmutable");
-            customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
-        }
-
+        customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
         customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
         customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
         customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");

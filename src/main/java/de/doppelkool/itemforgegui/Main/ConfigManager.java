@@ -13,18 +13,23 @@ public class ConfigManager {
 	private static ConfigManager instance;
 
 	private FileConfiguration config;
-	private boolean itemImmutabilityEnabled;
 	private boolean uniqueIdOnEditedItemEnabled;
 	private boolean differCappedEffectsEnabled;
 
+	private boolean armoreffectsShowAmbient;
+	private boolean armoreffectsShowParticles;
+	private boolean armoreffectsShowIcon;
 
 	private ConfigManager() {
 		this.config = Main.getPlugin().getConfig();
 		Main.getPlugin().saveDefaultConfig();
 
 		this.uniqueIdOnEditedItemEnabled = this.config.getBoolean("unique-id-on-edited-item");
-		this.itemImmutabilityEnabled = this.config.getBoolean("item-immutability");
 		this.differCappedEffectsEnabled = this.config.getBoolean("differ-capped-effects");
+
+		this.armoreffectsShowAmbient = this.config.getBoolean("armoreffects.showAmbient");
+		this.armoreffectsShowParticles = this.config.getBoolean("armoreffects.showParticles");
+		this.armoreffectsShowIcon = this.config.getBoolean("armoreffects.showIcon");
 	}
 
 	public static ConfigManager getInstance() {

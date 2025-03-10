@@ -10,7 +10,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.setImmutabilityItemTypeByHasTag;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -44,12 +43,6 @@ public class ItemIdentityMenu extends Menu {
 			return;
 		}
 
-		//ToDo reactivate
-		//if(e.getSlot() == 10) {
-		//	handleToggleImmutability();
-		//	return;
-		//}
-
 		if(e.getSlot() == 13) {
 			new ItemUniquenessSettingsMenu(this.playerMenuUtility)
 				.open();
@@ -63,11 +56,6 @@ public class ItemIdentityMenu extends Menu {
 
 		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
-		//ToDo reactivate
-		//if (ConfigManager.getInstance().isItemImmutabilityEnabled()) {
-		//	this.inventory.setItem(10, setImmutabilityItemTypeByHasTag(item));
-		//}
-
 		if (ConfigManager.getInstance().isUniqueIdOnEditedItemEnabled()) {
 			ItemStack clone = ItemStacks.openItemUniquenessSettings.clone();
 			modifyCurrentValueVariableInLore(
@@ -77,17 +65,5 @@ public class ItemIdentityMenu extends Menu {
 		}
 
 		setFillerGlass();
-	}
-
-	private void handleToggleImmutability() {
-		if (!ConfigManager.getInstance().isItemImmutabilityEnabled()) {
-			return;
-		}
-
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		ItemStackHelper.setImmutability(
-			itemInMainHand,
-			!ItemStackHelper.hasImmutability(itemInMainHand));
-		this.inventory.setItem(10, setImmutabilityItemTypeByHasTag(itemInMainHand));
 	}
 }

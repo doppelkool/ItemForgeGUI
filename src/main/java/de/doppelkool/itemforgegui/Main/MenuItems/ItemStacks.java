@@ -438,10 +438,4 @@ public class ItemStacks {
 		itemStackNotAvailable.setType(Material.BARRIER);
 		return itemStackNotAvailable;
 	}
-
-	public static ItemStack setImmutabilityItemTypeByHasTag(ItemStack itemStack) {
-		ItemStack editItemImmutabilityToSet = editItemImmutability.clone();
-		ItemStackHelper.setGlow(editItemImmutabilityToSet, ItemStackHelper.hasImmutability(itemStack));
-		return editItemImmutabilityToSet;
-	}
 }

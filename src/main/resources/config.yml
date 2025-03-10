@@ -1,5 +1,4 @@
 "unique-id-on-edited-item": true
-"item-immutability": true
 
 # This config value has two effects:
 #- It differentiates between effects that are amplified by increasing the strength and effects that actually only have one strength.
@@ -20,3 +19,7 @@
   # WEAVING,
   # WIND_CHARGED
 "differ-capped-effects": true
+armoreffects:
+  showAmbient: false
+  showParticles: false
+  showIcon: true
