@@ -1,17 +1,15 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
-import com.google.common.collect.ImmutableMap;
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -31,22 +29,22 @@ public class ForgeArmorEffect implements ConfigurationSerializable {
 		this.amplifier = amplifier;
 	}
 
-	@SuppressWarnings("unused")
-	//This constructor is needed for deserialization
-	public ForgeArmorEffect(Map<String, Object> map) {
-		this(
-			Bukkit.getUnsafe().get(Registry.EFFECT, NamespacedKey.fromString((String) map.get("effect"))),
-			(Integer) map.get("amplifier")
-		);
-	}
-
 	@Override
 	@NotNull
 	public Map<String, Object> serialize() {
-		return ImmutableMap.<String, Object>builder()
-			.put("effect", this.type.getKey().toString())
-			.put("amplifier", this.amplifier)
-			.build();
+		return new HashMap<>(Map.of(
+			"effect", this.type.getKey().toString(),
+			"amplifier", this.amplifier
+		));
+	}
+
+	@SuppressWarnings("unused")
+	//This constructor is needed for paper deserialization
+	public static ForgeArmorEffect deserialize(Map<String, Object> map) {
+		return new ForgeArmorEffect(
+			PotionEffectType.getByKey(NamespacedKey.fromString((String) map.get("effect"))),
+			(Integer) map.get("amplifier")
+		);
 	}
 
 	public PotionEffect getPotionEffect() {
@@ -61,5 +59,4 @@ public class ForgeArmorEffect implements ConfigurationSerializable {
 			instance.isArmoreffectsShowIcon()
 		);
 	}
-
 }
