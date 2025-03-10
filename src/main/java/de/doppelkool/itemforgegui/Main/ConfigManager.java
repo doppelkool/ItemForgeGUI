@@ -12,13 +12,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class ConfigManager {
 	private static ConfigManager instance;
 
-	private FileConfiguration config;
-	private boolean uniqueIdOnEditedItemEnabled;
-	private boolean differCappedEffectsEnabled;
+	private final FileConfiguration config;
+	private final boolean uniqueIdOnEditedItemEnabled;
+	private final boolean differCappedEffectsEnabled;
 
-	private boolean armoreffectsShowAmbient;
-	private boolean armoreffectsShowParticles;
-	private boolean armoreffectsShowIcon;
+	private final boolean armoreffectsShowAmbient;
+	private final boolean armoreffectsShowParticles;
+	private final boolean armoreffectsShowIcon;
 
 	private ConfigManager() {
 		this.config = Main.getPlugin().getConfig();

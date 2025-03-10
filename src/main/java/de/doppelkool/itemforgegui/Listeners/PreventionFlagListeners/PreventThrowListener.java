@@ -39,7 +39,9 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock() != null
 			&& e.getClickedBlock().getType().isInteractable()
-			&& !e.getPlayer().isSneaking()) {
+			&& !e.getPlayer().isSneaking()
+			|| e.getAction() == Action.LEFT_CLICK_AIR
+			|| e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			return false;
 		}
 

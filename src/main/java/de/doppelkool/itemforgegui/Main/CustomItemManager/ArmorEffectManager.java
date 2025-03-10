@@ -11,7 +11,20 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.bukkit.potion.PotionEffectType.*;
+import static org.bukkit.potion.PotionEffectType.BLINDNESS;
+import static org.bukkit.potion.PotionEffectType.DARKNESS;
+import static org.bukkit.potion.PotionEffectType.FIRE_RESISTANCE;
+import static org.bukkit.potion.PotionEffectType.GLOWING;
+import static org.bukkit.potion.PotionEffectType.INFESTED;
+import static org.bukkit.potion.PotionEffectType.INVISIBILITY;
+import static org.bukkit.potion.PotionEffectType.NAUSEA;
+import static org.bukkit.potion.PotionEffectType.NIGHT_VISION;
+import static org.bukkit.potion.PotionEffectType.OOZING;
+import static org.bukkit.potion.PotionEffectType.SLOW_FALLING;
+import static org.bukkit.potion.PotionEffectType.TRIAL_OMEN;
+import static org.bukkit.potion.PotionEffectType.WATER_BREATHING;
+import static org.bukkit.potion.PotionEffectType.WEAVING;
+import static org.bukkit.potion.PotionEffectType.WIND_CHARGED;
 
 /**
  * Class Description
