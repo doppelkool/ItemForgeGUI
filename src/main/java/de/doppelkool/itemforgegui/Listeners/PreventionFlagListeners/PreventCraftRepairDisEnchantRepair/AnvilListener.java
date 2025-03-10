@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,9 +13,11 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.view.AnvilView;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  * Class Description
@@ -44,7 +47,10 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		}
 
 		// Check for renaming via display names on the items.
-		if (shouldCancelRename(leftItem, rightItem)) {
+		if (shouldCancelRename(
+				leftItem,
+				event.getView().getRenameText(),
+				rightItem)) {
 			return true;
 		}
 
@@ -203,7 +209,8 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 	@EventHandler
 	public void onAnvilResultClick(InventoryClickEvent event) {
 		// Ensure the inventory is an anvil (or you could also check using InventoryType.ANVIL)
-		if (!(event.getInventory() instanceof AnvilInventory)) {
+		if (!(event.getInventory() instanceof AnvilInventory
+			&& event.getView() instanceof AnvilView anvilView)) {
 			return;
 		}
 
@@ -223,7 +230,10 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		ItemStack rightItem = event.getInventory().getItem(1);
 
 		// First, check for a renaming operation.
-		if (shouldCancelRename(leftItem, rightItem)) {
+		if (shouldCancelRename(
+				leftItem,
+				anvilView.getRenameText(),
+				rightItem)) {
 			resetEvent(event);
 			return;
 		}
@@ -291,31 +301,18 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 	 * that differ, then a rename is detected. It then checks if renaming is disallowed.
 	 * </p>
 	 *
-	 * @param leftItem  the item in slot 0 (original item)
-	 * @param rightItem the item in slot 1 (input for the rename operation)
+	 * @param leftItem the item in slot 0 (original item)
+	 * @param renameText the given text from the anvil inventory view
+	 * @param rightItem  the item in slot 1 (input for the rename operation)
 	 * @return true if the rename is detected and should be canceled; false otherwise.
 	 */
-	private boolean shouldCancelRename(ItemStack leftItem, ItemStack rightItem) {
-		String leftDisplay = null;
-		if (leftItem != null && leftItem.getItemMeta() != null && leftItem.getItemMeta().hasDisplayName()) {
-			leftDisplay = leftItem.getItemMeta().getDisplayName();
-		}
-		String rightDisplay = null;
-		if (rightItem != null && rightItem.getItemMeta() != null && rightItem.getItemMeta().hasDisplayName()) {
-			rightDisplay = rightItem.getItemMeta().getDisplayName();
-		}
+	private boolean shouldCancelRename(ItemStack leftItem, String renameText, ItemStack rightItem) {
+		String stringToBeRenamed =
+			leftItem != null
+				? leftItem.getItemMeta().getDisplayName()
+				: rightItem.getItemMeta().getDisplayName();
 
-		boolean isRename = false;
-		// If the left item has no custom display name but the right does, consider it a rename.
-		if (leftDisplay == null && rightDisplay != null) {
-			isRename = true;
-		}
-		// If both items have a custom name, and they differ, consider it a rename.
-		else if (leftDisplay != null && rightDisplay != null && !leftDisplay.equals(rightDisplay)) {
-			isRename = true;
-		}
-
-		// Check if renaming is disallowed via your DisallowedActionsManager.
+		boolean isRename = !stringToBeRenamed.equals(renameText);
 		boolean preventRename = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
 			|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME);
 
