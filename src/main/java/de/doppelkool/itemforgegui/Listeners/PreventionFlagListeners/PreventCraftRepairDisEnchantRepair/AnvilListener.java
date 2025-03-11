@@ -12,8 +12,12 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.view.AnvilView;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,65 +43,127 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		ItemStack leftItem = anvilInventory.getItem(0);
 		ItemStack rightItem = anvilInventory.getItem(1);
 
-		// If both inputs are null, nothing to process.
+		// Vanilla: Both items are empty, Nothing to process
 		if (leftItem == null && rightItem == null) {
 			return false;
 		}
 
-		// Check for renaming via display names on the items.
-		if (shouldCancelRename(
-				leftItem,
-				event.getView().getRenameText(),
-				rightItem)) {
-			return true;
-		}
-
-		// Combine prevention flags for enchant and repair operations.
-		boolean preventEnchantAny =
-			PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)
-				|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.ENCHANT);
-		boolean preventRepairAny =
-			PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.REPAIR)
-				|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.REPAIR);
-
-		// If neither prevention is active, allow the operation.
-		if (!preventEnchantAny && !preventRepairAny) {
+		// Vanilla: Only right item is filled, Nothing to process
+		if(leftItem == null) {
 			return false;
 		}
 
-		// Determine if either input is enchanted (indicating an enchanting operation).
-		boolean leftEnchanted = leftItem != null && !leftItem.getEnchantments().isEmpty();
-		boolean rightEnchanted = rightItem != null && !rightItem.getEnchantments().isEmpty();
-		boolean isEnchant = leftEnchanted || rightEnchanted;
+		return shouldCancelEvent(event.getView().getRenameText(), leftItem, rightItem);
+	}
 
-		// Determine if this is a repair operation: both inputs exist and are of the same type.
-		boolean isRepair = false;
-		if (leftItem != null && rightItem != null) {
-			if (leftItem.getType() == rightItem.getType()) {
-				// Standard repair combining two of the same item.
-				isRepair = true;
-			} else {
-				// Check if the right item is a valid repair material (ingot, membrane, etc.)
-				if (isMatchingRepairIngot(leftItem, rightItem)) {
-					isRepair = true;
+	public boolean shouldCancelEvent(String renameText, ItemStack leftItem, ItemStack rightItem) {
+		// Use your custom renaming method to determine if the player is actually changing the name.
+		boolean isRenamingAttempt = isRenaming(leftItem, renameText, rightItem);
+
+		// Check if the left item is repairable and damaged.
+		boolean leftItemRepairableAndDamaged = isItemRepairableAndDamaged(leftItem);
+
+		if (rightItem != null) {
+			// Branch 1: Repairing Attempt.
+			// A repair attempt is detected if the right item is either:
+			//    a) the matching repair ingot (per your helper), or
+			//    b) of the same type as the left item (typical combine repair)
+			// AND the left item is damageable and actually damaged.
+			boolean isRepairAttempt = (isMatchingRepairIngot(leftItem, rightItem)
+				|| (rightItem.getType() == leftItem.getType()))
+				&& leftItemRepairableAndDamaged;
+			if (isRepairAttempt) {
+				// Only run our prevention logic if vanilla would allow this repair operation.
+				if (isVanillaRepairable(leftItem, rightItem)) {
+					// If a renaming attempt is happening during repair, then also check rename prevention.
+					if (isRenamingAttempt && PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)) {
+						return true;
+					}
+					if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.REPAIR)) {
+						return true;
+					}
+				}
+				// If vanilla wouldn’t allow it, let vanilla handle it.
+				return false;
+			}
+			// Branch 2: Enchanting Attempt.
+			// This branch is triggered when the right item is an enchanted book.
+			else if (rightItem.getType() == Material.ENCHANTED_BOOK) {
+				// IMPORTANT CHANGE:
+				// If the left item is not normally enchantable by vanilla, cancel the event.
+				if (!isVanillaEnchantable(leftItem)) {
+					this.cancelString = null;
+					return true;
+				}
+				// Otherwise, if it is vanilla-enchantable, proceed with our prevention checks.
+				if (isRenamingAttempt) {
+					if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME) ||
+						PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT) ||
+						PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.ENCHANT)) {
+						return true;
+					}
+				} else {
+					if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT) ||
+						PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.ENCHANT)) {
+						return true;
+					}
 				}
 			}
+			// Branch 3: Renaming Attempt (with two items) for non-enchanted book cases.
+			else if (isRenamingAttempt) {
+				if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME) ||
+					PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME)) {
+					return true;
+				}
+			}
+			// In any other case, allow the event.
+		} else {
+			// Single-item scenario: Pure renaming.
+			if (isRenamingAttempt && PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)) {
+				return true;
+			}
 		}
-
-		/*
-		 * Prevention logic:
-		 * 1. If the operation is clearly an enchantment (non-repair) and the enchant prevention flag is active, cancel.
-		 * 2. If the operation is clearly a repair (non-enchant) and the repair prevention flag is active, cancel.
-		 * 3. If the operation is ambiguous (both or neither clear), cancel the operation.
-		 */
-		if ((isEnchant && !isRepair && preventEnchantAny) ||
-			(isRepair && !isEnchant && preventRepairAny) ||
-			((isEnchant && isRepair) || (!isEnchant && !isRepair))) {
-
-			return true;
-		}
-
 		return false;
+	}
+
+
+	/**
+	 * Helper method to check if the item is damageable and currently damaged.
+	 * Uses the Spigot 1.21.4 API (Damageable interface via ItemMeta).
+	 */
+	private boolean isItemRepairableAndDamaged(ItemStack item) {
+		if (item == null || !item.hasItemMeta()) {
+			return false;
+		}
+		ItemMeta meta = item.getItemMeta();
+		if (!(meta instanceof Damageable)) {
+			return false;
+		}
+		Damageable damageable = (Damageable) meta;
+		return damageable.getDamage() > 0;
+	}
+
+	/**
+	 * Checks if the left item is normally enchantable by vanilla.
+	 * Instead of a large switch statement, this method uses the keySet of the REPAIR_INGOT_MAP.
+	 * It then excludes BOW, CROSSBOW, and BOOK.
+	 */
+	private boolean isVanillaEnchantable(ItemStack item) {
+		if (item == null) return false;
+		return VANILLA_ENCHANTABLE_MATERIALS.contains(item.getType());
+	}
+
+	/**
+	 * Checks if the combination of left and right items is a valid repair operation according to vanilla.
+	 * Typically, vanilla allows repair on damageable items if the right item is either the appropriate repair material
+	 * (determined by isMatchingRepairIngot) or another instance of the same item type.
+	 */
+	private boolean isVanillaRepairable(ItemStack leftItem, ItemStack rightItem) {
+		if (leftItem == null) return false;
+		// Only damageable items can be repaired.
+		if (!isItemRepairableAndDamaged(leftItem)) return false;
+		// For vanilla repair, the right item must either be the correct repair material or the same type.
+		return isMatchingRepairIngot(leftItem, rightItem) || (rightItem.getType() == leftItem.getType());
 	}
 
 	private static final Set<Material> WOODEN_PLANKS = Set.of(
@@ -184,6 +250,16 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		Map.entry(Material.TURTLE_HELMET, Material.TURTLE_SCUTE)
 	);
 
+	private static final Set<Material> VANILLA_ENCHANTABLE_MATERIALS;
+	static {
+		Set<Material> set = new HashSet<>(REPAIR_INGOT_MAP.keySet());
+		set.add(Material.BOW);
+		set.add(Material.CROSSBOW);
+		set.add(Material.BOOK);
+		set.add(Material.ENCHANTED_BOOK);
+		VANILLA_ENCHANTABLE_MATERIALS = Collections.unmodifiableSet(set);
+	}
+
 	private boolean isMatchingRepairIngot(ItemStack left, ItemStack right) {
 		Material leftType = left.getType();
 		Material rightType = right.getType();
@@ -197,7 +273,6 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		return requiredIngot != null && rightType == requiredIngot;
 	}
 
-
 	@Override
 	protected void customCancelLogic(PrepareAnvilEvent event) {
 		event.setResult(null);
@@ -206,7 +281,6 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 
 	@EventHandler
 	public void onAnvilResultClick(InventoryClickEvent event) {
-		// Ensure the inventory is an anvil (or you could also check using InventoryType.ANVIL)
 		if (!(event.getInventory() instanceof AnvilInventory
 			&& event.getView() instanceof AnvilView anvilView)) {
 			return;
@@ -217,66 +291,18 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 			return;
 		}
 
-		// Retrieve the left input item (slot 0) and the result item (slot 2)
-		ItemStack leftItem = event.getInventory().getItem(0);
+		Inventory inv = event.getInventory();
+		ItemStack leftItem = inv.getItem(0);
+		ItemStack rightItem = inv.getItem(1);
+		String renameText = anvilView.getRenameText();
+
 		ItemStack resultItem = event.getCurrentItem();
 		if (leftItem == null || resultItem == null) {
 			return;
 		}
 
-		// Retrieve the right input item from slot 1 (may be null)
-		ItemStack rightItem = event.getInventory().getItem(1);
-
-		// First, check for a renaming operation.
-		if (shouldCancelRename(
-				leftItem,
-				anvilView.getRenameText(),
-				rightItem)) {
+		if (shouldCancelEvent(renameText, leftItem, rightItem)) {
 			resetEvent(event);
-			return;
-		}
-
-		// Combine prevention flags for enchant and repair operations.
-		boolean preventEnchantAny = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)
-			|| (PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.ENCHANT));
-		boolean preventRepairAny = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.REPAIR)
-			|| (PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.REPAIR));
-
-		// If neither prevention is active, allow the operation.
-		if (!preventEnchantAny && !preventRepairAny) {
-			return;
-		}
-
-		// Determine if either input is enchanted (indicating an enchanting operation).
-		boolean leftEnchanted = !leftItem.getEnchantments().isEmpty();
-		boolean rightEnchanted = rightItem != null && !rightItem.getEnchantments().isEmpty();
-		boolean isEnchant = leftEnchanted || rightEnchanted;
-
-		// Determine if this is a repair operation: both inputs exist and are of the same type.
-		boolean isRepair = false;
-		if (leftItem != null && rightItem != null) {
-			if (leftItem.getType() == rightItem.getType()) {
-				// Standard repair combining two of the same item.
-				isRepair = true;
-			} else {
-				// Check if the right item is a valid repair material (ingot, membrane, etc.)
-				if (isMatchingRepairIngot(leftItem, rightItem)) {
-					isRepair = true;
-				}
-			}
-		}
-
-		/*
-		 * Prevention logic:
-		 * 1. If the operation is clearly an enchantment (non-repair) and the enchant prevention flag is active, cancel.
-		 * 2. If the operation is clearly a repair (non-enchant) and the repair prevention flag is active, cancel.
-		 * 3. If the operation is ambiguous (both or neither clear), cancel the operation.
-		 */
-		if ((isEnchant && !isRepair && preventEnchantAny) ||
-			(isRepair && !isEnchant && preventRepairAny) ||
-			((isEnchant && isRepair) || (!isEnchant && !isRepair))) {
-			resetEvent(event);
-			return;
 		}
 	}
 
@@ -292,28 +318,16 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 	}
 
 	/**
-	 * Checks whether a rename operation should be canceled.
-	 * <p>
-	 * It compares the display names of the left and right items. If the left item is using Minecraft’s default
-	 * (i.e. no custom display name) and the right item has a custom name, or if both items have custom names
-	 * that differ, then a rename is detected. It then checks if renaming is disallowed.
-	 * </p>
-	 *
-	 * @param leftItem the item in slot 0 (original item)
-	 * @param renameText the given text from the anvil inventory view
-	 * @param rightItem  the item in slot 1 (input for the rename operation)
-	 * @return true if the rename is detected and should be canceled; false otherwise.
+	 * Determines if the player is performing a renaming action.
+	 * It compares the new name (renameText) to the current display name of the left item (or right item if left is null).
+	 * If the names differ, then the player has changed the name.
 	 */
-	private boolean shouldCancelRename(ItemStack leftItem, String renameText, ItemStack rightItem) {
-		String stringToBeRenamed =
-			leftItem != null
-				? leftItem.getItemMeta().getDisplayName()
-				: rightItem.getItemMeta().getDisplayName();
-
-		boolean isRename = !stringToBeRenamed.equals(renameText);
-		boolean preventRename = PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
-			|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME);
-
-		return isRename && preventRename;
+	private boolean isRenaming(ItemStack leftItem, String renameText, ItemStack rightItem) {
+		String currentName = (leftItem != null && leftItem.hasItemMeta() && leftItem.getItemMeta().hasDisplayName())
+			? leftItem.getItemMeta().getDisplayName()
+			: (rightItem != null && rightItem.hasItemMeta() && rightItem.getItemMeta().hasDisplayName())
+			? rightItem.getItemMeta().getDisplayName()
+			: "";
+		return !currentName.equals(renameText);
 	}
 }

@@ -50,7 +50,8 @@ public abstract class DuplicateEventManager<E extends Event> {
 			}
 
 			Player player = Bukkit.getPlayer(playerUUID);
-			if(player != null) player.sendMessage(cancelString);
+			if(player != null && cancelString != null)
+				player.sendMessage(cancelString);
 		}
 
 		pendingPlayerUUIDs.put(playerUUID, wasCancelled);
