@@ -57,8 +57,14 @@ public abstract class DuplicateEventManager<E extends Event> {
 		pendingPlayerUUIDs.put(playerUUID, wasCancelled);
 	}
 
+	/**
+	 * @return if the event should be cancelled
+	 * */
 	protected abstract boolean eventLogic(E event);
 
+	/**
+	 * @implNote Needs to be overridden by events that don't implement {@link Cancellable} to specify cancel behaviour
+	 * */
 	protected void customCancelLogic(E event) {}
 
 	protected String cancelString;
