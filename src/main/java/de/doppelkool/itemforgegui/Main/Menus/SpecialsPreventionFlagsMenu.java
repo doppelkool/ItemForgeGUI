@@ -97,54 +97,45 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 		if(a == ForgeAction.SMELT && (itemInMainHand.getType().isFuel()
 			|| Resources.smeltableItems.contains(itemInMainHand.getType()))) {
-			System.out.println("PLACE: " + itemInMainHand.getType() + " is smeltable");
 			return true;
 		}
 
 		if(a == ForgeAction.PLACE && (itemInMainHand.getType().isBlock()
 			|| Resources.PLACEABLE_ITEMS.contains(itemInMainHand.getType()))) {
-			System.out.println("PLACE: " + itemInMainHand.getType() + " is placeable");
 			return true;
 		}
 
 		if(a == ForgeAction.LAUNCH
 				&& Resources.LAUNCHABLE_ITEMS.contains(itemInMainHand.getType())) {
-			System.out.println("LAUNCH: " + itemInMainHand.getType() + " is LAUNCHable");
 			return true;
 		}
 
 		if(a == ForgeAction.EAT
 				&& itemInMainHand.getType().isEdible()) {
-			System.out.println("EAT: " + itemInMainHand.getType() + " isEdible");
 			return true;
 		}
 
 		if(a == ForgeAction.EQUIP &&
 			(itemInMainHand.getItemMeta() instanceof ArmorMeta
 					|| Resources.EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR.contains(itemInMainHand.getType()))) {
-			System.out.println("EQUIP: " + itemInMainHand.getType() + " is equippable");
 			return true;
 		}
 
 		if(a == ForgeAction.REPAIR
 				&& itemInMainHand.getType().getMaxDurability() > 0) {
-			System.out.println("REPAIR: " + itemInMainHand.getType() + " is repairable");
 			return true;
 		}
 
 		if(a == ForgeAction.UPGRADE
 				&& Resources.UPGRADABLE_ITEMS.contains(itemInMainHand.getType())) {
-			System.out.println("UPGRADE: " + itemInMainHand.getType() + " is upgradable");
 			return true;
 		}
 
 		if(a == ForgeAction.ENCHANT
 				&& Resources.VANILLA_ENCHANTABLE_MATERIALS.contains(itemInMainHand.getType())) {
-			System.out.println("ENCHANT: " + itemInMainHand.getType() + " is enchantable");
 			return true;
 		}
 
-		System.out.println("item: " + itemInMainHand.getType() + " is not applicable");
 		return false;
 	}
 
