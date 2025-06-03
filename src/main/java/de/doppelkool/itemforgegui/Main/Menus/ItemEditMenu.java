@@ -90,7 +90,7 @@ public class ItemEditMenu extends Menu {
 				.open();
 			return;
 		}
-		if (e.getSlot() == 15 && ItemStackHelper.isLeather(item.getType())) {
+		if (e.getSlot() == 15 && (ItemStackHelper.isLeather(item.getType()) || ItemStackHelper.isWolfArmor(item.getType()))) {
 			new LeatherItemColorMenu(this.playerMenuUtility)
 				.open();
 			return;
@@ -99,6 +99,7 @@ public class ItemEditMenu extends Menu {
 			ItemStackHelper.isOnlyDyeColorableWithoutMixins(item.getType())) {
 			new ColorPickerMenu(this.playerMenuUtility)
 				.open();
+			return;
 		}
 		if (e.getSlot() == 16) {
 			new SpecialsMenu(this.playerMenuUtility)
@@ -142,6 +143,7 @@ public class ItemEditMenu extends Menu {
 
 	private boolean editColorAvailable(ItemStack item) {
 		return ItemStackHelper.isLeather(item.getType()) ||
+			ItemStackHelper.isWolfArmor(item.getType()) ||
 			ItemStackHelper.isOnlyDyeColorableWithoutMixins(item.getType());
 	}
 
