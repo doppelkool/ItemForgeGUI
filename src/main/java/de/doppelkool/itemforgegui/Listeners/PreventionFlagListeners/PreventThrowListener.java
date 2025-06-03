@@ -58,12 +58,12 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 	@EventHandler
 	public void preventUniqueArrowShoot(EntityShootBowEvent e) {
-		ItemStack consumedItem = e.getConsumable();
-		if (!UniqueItemIdentifierManager.isUniqueItem(consumedItem)) {
+		ItemStack shotItem = e.getConsumable();
+		if (!UniqueItemIdentifierManager.isUniqueItem(shotItem)) {
 			return;
 		}
 
-		if (!PreventionFlagManager.isActionPrevented(consumedItem, ForgeAction.LAUNCH)) {
+		if (!PreventionFlagManager.isActionPrevented(shotItem, ForgeAction.LAUNCH)) {
 			return;
 		}
 
@@ -75,7 +75,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 		//e#setConsumeItem(boolean) is currently non-functional. Workaround readd the item:
 		if(pl.getGameMode() != GameMode.CREATIVE) {
-			reAddItem(pl, e.getHand(), consumedItem);
+			reAddItem(pl, e.getHand(), shotItem);
 		}
 
 		pl.sendMessage(Main.prefix + "You are not allowed to do this!");

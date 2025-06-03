@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.MenuItems;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -17,7 +18,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Class Description
@@ -25,32 +25,8 @@ import java.util.Set;
  * @author doppelkool | github.com/doppelkool
  */
 public class ItemStackHelper {
-	public static Set<Material> aNoDyedVariationExist = Set.of(
-		Material.BUNDLE,
-		Material.SHULKER_BOX,
-		Material.TERRACOTTA,
-		Material.GLASS,
-		Material.GLASS_PANE,
-		Material.CANDLE
-	);
 
-	private static final ArrayList<String> onlyDyeColoarableNoMixingsList = new ArrayList<>();
-	static {
-		onlyDyeColoarableNoMixingsList.add("_SHULKER_BOX");
-		onlyDyeColoarableNoMixingsList.add("_DYE");
-		onlyDyeColoarableNoMixingsList.add("_WOOL");
-		onlyDyeColoarableNoMixingsList.add("_BUNDLE");
-		onlyDyeColoarableNoMixingsList.add("_CANDLE");
-		onlyDyeColoarableNoMixingsList.add("_CONCRETE_POWDER");
-		onlyDyeColoarableNoMixingsList.add("_CONCRETE");
-		onlyDyeColoarableNoMixingsList.add("_GLAZED_TERRACOTTA");
-		onlyDyeColoarableNoMixingsList.add("_TERRACOTTA");
-		onlyDyeColoarableNoMixingsList.add("_STAINED_GLASS_PANE");
-		onlyDyeColoarableNoMixingsList.add("_STAINED_GLASS");
-
-		onlyDyeColoarableNoMixingsList.add("_BED"); //exclution for "BEDROCK" in place
-		onlyDyeColoarableNoMixingsList.add("_CARPET"); //exclution for "MOSS"y carpet variations in place
-	}
+	private static final Enchantment glowEnchantment = Enchantment.LUCK_OF_THE_SEA;
 
 	public static String formatCAPSName(String name) {
 		String[] parts = name.split("\\.", 3);
@@ -71,10 +47,14 @@ public class ItemStackHelper {
 		return itemMaterial.name().contains("LEATHER_");
 	}
 
+	public static boolean isWolfArmor(Material type) {
+		return type == Material.WOLF_ARMOR;
+	}
+
 	public static boolean isOnlyDyeColorableWithoutMixins(Material itemMaterial) {
 
 		//Colorable item category, but given material is a variation with no color
-		if(aNoDyedVariationExist.contains(itemMaterial)) {
+		if(Resources.A_NO_DYED_VARIATION_EXIST.contains(itemMaterial)) {
 			return true;
 		}
 
@@ -85,7 +65,7 @@ public class ItemStackHelper {
 			return false;
 		}
 
-		for(String items : onlyDyeColoarableNoMixingsList) {
+		for(String items : Resources.ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST) {
 			if (!itemMaterial.name().contains(items)) {
 				continue;
 			}
@@ -156,7 +136,7 @@ public class ItemStackHelper {
 
 	public static boolean hasGlow(ItemStack item) {
 		return item.getItemMeta().hasEnchants()
-			&& (item.getItemMeta().getEnchantLevel(Enchantment.LUCK_OF_THE_SEA) == 1);
+			&& (item.getItemMeta().getEnchantLevel(glowEnchantment) == 1);
 	}
 
 	public static void setGlow(ItemStack item, boolean active) {
@@ -176,11 +156,11 @@ public class ItemStackHelper {
 		}
 
 		if(active) {
-			itemMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, true);
+			itemMeta.addEnchant(glowEnchantment, 1, true);
 			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
 			itemMeta.setLore(lore);
 		} else {
-			itemMeta.removeEnchant(Enchantment.LUCK_OF_THE_SEA);
+			itemMeta.removeEnchant(glowEnchantment);
 			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
 			itemMeta.setLore(lore);
 		}

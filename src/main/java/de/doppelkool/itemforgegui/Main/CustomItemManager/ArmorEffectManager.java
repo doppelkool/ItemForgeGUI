@@ -2,29 +2,17 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.bukkit.potion.PotionEffectType.BLINDNESS;
-import static org.bukkit.potion.PotionEffectType.DARKNESS;
-import static org.bukkit.potion.PotionEffectType.FIRE_RESISTANCE;
-import static org.bukkit.potion.PotionEffectType.GLOWING;
-import static org.bukkit.potion.PotionEffectType.INFESTED;
-import static org.bukkit.potion.PotionEffectType.INVISIBILITY;
-import static org.bukkit.potion.PotionEffectType.NAUSEA;
-import static org.bukkit.potion.PotionEffectType.NIGHT_VISION;
-import static org.bukkit.potion.PotionEffectType.OOZING;
-import static org.bukkit.potion.PotionEffectType.SLOW_FALLING;
-import static org.bukkit.potion.PotionEffectType.TRIAL_OMEN;
-import static org.bukkit.potion.PotionEffectType.WATER_BREATHING;
-import static org.bukkit.potion.PotionEffectType.WEAVING;
-import static org.bukkit.potion.PotionEffectType.WIND_CHARGED;
 
 /**
  * Class Description
@@ -32,23 +20,6 @@ import static org.bukkit.potion.PotionEffectType.WIND_CHARGED;
  * @author doppelkool | github.com/doppelkool
  */
 public class ArmorEffectManager {
-
-	private static final Set<PotionEffectType> cappedTypes = new HashSet<>(Set.of(
-		BLINDNESS,
-		DARKNESS,
-		FIRE_RESISTANCE,
-		GLOWING,
-		INVISIBILITY,
-		NAUSEA,
-		NIGHT_VISION,
-		TRIAL_OMEN,
-		SLOW_FALLING,
-		WATER_BREATHING,
-		INFESTED,
-		OOZING,
-		WEAVING,
-		WIND_CHARGED
-	));
 
 	public static void initPDCVariable(ItemStack item) {
 		ItemMeta itemMeta = item.getItemMeta();
@@ -203,6 +174,6 @@ public class ArmorEffectManager {
 	}
 
 	public static boolean isCappedEffect(PotionEffectType potionEffectType) {
-		return cappedTypes.contains(potionEffectType);
+		return Resources.CAPPED_POTION_EFFECT_TYPES.contains(potionEffectType);
 	}
 }

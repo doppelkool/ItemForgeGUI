@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItem;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -73,7 +74,7 @@ public class ColorPickerMenu extends Menu {
 
 		//Default-Colored target item is already in players hand
 		if(e.getSlot() == 10
-			&& ItemStackHelper.aNoDyedVariationExist.contains(itemInMainHand.getType())) {
+			&& Resources.A_NO_DYED_VARIATION_EXIST.contains(itemInMainHand.getType())) {
 			return;
 		}
 

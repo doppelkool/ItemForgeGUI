@@ -11,10 +11,11 @@ import lombok.Getter;
  * <p>EAT              - cannot be eaten. Cake is placable, but not edible. If Cake with PF is mined, it drops
  * <p>PLACE            - cannot be placed.
  * <p>EQUIP            - cannot be equipped on the player. Equipping on an armorstand is also denied
- * <p>BURN             - cannot be burned by fire or lava.
+ * <p>Destroy          - cannot be destroyed by fire, lava or cactus.
  * <p>REPAIR           - cannot be repaired in any way. Neither by Ingots/Membranes or similar nor by the same type of item
  * <p>UPGRADE          - cannot be upgraded from diamond to netherite
  * <p>CRAFT            - cannot be used as a crafting material
+ * <p>SMELT            - cannot be used as a material to be smelted or as fuel
  * <p>ENCHANT          - cannot be enchanted
  * <p>DISENCHANT       - cannot be disenchanted
  * <p>RENAME           - cannot be renamed
@@ -34,11 +35,12 @@ public enum ForgeAction {
 	EAT("Consume"),
 	PLACE("Place"),
 	EQUIP("Equip"),
-	BURN("Burn"),
+	DESTROY("Destroy"),
 	REPAIR("Repair"),
 	UPGRADE("Upgrade"),
-	CRAFT("Craft with"),
-	ENCHANT("Enchant or enchant with"),
+	CRAFT("Craft"),
+	SMELT("Smelt"),
+	ENCHANT("Enchant"),
 	DISENCHANT("Disenchant"),
 	RENAME("Rename"),
 

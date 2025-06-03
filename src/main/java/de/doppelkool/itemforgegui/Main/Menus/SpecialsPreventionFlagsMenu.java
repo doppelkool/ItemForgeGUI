@@ -5,15 +5,14 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import oshi.util.tuples.Pair;
-
-import java.util.HashMap;
+import org.bukkit.inventory.meta.ArmorMeta;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -22,25 +21,6 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
  * @author doppelkool | github.com/doppelkool
  */
 public class SpecialsPreventionFlagsMenu extends Menu {
-
-	private static final HashMap<Integer, Pair<ForgeAction, ItemStack>> slotToAction = new HashMap<>();
-
-	static {
-		slotToAction.put(10, new Pair<>(ForgeAction.DROP, ItemStacks.itemDrop));
-		slotToAction.put(11, new Pair<>(ForgeAction.CRAFT, ItemStacks.itemCraft));
-		slotToAction.put(12, new Pair<>(ForgeAction.ITEM_FRAME_PLACE, ItemStacks.itemFramePlace));
-		slotToAction.put(13, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));
-		slotToAction.put(14, new Pair<>(ForgeAction.EAT, ItemStacks.eatItem));
-		slotToAction.put(15, new Pair<>(ForgeAction.PLACE, ItemStacks.placeItem));
-		slotToAction.put(16, new Pair<>(ForgeAction.EQUIP, ItemStacks.equipItem));
-		slotToAction.put(19, new Pair<>(ForgeAction.BURN, ItemStacks.burnItem));
-		slotToAction.put(20, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
-		slotToAction.put(21, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
-		slotToAction.put(22, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
-		slotToAction.put(23, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
-		slotToAction.put(24, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
-	}
-
 
 	public SpecialsPreventionFlagsMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
@@ -68,7 +48,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 			return;
 		}
 
-		ForgeAction clickedAction = slotToAction.get(e.getSlot()).getA();
+		ForgeAction clickedAction = Resources.SLOT_TO_ACTION.get(e.getSlot()).getA();
 
 		if(clickedAction == null) {
 			return;
@@ -81,7 +61,6 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 			newStatus);
 		setGlow(e.getCurrentItem(), newStatus);
 		new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
-		return;
 	}
 
 	@Override
@@ -90,12 +69,83 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
-		slotToAction.forEach((slot, pair) -> {
+		Resources.SLOT_TO_ACTION.forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();
-			setGlow(itemStackClone, PreventionFlagManager.isActionPrevented(itemInMainHand, pair.getA()));
+
+			if (isLogicallyApplyable(itemInMainHand, pair.getA())) {
+				setGlow(itemStackClone, PreventionFlagManager.isActionPrevented(itemInMainHand, pair.getA()));
+			} else {
+				itemStackClone = notAvailable(itemStackClone);
+			}
+
 			this.inventory.setItem(slot, itemStackClone);
 		});
 
 		setFillerGlass();
 	}
+
+	private boolean isLogicallyApplyable(ItemStack itemInMainHand, ForgeAction a) {
+
+		if(a == ForgeAction.DROP
+				|| a == ForgeAction.ITEM_FRAME_PLACE
+				|| a == ForgeAction.DESTROY
+				|| a == ForgeAction.RENAME
+		//ToDo(Check) Craft can be put on everything for now, the action will get prevented on event trigger
+		|| a == ForgeAction.CRAFT) {
+			return true;
+		}
+
+		if(a == ForgeAction.SMELT && (itemInMainHand.getType().isFuel()
+			|| Resources.smeltableItems.contains(itemInMainHand.getType()))) {
+			System.out.println("PLACE: " + itemInMainHand.getType() + " is smeltable");
+			return true;
+		}
+
+		if(a == ForgeAction.PLACE && (itemInMainHand.getType().isBlock()
+			|| Resources.PLACEABLE_ITEMS.contains(itemInMainHand.getType()))) {
+			System.out.println("PLACE: " + itemInMainHand.getType() + " is placeable");
+			return true;
+		}
+
+		if(a == ForgeAction.LAUNCH
+				&& Resources.LAUNCHABLE_ITEMS.contains(itemInMainHand.getType())) {
+			System.out.println("LAUNCH: " + itemInMainHand.getType() + " is LAUNCHable");
+			return true;
+		}
+
+		if(a == ForgeAction.EAT
+				&& itemInMainHand.getType().isEdible()) {
+			System.out.println("EAT: " + itemInMainHand.getType() + " isEdible");
+			return true;
+		}
+
+		if(a == ForgeAction.EQUIP &&
+			(itemInMainHand.getItemMeta() instanceof ArmorMeta
+					|| Resources.EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR.contains(itemInMainHand.getType()))) {
+			System.out.println("EQUIP: " + itemInMainHand.getType() + " is equippable");
+			return true;
+		}
+
+		if(a == ForgeAction.REPAIR
+				&& itemInMainHand.getType().getMaxDurability() > 0) {
+			System.out.println("REPAIR: " + itemInMainHand.getType() + " is repairable");
+			return true;
+		}
+
+		if(a == ForgeAction.UPGRADE
+				&& Resources.UPGRADABLE_ITEMS.contains(itemInMainHand.getType())) {
+			System.out.println("UPGRADE: " + itemInMainHand.getType() + " is upgradable");
+			return true;
+		}
+
+		if(a == ForgeAction.ENCHANT
+				&& Resources.VANILLA_ENCHANTABLE_MATERIALS.contains(itemInMainHand.getType())) {
+			System.out.println("ENCHANT: " + itemInMainHand.getType() + " is enchantable");
+			return true;
+		}
+
+		System.out.println("item: " + itemInMainHand.getType() + " is not applicable");
+		return false;
+	}
+
 }

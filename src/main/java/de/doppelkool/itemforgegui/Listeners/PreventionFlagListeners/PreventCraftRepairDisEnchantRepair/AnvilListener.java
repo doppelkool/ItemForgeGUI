@@ -10,7 +10,6 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.view.AnvilView;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Class Description

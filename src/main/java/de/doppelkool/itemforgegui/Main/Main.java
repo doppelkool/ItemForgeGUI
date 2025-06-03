@@ -94,9 +94,10 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new PreventThrowListener(), this);
         pluginmanager.registerEvents(new PreventEatListener(), this);
         pluginmanager.registerEvents(new PreventPlaceListener(), this);
-        pluginmanager.registerEvents(new PreventBurnListener(), this);
+        pluginmanager.registerEvents(new PreventDestroyListener(), this);
         pluginmanager.registerEvents(new SmithingTableListener(), this);
         pluginmanager.registerEvents(new PreventEquipListener(), this);
+        pluginmanager.registerEvents(new PreventSmeltingListeners(), this);
         pluginmanager.registerEvents(new UnEquipEffectArmorListener(), this);
         pluginmanager.registerEvents(new DrinkMilkListener(), this);
 
