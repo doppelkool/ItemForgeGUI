@@ -43,6 +43,8 @@ public final class Main extends JavaPlugin {
     @Getter
     private NamespacedKey customTagItemNotAllowedForgeActions;
     @Getter
+    private NamespacedKey customTagItemCraftPrevention;
+    @Getter
     private NamespacedKey customTagUID;
 
     @Getter
@@ -64,12 +66,13 @@ public final class Main extends JavaPlugin {
         }
 
         customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
+        customTagItemCraftPrevention = new NamespacedKey(this, "craftingPreventionType");
         customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
         customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
         customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");
-        customArmorEffectsKeyStackIDKey = new NamespacedKey(Main.getPlugin(), "armorEffectsInvID");
+        customArmorEffectsKeyStackIDKey = new NamespacedKey(this, "armorEffectsInvID");
 
-        customArmorEffectsKey = new NamespacedKey(Main.getPlugin(), "armorEffects");
+        customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
         customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
         customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
 

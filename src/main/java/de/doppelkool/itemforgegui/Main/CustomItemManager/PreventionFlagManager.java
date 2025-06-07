@@ -2,6 +2,8 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -10,9 +12,11 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +62,6 @@ public class PreventionFlagManager {
 		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
 		ArrayList<ForgeAction> forgeActions = mapNotAllowedForgeActions(customBlockData);
 
-		//Already applied status
 		boolean forgeActionAlreadyApplied = forgeActions.contains(forgeAction);
 		if ((forgeActionAlreadyApplied && newStatus) || (!forgeActionAlreadyApplied && !newStatus)) {
 			return;
@@ -120,5 +123,78 @@ public class PreventionFlagManager {
 			&& item.getItemMeta() != null
 			&& UniqueItemIdentifierManager.isUniqueItem(item)
 			&& isActionPrevented(item.getItemMeta(), action);
+	}
+
+	public static final HashMap<Integer, Pair<ForgeAction, ItemStack>> SLOT_TO_ACTION = new HashMap<>();
+	static {
+		SLOT_TO_ACTION.put(10, new Pair<>(ForgeAction.DROP, ItemStacks.itemDrop));
+		SLOT_TO_ACTION.put(11, new Pair<>(ForgeAction.ITEM_FRAME_PLACE, ItemStacks.itemFramePlace));
+		SLOT_TO_ACTION.put(12, new Pair<>(ForgeAction.DESTROY, ItemStacks.destroyItem));
+		SLOT_TO_ACTION.put(13, new Pair<>(ForgeAction.CRAFT, ItemStacks.itemCraft));
+		SLOT_TO_ACTION.put(14, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
+
+		SLOT_TO_ACTION.put(19, new Pair<>(ForgeAction.SMELT, ItemStacks.itemSmelt));
+		SLOT_TO_ACTION.put(20, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));
+		SLOT_TO_ACTION.put(21, new Pair<>(ForgeAction.EAT, ItemStacks.eatItem));
+		SLOT_TO_ACTION.put(22, new Pair<>(ForgeAction.PLACE, ItemStacks.placeItem));
+		SLOT_TO_ACTION.put(23, new Pair<>(ForgeAction.EQUIP, ItemStacks.equipItem));
+		SLOT_TO_ACTION.put(24, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
+		SLOT_TO_ACTION.put(25, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
+		SLOT_TO_ACTION.put(30, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
+		SLOT_TO_ACTION.put(31, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
+	}
+
+
+	public static CraftingPrevention getActiveCraftingPrevention(ItemStack currentItem) {
+		PersistentDataContainer dataContainer = currentItem.getItemMeta().getPersistentDataContainer();
+		if (!dataContainer.has(Main.getPlugin().getCustomTagItemCraftPrevention(), PersistentDataType.STRING)) {
+			return null;
+		}
+
+		return CraftingPrevention.valueOf(dataContainer.get(Main.getPlugin().getCustomTagItemCraftPrevention(), PersistentDataType.STRING));
+	}
+
+	public static void updateCraftPreventionType(ItemStack itemStack, @Nullable CraftingPrevention cycle) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		if (cycle != null) {
+			itemMeta.getPersistentDataContainer()
+				.set(Main.getPlugin().getCustomTagItemCraftPrevention(),
+					PersistentDataType.STRING,
+					cycle.name()
+				);
+		} else {
+			itemMeta.getPersistentDataContainer()
+				.remove(Main.getPlugin().getCustomTagItemCraftPrevention());
+		}
+
+		itemStack.setItemMeta(itemMeta);
+	}
+
+	@Getter
+	public enum CraftingPrevention {
+		ALL(0, "All Crafting Recipes"),
+		DEFAULT_RECIPES(1, "Default Minecraft Crafting Recipes"),
+		CUSTOM_RECIPES(2, "Custom Crafting Recipes"),
+
+		;
+
+		private final int index;
+		private final String itemDescription;
+
+		CraftingPrevention(int index, String itemDescription) {
+			this.index = index;
+			this.itemDescription = itemDescription;
+		}
+
+		public CraftingPrevention cycle() {
+			CraftingPrevention[] values = CraftingPrevention.values();
+			int nextIndex = this.index + 1;
+			if (nextIndex >= values.length) {
+				return null;
+			}
+			return values[nextIndex];
+		}
+
 	}
 }
