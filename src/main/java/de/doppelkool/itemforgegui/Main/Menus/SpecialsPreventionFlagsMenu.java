@@ -5,14 +5,12 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
-
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -48,18 +46,36 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 			return;
 		}
 
-		ForgeAction clickedAction = Resources.SLOT_TO_ACTION.get(e.getSlot()).getA();
+		ForgeAction clickedAction = PreventionFlagManager.SLOT_TO_ACTION.get(e.getSlot()).getA();
 
 		if(clickedAction == null) {
 			return;
 		}
 
-		boolean newStatus = !hasGlow(e.getCurrentItem());
+		boolean newStatus;
+		if(clickedAction == ForgeAction.CRAFT) {
+			PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand());
+			PreventionFlagManager.CraftingPrevention nextCraftingPrevention = activeCraftingPrevention != null
+				? activeCraftingPrevention.cycle()
+				: PreventionFlagManager.CraftingPrevention.ALL;
+
+			PreventionFlagManager.updateCraftPreventionType(
+				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+				nextCraftingPrevention
+			);
+			ItemStackHelper.updateCraftingPreventionInMenuItemLore(e.getCurrentItem(), nextCraftingPrevention);
+			newStatus = nextCraftingPrevention != null;
+		} else {
+			newStatus = !ItemStackHelper.hasGlow(e.getCurrentItem());
+		}
+
+		ItemStackHelper.setGlow(e.getCurrentItem(), newStatus);
+
 		PreventionFlagManager.toggleAllowedAction(
 			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
 			clickedAction,
 			newStatus);
-		setGlow(e.getCurrentItem(), newStatus);
+
 		new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
 	}
 
@@ -69,13 +85,21 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
-		Resources.SLOT_TO_ACTION.forEach((slot, pair) -> {
+		PreventionFlagManager.SLOT_TO_ACTION.forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();
 
 			if (isLogicallyApplyable(itemInMainHand, pair.getA())) {
-				setGlow(itemStackClone, PreventionFlagManager.isActionPrevented(itemInMainHand, pair.getA()));
+
+				boolean actionPrevented = PreventionFlagManager.isActionPrevented(itemInMainHand, pair.getA());
+
+				if(pair.getA() == ForgeAction.CRAFT) {
+					PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(itemInMainHand);
+					ItemStackHelper.updateCraftingPreventionInMenuItemLore(itemStackClone, activeCraftingPrevention);
+				}
+
+				ItemStackHelper.setGlow(itemStackClone, actionPrevented);
 			} else {
-				itemStackClone = notAvailable(itemStackClone);
+				itemStackClone = ItemStacks.notAvailable(itemStackClone);
 			}
 
 			this.inventory.setItem(slot, itemStackClone);
