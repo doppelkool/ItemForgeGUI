@@ -108,7 +108,15 @@ public class ItemInfoManager {
 
 		preventionFlags.add(PREVENTION_FLAGS_HEADER);
 		for (ForgeAction action : flags) {
-			preventionFlags.add(ENTRY_COLOR + "- " + action.getLoreDescription());
+
+			String loreDescription = action.getLoreDescription();
+
+			if(action == ForgeAction.CRAFT) {
+				PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
+				loreDescription += " (" + activeCraftingPrevention.getItemDescription() + ")";
+			}
+
+			preventionFlags.add(ENTRY_COLOR + "- " + loreDescription);
 		}
 	}
 

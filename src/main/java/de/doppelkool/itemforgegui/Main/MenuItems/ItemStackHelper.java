@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Resources;
@@ -165,5 +166,29 @@ public class ItemStackHelper {
 			itemMeta.setLore(lore);
 		}
 		item.setItemMeta(itemMeta);
+	}
+
+	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPrevention activeCraftingPrevention) {
+		ItemMeta itemMeta = itemStackClone.getItemMeta();
+		List<String> oldLore = itemMeta.getLore();
+
+		List<String> newLore = new ArrayList<>();
+		if (oldLore != null && !oldLore.isEmpty()) {
+			newLore.add(oldLore.get(0));
+			if (oldLore.size() > 1) {
+				newLore.add(oldLore.get(1));
+			}
+		} else {
+			newLore.add("");
+			newLore.add("");
+		}
+
+		for (PreventionFlagManager.CraftingPrevention craftingPrevention : PreventionFlagManager.CraftingPrevention.values()) {
+			ChatColor color = craftingPrevention.equals(activeCraftingPrevention) ? ChatColor.GREEN : ChatColor.RED;
+			newLore.add(ChatColor.GRAY + "- " + color + craftingPrevention.getItemDescription());
+		}
+
+		itemMeta.setLore(newLore);
+		itemStackClone.setItemMeta(itemMeta);
 	}
 }

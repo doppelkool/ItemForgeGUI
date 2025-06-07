@@ -1,15 +1,11 @@
 package de.doppelkool.itemforgegui.Main;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.CookingRecipe;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.potion.PotionEffectType;
-import oshi.util.tuples.Pair;
 
 import java.util.*;
 
@@ -34,20 +30,6 @@ import static org.bukkit.potion.PotionEffectType.WIND_CHARGED;
  * @author doppelkool | github.com/doppelkool
  */
 public class Resources {
-
-	/*
-	ITEMS_REPAIRS_IRON_ARMOR
-	ITEMS_CHEST_ARMOR
-	ITEMS_SKULLS
-	ITEMS_SWORDS
-	ITEMS_TOOLS
-
-	ITEMS_DYEABLE
-	ITEMS_BUNDLES
-	ITEMS_ENCHANTABLE_LEG_ARMOR
-	ITEMS_ENCHANTABLE_MINING
-	PROJECTILES
-	 */
 
 	// Mapping of repairable items to their corresponding repair ingot/material.
 	public static final Map<Material, Material> REPAIR_INGOT_MAP = Map.ofEntries(
@@ -204,25 +186,6 @@ public class Resources {
 		set.add(Material.CARVED_PUMPKIN);
 		set.addAll(Tag.ITEMS_SKULLS.getValues());
 		EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR = Collections.unmodifiableSet(set);
-	}
-
-	public static final HashMap<Integer, Pair<ForgeAction, ItemStack>> SLOT_TO_ACTION = new HashMap<>();
-	static {
-		SLOT_TO_ACTION.put(10, new Pair<>(ForgeAction.DROP, ItemStacks.itemDrop));
-		SLOT_TO_ACTION.put(11, new Pair<>(ForgeAction.ITEM_FRAME_PLACE, ItemStacks.itemFramePlace));
-		SLOT_TO_ACTION.put(12, new Pair<>(ForgeAction.DESTROY, ItemStacks.destroyItem));
-		SLOT_TO_ACTION.put(13, new Pair<>(ForgeAction.CRAFT, ItemStacks.itemCraft));
-		SLOT_TO_ACTION.put(14, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
-
-		SLOT_TO_ACTION.put(19, new Pair<>(ForgeAction.SMELT, ItemStacks.itemSmelt));
-		SLOT_TO_ACTION.put(20, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));
-		SLOT_TO_ACTION.put(21, new Pair<>(ForgeAction.EAT, ItemStacks.eatItem));
-		SLOT_TO_ACTION.put(22, new Pair<>(ForgeAction.PLACE, ItemStacks.placeItem));
-		SLOT_TO_ACTION.put(23, new Pair<>(ForgeAction.EQUIP, ItemStacks.equipItem));
-		SLOT_TO_ACTION.put(24, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
-		SLOT_TO_ACTION.put(25, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
-		SLOT_TO_ACTION.put(30, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
-		SLOT_TO_ACTION.put(31, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
 	}
 
 	public static final Set<Material> VANILLA_ENCHANTABLE_MATERIALS;
