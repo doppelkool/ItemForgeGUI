@@ -35,6 +35,7 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		}
 
 		if (event.getLines().length < 1) {
+			//edit-armor-effect-sign-editor-empty-input
 			pl.sendMessage(Main.prefix + "The strength you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;
@@ -42,6 +43,7 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 
 		Integer strength = SignNumberEditor.parseInteger(event.getLine(0));
 		if (strength == null) {
+			//edit-armor-effect-sign-editor-invalid-input
 			pl.sendMessage(Main.prefix + "The strength you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;

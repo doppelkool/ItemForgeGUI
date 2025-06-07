@@ -27,6 +27,7 @@ public class PreventPlaceListener implements Listener {
 
 		e.getBlockPlaced().setType(Material.AIR);
 		e.setCancelled(true);
+		//action-prevented-block-place
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 
@@ -40,6 +41,7 @@ public class PreventPlaceListener implements Listener {
 
 		e.getEntity().remove();
 		e.setCancelled(true);
+		//action-prevented-entity-place
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 

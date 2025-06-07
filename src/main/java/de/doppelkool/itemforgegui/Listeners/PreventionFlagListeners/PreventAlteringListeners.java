@@ -29,6 +29,7 @@ public class PreventAlteringListeners implements Listener {
 		}
 
 		e.setCancelled(true);
+		//action-prevented-drop-item
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 }

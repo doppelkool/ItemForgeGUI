@@ -158,6 +158,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
+		//sign-editor-edit-armor-effect-player-information
 		String message = Main.prefix + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the armor effects future strength and click \"Done\".";
 

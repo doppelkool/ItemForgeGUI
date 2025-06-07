@@ -32,6 +32,7 @@ public class PreventEatListener implements Listener {
 		}
 
 		e.setCancelled(true);
+		//action-prevented-item-consumption
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 		return;
 	}
@@ -59,6 +60,7 @@ public class PreventEatListener implements Listener {
 		}
 
 		e.setCancelled(true);
+		//action-prevented-cake-consumption
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 
@@ -77,6 +79,7 @@ public class PreventEatListener implements Listener {
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(e.getBlockPlaced());
 		PreventionFlagManager.toggleAllowedAction(e.getBlockPlaced(), ForgeAction.EAT, true);
 
+		//action-prevented-cake-with-pf-placed
 		e.getPlayer().sendMessage(Main.prefix + "Cake placed, but can never be eaten!");
 	}
 
@@ -98,6 +101,7 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
+		//action-prevented-cake-with-pf-destroyed
 		e.getPlayer().sendMessage(Main.prefix + "You destroyed a non-edible cake!");
 		e.setDropItems(false);
 

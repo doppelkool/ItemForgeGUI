@@ -159,12 +159,11 @@ public class ItemStackHelper {
 		if(active) {
 			itemMeta.addEnchant(glowEnchantment, 1, true);
 			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
-			itemMeta.setLore(lore);
 		} else {
 			itemMeta.removeEnchant(glowEnchantment);
 			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
-			itemMeta.setLore(lore);
 		}
+		itemMeta.setLore(lore);
 		item.setItemMeta(itemMeta);
 	}
 

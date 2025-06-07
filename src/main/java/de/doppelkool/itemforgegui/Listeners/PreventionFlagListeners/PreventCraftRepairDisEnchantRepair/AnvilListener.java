@@ -25,6 +25,8 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 
 	@Override
 	protected boolean eventLogic(PrepareAnvilEvent event) {
+		//ToDo Split message for every PF possibility
+		//action-prevented-anvil-usage
 		this.cancelString = Main.prefix + "You are not allowed to do this!";
 
 		Inventory anvilInventory = event.getInventory();

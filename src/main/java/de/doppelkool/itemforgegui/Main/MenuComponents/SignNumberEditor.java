@@ -36,6 +36,7 @@ public class SignNumberEditor {
 
 		Material type = signLocation.getBlock().getType();
 		if(type != Material.AIR) {
+			//sign-editor-not-placed-block-blockade
 			pl.sendMessage(Main.prefix + ChatColor.RED + "There is already a block at your location");
 			throw new IllegalStateException(pl.getName() + "-" + type + "-This material is in the way of a sign placement");
 		}

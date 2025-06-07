@@ -31,6 +31,7 @@ public class EditAmountSignListener implements Listener {
 		}
 
 		if (event.getLines().length < 1) {
+			//edit-amount-sign-editor-empty-input
 			pl.sendMessage(Main.prefix + "The amount you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;
@@ -38,6 +39,7 @@ public class EditAmountSignListener implements Listener {
 
 		Integer amount = SignNumberEditor.parseInteger(event.getLine(0).trim());
 		if (amount == null) {
+			//edit-amount-sign-editor-invalid-input
 			pl.sendMessage(Main.prefix + "The amount you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;

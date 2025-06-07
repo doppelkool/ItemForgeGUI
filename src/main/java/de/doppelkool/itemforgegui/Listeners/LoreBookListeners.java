@@ -73,6 +73,7 @@ public class LoreBookListeners implements Listener {
 		if (itemStack.getType() == Material.WRITABLE_BOOK
 			&& PreventionFlagManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
 			e.setCancelled(true);
+			//edit-lore-book-editor-book-drop-disallowed
 			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 		}
 	}

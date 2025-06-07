@@ -33,6 +33,7 @@ public class EditDurabilitySignListener implements Listener {
 		}
 
 		if (event.getLines().length < 1) {
+			//edit-durability-sign-editor-empty-input
 			pl.sendMessage(Main.prefix + "The durability you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;
@@ -43,6 +44,7 @@ public class EditDurabilitySignListener implements Listener {
 				.split("/")
 				[0]);
 		if (durability == null) {
+			//edit-durability-sign-editor-invalid-input
 			pl.sendMessage(Main.prefix + "The durability you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;

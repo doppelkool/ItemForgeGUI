@@ -105,7 +105,6 @@ public final class Main extends JavaPlugin {
         pluginmanager.registerEvents(new DrinkMilkListener(), this);
 
         ArmorEquipEvent.registerListener(this);
-        //Enable Block location updates
         CustomBlockData.registerListener(this);
 
         ConfigurationSerialization.registerClass(ForgeArmorEffect.class);

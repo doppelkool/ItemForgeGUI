@@ -95,6 +95,7 @@ public class DurabilityMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
+		//sign-editor-edit-item-durability-player-information
 		String message = Main.prefix + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future durability and click \"Done\".";
 

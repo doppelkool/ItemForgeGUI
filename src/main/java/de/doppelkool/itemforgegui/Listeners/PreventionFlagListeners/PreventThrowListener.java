@@ -32,6 +32,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 	@Override
 	protected boolean eventLogic(PlayerInteractEvent e) {
+		//action-prevented-item-throw
 		this.cancelString = Main.prefix + "You are not allowed to do this!";
 
 		ItemStack item = e.getItem();
@@ -77,7 +78,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 		if(pl.getGameMode() != GameMode.CREATIVE) {
 			reAddItem(pl, e.getHand(), shotItem);
 		}
-
+		//action-prevented-arrow-shoot
 		pl.sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 

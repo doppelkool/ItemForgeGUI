@@ -24,6 +24,7 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 
 	@Override
 	protected boolean eventLogic(PrepareGrindstoneEvent event) {
+		//action-prevented-grindstone-usage
 		this.cancelString = Main.prefix + "You are not allowed to do this!";
 
 		//Next tick, remove the inventory again

@@ -23,6 +23,7 @@ public class SmithingTableListener extends DuplicateEventManager<PrepareSmithing
 
 	@Override
 	protected boolean eventLogic(PrepareSmithingEvent e) {
+		//action-prevented-item-upgrade
 		this.cancelString = Main.prefix + "You are not allowed to do this!";
 
 		ItemStack item = e.getInventory().getItem(1);

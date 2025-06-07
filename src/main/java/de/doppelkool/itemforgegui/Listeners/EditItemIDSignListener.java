@@ -32,6 +32,7 @@ public class EditItemIDSignListener implements Listener {
 		}
 
 		if (event.getLines().length < 1) {
+			//edit-uniqueID-sign-editor-empty-input
 			pl.sendMessage(Main.prefix + "The ID you entered is not valid");
 			endProcess(playerMenuUtility);
 			return;
@@ -48,6 +49,7 @@ public class EditItemIDSignListener implements Listener {
 		String uniqueID = sb.toString();
 
 		if (uniqueID.length() > 4*15) {
+			//edit-uniqueID-sign-editor-input-to-long
 			pl.sendMessage(Main.prefix + "The ID you entered was too long");
 			endProcess(playerMenuUtility);
 			return;

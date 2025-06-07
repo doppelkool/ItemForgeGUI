@@ -84,6 +84,7 @@ public class AmountMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
+		//sign-editor-edit-item-amount-player-information
 		String message = Main.prefix + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future amount and click \"Done\".";
 

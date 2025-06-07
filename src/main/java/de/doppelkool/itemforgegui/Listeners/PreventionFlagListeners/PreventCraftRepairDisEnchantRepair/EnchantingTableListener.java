@@ -23,6 +23,7 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 
 	@Override
 	protected boolean eventLogic(PrepareItemEnchantEvent event) {
+		//action-prevented-item-enchant
 		this.cancelString = Main.prefix + "You are not allowed to do this!";
 
 		ItemStack toEnchant = event.getItem();

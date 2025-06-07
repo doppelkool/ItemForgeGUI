@@ -52,6 +52,7 @@ public class PreventEquipListener implements Listener {
 					player.getWorld().dropItemNaturally(player.getLocation(), remaining);
 				}
 
+				//action-prevented-armor-equip
 				player.sendMessage(Main.prefix + "You are not allowed to do this!");
 			}
 		}, 1L);
@@ -105,8 +106,10 @@ public class PreventEquipListener implements Listener {
 				isSaddlePrevented = true;
 			}
 
-			// Send a single message if either armor or saddle was prevented
+			//ToDo Split into 2 messages
+			//Send a single message if either armor or saddle was prevented
 			if (isArmorPrevented || isSaddlePrevented) {
+				//action-prevented-horse-armor-saddle-equip
 				player.sendMessage(Main.prefix + "You are not allowed to do this!");
 			}
 		}, 1L);

@@ -36,6 +36,7 @@ public class PreventApplyListener implements Listener {
 		}
 
 		e.setCancelled(true);
+		//action-prevented-item-put-in-item-frame
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 
@@ -51,6 +52,7 @@ public class PreventApplyListener implements Listener {
 		}
 
 		e.setCancelled(true);
+		//action-prevented-item-put-on-armor-stand
 		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
 	}
 
