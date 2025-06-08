@@ -26,11 +26,13 @@ sign-editor:
       invalid-input: "&cThe amount you entered is not valid"
 
     durability:
+      information: "&aPlease edit the content to the items future durability and click &7'&aDone&7'\n
+          [&cWarning&7] &cThe layout is as follows: futureDurability/maxDurability."
       empty-input: "&cThe durability you entered is not valid"
       invalid-input: "&cThe durability you entered is not valid"
 
     uniqueID:
-      information: "&aPlease edit the content to the armor effects future identifier and click &7'&aDone&7'\n
+      information: "&aPlease edit the content to the items future identifier and click &7'&aDone&7'\n
           [&cWarning&7] &cThe maximum characters per Line is 15.\n
           [&cWarning&7] &cWhitespaces will be replaced with underscores."
       empty-input: "&cThe ID you entered is not valid"

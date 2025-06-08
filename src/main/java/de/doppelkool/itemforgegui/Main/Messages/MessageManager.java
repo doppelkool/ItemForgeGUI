@@ -12,7 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputFilter;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;

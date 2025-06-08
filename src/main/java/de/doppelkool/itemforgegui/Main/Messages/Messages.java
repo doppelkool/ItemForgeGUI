@@ -1,5 +1,7 @@
 package de.doppelkool.itemforgegui.Main.Messages;
 
+import lombok.Getter;
+
 /**
  * Class Description
  *
@@ -18,6 +20,7 @@ public enum Messages {
 	SIGN_EDITOR_EDIT_AMOUNT_EMPTY_INPUT("sign-editor.edit.amount.empty-input"),
 	SIGN_EDITOR_EDIT_AMOUNT_INVALID_INPUT("sign-editor.edit.amount.invalid-input"),
 
+	SIGN_EDITOR_EDIT_DURABILITY_INFORMATION("sign-editor.edit.durability.information"),
 	SIGN_EDITOR_EDIT_DURABILITY_EMPTY_INPUT("sign-editor.edit.durability.empty-input"),
 	SIGN_EDITOR_EDIT_DURABILITY_INVALID_INPUT("sign-editor.edit.durability.invalid-input"),
 
@@ -60,13 +63,10 @@ public enum Messages {
 
 	;
 
+	@Getter
 	private final String key;
 
 	Messages(String key) {
 		this.key = key;
-	}
-
-	public String getKey() {
-		return key;
 	}
 }

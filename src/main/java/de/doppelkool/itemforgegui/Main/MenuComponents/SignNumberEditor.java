@@ -71,7 +71,6 @@ public class SignNumberEditor {
 	public SignNumberEditor editDurability(int damage, int maxDamage) {
 		type = NUMBER_EDIT_TYPE.DURABILITY;
 		sign.getSide(Side.FRONT).setLine(0, damage + "/" + maxDamage);
-		sign.getSide(Side.FRONT).setLine(1, "damage/maxDamage");
 		sign.update();
 		return this;
 	}
