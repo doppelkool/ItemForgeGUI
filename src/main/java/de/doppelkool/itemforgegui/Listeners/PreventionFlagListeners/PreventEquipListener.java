@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,7 +54,7 @@ public class PreventEquipListener implements Listener {
 					pl.getWorld().dropItemNaturally(pl.getLocation(), remaining);
 				}
 
-				MessageManager.message(pl, "action-prevented.armor-equip");
+				MessageManager.message(pl, Messages.ACTION_PREVENTED_ARMOR_EQUIP);
 			}
 		}, 1L);
 	}
@@ -109,7 +110,7 @@ public class PreventEquipListener implements Listener {
 			//ToDo Split into 2 messages
 			//Send a single message if either armor or saddle was prevented
 			if (isArmorPrevented || isSaddlePrevented) {
-				MessageManager.message(pl, "action-prevented.horse-armor-saddle-equip");
+				MessageManager.message(pl, Messages.ACTION_PREVENTED_HORSE_ARMOR_SADDLE_EQUIP);
 			}
 		}, 1L);
 	}

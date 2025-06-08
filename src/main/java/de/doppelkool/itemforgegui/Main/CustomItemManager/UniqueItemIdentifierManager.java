@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -109,14 +110,14 @@ public class UniqueItemIdentifierManager {
 	public static void sendCopyUniqueIdentifier(Player pl) {
 		ItemStack itemStack = pl.getInventory().getItemInMainHand();
 
-		TextComponent msg0 = new TextComponent(MessageManager.format("misc.copy-unique-identifier-information"));
+		TextComponent msg0 = new TextComponent(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_INFORMATION));
 
-		TextComponent msg1 = new TextComponent(MessageManager.format("misc.copy-unique-identifier.copy-button", false));
+		TextComponent msg1 = new TextComponent(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_COPY_BUTTON, false));
 		msg1.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, getOrSetUniqueItemIdentifier(itemStack)));
 
 		TextComponent msg2 = new TextComponent(" ");
 
-		TextComponent msg3 = new TextComponent(MessageManager.format("misc.copy-unique-identifier.manual-button", false));
+		TextComponent msg3 = new TextComponent(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_MANUAL_BUTTON, false));
 		msg3.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, getOrSetUniqueItemIdentifier(itemStack)));
 
 		pl.spigot().sendMessage(msg0, msg1, msg2, msg3);

@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -30,6 +31,6 @@ public class PreventAlteringListeners implements Listener {
 		}
 
 		e.setCancelled(true);
-		MessageManager.message(e.getPlayer(), "action-prevented.item-drop");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_ITEM_DROP);
 	}
 }

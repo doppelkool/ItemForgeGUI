@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,19 +21,19 @@ public class EditCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player pl)) {
-			MessageManager.message(sender, "edit-command.as-console");
+			MessageManager.message(sender, Messages.EDIT_COMMAND_AS_CONSOLE);
 			return true;
 		}
 
 		if (!pl.hasPermission("ifgui.use")) {
-			MessageManager.message(pl, "edit-command.no-permissions");
+			MessageManager.message(pl, Messages.EDIT_COMMAND_NO_PERMISSIONS);
 			return true;
 		}
 
 		if (pl.getInventory()
 			.getItemInMainHand()
 			.getType() == Material.AIR) {
-			MessageManager.message(pl, "edit-command.empty-item");
+			MessageManager.message(pl, Messages.EDIT_COMMAND_EMPTY_ITEM);
 			return true;
 		}
 

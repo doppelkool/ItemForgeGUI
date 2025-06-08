@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
@@ -24,7 +25,7 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 
 	@Override
 	protected boolean eventLogic(PrepareItemEnchantEvent e) {
-		this.cancelString = MessageManager.format("action-prevented.item-enchant");
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_ITEM_ENCHANT);
 
 		ItemStack toEnchant = e.getItem();
 		if (toEnchant.getItemMeta() != null && toEnchant.getItemMeta().hasEnchants()) {

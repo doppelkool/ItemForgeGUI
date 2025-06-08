@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public class PreventEatListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		MessageManager.message(e.getPlayer(), "action-prevented.item-consumption");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_ITEM_CONSUMPTION);
 		return;
 	}
 
@@ -60,7 +61,7 @@ public class PreventEatListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		MessageManager.message(e.getPlayer(), "action-prevented.cake-consumption");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_CONSUMPTION);
 	}
 
 	@EventHandler
@@ -78,7 +79,7 @@ public class PreventEatListener implements Listener {
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(e.getBlockPlaced());
 		PreventionFlagManager.toggleAllowedAction(e.getBlockPlaced(), ForgeAction.EAT, true);
 
-		MessageManager.message(e.getPlayer(), "action-prevented.cake-with-pf-placed");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_WITH_PF_PLACED);
 	}
 
 	@EventHandler
@@ -99,7 +100,7 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		MessageManager.message(e.getPlayer(), "action-prevented.cake-with-pf-destroyed");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_WITH_PF_DESTROYED);
 		e.setDropItems(false);
 
 		block.setType(Material.AIR);

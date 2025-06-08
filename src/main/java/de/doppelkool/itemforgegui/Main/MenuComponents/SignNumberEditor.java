@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.MenuComponents;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class SignNumberEditor {
 
 		Material type = signLocation.getBlock().getType();
 		if (type != Material.AIR) {
-			MessageManager.message(pl, "sign-editor.not-placed-block-blockade");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_NOT_PLACED_BLOCK_BLOCKADE);
 			Bukkit.getLogger().info(ChatColor.RED + pl.getName() + "-" + type + "-This material is in the way of a sign placement");
 		}
 

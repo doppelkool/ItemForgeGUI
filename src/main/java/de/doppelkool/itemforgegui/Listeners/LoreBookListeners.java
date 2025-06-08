@@ -8,6 +8,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -74,7 +75,7 @@ public class LoreBookListeners implements Listener {
 		if (itemStack.getType() == Material.WRITABLE_BOOK
 			&& PreventionFlagManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
 			e.setCancelled(true);
-			MessageManager.message(e.getPlayer(), "book-editor.lore-book-drop-disallowed");
+			MessageManager.message(e.getPlayer(), Messages.BOOK_EDITOR_LORE_BOOK_DROP_DISALLOWED);
 		}
 	}
 }

@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.DurabilityMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +35,7 @@ public class EditDurabilitySignListener implements Listener {
 		}
 
 		if (e.getLines().length < 1) {
-			MessageManager.message(pl, "sign-editor.edit.durability.empty-input");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_DURABILITY_EMPTY_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}
@@ -44,7 +45,7 @@ public class EditDurabilitySignListener implements Listener {
 				.split("/")
 				[0]);
 		if (durability == null) {
-			MessageManager.message(pl, "sign-editor.edit.durability.invalid-input");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_DURABILITY_INVALID_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}

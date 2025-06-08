@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierMan
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 	@Override
 	protected boolean eventLogic(PlayerInteractEvent e) {
-		this.cancelString = MessageManager.format("action-prevented.item-throw");
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_ITEM_THROW);
 
 		ItemStack item = e.getItem();
 		if (item == null) return false;
@@ -78,7 +79,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 		if (pl.getGameMode() != GameMode.CREATIVE) {
 			reAddItem(pl, e.getHand(), shotItem);
 		}
-		MessageManager.message(pl, "action-prevented.arrow-shoot");
+		MessageManager.message(pl, Messages.ACTION_PREVENTED_ARROW_SHOOT);
 	}
 
 	private void reAddItem(Player pl, EquipmentSlot es, ItemStack consumedItem) {

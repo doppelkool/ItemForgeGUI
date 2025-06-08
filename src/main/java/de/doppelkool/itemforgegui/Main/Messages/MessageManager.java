@@ -54,58 +54,44 @@ public class MessageManager {
 		messages = YamlConfiguration.loadConfiguration(messagesFile);
 	}
 
-	public static String get(String key, Map<String, String> placeholders, boolean withPrefix) {
-		String msg = instance.messages.getString(key, "");
-		if (msg.isEmpty()) return "";
-
-		if (withPrefix) {
-			String prefix = instance.messages.getString("prefix", "");
-			msg = prefix + msg;
-		}
-		for (var entry : placeholders.entrySet()) {
-			msg = msg.replace("{" + entry.getKey() + "}", entry.getValue());
-		}
-		return ChatColor.translateAlternateColorCodes('&', msg);
-	}
-
 	public static String getPrefix() {
-		return get("prefix");
+		return get(Messages.PREFIX);
 	}
 
-	private static String get(String key) {
-		return instance.messages.getString(key, "&cMissing message: " + key);
+	private static String get(Messages key) {
+		return instance.messages.getString(key.getKey(), "&cMissing message: " + key);
 	}
 
-	public static void message(CommandSender msgRecipient, String key) {
+	public static void message(CommandSender msgRecipient, Messages key) {
 		message(msgRecipient, key, Map.of(), true);
 	}
 
-	public static void message(CommandSender msgRecipient, String key, Map<String, String> placeholders) {
+	public static void message(CommandSender msgRecipient, Messages key, Map<String, String> placeholders) {
 		message(msgRecipient, key, placeholders, true);
 	}
 
-	public static void message(CommandSender msgRecipient, String key, boolean includePrefix) {
+	public static void message(CommandSender msgRecipient, Messages key, boolean includePrefix) {
 		message(msgRecipient, key, Map.of(), includePrefix);
 	}
 
-	public static void message(CommandSender msgRecipient, String key, Map<String, String> placeholders, boolean includePrefix) {
+	public static void message(CommandSender msgRecipient, Messages key, Map<String, String> placeholders, boolean includePrefix) {
 		String message = format(key, placeholders, includePrefix);
 		if(!message.isEmpty())msgRecipient.sendMessage(message);
 	}
 
-	public static String format(String key) {
+	public static String format(Messages key) {
 		return format(key, Map.of(), true);
 	}
 
-	public static String format(String key, Map<String, String> placeholders) {
+	public static String format(Messages key, Map<String, String> placeholders) {
 		return format(key, placeholders, true);
 	}
 
-	public static String format(String key, boolean includePrefix) {
+	public static String format(Messages key, boolean includePrefix) {
 		return format(key, Map.of(), includePrefix);
 	}
 
-	public static String format(String key, Map<String, String> placeholders, boolean includePrefix) {
+	public static String format(Messages key, Map<String, String> placeholders, boolean includePrefix) {
 		String messageValue = get(key);
 		if(messageValue.isEmpty()) return "";
 

@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraf
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,7 +28,7 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 	@Override
 	protected boolean eventLogic(PrepareAnvilEvent e) {
 		//ToDo Split message for every PF possibility
-		this.cancelString = MessageManager.format("action-prevented.anvil-usage");
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_ANVIL_USAGE);
 
 		Inventory anvilInventory = e.getInventory();
 

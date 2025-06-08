@@ -7,6 +7,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.ItemUniquenessSettingsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public class EditItemIDSignListener implements Listener {
 		}
 
 		if (e.getLines().length < 1) {
-			MessageManager.message(pl, "sign-editor.edit.uniqueID.empty-input");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_UNIQUEID_EMPTY_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}
@@ -49,7 +50,7 @@ public class EditItemIDSignListener implements Listener {
 		String uniqueID = sb.toString();
 
 		if (uniqueID.length() > 4 * 15) {
-			MessageManager.message(pl, "sign-editor.edit.uniqueID.input-to-long");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_UNIQUEID_INPUT_TO_LONG);
 			endProcess(playerMenuUtility);
 			return;
 		}

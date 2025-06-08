@@ -10,6 +10,7 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.DeactivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -151,7 +152,7 @@ public class ItemEditMenu extends Menu {
 	private void editLoreProcess() {
 		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
 		playerMenuUtility.getOwner().closeInventory();
-		MessageManager.message(playerMenuUtility.getOwner(), "book-editor.information");
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.BOOK_EDITOR_INFORMATION);
 	}
 
 	private void editNameProcess() {

@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +30,7 @@ public class PreventPlaceListener implements Listener {
 
 		e.getBlockPlaced().setType(Material.AIR);
 		e.setCancelled(true);
-		MessageManager.message(e.getPlayer(), "action-prevented.block-place");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_BLOCK_PLACE);
 	}
 
 	@EventHandler
@@ -43,7 +44,7 @@ public class PreventPlaceListener implements Listener {
 
 		e.getEntity().remove();
 		e.setCancelled(true);
-		MessageManager.message(pl, "action-prevented.entity-place");
+		MessageManager.message(pl, Messages.ACTION_PREVENTED_ENTITY_PLACE);
 	}
 
 }

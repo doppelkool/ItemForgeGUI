@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.AmountMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,14 +33,14 @@ public class EditAmountSignListener implements Listener {
 		}
 
 		if (e.getLines().length < 1) {
-			MessageManager.message(pl, "sign-editor.edit.amount.empty-input");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_AMOUNT_EMPTY_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}
 
 		Integer amount = SignNumberEditor.parseInteger(e.getLine(0).trim());
 		if (amount == null) {
-			MessageManager.message(pl, "sign-editor.edit.amount.invalid-input");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_AMOUNT_INVALID_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}

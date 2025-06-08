@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareGrindstoneEvent;
@@ -25,7 +26,7 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 
 	@Override
 	protected boolean eventLogic(PrepareGrindstoneEvent e) {
-		this.cancelString = MessageManager.format("action-prevented.grindstone-usage");
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_GRINDSTONE_USAGE);
 
 		//Next tick, remove the inventory again
 		ItemStack itemUp = e.getInventory().getItem(0);

@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -84,6 +85,6 @@ public class ItemUniquenessSettingsMenu extends Menu {
 				UniqueItemIdentifierManager.getUniqueItemIdentifierOrEmptyString(
 					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta()))
 			.openSign());
-		MessageManager.message(playerMenuUtility.getOwner(), "sign-editor.edit.uniqueID.information");
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_UNIQUEID_INFORMATION);
 	}
 }

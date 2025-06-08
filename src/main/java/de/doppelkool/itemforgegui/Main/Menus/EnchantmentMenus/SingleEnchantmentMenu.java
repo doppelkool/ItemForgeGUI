@@ -7,6 +7,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -143,6 +144,6 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editEnchantment(itemToBeEnchanted, enchantmentToEdit)
 			.openSign());
-		MessageManager.message(playerMenuUtility.getOwner(), "sign-editor.edit.enchantment.information");
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_ENCHANTMENT_INFORMATION);
 	}
 }

@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
@@ -24,7 +25,7 @@ public class SmithingTableListener extends DuplicateEventManager<PrepareSmithing
 
 	@Override
 	protected boolean eventLogic(PrepareSmithingEvent e) {
-		this.cancelString = MessageManager.format("action-prevented.item-upgrade");
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_ITEM_UPGRADE);
 
 		ItemStack item = e.getInventory().getItem(1);
 

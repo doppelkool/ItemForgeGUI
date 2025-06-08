@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,7 +39,7 @@ public class PreventApplyListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		MessageManager.message(e.getPlayer(), "action-prevented.item-put-in-item-frame");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_ITEM_PUT_IN_ITEM_FRAME);
 	}
 
 	@EventHandler
@@ -54,7 +55,7 @@ public class PreventApplyListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		MessageManager.message(pl, "action-prevented.item-put-on-armor-stand");
+		MessageManager.message(pl, Messages.ACTION_PREVENTED_ITEM_PUT_ON_ARMOR_STAND);
 	}
 
 }
