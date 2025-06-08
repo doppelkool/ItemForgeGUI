@@ -1,0 +1,81 @@
+# -----------------------------------------------------
+#  Color Codes
+#  - Use '&' for Minecraft color codes (e.g. &a for green).
+#  - You can also use formatting codes like &l (bold), &n (underline), etc.
+#  - For a full list of color codes, visit:
+#    https://minecraft.wiki/w/Formatting_codes
+# -----------------------------------------------------
+# Additional Information
+# - If you don't want to use a message key, simply leave it empty; the message will not be sent.
+# - If your messages file becomes corrupted, just reload the plugin. It will automatically recreate missing keys while keeping your custom messages intact.
+# -----------------------------------------------------
+
+prefix: "&8[&dItemForgeGUI&8]&7 "
+
+edit-command:
+  as-console: "&cCommand cannot be executed as console"
+  no-permissions: "&cYou cannot execute this command"
+  empty-item: "&cYou cannot edit an empty item"
+
+sign-editor:
+  not-placed-block-blockade: "&cThere is already a block at your location"
+  edit:
+    amount:
+      information: "&aPlease edit the content to the items future amount and click &7'&aDone&7'"
+      empty-input: "&cThe amount you entered is not valid"
+      invalid-input: "&cThe amount you entered is not valid"
+
+    durability:
+      information: "&aPlease edit the content to the items future durability and click &7'&aDone&7'\n
+          [&cWarning&7] &cThe layout is as follows: futureDurability/maxDurability."
+      empty-input: "&cThe durability you entered is not valid"
+      invalid-input: "&cThe durability you entered is not valid"
+
+    uniqueID:
+      information: "&aPlease edit the content to the items future identifier and click &7'&aDone&7'\n
+          [&cWarning&7] &cThe maximum characters per Line is 15.\n
+          [&cWarning&7] &cWhitespaces will be replaced with underscores."
+      empty-input: "&cThe ID you entered is not valid"
+      input-to-long: "&cThe ID you entered was too long"
+
+    armor-effect:
+      information: "&aPlease edit the content to the armor effects future strength and click &7'&aDone&7'"
+      empty-input: "&cThe strength you entered is not valid"
+      invalid-input: "&cThe strength you entered is not valid"
+
+    enchantment:
+      information: "&aPlease edit the content to the enchantments future strength and click &7'&aDone&7'"
+      empty-input: "&cThe strength you entered is not valid"
+      invalid-input: "&cThe strength you entered is not valid"
+
+book-editor:
+  information: "&7-&aYou have received a book\n
+      &7-&aPlease edit the content according to your futures item lore and click &7'&aDone&7'\n
+      &7-&aYour item was temporarily stored and will be replaced back after editing the book\n
+      [&cWarning&7] &cSituations with no changes to the item lore won't be detected."
+  lore-book-drop-disallowed: "&cYou are not allowed to do this!"
+
+action-prevented:
+  item-drop: "&cYou are not allowed to do this!"
+  item-put-in-item-frame: "&cYou are not allowed to do this!"
+  item-put-on-armor-stand: "&cYou are not allowed to do this!"
+  item-throw: "&cYou are not allowed to do this!"
+  item-enchant: "&cYou are not allowed to do this!"
+  item-upgrade: "&cYou are not allowed to do this!"
+  item-consumption: "&cYou are not allowed to do this!"
+  cake-consumption: "&cYou are not allowed to do this!"
+  cake-with-pf-placed: "&aCake placed, but can never be eaten!"
+  cake-with-pf-destroyed: "&aYou destroyed a non-edible cake!"
+  armor-equip: "&cYou are not allowed to do this!"
+  horse-armor-saddle-equip: "&cYou are not allowed to do this!"
+  block-place: "&cYou are not allowed to do this!"
+  entity-place: "&cYou are not allowed to do this!"
+  arrow-shoot: "&cYou are not allowed to do this!"
+  anvil-usage: "&cYou are not allowed to do this!"
+  grindstone-usage: "&cYou are not allowed to do this!"
+
+misc:
+  copy-unique-identifier:
+    information: "&aCopy the unique identifier by clicking &7->"
+    copy-button: "&7[&aCOPY&7]"
+    manual-button: "&7[&aMANUAL&7]"

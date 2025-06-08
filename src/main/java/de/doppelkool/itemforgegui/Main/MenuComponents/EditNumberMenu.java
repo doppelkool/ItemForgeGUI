@@ -30,7 +30,7 @@ public abstract class EditNumberMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*4;
+		return 9 * 4;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public abstract class EditNumberMenu extends Menu {
 			return;
 		}
 
-		if(onCustomItemClick(e)) {
+		if (onCustomItemClick(e)) {
 			return;
 		}
 
@@ -61,19 +61,27 @@ public abstract class EditNumberMenu extends Menu {
 	@Override
 	public void setMenuItems() {
 		addMenuBorder();
-		for(SlotItemAction item : SLOT_ITEMS)
+		for (SlotItemAction item : SLOT_ITEMS)
 			this.inventory.setItem(item.slot(), item.item());
 		setFillerGlass();
 	}
 
 	protected abstract void handleToZero();
+
 	protected abstract void handleToMax();
+
 	protected abstract void handleMinus100();
+
 	protected abstract void handleMinus10();
+
 	protected abstract void handleMinus1();
+
 	protected abstract void handlePlus1();
+
 	protected abstract void handlePlus10();
+
 	protected abstract void handlePlus100();
+
 	protected abstract void handleCustomNumber(InventoryClickEvent e);
 
 	protected boolean onCustomItemClick(InventoryClickEvent e) {

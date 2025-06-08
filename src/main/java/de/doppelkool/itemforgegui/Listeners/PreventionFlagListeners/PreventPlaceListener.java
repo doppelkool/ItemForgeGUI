@@ -2,8 +2,10 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
-import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -27,12 +29,13 @@ public class PreventPlaceListener implements Listener {
 
 		e.getBlockPlaced().setType(Material.AIR);
 		e.setCancelled(true);
-		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_BLOCK_PLACE);
 	}
 
 	@EventHandler
 	public void preventPlace(EntityPlaceEvent e) {
-		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+		Player pl = e.getPlayer();
+		ItemStack item = pl.getInventory().getItemInMainHand();
 
 		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.PLACE)) {
 			return;
@@ -40,7 +43,7 @@ public class PreventPlaceListener implements Listener {
 
 		e.getEntity().remove();
 		e.setCancelled(true);
-		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(pl, Messages.ACTION_PREVENTED_ENTITY_PLACE);
 	}
 
 }

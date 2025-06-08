@@ -1,11 +1,12 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
-import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.ItemUniquenessSettingsMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,27 +20,27 @@ import org.bukkit.event.block.SignChangeEvent;
  */
 public class EditItemIDSignListener implements Listener {
 	@EventHandler
-	public void onPlayerEditAmountSign(SignChangeEvent event) {
-		Player pl = event.getPlayer();
+	public void onPlayerEditAmountSign(SignChangeEvent e) {
+		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
 		SignNumberEditor signNumberEditor = playerMenuUtility.getSignNumberEditor();
 
 		if (signNumberEditor == null
 			|| signNumberEditor.getType() != SignNumberEditor.NUMBER_EDIT_TYPE.ITEM_ID
 			|| signNumberEditor.getSignLocation() == null
-			|| !SignNumberEditor.isSameBlockLocation(event.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
+			|| !SignNumberEditor.isSameBlockLocation(e.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
 			return;
 		}
 
-		if (event.getLines().length < 1) {
-			pl.sendMessage(Main.prefix + "The ID you entered is not valid");
+		if (e.getLines().length < 1) {
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_UNIQUEID_EMPTY_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}
 
 		StringBuilder sb = new StringBuilder();
 
-		for (String line : event.getLines()) {
+		for (String line : e.getLines()) {
 			if (line != null) {
 				sb.append(line);
 			}
@@ -47,8 +48,8 @@ public class EditItemIDSignListener implements Listener {
 
 		String uniqueID = sb.toString();
 
-		if (uniqueID.length() > 4*15) {
-			pl.sendMessage(Main.prefix + "The ID you entered was too long");
+		if (uniqueID.length() > 4 * 15) {
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_UNIQUEID_INPUT_TO_LONG);
 			endProcess(playerMenuUtility);
 			return;
 		}

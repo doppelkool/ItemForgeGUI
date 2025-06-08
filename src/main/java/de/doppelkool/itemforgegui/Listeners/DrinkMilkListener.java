@@ -15,12 +15,12 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
  */
 public class DrinkMilkListener implements Listener {
 	@EventHandler
-	public void reApplyArmorEffectWhenMilkIsDrunk(PlayerItemConsumeEvent event) {
-		if (event.getItem().getType() != Material.MILK_BUCKET) {
+	public void reApplyArmorEffectWhenMilkIsDrunk(PlayerItemConsumeEvent e) {
+		if (e.getItem().getType() != Material.MILK_BUCKET) {
 			return;
 		}
 
 		// Delay one tick so that milk clears all effects first.
-		Bukkit.getScheduler().runTask(Main.getPlugin(), () -> ArmorEffectManager.reapplyArmorEffects(event.getPlayer()));
+		Bukkit.getScheduler().runTask(Main.getPlugin(), () -> ArmorEffectManager.reapplyArmorEffects(e.getPlayer()));
 	}
 }

@@ -28,7 +28,7 @@ public class ItemIdentityMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*3;
+		return 9 * 3;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class ItemIdentityMenu extends Menu {
 			return;
 		}
 
-		if(e.getSlot() == 13) {
+		if (e.getSlot() == 13) {
 			new ItemUniquenessSettingsMenu(this.playerMenuUtility)
 				.open();
 			return;

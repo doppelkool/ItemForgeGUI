@@ -9,6 +9,8 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.DeactivatedEnchantmentsMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -32,7 +34,7 @@ public class ItemEditMenu extends Menu {
 		super(playerMenuUtility);
 
 		ItemStack itemInMainHand = playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		if(!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
+		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
 			new ItemInfoManager(itemInMainHand).initItemDescription();
 		}
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
@@ -46,7 +48,7 @@ public class ItemEditMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*3;
+		return 9 * 3;
 	}
 
 	@Override
@@ -95,7 +97,7 @@ public class ItemEditMenu extends Menu {
 				.open();
 			return;
 		}
-		if(e.getSlot() == 15 &&
+		if (e.getSlot() == 15 &&
 			ItemStackHelper.isOnlyDyeColorableWithoutMixins(item.getType())) {
 			new ColorPickerMenu(this.playerMenuUtility)
 				.open();
@@ -122,7 +124,7 @@ public class ItemEditMenu extends Menu {
 		this.inventory.setItem(12, ItemStacks.editEnchantments);
 
 		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		if(ItemStackHelper.isDamageable(item)) {
+		if (ItemStackHelper.isDamageable(item)) {
 			this.inventory.setItem(13, ItemStacks.editDurability);
 		} else {
 			this.inventory.setItem(13, notAvailable(ItemStacks.editDurability));
@@ -130,7 +132,7 @@ public class ItemEditMenu extends Menu {
 
 		this.inventory.setItem(14, ItemStacks.editAmount);
 
-		if(editColorAvailable(item)) {
+		if (editColorAvailable(item)) {
 			this.inventory.setItem(15, ItemStacks.editColor);
 		} else {
 			this.inventory.setItem(15, notAvailable(ItemStacks.editColor));
@@ -148,16 +150,9 @@ public class ItemEditMenu extends Menu {
 	}
 
 	private void editLoreProcess() {
-		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " You have received a book\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content according to your futures item lore and click \"Done\"\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Your item was temporarily stored and will be replaced back after editing the book\n" +
-			ChatColor.RED + "Warning" + ChatColor.GRAY + ": Situations with no changes to the item lore won't be detected.";
-		//, resulting in no chances
-
 		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
 		playerMenuUtility.getOwner().closeInventory();
-		playerMenuUtility.getOwner().sendMessage(message);
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.BOOK_EDITOR_INFORMATION);
 	}
 
 	private void editNameProcess() {

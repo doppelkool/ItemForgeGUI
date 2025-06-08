@@ -3,8 +3,10 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
-import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
@@ -36,12 +38,13 @@ public class PreventApplyListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_ITEM_PUT_IN_ITEM_FRAME);
 	}
 
 	@EventHandler
 	public void preventPuttingItemOnArmorStand(PlayerArmorStandManipulateEvent e) {
-		ItemStack itemInMainHand = e.getPlayer().getInventory().getItemInMainHand();
+		Player pl = e.getPlayer();
+		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
 		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
 			return;
 		}
@@ -51,7 +54,7 @@ public class PreventApplyListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(pl, Messages.ACTION_PREVENTED_ITEM_PUT_ON_ARMOR_STAND);
 	}
 
 }

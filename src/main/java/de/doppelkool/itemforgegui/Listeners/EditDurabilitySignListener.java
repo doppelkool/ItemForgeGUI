@@ -1,10 +1,11 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.DurabilityMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,30 +21,30 @@ import org.bukkit.inventory.meta.Damageable;
  */
 public class EditDurabilitySignListener implements Listener {
 	@EventHandler
-	public void onPlayerEditDurabilitySign(SignChangeEvent event) {
-		Player pl = event.getPlayer();
+	public void onPlayerEditDurabilitySign(SignChangeEvent e) {
+		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
 		SignNumberEditor signNumberEditor = playerMenuUtility.getSignNumberEditor();
 
 		if (signNumberEditor == null
 			|| signNumberEditor.getType() != SignNumberEditor.NUMBER_EDIT_TYPE.DURABILITY
 			|| signNumberEditor.getSignLocation() == null
-			|| !SignNumberEditor.isSameBlockLocation(event.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
+			|| !SignNumberEditor.isSameBlockLocation(e.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
 			return;
 		}
 
-		if (event.getLines().length < 1) {
-			pl.sendMessage(Main.prefix + "The durability you entered is not valid");
+		if (e.getLines().length < 1) {
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_DURABILITY_EMPTY_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}
 
 		Integer durability = SignNumberEditor.parseInteger(
-			event.getLine(0)
+			e.getLine(0)
 				.split("/")
 				[0]);
 		if (durability == null) {
-			pl.sendMessage(Main.prefix + "The durability you entered is not valid");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_DURABILITY_INVALID_INPUT);
 			endProcess(playerMenuUtility);
 			return;
 		}

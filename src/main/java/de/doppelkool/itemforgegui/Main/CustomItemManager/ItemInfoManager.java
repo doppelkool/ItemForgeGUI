@@ -18,17 +18,15 @@ import java.util.Map;
  */
 public class ItemInfoManager {
 
+	private final ItemStack item;
+	private final ItemMeta meta;
 	String SEPARATOR = ChatColor.DARK_GRAY + "―――";
 	String HEADER_COLOR = ChatColor.GRAY + "" + ChatColor.UNDERLINE;
 	String ENTRY_COLOR = ChatColor.GRAY + "";
-
 	String ARMOR_EFFECTS_HEADER = HEADER_COLOR + "Armor Effects";
 	String EMPTY_ARMOR_EFFECTS_HEADER = ENTRY_COLOR + "Armor Effects: Empty";
 	String PREVENTION_FLAGS_HEADER = HEADER_COLOR + "Prevention Flags";
 	String EMPTY_PREVENTION_FLAGS_HEADER = ENTRY_COLOR + "Prevention Flags: Empty";
-
-	private final ItemStack item;
-	private final ItemMeta meta;
 	private List<String> itemInfoLines;
 
 	@Getter
@@ -111,7 +109,7 @@ public class ItemInfoManager {
 
 			String loreDescription = action.getLoreDescription();
 
-			if(action == ForgeAction.CRAFT) {
+			if (action == ForgeAction.CRAFT) {
 				PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
 				loreDescription += " (" + activeCraftingPrevention.getItemDescription() + ")";
 			}

@@ -3,7 +3,6 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 import lombok.Getter;
 
 /**
- *
  * <p>Item with Flag:
  * <p>DROP             - cannot be dropped
  * <p>ITEM_FRAME_PLACE - cannot be placed in the two types of item frames

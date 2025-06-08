@@ -41,7 +41,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
 	@Override
 	public int getSlots() {
-		return 9*6;
+		return 9 * 6;
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 			return;
 		}
 
-		if(e.getSlot() == 53) {
+		if (e.getSlot() == 53) {
 			new DeactivatedEnchantmentsMenu(this.playerMenuUtility)
 				.open();
 		}
