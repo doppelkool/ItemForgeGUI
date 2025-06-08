@@ -148,8 +148,8 @@ public class AnvilListenerHelper {
 	 */
 	private static PrepareAnvilResult checkRenamingPrevention(ItemStack leftItem, ItemStack rightItem) {
 		boolean renamePreventionActiveOnBothItems =
-				PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
-					|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME);
+			PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
+				|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME);
 
 		return renamePreventionActiveOnBothItems
 			? PrepareAnvilResult.DENY

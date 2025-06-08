@@ -27,10 +27,30 @@ import java.util.stream.Collectors;
  */
 public class PreventionFlagManager {
 
+	public static final HashMap<Integer, Pair<ForgeAction, ItemStack>> SLOT_TO_ACTION = new HashMap<>();
+
+	static {
+		SLOT_TO_ACTION.put(10, new Pair<>(ForgeAction.DROP, ItemStacks.itemDrop));
+		SLOT_TO_ACTION.put(11, new Pair<>(ForgeAction.ITEM_FRAME_PLACE, ItemStacks.itemFramePlace));
+		SLOT_TO_ACTION.put(12, new Pair<>(ForgeAction.DESTROY, ItemStacks.destroyItem));
+		SLOT_TO_ACTION.put(13, new Pair<>(ForgeAction.CRAFT, ItemStacks.itemCraft));
+		SLOT_TO_ACTION.put(14, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
+
+		SLOT_TO_ACTION.put(19, new Pair<>(ForgeAction.SMELT, ItemStacks.itemSmelt));
+		SLOT_TO_ACTION.put(20, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));
+		SLOT_TO_ACTION.put(21, new Pair<>(ForgeAction.EAT, ItemStacks.eatItem));
+		SLOT_TO_ACTION.put(22, new Pair<>(ForgeAction.PLACE, ItemStacks.placeItem));
+		SLOT_TO_ACTION.put(23, new Pair<>(ForgeAction.EQUIP, ItemStacks.equipItem));
+		SLOT_TO_ACTION.put(24, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
+		SLOT_TO_ACTION.put(25, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
+		SLOT_TO_ACTION.put(30, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
+		SLOT_TO_ACTION.put(31, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
+	}
+
 	public static ArrayList<ForgeAction> mapNotAllowedForgeActions(PersistentDataContainer dataContainer) {
 		String notAllowedForgeActions = getNotAllowedForgeActions(dataContainer);
 
-		if(notAllowedForgeActions.isEmpty()) {
+		if (notAllowedForgeActions.isEmpty()) {
 			return new ArrayList<>();
 		}
 
@@ -49,7 +69,7 @@ public class PreventionFlagManager {
 			return;
 		}
 
-		if(newStatus) {
+		if (newStatus) {
 			forgeActions.add(forgeAction);
 		} else {
 			forgeActions.remove(forgeAction);
@@ -67,7 +87,7 @@ public class PreventionFlagManager {
 			return;
 		}
 
-		if(newStatus) {
+		if (newStatus) {
 			forgeActions.add(forgeAction);
 		} else {
 			forgeActions.remove(forgeAction);
@@ -124,26 +144,6 @@ public class PreventionFlagManager {
 			&& UniqueItemIdentifierManager.isUniqueItem(item)
 			&& isActionPrevented(item.getItemMeta(), action);
 	}
-
-	public static final HashMap<Integer, Pair<ForgeAction, ItemStack>> SLOT_TO_ACTION = new HashMap<>();
-	static {
-		SLOT_TO_ACTION.put(10, new Pair<>(ForgeAction.DROP, ItemStacks.itemDrop));
-		SLOT_TO_ACTION.put(11, new Pair<>(ForgeAction.ITEM_FRAME_PLACE, ItemStacks.itemFramePlace));
-		SLOT_TO_ACTION.put(12, new Pair<>(ForgeAction.DESTROY, ItemStacks.destroyItem));
-		SLOT_TO_ACTION.put(13, new Pair<>(ForgeAction.CRAFT, ItemStacks.itemCraft));
-		SLOT_TO_ACTION.put(14, new Pair<>(ForgeAction.RENAME, ItemStacks.renameItem));
-
-		SLOT_TO_ACTION.put(19, new Pair<>(ForgeAction.SMELT, ItemStacks.itemSmelt));
-		SLOT_TO_ACTION.put(20, new Pair<>(ForgeAction.LAUNCH, ItemStacks.throwItem));
-		SLOT_TO_ACTION.put(21, new Pair<>(ForgeAction.EAT, ItemStacks.eatItem));
-		SLOT_TO_ACTION.put(22, new Pair<>(ForgeAction.PLACE, ItemStacks.placeItem));
-		SLOT_TO_ACTION.put(23, new Pair<>(ForgeAction.EQUIP, ItemStacks.equipItem));
-		SLOT_TO_ACTION.put(24, new Pair<>(ForgeAction.REPAIR, ItemStacks.repairItem));
-		SLOT_TO_ACTION.put(25, new Pair<>(ForgeAction.ENCHANT, ItemStacks.enchantItem));
-		SLOT_TO_ACTION.put(30, new Pair<>(ForgeAction.DISENCHANT, ItemStacks.disenchantItem));
-		SLOT_TO_ACTION.put(31, new Pair<>(ForgeAction.UPGRADE, ItemStacks.upgradeItem));
-	}
-
 
 	public static CraftingPrevention getActiveCraftingPrevention(ItemStack currentItem) {
 		PersistentDataContainer dataContainer = currentItem.getItemMeta().getPersistentDataContainer();

@@ -15,7 +15,7 @@ import org.bukkit.inventory.InventoryHolder;
 public class MenuListener implements Listener, MenuRelay {
 
 	@EventHandler
-	public void onMenuClick(InventoryClickEvent e){
+	public void onMenuClick(InventoryClickEvent e) {
 
 		InventoryHolder holder = e.getInventory().getHolder();
 		if (holder instanceof Menu menu) {

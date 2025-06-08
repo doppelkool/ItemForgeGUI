@@ -1,10 +1,10 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
-import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import org.bukkit.ChatColor;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -95,9 +95,6 @@ public class DurabilityMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
-		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future durability and click \"Done\".";
-
 		playerMenuUtility.getOwner().closeInventory();
 		Damageable itemMeta = (Damageable) this.damageableItem.getItemMeta();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
@@ -105,7 +102,7 @@ public class DurabilityMenu extends EditNumberMenu {
 				this.damageableItem.getType().getMaxDurability() - itemMeta.getDamage(),
 				this.damageableItem.getType().getMaxDurability())
 			.openSign());
-		playerMenuUtility.getOwner().sendMessage(message);
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_DURABILITY_INFORMATION);
 	}
 
 	private int clampDurability(int durability) {

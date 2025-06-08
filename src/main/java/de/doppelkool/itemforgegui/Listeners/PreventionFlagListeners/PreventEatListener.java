@@ -5,6 +5,8 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -32,7 +34,7 @@ public class PreventEatListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_ITEM_CONSUMPTION);
 		return;
 	}
 
@@ -59,14 +61,14 @@ public class PreventEatListener implements Listener {
 		}
 
 		e.setCancelled(true);
-		e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_CONSUMPTION);
 	}
 
 	@EventHandler
 	public void preventEatCake_PlaceCakeWithPF(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
 
-		if(item.getType() != Material.CAKE) {
+		if (item.getType() != Material.CAKE) {
 			return;
 		}
 
@@ -77,14 +79,14 @@ public class PreventEatListener implements Listener {
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(e.getBlockPlaced());
 		PreventionFlagManager.toggleAllowedAction(e.getBlockPlaced(), ForgeAction.EAT, true);
 
-		e.getPlayer().sendMessage(Main.prefix + "Cake placed, but can never be eaten!");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_WITH_PF_PLACED);
 	}
 
 	@EventHandler
 	public void preventEatCake_BreakStoredCake(BlockBreakEvent e) {
 		Block block = e.getBlock();
 
-		if(block.getType() != Material.CAKE) {
+		if (block.getType() != Material.CAKE) {
 			return;
 		}
 
@@ -98,7 +100,7 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		e.getPlayer().sendMessage(Main.prefix + "You destroyed a non-edible cake!");
+		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_WITH_PF_DESTROYED);
 		e.setDropItems(false);
 
 		block.setType(Material.AIR);

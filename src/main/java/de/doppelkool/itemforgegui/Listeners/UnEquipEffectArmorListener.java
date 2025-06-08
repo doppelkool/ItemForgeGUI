@@ -21,9 +21,8 @@ public class UnEquipEffectArmorListener implements Listener {
 
 	@EventHandler
 	public void onArmorChange(ArmorEquipEvent e) {
-		Player player = e.getPlayer();
 		// Delay the effect update by one tick to allow the inventory to update.
-		Bukkit.getScheduler().runTask(Main.getPlugin(), () -> updateArmorEffects(player));
+		Bukkit.getScheduler().runTask(Main.getPlugin(), () -> updateArmorEffects(e.getPlayer()));
 	}
 
 	private void updateArmorEffects(Player player) {

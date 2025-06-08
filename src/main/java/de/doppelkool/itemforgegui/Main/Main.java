@@ -10,10 +10,10 @@ import de.doppelkool.itemforgegui.Listeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair.*;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.persistence.PersistentDataType;
@@ -30,84 +30,82 @@ import java.util.ArrayList;
  */
 public final class Main extends JavaPlugin {
 
-    public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.LIGHT_PURPLE + "ItemForgeGUI" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
+	@Getter
+	private static Main plugin;
+	@Getter
+	private NamespacedKey customLoreEditBookKey;
+	@Getter
+	private NamespacedKey customEnchantmentStackIDKey;
+	@Getter
+	private NamespacedKey customNotAvailableStackIDKey;
+	@Getter
+	private NamespacedKey customTagItemNotAllowedForgeActions;
+	@Getter
+	private NamespacedKey customTagItemCraftPrevention;
+	@Getter
+	private NamespacedKey customTagUID;
 
-    @Getter
-    private static Main plugin;
-    @Getter
-    private NamespacedKey customLoreEditBookKey;
-    @Getter
-    private NamespacedKey customEnchantmentStackIDKey;
-    @Getter
-    private NamespacedKey customNotAvailableStackIDKey;
-    @Getter
-    private NamespacedKey customTagItemNotAllowedForgeActions;
-    @Getter
-    private NamespacedKey customTagItemCraftPrevention;
-    @Getter
-    private NamespacedKey customTagUID;
+	@Getter
+	private NamespacedKey customArmorEffectsKeyStackIDKey;
+	@Getter
+	private NamespacedKey customArmorEffectsKey;
+	private PersistentDataType<byte[], ForgeArmorEffect> customPersistantDataTypeArmorEffect;
+	@Getter
+	private CollectionDataType<ArrayList<ForgeArmorEffect>, ForgeArmorEffect> customArmorEffectListDataType;
 
-    @Getter
-    private NamespacedKey customArmorEffectsKeyStackIDKey;
-    @Getter
-    private NamespacedKey customArmorEffectsKey;
-    private PersistentDataType<byte[], ForgeArmorEffect> customPersistantDataTypeArmorEffect;
-    @Getter
-    private CollectionDataType<ArrayList<ForgeArmorEffect>, ForgeArmorEffect> customArmorEffectListDataType;
+	public void onEnable() {
+		plugin = this;
+		new Metrics(this, 24997);
 
-    public void onEnable()
-    {
-        plugin = this;
-        new Metrics(this, 24997);
+		ConfigManager cMr = ConfigManager.getInstance();
+		if (cMr.isUniqueIdOnEditedItemEnabled()) {
+			customTagUID = new NamespacedKey(this, "id");
+		}
 
-        ConfigManager cMr = ConfigManager.getInstance();
-        if(cMr.isUniqueIdOnEditedItemEnabled()) {
-            customTagUID = new NamespacedKey(this, "id");
-        }
+		new MessageManager(this);
 
-        customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
-        customTagItemCraftPrevention = new NamespacedKey(this, "craftingPreventionType");
-        customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
-        customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
-        customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");
-        customArmorEffectsKeyStackIDKey = new NamespacedKey(this, "armorEffectsInvID");
+		customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
+		customTagItemCraftPrevention = new NamespacedKey(this, "craftingPreventionType");
+		customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
+		customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
+		customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");
+		customArmorEffectsKeyStackIDKey = new NamespacedKey(this, "armorEffectsInvID");
 
-        customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
-        customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
-        customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
+		customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
+		customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
+		customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
 
-        getCommand("edit").setExecutor(new EditCommand());
+		getCommand("edit").setExecutor(new EditCommand());
 
-        PluginManager pluginmanager = Bukkit.getPluginManager();
-        pluginmanager.registerEvents(new MenuListener(), this);
-        pluginmanager.registerEvents(new OnQuitListener(), this);
-        pluginmanager.registerEvents(new OnRespawnListener(), this);
-        pluginmanager.registerEvents(new LoreBookListeners(), this);
-        pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
-        pluginmanager.registerEvents(new EditAmountSignListener(), this);
-        pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
-        pluginmanager.registerEvents(new EditSingleArmorEffectStrengthSignListener(), this);
-        pluginmanager.registerEvents(new EditItemIDSignListener(), this);
-        pluginmanager.registerEvents(new PreventAlteringListeners(), this);
-        pluginmanager.registerEvents(new PreventApplyListener(), this);
-        pluginmanager.registerEvents(new GrindstoneListener(), this);
-        pluginmanager.registerEvents(new AnvilListener(), this);
-        pluginmanager.registerEvents(new CraftListener(), this);
-        pluginmanager.registerEvents(new EnchantingTableListener(), this);
-        pluginmanager.registerEvents(new PreventThrowListener(), this);
-        pluginmanager.registerEvents(new PreventEatListener(), this);
-        pluginmanager.registerEvents(new PreventPlaceListener(), this);
-        pluginmanager.registerEvents(new PreventDestroyListener(), this);
-        pluginmanager.registerEvents(new SmithingTableListener(), this);
-        pluginmanager.registerEvents(new PreventEquipListener(), this);
-        pluginmanager.registerEvents(new PreventSmeltingListeners(), this);
-        pluginmanager.registerEvents(new UnEquipEffectArmorListener(), this);
-        pluginmanager.registerEvents(new DrinkMilkListener(), this);
+		PluginManager pluginmanager = Bukkit.getPluginManager();
+		pluginmanager.registerEvents(new MenuListener(), this);
+		pluginmanager.registerEvents(new OnQuitListener(), this);
+		pluginmanager.registerEvents(new OnRespawnListener(), this);
+		pluginmanager.registerEvents(new LoreBookListeners(), this);
+		pluginmanager.registerEvents(new EditDurabilitySignListener(), this);
+		pluginmanager.registerEvents(new EditAmountSignListener(), this);
+		pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
+		pluginmanager.registerEvents(new EditSingleArmorEffectStrengthSignListener(), this);
+		pluginmanager.registerEvents(new EditItemIDSignListener(), this);
+		pluginmanager.registerEvents(new PreventAlteringListeners(), this);
+		pluginmanager.registerEvents(new PreventApplyListener(), this);
+		pluginmanager.registerEvents(new GrindstoneListener(), this);
+		pluginmanager.registerEvents(new AnvilListener(), this);
+		pluginmanager.registerEvents(new CraftListener(), this);
+		pluginmanager.registerEvents(new EnchantingTableListener(), this);
+		pluginmanager.registerEvents(new PreventThrowListener(), this);
+		pluginmanager.registerEvents(new PreventEatListener(), this);
+		pluginmanager.registerEvents(new PreventPlaceListener(), this);
+		pluginmanager.registerEvents(new PreventDestroyListener(), this);
+		pluginmanager.registerEvents(new SmithingTableListener(), this);
+		pluginmanager.registerEvents(new PreventEquipListener(), this);
+		pluginmanager.registerEvents(new PreventSmeltingListeners(), this);
+		pluginmanager.registerEvents(new UnEquipEffectArmorListener(), this);
+		pluginmanager.registerEvents(new DrinkMilkListener(), this);
 
-        ArmorEquipEvent.registerListener(this);
-        //Enable Block location updates
-        CustomBlockData.registerListener(this);
+		ArmorEquipEvent.registerListener(this);
+		CustomBlockData.registerListener(this);
 
-        ConfigurationSerialization.registerClass(ForgeArmorEffect.class);
-    }
+		ConfigurationSerialization.registerClass(ForgeArmorEffect.class);
+	}
 }

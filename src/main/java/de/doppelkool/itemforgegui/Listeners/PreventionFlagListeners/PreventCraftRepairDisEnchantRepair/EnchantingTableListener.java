@@ -3,7 +3,8 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraf
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
-import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
@@ -22,10 +23,10 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 	}
 
 	@Override
-	protected boolean eventLogic(PrepareItemEnchantEvent event) {
-		this.cancelString = Main.prefix + "You are not allowed to do this!";
+	protected boolean eventLogic(PrepareItemEnchantEvent e) {
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_ITEM_ENCHANT);
 
-		ItemStack toEnchant = event.getItem();
+		ItemStack toEnchant = e.getItem();
 		if (toEnchant.getItemMeta() != null && toEnchant.getItemMeta().hasEnchants()) {
 			return false;
 		}
@@ -35,7 +36,7 @@ public class EnchantingTableListener extends DuplicateEventManager<PrepareItemEn
 			return true;
 		}
 
-		ItemStack enchantWith = event.getView().getItem(1);
+		ItemStack enchantWith = e.getView().getItem(1);
 		//At this point its allowed if the secondItem is null
 		if (enchantWith == null) {
 			return false;

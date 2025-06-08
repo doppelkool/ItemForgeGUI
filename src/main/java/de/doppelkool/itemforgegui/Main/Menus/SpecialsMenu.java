@@ -29,7 +29,7 @@ public class SpecialsMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*3;
+		return 9 * 3;
 	}
 
 	@Override

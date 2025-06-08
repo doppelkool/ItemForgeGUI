@@ -4,6 +4,8 @@ import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,7 +30,7 @@ public class PreventEquipListener implements Listener {
 
 	@EventHandler
 	public void onArmorEquip(ArmorEquipEvent e) {
-		final Player player = e.getPlayer();
+		final Player pl = e.getPlayer();
 		final ItemStack newArmor = e.getNewArmorPiece();
 
 		if (newArmor == null || newArmor.getType() == Material.AIR) return;
@@ -41,18 +43,18 @@ public class PreventEquipListener implements Listener {
 				case BOOTS -> 36;
 			};
 
-			ItemStack equipped = player.getInventory().getItem(slotIndex);
+			ItemStack equipped = pl.getInventory().getItem(slotIndex);
 			if (equipped == null || equipped.getType() != newArmor.getType()) return;
 
 			if (PreventionFlagManager.isActionPrevented(equipped, ForgeAction.EQUIP)) {
-				player.getInventory().setItem(slotIndex, null);
+				pl.getInventory().setItem(slotIndex, null);
 
-				HashMap<Integer, ItemStack> leftover = player.getInventory().addItem(equipped);
+				HashMap<Integer, ItemStack> leftover = pl.getInventory().addItem(equipped);
 				for (ItemStack remaining : leftover.values()) {
-					player.getWorld().dropItemNaturally(player.getLocation(), remaining);
+					pl.getWorld().dropItemNaturally(pl.getLocation(), remaining);
 				}
 
-				player.sendMessage(Main.prefix + "You are not allowed to do this!");
+				MessageManager.message(pl, Messages.ACTION_PREVENTED_ARMOR_EQUIP);
 			}
 		}, 1L);
 	}
@@ -77,7 +79,7 @@ public class PreventEquipListener implements Listener {
 
 	@EventHandler
 	public void preventHorseArmorAndSaddleEquip(InventoryClickEvent e) {
-		if (!(e.getWhoClicked() instanceof Player player)) return;
+		if (!(e.getWhoClicked() instanceof Player pl)) return;
 		if (!(e.getView().getTopInventory().getHolder() instanceof Horse horse)) return;
 
 		Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
@@ -91,7 +93,7 @@ public class PreventEquipListener implements Listener {
 				PreventionFlagManager.isActionPrevented(equippedArmor, ForgeAction.EQUIP)) {
 
 				horseInv.setArmor(null);
-				returnItemToPlayer(player, equippedArmor);
+				returnItemToPlayer(pl, equippedArmor);
 				isArmorPrevented = true;
 			}
 
@@ -101,13 +103,14 @@ public class PreventEquipListener implements Listener {
 				PreventionFlagManager.isActionPrevented(equippedSaddle, ForgeAction.EQUIP)) {
 
 				horseInv.setSaddle(null);
-				returnItemToPlayer(player, equippedSaddle);
+				returnItemToPlayer(pl, equippedSaddle);
 				isSaddlePrevented = true;
 			}
 
-			// Send a single message if either armor or saddle was prevented
+			//ToDo Split into 2 messages
+			//Send a single message if either armor or saddle was prevented
 			if (isArmorPrevented || isSaddlePrevented) {
-				player.sendMessage(Main.prefix + "You are not allowed to do this!");
+				MessageManager.message(pl, Messages.ACTION_PREVENTED_HORSE_ARMOR_SADDLE_EQUIP);
 			}
 		}, 1L);
 	}

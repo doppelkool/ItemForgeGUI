@@ -29,15 +29,6 @@ public class ForgeArmorEffect implements ConfigurationSerializable {
 		this.amplifier = amplifier;
 	}
 
-	@Override
-	@NotNull
-	public Map<String, Object> serialize() {
-		return new HashMap<>(Map.of(
-			"effect", this.type.getKey().toString(),
-			"amplifier", this.amplifier
-		));
-	}
-
 	@SuppressWarnings("unused")
 	//This constructor is needed for paper deserialization
 	public static ForgeArmorEffect deserialize(Map<String, Object> map) {
@@ -45,6 +36,15 @@ public class ForgeArmorEffect implements ConfigurationSerializable {
 			PotionEffectType.getByKey(NamespacedKey.fromString((String) map.get("effect"))),
 			(Integer) map.get("amplifier")
 		);
+	}
+
+	@Override
+	@NotNull
+	public Map<String, Object> serialize() {
+		return new HashMap<>(Map.of(
+			"effect", this.type.getKey().toString(),
+			"amplifier", this.amplifier
+		));
 	}
 
 	public PotionEffect getPotionEffect() {

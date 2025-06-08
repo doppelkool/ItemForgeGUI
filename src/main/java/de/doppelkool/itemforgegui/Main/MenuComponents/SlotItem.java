@@ -7,4 +7,5 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public record SlotItem(int slot, ItemStack item) {}
+public record SlotItem(int slot, ItemStack item) {
+}

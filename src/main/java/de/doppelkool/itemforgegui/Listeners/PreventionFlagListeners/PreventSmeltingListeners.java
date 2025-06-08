@@ -18,14 +18,14 @@ import org.bukkit.inventory.FurnaceInventory;
 public class PreventSmeltingListeners implements Listener {
 
 	@EventHandler
-	public void onFurnaceBurn(FurnaceBurnEvent event) {
-		if (!(event.getBlock().getState() instanceof Furnace)) return;
-		processFurnaceEvent((Furnace)event.getBlock().getState(), event);
+	public void onFurnaceBurn(FurnaceBurnEvent e) {
+		if (!(e.getBlock().getState() instanceof Furnace)) return;
+		processFurnaceEvent((Furnace) e.getBlock().getState(), e);
 	}
 
 	@EventHandler
-	public void onFurnaceSmelt(FurnaceSmeltEvent event) {
-		processFurnaceEvent((Furnace)event.getBlock().getState(), event);
+	public void onFurnaceSmelt(FurnaceSmeltEvent e) {
+		processFurnaceEvent((Furnace) e.getBlock().getState(), e);
 	}
 
 	private void processFurnaceEvent(Furnace furnace, Cancellable cancellable) {

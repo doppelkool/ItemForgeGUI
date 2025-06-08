@@ -4,7 +4,8 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
-import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,12 +33,12 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 
 	@Override
 	protected boolean eventLogic(PlayerInteractEvent e) {
-		this.cancelString = Main.prefix + "You are not allowed to do this!";
+		this.cancelString = MessageManager.format(Messages.ACTION_PREVENTED_ITEM_THROW);
 
 		ItemStack item = e.getItem();
 		if (item == null) return false;
 
-		if(e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock() != null
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock() != null
 			&& e.getClickedBlock().getType().isInteractable()
 			&& !e.getPlayer().isSneaking()
 			|| e.getAction() == Action.LEFT_CLICK_AIR
@@ -74,11 +75,10 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 		}
 
 		//e#setConsumeItem(boolean) is currently non-functional. Workaround readd the item:
-		if(pl.getGameMode() != GameMode.CREATIVE) {
+		if (pl.getGameMode() != GameMode.CREATIVE) {
 			reAddItem(pl, e.getHand(), shotItem);
 		}
-
-		pl.sendMessage(Main.prefix + "You are not allowed to do this!");
+		MessageManager.message(pl, Messages.ACTION_PREVENTED_ARROW_SHOOT);
 	}
 
 	private void reAddItem(Player pl, EquipmentSlot es, ItemStack consumedItem) {
@@ -87,9 +87,9 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 		EquipmentSlot toCheck =
 			(es == EquipmentSlot.HAND || es == EquipmentSlot.OFF_HAND)
 				? (es == EquipmentSlot.HAND
-					? EquipmentSlot.OFF_HAND
-					: EquipmentSlot.HAND)
-			: null;
+				? EquipmentSlot.OFF_HAND
+				: EquipmentSlot.HAND)
+				: null;
 
 		if (toCheck != null) {
 			ItemStack item = inventory.getItem(toCheck);
@@ -99,8 +99,8 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 			}
 		}
 
-		for(Map.Entry<Integer, ? extends ItemStack> entry : inventory.all(consumedItem.getType()).entrySet()) {
-			if(entry.getValue().isSimilar(consumedItem)) {
+		for (Map.Entry<Integer, ? extends ItemStack> entry : inventory.all(consumedItem.getType()).entrySet()) {
+			if (entry.getValue().isSimilar(consumedItem)) {
 				entry.getValue().setAmount(entry.getValue().getAmount() + 1);
 				return;
 			}

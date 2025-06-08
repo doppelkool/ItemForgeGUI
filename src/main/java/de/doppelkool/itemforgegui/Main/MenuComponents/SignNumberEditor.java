@@ -2,6 +2,8 @@ package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -35,13 +37,28 @@ public class SignNumberEditor {
 		signLocation = pl.getLocation();
 
 		Material type = signLocation.getBlock().getType();
-		if(type != Material.AIR) {
-			pl.sendMessage(Main.prefix + ChatColor.RED + "There is already a block at your location");
-			throw new IllegalStateException(pl.getName() + "-" + type + "-This material is in the way of a sign placement");
+		if (type != Material.AIR) {
+			MessageManager.message(pl, Messages.SIGN_EDITOR_NOT_PLACED_BLOCK_BLOCKADE);
+			Bukkit.getLogger().info(ChatColor.RED + pl.getName() + "-" + type + "-This material is in the way of a sign placement");
 		}
 
 		signLocation.getBlock().setType(Material.BIRCH_SIGN);
 		this.sign = (Sign) signLocation.getBlock().getState();
+	}
+
+	public static boolean isSameBlockLocation(Location loc1, Location loc2) {
+		return
+			loc1.getBlockX() == loc2.getBlockX() &&
+				loc1.getBlockY() == loc2.getBlockY() &&
+				loc1.getBlockZ() == loc2.getBlockZ();
+	}
+
+	public static Integer parseInteger(String line) {
+		try {
+			return Integer.parseInt(line);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	public SignNumberEditor editAmount(int amountBefore) {
@@ -54,7 +71,6 @@ public class SignNumberEditor {
 	public SignNumberEditor editDurability(int damage, int maxDamage) {
 		type = NUMBER_EDIT_TYPE.DURABILITY;
 		sign.getSide(Side.FRONT).setLine(0, damage + "/" + maxDamage);
-		sign.getSide(Side.FRONT).setLine(1, "damage/maxDamage");
 		sign.update();
 		return this;
 	}
@@ -82,7 +98,7 @@ public class SignNumberEditor {
 
 		for (int i = 0; i < length; i += chunkSize) {
 			int end = Math.min(i + chunkSize, length);
-			sign.getSide(Side.FRONT).setLine(i/chunkSize, uniqueItemIdentifierOrEmptyString.substring(i, end));
+			sign.getSide(Side.FRONT).setLine(i / chunkSize, uniqueItemIdentifierOrEmptyString.substring(i, end));
 		}
 
 		sign.update();
@@ -104,20 +120,5 @@ public class SignNumberEditor {
 		ITEM_ID,
 
 		;
-	}
-
-	public static boolean isSameBlockLocation(Location loc1, Location loc2) {
-		return
-			loc1.getBlockX() == loc2.getBlockX() &&
-				loc1.getBlockY() == loc2.getBlockY() &&
-				loc1.getBlockZ() == loc2.getBlockZ();
-	}
-
-	public static Integer parseInteger(String line) {
-		try {
-			return Integer.parseInt(line);
-		}   catch (NumberFormatException e){
-			return null;
-		}
 	}
 }

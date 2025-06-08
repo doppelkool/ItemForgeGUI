@@ -41,7 +41,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 
 	@Override
 	public int getSlots() {
-		return 9*6;
+		return 9 * 6;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 			return;
 		}
 
-		if(e.getSlot() == 52) {
+		if (e.getSlot() == 52) {
 			new SpecialsActivatedArmorEffectsMenu(this.playerMenuUtility)
 				.open();
 		}
@@ -87,7 +87,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 				.findFirst()
 				.get(); //Handled every other case
 
-			if(ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
+			if (ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
 				ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 				ArmorEffectManager.addArmorEffect(itemInMainHand, potionEffectType, 1);
 				new ItemInfoManager(itemInMainHand).updateItemInfo();

@@ -29,7 +29,7 @@ public class SpecialsItemFlagsMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*4;
+		return 9 * 4;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class SpecialsItemFlagsMenu extends Menu {
 			default -> null;
 		};
 
-		if(clickedFlag == null) {
+		if (clickedFlag == null) {
 			return;
 		}
 

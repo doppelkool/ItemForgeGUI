@@ -16,8 +16,7 @@ public interface MenuRelay {
 
 	/**
 	 * @return boolean -> Whether the event is continued and passed down to Menus
-	 *
-	 * */
+	 */
 	default boolean shouldForwardClickEvent(InventoryClickEvent e) {
 		ItemStack item = e.getCurrentItem();
 
@@ -26,16 +25,16 @@ public interface MenuRelay {
 		}
 
 		/*
-		* Event discontinued if:
-		* - Item is FILLER_GLASS
-		* - Item has NOT_AVAILABLE as tag in its data container
-		* - Clicked Inventory is the inventory a player sees with another open Inventory
-		* - Event is caused by double click
-		* */
+		 * Event discontinued if:
+		 * - Item is FILLER_GLASS
+		 * - Item has NOT_AVAILABLE as tag in its data container
+		 * - Clicked Inventory is the inventory a player sees with another open Inventory
+		 * - Event is caused by double click
+		 * */
 		return
 			!(item.equals(ItemStacks.FILLER_GLASS)
 				|| (item.hasItemMeta() &&
-					item.getItemMeta().getPersistentDataContainer().has(Main.getPlugin().getCustomNotAvailableStackIDKey()))
+				item.getItemMeta().getPersistentDataContainer().has(Main.getPlugin().getCustomNotAvailableStackIDKey()))
 				|| e.getClickedInventory().getType() == InventoryType.PLAYER
 				|| e.getClick() == ClickType.DOUBLE_CLICK
 			);

@@ -39,7 +39,7 @@ public class ArmorEffectManager {
 
 		Map<PotionEffectType, Integer> activatedPotionEffectTypes = getAllActivatedPotionEffectTypesAsMap(is);
 
-		if(activatedPotionEffectTypes.isEmpty()) {
+		if (activatedPotionEffectTypes.isEmpty()) {
 			return new ArrayList<>(PotionEffectStacks.potionEffectTypeToItemStack.keySet().stream().toList());
 		}
 
@@ -61,7 +61,7 @@ public class ArmorEffectManager {
 	}
 
 	public static ArrayList<ForgeArmorEffect> getAllActivatedPotionEffectTypesAsList(ItemStack is) {
-		if(is == null || is.getItemMeta() == null) {
+		if (is == null || is.getItemMeta() == null) {
 			return new ArrayList<>();
 		}
 
@@ -79,7 +79,7 @@ public class ArmorEffectManager {
 	public static Map<PotionEffectType, Integer> getAllActivatedPotionEffectTypesAsMap(ItemStack is) {
 		ArrayList<ForgeArmorEffect> forgeArmorEffects = getAllActivatedPotionEffectTypesAsList(is);
 
-		if(forgeArmorEffects.isEmpty()) {
+		if (forgeArmorEffects.isEmpty()) {
 			return new HashMap<>();
 		}
 
@@ -94,13 +94,13 @@ public class ArmorEffectManager {
 		ArrayList<ForgeArmorEffect> effects = getAllActivatedPotionEffectTypesAsList(itemToBeEnchanted);
 
 		ForgeArmorEffect foundToChange = null;
-		for(ForgeArmorEffect effect : effects) {
-			if(effect.getPotionEffect().getType().equals(potionEffectToEdit)) {
+		for (ForgeArmorEffect effect : effects) {
+			if (effect.getPotionEffect().getType().equals(potionEffectToEdit)) {
 				foundToChange = effect;
 			}
 		}
 
-		if(foundToChange != null) {
+		if (foundToChange != null) {
 			effects.remove(foundToChange);
 			foundToChange.setAmplifier(strength);
 			effects.add(foundToChange);
@@ -119,7 +119,7 @@ public class ArmorEffectManager {
 		ArrayList<ForgeArmorEffect> effects = getAllActivatedPotionEffectTypesAsList(itemToBeEnchanted);
 
 		ForgeArmorEffect foundToRemove = null;
-		for(ForgeArmorEffect effect : effects) {
+		for (ForgeArmorEffect effect : effects) {
 			if (!effect.getPotionEffect().getType().equals(potionEffectToEdit)) {
 				continue;
 			}
