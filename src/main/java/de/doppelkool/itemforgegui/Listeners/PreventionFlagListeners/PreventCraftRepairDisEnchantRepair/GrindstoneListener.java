@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareGrindstoneEvent;
@@ -23,13 +24,12 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 	}
 
 	@Override
-	protected boolean eventLogic(PrepareGrindstoneEvent event) {
-		//action-prevented-grindstone-usage
-		this.cancelString = Main.prefix + "You are not allowed to do this!";
+	protected boolean eventLogic(PrepareGrindstoneEvent e) {
+		this.cancelString = MessageManager.format("action-prevented.grindstone-usage");
 
 		//Next tick, remove the inventory again
-		ItemStack itemUp = event.getInventory().getItem(0);
-		ItemStack itemDown = event.getInventory().getItem(1);
+		ItemStack itemUp = e.getInventory().getItem(0);
+		ItemStack itemDown = e.getInventory().getItem(1);
 
 		// Exit early if no items are provided
 		if (itemUp == null && itemDown == null) {
@@ -75,9 +75,9 @@ public class GrindstoneListener extends DuplicateEventManager<PrepareGrindstoneE
 	}
 
 	@Override
-	protected void customCancelLogic(PrepareGrindstoneEvent event) {
+	protected void customCancelLogic(PrepareGrindstoneEvent e) {
 		//Setting the result does not work in seemingly random occasions, so set the result item manually to null as well
-		event.setResult(null);
-		event.getInventory().setItem(2, null);
+		e.setResult(null);
+		e.getInventory().setItem(2, null);
 	}
 }

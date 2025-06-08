@@ -10,4 +10,5 @@ import java.util.function.Consumer;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public record SlotItemAction(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {}
+public record SlotItemAction(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {
+}

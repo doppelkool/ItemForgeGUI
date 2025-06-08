@@ -31,7 +31,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*5;
+		return 9 * 5;
 	}
 
 	@Override
@@ -48,12 +48,12 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 		ForgeAction clickedAction = PreventionFlagManager.SLOT_TO_ACTION.get(e.getSlot()).getA();
 
-		if(clickedAction == null) {
+		if (clickedAction == null) {
 			return;
 		}
 
 		boolean newStatus;
-		if(clickedAction == ForgeAction.CRAFT) {
+		if (clickedAction == ForgeAction.CRAFT) {
 			PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand());
 			PreventionFlagManager.CraftingPrevention nextCraftingPrevention = activeCraftingPrevention != null
 				? activeCraftingPrevention.cycle()
@@ -92,7 +92,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 				boolean actionPrevented = PreventionFlagManager.isActionPrevented(itemInMainHand, pair.getA());
 
-				if(pair.getA() == ForgeAction.CRAFT) {
+				if (pair.getA() == ForgeAction.CRAFT) {
 					PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(itemInMainHand);
 					ItemStackHelper.updateCraftingPreventionInMenuItemLore(itemStackClone, activeCraftingPrevention);
 				}
@@ -110,53 +110,53 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 	private boolean isLogicallyApplyable(ItemStack itemInMainHand, ForgeAction a) {
 
-		if(a == ForgeAction.DROP
-				|| a == ForgeAction.ITEM_FRAME_PLACE
-				|| a == ForgeAction.DESTROY
-				|| a == ForgeAction.RENAME
-		//ToDo(Check) Craft can be put on everything for now, the action will get prevented on event trigger
-		|| a == ForgeAction.CRAFT) {
+		if (a == ForgeAction.DROP
+			|| a == ForgeAction.ITEM_FRAME_PLACE
+			|| a == ForgeAction.DESTROY
+			|| a == ForgeAction.RENAME
+			//ToDo(Check) Craft can be put on everything for now, the action will get prevented on event trigger
+			|| a == ForgeAction.CRAFT) {
 			return true;
 		}
 
-		if(a == ForgeAction.SMELT && (itemInMainHand.getType().isFuel()
+		if (a == ForgeAction.SMELT && (itemInMainHand.getType().isFuel()
 			|| Resources.smeltableItems.contains(itemInMainHand.getType()))) {
 			return true;
 		}
 
-		if(a == ForgeAction.PLACE && (itemInMainHand.getType().isBlock()
+		if (a == ForgeAction.PLACE && (itemInMainHand.getType().isBlock()
 			|| Resources.PLACEABLE_ITEMS.contains(itemInMainHand.getType()))) {
 			return true;
 		}
 
-		if(a == ForgeAction.LAUNCH
-				&& Resources.LAUNCHABLE_ITEMS.contains(itemInMainHand.getType())) {
+		if (a == ForgeAction.LAUNCH
+			&& Resources.LAUNCHABLE_ITEMS.contains(itemInMainHand.getType())) {
 			return true;
 		}
 
-		if(a == ForgeAction.EAT
-				&& itemInMainHand.getType().isEdible()) {
+		if (a == ForgeAction.EAT
+			&& itemInMainHand.getType().isEdible()) {
 			return true;
 		}
 
-		if(a == ForgeAction.EQUIP &&
+		if (a == ForgeAction.EQUIP &&
 			(itemInMainHand.getItemMeta() instanceof ArmorMeta
-					|| Resources.EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR.contains(itemInMainHand.getType()))) {
+				|| Resources.EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR.contains(itemInMainHand.getType()))) {
 			return true;
 		}
 
-		if(a == ForgeAction.REPAIR
-				&& itemInMainHand.getType().getMaxDurability() > 0) {
+		if (a == ForgeAction.REPAIR
+			&& itemInMainHand.getType().getMaxDurability() > 0) {
 			return true;
 		}
 
-		if(a == ForgeAction.UPGRADE
-				&& Resources.UPGRADABLE_ITEMS.contains(itemInMainHand.getType())) {
+		if (a == ForgeAction.UPGRADE
+			&& Resources.UPGRADABLE_ITEMS.contains(itemInMainHand.getType())) {
 			return true;
 		}
 
-		if(a == ForgeAction.ENCHANT
-				&& Resources.VANILLA_ENCHANTABLE_MATERIALS.contains(itemInMainHand.getType())) {
+		if (a == ForgeAction.ENCHANT
+			&& Resources.VANILLA_ENCHANTABLE_MATERIALS.contains(itemInMainHand.getType())) {
 			return true;
 		}
 

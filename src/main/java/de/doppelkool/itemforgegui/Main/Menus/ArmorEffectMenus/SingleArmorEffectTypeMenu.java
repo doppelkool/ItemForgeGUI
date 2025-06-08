@@ -7,6 +7,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,7 +62,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	protected void handleMinus100() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
-		if(strength == null) return;
+		if (strength == null) return;
 
 		if (strength <= 100) {
 			ArmorEffectManager.removeArmorEffect(itemToBeEnchanted, potionEffectToEdit);
@@ -76,7 +77,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	protected void handleMinus10() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
-		if(strength == null) return;
+		if (strength == null) return;
 
 		if (strength <= 10) {
 			ArmorEffectManager.removeArmorEffect(itemToBeEnchanted, potionEffectToEdit);
@@ -91,7 +92,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	protected void handleMinus1() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
-		if(strength == null) return;
+		if (strength == null) return;
 
 		if (strength <= 1) {
 			ArmorEffectManager.removeArmorEffect(itemToBeEnchanted, potionEffectToEdit);
@@ -106,7 +107,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	protected void handlePlus1() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
-		if(strength != null && strength == 255) {
+		if (strength != null && strength == 255) {
 			return;
 		}
 
@@ -124,7 +125,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	protected void handlePlus10() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
-		if(strength != null && strength == 255) {
+		if (strength != null && strength == 255) {
 			return;
 		}
 
@@ -142,7 +143,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 	protected void handlePlus100() {
 		Integer strength = ArmorEffectManager.getArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
-		if(strength != null && strength == 255) {
+		if (strength != null && strength == 255) {
 			return;
 		}
 
@@ -158,14 +159,10 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
-		//sign-editor-edit-armor-effect-player-information
-		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the armor effects future strength and click \"Done\".";
-
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editPotionEffect(itemToBeEnchanted, potionEffectToEdit)
 			.openSign());
-		playerMenuUtility.getOwner().sendMessage(message);
+		MessageManager.message(playerMenuUtility.getOwner(), "sign-editor.edit.armor-effect.information");
 	}
 }

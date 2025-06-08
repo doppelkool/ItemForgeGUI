@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -64,7 +65,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleMinus100() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -100 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) - 100 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
 			new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
@@ -81,7 +82,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleMinus10() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -10 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) - 10 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
 			new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
@@ -98,7 +99,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 	@Override
 	protected void handleMinus1() {
 
-		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) -1 <= 0) {
+		if (itemToBeEnchantedMeta.getEnchantLevel(enchantmentToEdit) - 1 <= 0) {
 			itemToBeEnchantedMeta.removeEnchant(enchantmentToEdit);
 			itemToBeEnchanted.setItemMeta(itemToBeEnchantedMeta);
 			new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
@@ -138,14 +139,10 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
-		//sign-editor-edit-enchantment-player-information
-		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the enchantments future strength and click \"Done\".";
-
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editEnchantment(itemToBeEnchanted, enchantmentToEdit)
 			.openSign());
-		playerMenuUtility.getOwner().sendMessage(message);
+		MessageManager.message(playerMenuUtility.getOwner(), "sign-editor.edit.enchantment.information");
 	}
 }

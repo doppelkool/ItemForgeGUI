@@ -1,9 +1,9 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
-import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -96,7 +96,7 @@ public class DurabilityMenu extends EditNumberMenu {
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
 		//sign-editor-edit-item-durability-player-information
-		String message = Main.prefix + "\n" +
+		String message = MessageManager.getPrefix() + "\n" +
 			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future durability and click \"Done\".";
 
 		playerMenuUtility.getOwner().closeInventory();

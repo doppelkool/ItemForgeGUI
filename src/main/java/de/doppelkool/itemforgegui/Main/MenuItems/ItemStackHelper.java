@@ -55,18 +55,18 @@ public class ItemStackHelper {
 	public static boolean isOnlyDyeColorableWithoutMixins(Material itemMaterial) {
 
 		//Colorable item category, but given material is a variation with no color
-		if(Resources.A_NO_DYED_VARIATION_EXIST.contains(itemMaterial)) {
+		if (Resources.A_NO_DYED_VARIATION_EXIST.contains(itemMaterial)) {
 			return true;
 		}
 
-		if(itemMaterial == Material.BEDROCK ||
+		if (itemMaterial == Material.BEDROCK ||
 			itemMaterial == Material.MOSS_CARPET ||
 			itemMaterial == Material.PALE_MOSS_CARPET
 		) {
 			return false;
 		}
 
-		for(String items : Resources.ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST) {
+		for (String items : Resources.ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST) {
 			if (!itemMaterial.name().contains(items)) {
 				continue;
 			}
@@ -97,7 +97,7 @@ public class ItemStackHelper {
 		ItemStack itemInMainHand = inventory.getItemInMainHand();
 
 		ItemStack nextItem = null;
-		if(key.equals(Main.getPlugin().getCustomLoreEditBookKey())) {
+		if (key.equals(Main.getPlugin().getCustomLoreEditBookKey())) {
 			nextItem = createCustomLoreBook(itemInMainHand);
 		}
 		inventory.setItem(heldItemSlot, nextItem);
@@ -147,16 +147,16 @@ public class ItemStackHelper {
 		ItemMeta itemMeta = item.getItemMeta();
 
 		ArrayList<String> lore = new ArrayList<>();
-		if(itemMeta.hasLore()) {
+		if (itemMeta.hasLore()) {
 			lore.addAll(itemMeta.getLore());
 
-			if(lore.getFirst().contains(activatedLorePart) ||
+			if (lore.getFirst().contains(activatedLorePart) ||
 				lore.getFirst().contains(deactivatedLorePart)) {
 				lore.remove(0);
 			}
 		}
 
-		if(active) {
+		if (active) {
 			itemMeta.addEnchant(glowEnchantment, 1, true);
 			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
 		} else {

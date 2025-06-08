@@ -7,6 +7,7 @@ import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,11 +28,11 @@ import java.util.List;
  */
 public class LoreBookListeners implements Listener {
 	@EventHandler
-	public void onPlayerEditLoreBook(PlayerEditBookEvent event) {
-		Player pl = event.getPlayer();
+	public void onPlayerEditLoreBook(PlayerEditBookEvent e) {
+		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
 		ItemStack tempStoredItem = playerMenuUtility.getTempStoredItem();
-		if (tempStoredItem == null || !event.getPlayer()
+		if (tempStoredItem == null || !e.getPlayer()
 			.getInventory()
 			.getItemInMainHand()
 			.getItemMeta()
@@ -40,7 +41,7 @@ public class LoreBookListeners implements Listener {
 			return;
 		}
 
-		BookMeta newBookMeta = event.getNewBookMeta();
+		BookMeta newBookMeta = e.getNewBookMeta();
 		String content = String.join("\n", newBookMeta.getPages());
 		String formattedString = ChatColor.translateAlternateColorCodes('&', content);
 
@@ -61,8 +62,8 @@ public class LoreBookListeners implements Listener {
 
 			new ItemEditMenu(util)
 				.open();
-		//Make sure server does finish book editing process and replacing it with the current slot before,
-		//so we can set the item *after* that process.
+			//Make sure server does finish book editing process and replacing it with the current slot before,
+			//so we can set the item *after* that process.
 		}, 2L);
 	}
 
@@ -73,8 +74,7 @@ public class LoreBookListeners implements Listener {
 		if (itemStack.getType() == Material.WRITABLE_BOOK
 			&& PreventionFlagManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
 			e.setCancelled(true);
-			//edit-lore-book-editor-book-drop-disallowed
-			e.getPlayer().sendMessage(Main.prefix + "You are not allowed to do this!");
+			MessageManager.message(e.getPlayer(), "book-editor.lore-book-drop-disallowed");
 		}
 	}
 }

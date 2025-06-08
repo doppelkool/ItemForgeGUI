@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
-import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +31,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*3;
+		return 9 * 3;
 	}
 
 	@Override
@@ -46,13 +46,13 @@ public class ItemUniquenessSettingsMenu extends Menu {
 			return;
 		}
 
-		if(e.getSlot() == 12) {
+		if (e.getSlot() == 12) {
 			UniqueItemIdentifierManager.sendCopyUniqueIdentifier(this.playerMenuUtility.getOwner());
 			this.playerMenuUtility.getOwner().closeInventory();
 			return;
 		}
 
-		if(e.getSlot() == 14) {
+		if (e.getSlot() == 14) {
 			editUniqueIdentifierProcess();
 			return;
 		}
@@ -77,18 +77,13 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		setFillerGlass();
 	}
 
-	private void editUniqueIdentifierProcess() {
-		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future identifier and click \"Done\".\n" +
-			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] The maximum characters per Line is 15.\n" +
-			ChatColor.GRAY + "[" + ChatColor.RED + "Warning" + ChatColor.GRAY + "] Whitespaces will be replaced with underscores.";
-
+	private void editUniqueIdentifierProcess() {;
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(
 				UniqueItemIdentifierManager.getUniqueItemIdentifierOrEmptyString(
 					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta()))
 			.openSign());
-		playerMenuUtility.getOwner().sendMessage(message);
+		MessageManager.message(playerMenuUtility.getOwner(), "sign-editor.edit.uniqueID.information");
 	}
 }

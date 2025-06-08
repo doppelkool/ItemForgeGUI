@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
@@ -23,16 +24,15 @@ public class SmithingTableListener extends DuplicateEventManager<PrepareSmithing
 
 	@Override
 	protected boolean eventLogic(PrepareSmithingEvent e) {
-		//action-prevented-item-upgrade
-		this.cancelString = Main.prefix + "You are not allowed to do this!";
+		this.cancelString = MessageManager.format("action-prevented.item-upgrade");
 
 		ItemStack item = e.getInventory().getItem(1);
 
-		if(item == null) {
+		if (item == null) {
 			return false;
 		}
 
-		if(!PreventionFlagManager.isActionPrevented(item, ForgeAction.UPGRADE)) {
+		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.UPGRADE)) {
 			return false;
 		}
 
@@ -40,9 +40,9 @@ public class SmithingTableListener extends DuplicateEventManager<PrepareSmithing
 	}
 
 	@Override
-	protected void customCancelLogic(PrepareSmithingEvent event) {
+	protected void customCancelLogic(PrepareSmithingEvent e) {
 		//Setting the result does not work in seemingly random occasions, so set the result item manually to null as well
-		event.setResult(null);
-		event.getInventory().setItem(3, null);
+		e.setResult(null);
+		e.getInventory().setItem(3, null);
 	}
 }

@@ -56,7 +56,7 @@ public class ColorPickerMenu extends Menu {
 
 	@Override
 	public int getSlots() {
-		return 9*5;
+		return 9 * 5;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class ColorPickerMenu extends Menu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
 		//Default-Colored target item is already in players hand
-		if(e.getSlot() == 10
+		if (e.getSlot() == 10
 			&& Resources.A_NO_DYED_VARIATION_EXIST.contains(itemInMainHand.getType())) {
 			return;
 		}
@@ -86,12 +86,12 @@ public class ColorPickerMenu extends Menu {
 		String baseItem = getDefaultColoredItemByUnkownItem(typeInMainHand);
 
 		//Item with same color already in main hand
-		if(getColorFromItem(typeInMainHand, baseItem).equals(colorByColoredItem)) {
+		if (getColorFromItem(typeInMainHand, baseItem).equals(colorByColoredItem)) {
 			return;
 		}
 
 		Material futureColoredItemType;
-		if(colorByColoredItem != null) {
+		if (colorByColoredItem != null) {
 			futureColoredItemType = Material.valueOf(
 				colorByColoredItem + "_" + baseItem
 			);
@@ -115,11 +115,10 @@ public class ColorPickerMenu extends Menu {
 	 * an existing default-colored item-name (f.e. TERRACOTTA)
 	 * or
 	 * a not existing name for a default-colored item (f.e. CONCRETE)
-	 *
-	 * */
+	 */
 	private String getDefaultColoredItemByUnkownItem(Material material) {
-		for(DyeColor dyeColor : DyeColor.values()) {
-			if(!(material.name().startsWith(dyeColor.name()))) continue;
+		for (DyeColor dyeColor : DyeColor.values()) {
+			if (!(material.name().startsWith(dyeColor.name()))) continue;
 			return material.name().replace(dyeColor.name() + "_", "");
 		}
 		return material.name();

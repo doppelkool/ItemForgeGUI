@@ -23,24 +23,24 @@ import org.bukkit.inventory.Recipe;
 public class CraftListener implements Listener {
 
 	@EventHandler
-	public void onPrepareItemCraft(PrepareItemCraftEvent event) {
-		if (!(event.getInventory() instanceof CraftingInventory inv)) return;
+	public void onPrepareItemCraft(PrepareItemCraftEvent e) {
+		if (!(e.getInventory() instanceof CraftingInventory inv)) return;
 
 		if (shouldPreventCraft(
-				inv.getMatrix(),
-				getRecipeKey(event.getRecipe()))) {
+			inv.getMatrix(),
+			getRecipeKey(e.getRecipe()))) {
 			inv.setResult(null);
 		}
 	}
 
 	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
-		if (!(event.getInventory() instanceof CraftingInventory inv)) return;
+	public void onInventoryClick(InventoryClickEvent e) {
+		if (!(e.getInventory() instanceof CraftingInventory inv)) return;
 
 		Bukkit.getScheduler().runTask(Main.getPlugin(), () -> {
 			if (shouldPreventCraft(
-					inv.getMatrix(),
-					getRecipeKey(inv.getRecipe()))) {
+				inv.getMatrix(),
+				getRecipeKey(inv.getRecipe()))) {
 				inv.setResult(null);
 			}
 		});
@@ -48,13 +48,13 @@ public class CraftListener implements Listener {
 	}
 
 	@EventHandler
-	public void onInventoryDrag(InventoryDragEvent event) {
-		if (!(event.getInventory() instanceof CraftingInventory inv)) return;
+	public void onInventoryDrag(InventoryDragEvent e) {
+		if (!(e.getInventory() instanceof CraftingInventory inv)) return;
 
 		Bukkit.getScheduler().runTask(Main.getPlugin(), () -> {
 			if (shouldPreventCraft(
-					inv.getMatrix(),
-					getRecipeKey(inv.getRecipe()))) {
+				inv.getMatrix(),
+				getRecipeKey(inv.getRecipe()))) {
 				inv.setResult(null);
 			}
 		});

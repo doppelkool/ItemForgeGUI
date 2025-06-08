@@ -144,7 +144,7 @@ public class ItemStacks {
 		modifyLore(editAmount, ChatColor.YELLOW + "Change the amount of items");
 		editColor = makeItem(Material.LEATHER_CHESTPLATE, ChatColor.GREEN + "Edit Color");
 		modifyLore(editColor, ChatColor.YELLOW + "Change the color of the item");
-		modifyColor(editColor,Color.BLUE);
+		modifyColor(editColor, Color.BLUE);
 		modifyItemFlags(editColor, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		itemFlags = makeItem(Material.WHITE_BANNER, ChatColor.GREEN + "Edit ItemFlags");
@@ -327,7 +327,7 @@ public class ItemStacks {
 			ChatColor.GRAY + "Current value (0-255):",
 			ChatColor.GRAY + "{currentValue}"
 		);
-		modifyColor(RED_CAP, Color.fromRGB(255,0,0));
+		modifyColor(RED_CAP, Color.fromRGB(255, 0, 0));
 		modifyItemFlags(RED_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		GREEN_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.GREEN + "Green");
@@ -335,7 +335,7 @@ public class ItemStacks {
 			ChatColor.GRAY + "Current value (0-255):",
 			ChatColor.GRAY + "{currentValue}"
 		);
-		modifyColor(GREEN_CAP, Color.fromRGB(0,255,0));
+		modifyColor(GREEN_CAP, Color.fromRGB(0, 255, 0));
 		modifyItemFlags(GREEN_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		BLUE_CAP = makeItem(Material.LEATHER_HELMET, ChatColor.RED + "Blue");
@@ -343,7 +343,7 @@ public class ItemStacks {
 			ChatColor.GRAY + "Current value (0-255):",
 			ChatColor.GRAY + "{currentValue}"
 		);
-		modifyColor(BLUE_CAP, Color.fromRGB(0,0,255));
+		modifyColor(BLUE_CAP, Color.fromRGB(0, 0, 255));
 		modifyItemFlags(BLUE_CAP, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
 		resetBackLeatherItem = makeItem(Material.LEATHER_BOOTS, ChatColor.RED + "Reset Color to Start");

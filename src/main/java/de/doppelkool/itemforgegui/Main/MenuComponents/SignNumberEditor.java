@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -35,14 +36,28 @@ public class SignNumberEditor {
 		signLocation = pl.getLocation();
 
 		Material type = signLocation.getBlock().getType();
-		if(type != Material.AIR) {
-			//sign-editor-not-placed-block-blockade
-			pl.sendMessage(Main.prefix + ChatColor.RED + "There is already a block at your location");
-			throw new IllegalStateException(pl.getName() + "-" + type + "-This material is in the way of a sign placement");
+		if (type != Material.AIR) {
+			MessageManager.message(pl, "sign-editor.not-placed-block-blockade");
+			Bukkit.getLogger().info(ChatColor.RED + pl.getName() + "-" + type + "-This material is in the way of a sign placement");
 		}
 
 		signLocation.getBlock().setType(Material.BIRCH_SIGN);
 		this.sign = (Sign) signLocation.getBlock().getState();
+	}
+
+	public static boolean isSameBlockLocation(Location loc1, Location loc2) {
+		return
+			loc1.getBlockX() == loc2.getBlockX() &&
+				loc1.getBlockY() == loc2.getBlockY() &&
+				loc1.getBlockZ() == loc2.getBlockZ();
+	}
+
+	public static Integer parseInteger(String line) {
+		try {
+			return Integer.parseInt(line);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	public SignNumberEditor editAmount(int amountBefore) {
@@ -83,7 +98,7 @@ public class SignNumberEditor {
 
 		for (int i = 0; i < length; i += chunkSize) {
 			int end = Math.min(i + chunkSize, length);
-			sign.getSide(Side.FRONT).setLine(i/chunkSize, uniqueItemIdentifierOrEmptyString.substring(i, end));
+			sign.getSide(Side.FRONT).setLine(i / chunkSize, uniqueItemIdentifierOrEmptyString.substring(i, end));
 		}
 
 		sign.update();
@@ -105,20 +120,5 @@ public class SignNumberEditor {
 		ITEM_ID,
 
 		;
-	}
-
-	public static boolean isSameBlockLocation(Location loc1, Location loc2) {
-		return
-			loc1.getBlockX() == loc2.getBlockX() &&
-				loc1.getBlockY() == loc2.getBlockY() &&
-				loc1.getBlockZ() == loc2.getBlockZ();
-	}
-
-	public static Integer parseInteger(String line) {
-		try {
-			return Integer.parseInt(line);
-		}   catch (NumberFormatException e){
-			return null;
-		}
 	}
 }

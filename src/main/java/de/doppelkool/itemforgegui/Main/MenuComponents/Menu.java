@@ -70,6 +70,7 @@ public abstract class Menu implements InventoryHolder {
 	protected void handleClose() {
 		this.playerMenuUtility.getOwner().closeInventory();
 	}
+
 	protected void handleBack() {
 		new ItemEditMenu(this.playerMenuUtility)
 			.open();

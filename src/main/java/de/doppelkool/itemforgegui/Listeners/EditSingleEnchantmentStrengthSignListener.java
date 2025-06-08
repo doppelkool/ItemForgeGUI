@@ -7,6 +7,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.DeactivatedEnchantmentsMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,29 +23,27 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public class EditSingleEnchantmentStrengthSignListener implements Listener {
 	@EventHandler
-	public void onPlayerEditSingleEnchantmentStrengthBook(SignChangeEvent event) {
-		Player pl = event.getPlayer();
+	public void onPlayerEditSingleEnchantmentStrengthBook(SignChangeEvent e) {
+		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
 		SignNumberEditor signNumberEditor = playerMenuUtility.getSignNumberEditor();
 
 		if (signNumberEditor == null
 			|| signNumberEditor.getType() != SignNumberEditor.NUMBER_EDIT_TYPE.ENCHANTMENT
 			|| signNumberEditor.getSignLocation() == null
-			|| !SignNumberEditor.isSameBlockLocation(event.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
+			|| !SignNumberEditor.isSameBlockLocation(e.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
 			return;
 		}
 
-		if (event.getLines().length < 1) {
-			//edit-enchantment-sign-editor-empty-input
-			pl.sendMessage(Main.prefix + "The strength you entered is not valid");
+		if (e.getLines().length < 1) {
+			MessageManager.message(pl, "sign-editor.edit.enchantment.empty-input");
 			endProcess(playerMenuUtility);
 			return;
 		}
 
-		Integer strength = SignNumberEditor.parseInteger(event.getLine(0));
+		Integer strength = SignNumberEditor.parseInteger(e.getLine(0));
 		if (strength == null) {
-			//edit-enchantment-sign-editor-invalid-input
-			pl.sendMessage(Main.prefix + "The strength you entered is not valid");
+			MessageManager.message(pl, "sign-editor.edit.enchantment.invalid-input");
 			endProcess(playerMenuUtility);
 			return;
 		}
@@ -57,7 +56,7 @@ public class EditSingleEnchantmentStrengthSignListener implements Listener {
 		strength = Integer.max(strength, 0);
 
 		itemMeta.removeEnchant(playerMenuUtility.getTargetEnchantment());
-		if(strength != 0) {
+		if (strength != 0) {
 			itemMeta.addEnchant(playerMenuUtility.getTargetEnchantment(), strength, true);
 		}
 

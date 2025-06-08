@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -53,7 +54,8 @@ public class AmountMenu extends EditNumberMenu {
 	}
 
 	@Override
-	protected void handleMinus100() {}
+	protected void handleMinus100() {
+	}
 
 	@Override
 	protected void handleMinus10() {
@@ -80,24 +82,21 @@ public class AmountMenu extends EditNumberMenu {
 	}
 
 	@Override
-	protected void handlePlus100() {}
+	protected void handlePlus100() {
+	}
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
-		//sign-editor-edit-item-amount-player-information
-		String message = Main.prefix + "\n" +
-			ChatColor.GRAY + "-" + ChatColor.GRAY + " Please edit the content to the items future amount and click \"Done\".";
-
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editAmount(this.item.getAmount())
 			.openSign());
-		playerMenuUtility.getOwner().sendMessage(message);
+		MessageManager.message(playerMenuUtility.getOwner(), "sign-editor.edit.amount.information");
 	}
 
 	@Override
 	protected boolean onCustomItemClick(InventoryClickEvent e) {
-		if(e.getSlot() == 13) {
+		if (e.getSlot() == 13) {
 			this.item.setAmount(this.item.getMaxStackSize());
 			return true;
 		}

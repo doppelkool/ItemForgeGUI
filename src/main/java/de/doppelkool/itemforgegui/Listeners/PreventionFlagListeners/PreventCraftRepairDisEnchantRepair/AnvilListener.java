@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraf
 
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,12 +25,11 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 	}
 
 	@Override
-	protected boolean eventLogic(PrepareAnvilEvent event) {
+	protected boolean eventLogic(PrepareAnvilEvent e) {
 		//ToDo Split message for every PF possibility
-		//action-prevented-anvil-usage
-		this.cancelString = Main.prefix + "You are not allowed to do this!";
+		this.cancelString = MessageManager.format("action-prevented.anvil-usage");
 
-		Inventory anvilInventory = event.getInventory();
+		Inventory anvilInventory = e.getInventory();
 
 		// Get the two input items: slot 0 (left) and slot 1 (right)
 		ItemStack leftItem = anvilInventory.getItem(0);
@@ -41,20 +41,20 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 		}
 
 		// Vanilla: Only right item is filled, Nothing to process
-		if(leftItem == null) {
+		if (leftItem == null) {
 			return false;
 		}
 
 		AnvilListenerHelper.PrepareAnvilResult prepareAnvilResult = AnvilListenerHelper.shouldCancelEvent(
-			event.getView().getRenameText(),
+			e.getView().getRenameText(),
 			leftItem,
 			rightItem);
 
-		if(prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.ALLOW) {
+		if (prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.ALLOW) {
 			return false;
 		}
 
-		if(prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.DENY_WITHOUT_MSG) {
+		if (prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.DENY_WITHOUT_MSG) {
 			this.cancelString = null;
 		}
 
@@ -62,27 +62,27 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 	}
 
 	@Override
-	protected void customCancelLogic(PrepareAnvilEvent event) {
-		event.setResult(null);
-		event.getInventory().setItem(2, null);
+	protected void customCancelLogic(PrepareAnvilEvent e) {
+		e.setResult(null);
+		e.getInventory().setItem(2, null);
 	}
 
 	@EventHandler
-	public void onAnvilResultClick(InventoryClickEvent event) {
-		if (!(event.getInventory() instanceof AnvilInventory
-			&& event.getView() instanceof AnvilView anvilView)) {
+	public void onAnvilResultClick(InventoryClickEvent e) {
+		if (!(e.getInventory() instanceof AnvilInventory
+			&& e.getView() instanceof AnvilView anvilView)) {
 			return;
 		}
 
 		// Result item-slot clicked
-		if (event.getRawSlot() != 2) {
+		if (e.getRawSlot() != 2) {
 			return;
 		}
 
-		Inventory inv = event.getInventory();
+		Inventory inv = e.getInventory();
 		ItemStack leftItem = inv.getItem(0);
 		ItemStack rightItem = inv.getItem(1);
-		ItemStack resultItem = event.getCurrentItem();
+		ItemStack resultItem = e.getCurrentItem();
 
 		if (leftItem == null || resultItem == null) {
 			return;
@@ -93,25 +93,25 @@ public class AnvilListener extends DuplicateEventManager<PrepareAnvilEvent> impl
 			leftItem,
 			rightItem);
 
-		if(prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.ALLOW) {
+		if (prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.ALLOW) {
 			return;
 		}
 
-		if(prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.DENY_WITHOUT_MSG) {
+		if (prepareAnvilResult == AnvilListenerHelper.PrepareAnvilResult.DENY_WITHOUT_MSG) {
 			this.cancelString = null;
 		}
 
-		resetEvent(event);
+		resetEvent(e);
 	}
 
 	/**
 	 * Resets the event by canceling it and removing the result item so that the player cannot retrieve it.
 	 */
-	public void resetEvent(InventoryClickEvent event) {
-		event.setCancelled(true);
+	public void resetEvent(InventoryClickEvent e) {
+		e.setCancelled(true);
 		// Remove the result item so the player cannot retrieve it.
-		event.getInventory().setItem(2, null);
-		event.setCurrentItem(null);
-		event.getWhoClicked().setItemOnCursor(null);
+		e.getInventory().setItem(2, null);
+		e.setCurrentItem(null);
+		e.getWhoClicked().setItemOnCursor(null);
 	}
 }

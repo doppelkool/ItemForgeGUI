@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Commands;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,22 +20,19 @@ public class EditCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player pl)) {
-			//edit-command-as-console
-			sender.sendMessage(Main.prefix + "Command cannot be executed as console");
+			MessageManager.message(sender, "edit-command.as-console");
 			return true;
 		}
 
-		if(!pl.hasPermission("ifgui.use")) {
-			//edit-command-no-permissions
-			pl.sendMessage(Main.prefix + "You cannot execute this command");
+		if (!pl.hasPermission("ifgui.use")) {
+			MessageManager.message(pl, "edit-command.no-permissions");
 			return true;
 		}
 
-		if(pl.getInventory()
-				.getItemInMainHand()
-				.getType() == Material.AIR) {
-			//edit-command-empty-item
-			pl.sendMessage(Main.prefix + "You cannot edit an empty item");
+		if (pl.getInventory()
+			.getItemInMainHand()
+			.getType() == Material.AIR) {
+			MessageManager.message(pl, "edit-command.empty-item");
 			return true;
 		}
 

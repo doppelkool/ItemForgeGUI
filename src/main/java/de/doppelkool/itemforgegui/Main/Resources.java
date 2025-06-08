@@ -177,6 +177,10 @@ public class Resources {
 	);
 
 	public static final Set<Material> EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR;
+	public static final Set<Material> VANILLA_ENCHANTABLE_MATERIALS;
+	public static final ArrayList<String> ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST = new ArrayList<>();
+	public static final Set<Material> smeltableItems = new HashSet<>();
+
 	static {
 		Set<Material> set = new HashSet<>(HORSE_ARMOR);
 
@@ -188,7 +192,6 @@ public class Resources {
 		EQUIPABLE_ITEMS_WITHOUT_HUMAN_ARMOR = Collections.unmodifiableSet(set);
 	}
 
-	public static final Set<Material> VANILLA_ENCHANTABLE_MATERIALS;
 	static {
 		Set<Material> set = new HashSet<>(REPAIR_INGOT_MAP.keySet());
 		set.remove(Material.BOW);
@@ -199,7 +202,6 @@ public class Resources {
 		VANILLA_ENCHANTABLE_MATERIALS = Collections.unmodifiableSet(set);
 	}
 
-	public static final ArrayList<String> ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST = new ArrayList<>();
 	static {
 		ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST.add("_SHULKER_BOX");
 		ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST.add("_DYE");
@@ -217,9 +219,8 @@ public class Resources {
 		ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST.add("_CARPET"); //exclution for "MOSS"y carpet variations in place
 	}
 
-	public static final Set<Material> smeltableItems = new HashSet<>();
 	static {
-		for (Iterator<Recipe> it = Bukkit.recipeIterator(); it.hasNext();) {
+		for (Iterator<Recipe> it = Bukkit.recipeIterator(); it.hasNext(); ) {
 			if (!(it.next() instanceof CookingRecipe<?> recipe)) continue;
 			smeltableItems.add(recipe.getInput().getType());
 		}
