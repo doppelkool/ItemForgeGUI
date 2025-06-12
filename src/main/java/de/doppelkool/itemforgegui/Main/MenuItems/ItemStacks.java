@@ -2,7 +2,6 @@ package de.doppelkool.itemforgegui.Main.MenuItems;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.ReflectionUtils;
-import net.minecraft.world.item.component.ResolvableProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -401,7 +400,7 @@ public class ItemStacks {
 
 		try {
 			// Load CraftPlayerProfile class
-			Class<?> craftProfileClass = ReflectionUtils.getCraftBukkitClass("profile.CraftPlayerProfile");
+			Class<?> craftProfileClass = ReflectionUtils.getCRAFT_PLAYER_PROFILE_CLASS();
 
 			// Construct CraftPlayerProfile(UUID, String)
 			Constructor<?> profileConstructor = craftProfileClass.getConstructor(UUID.class, String.class);
@@ -443,7 +442,7 @@ public class ItemStacks {
 			lore = new ArrayList<>();
 		}
 
-		lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + "Not available");
+		lore.addFirst(ChatColor.RED + "" + ChatColor.ITALIC + "Not available");
 		itemMeta.setLore(lore);
 
 		PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
