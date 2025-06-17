@@ -2,7 +2,6 @@ name: ItemForgeGUI
 version: '${project.version}'
 main: de.doppelkool.itemforgegui.Main.Main
 api-version: '1.21'
-website: https://github.com/doppelkool/ItemForgeGUI
 permissions:
   ifgui.use:
     description: Allows player to use command
