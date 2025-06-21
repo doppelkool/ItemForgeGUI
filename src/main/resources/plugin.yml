@@ -1,7 +1,7 @@
 name: ItemForgeGUI
 version: '${project.version}'
 main: de.doppelkool.itemforgegui.Main.Main
-api-version: '1.21'
+api-version: '1.21.1'
 website: https://github.com/doppelkool/ItemForgeGUI
 permissions:
   ifgui.use:

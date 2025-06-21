@@ -52,14 +52,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- AnvilGUI: Needed as a shaded plugin because there is no plugin to install on the server -->
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
             <version>1.10.5-SNAPSHOT</version>
         </dependency>
 
-        <!-- Lombok: Compile-time only -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -1,7 +1,9 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.ReflectionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -19,11 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -396,41 +394,36 @@ public class ItemStacks {
 	}
 
 	public static void modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
-		SkullMeta meta = (SkullMeta) itemToEdit.getItemMeta();
-
 		try {
-			// Load CraftPlayerProfile class
-			Class<?> craftProfileClass = ReflectionUtils.getCRAFT_PLAYER_PROFILE_CLASS();
+			UUID uuid = UUID.randomUUID();
+			GameProfile profile = new GameProfile(uuid, "itemforgegui");
+			PropertyMap propertyMap = profile.getProperties();
+			propertyMap.put("textures", new Property("textures", skullData.getBase64encoded()));
 
-			// Construct CraftPlayerProfile(UUID, String)
-			Constructor<?> profileConstructor = craftProfileClass.getConstructor(UUID.class, String.class);
-			Object craftProfileInstance = profileConstructor.newInstance(UUID.randomUUID(), "itemforgegui");
+			Class<?> rpClass = Class.forName("net.minecraft.world.item.component.ResolvableProfile");
 
-			// Load Property class and construct a new Property("textures", base64)
-			Class<?> propertyClass = Class.forName("com.mojang.authlib.properties.Property");
-			Constructor<?> propertyConstructor = propertyClass.getConstructor(String.class, String.class);
-			Object propertyInstance = propertyConstructor.newInstance("textures", skullData.getBase64encoded());
+			Constructor<?> rpCtor = rpClass.getDeclaredConstructor(
+				Optional.class, Optional.class, PropertyMap.class, GameProfile.class
+			);
 
-			// Invoke setProperty("textures", Property)
-			Method setPropertyMethod = ReflectionUtils.getMethod(craftProfileClass, "setProperty", String.class, propertyClass);
-			setPropertyMethod.invoke(craftProfileInstance, "textures", propertyInstance);
+			Object rpInstance = rpCtor.newInstance(
+				Optional.of("itemforgegui"),
+				Optional.of(uuid),
+				propertyMap,
+				profile
+			);
 
-			// Invoke buildResolvableProfile()
-			Method buildResolvableProfileMethod = ReflectionUtils.getMethod(craftProfileClass, "buildResolvableProfile");
-			Object resolvableProfile = buildResolvableProfileMethod.invoke(craftProfileInstance);
+			SkullMeta meta = (SkullMeta) itemToEdit.getItemMeta();
+			Field profileField = meta.getClass().getDeclaredField("profile");
+			profileField.setAccessible(true);
+			profileField.set(meta, rpInstance);
 
-			// Inject profile into meta via reflection
-			Field profileField = ReflectionUtils.getField(meta.getClass(), "profile");
-			profileField.set(meta, resolvableProfile);
-
-			// Apply modified meta back to item
 			itemToEdit.setItemMeta(meta);
 
 		} catch (Exception e) {
 			Bukkit.getLogger().log(Level.SEVERE, "Failed to modify skull head:", e);
 		}
 	}
-
 
 	public static ItemStack notAvailable(ItemStack itemStack) {
 		ItemStack itemStackNotAvailable = itemStack.clone();
