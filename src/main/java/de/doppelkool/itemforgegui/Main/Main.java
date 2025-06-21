@@ -11,6 +11,8 @@ import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair.*;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.VersionDependency.Materials;
+import de.doppelkool.itemforgegui.Main.VersionDependency.VersionMapper;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -25,7 +27,7 @@ import java.util.logging.Level;
 
 /**
  * The plugins main class
- * Provides cross-plugin objects, such as the plugins message prefix and its own instance
+ * Provides cross-plugin objects, such as its own instance
  *
  * @author doppelkool | github.com/doppelkool
  */
@@ -60,7 +62,8 @@ public final class Main extends JavaPlugin {
 
 		PluginManager pluginmanager = Bukkit.getPluginManager();
 		try {
-			ReflectionUtils.init();
+			VersionMapper.init();
+			Materials.init();
 		} catch (IllegalStateException e) {
 			getLogger().log(Level.SEVERE, "Failed to enable plugin: " + e.getMessage());
 			getLogger().log(Level.SEVERE, "Currently only SpigotMC and PaperMC are supported. It seems that you are not running either. Please report if you think this is an error");
