@@ -2,47 +2,55 @@ package de.doppelkool.itemforgegui.Main.VersionDependency;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.semver4j.Semver;
 
 /**
- * Class Description
+ * Maps and compares Minecraft server versions using semantic versioning.
  *
- * @author doppelkool | github.com/doppelkool
+ * @author doppelkool
  */
 public class VersionMapper {
 
 	@Getter
-	private static VersionMapper instance;
+	private static VersionMapper instance = null;
+	@Getter
+	private static SupportedVersion VERSION = null;
 
-	public static String VERSION = null;
+	private Semver currentVersion;
 
 	private VersionMapper() {
-		getServerVersion();
-		Bukkit.getLogger().info("Version: " + VERSION);
+		initVersion();
 	}
 
-	private void getServerVersion() {
-		// "1.21.1" from "1.21.1-R0.1-SNAPSHOT"
-		String fullVersion = Bukkit.getBukkitVersion();
-		VERSION = fullVersion.split("-")[0];
+	private void initVersion() {
+		// Get version string like "1.21.1" from "1.21.1-R0.1-SNAPSHOT"
+		String versionString = stripVersion(Bukkit.getBukkitVersion());
+
+		// Assign enum value if matched
+		VERSION = SupportedVersion.getSupportedVersionFromString(versionString);
+
+		// Use Semver for accurate comparison
+		this.currentVersion = new Semver(versionString);
+	}
+
+	private String stripVersion(String fullVersion) {
+		return fullVersion.split("-")[0];  // e.g., "1.21.1-R0.1-SNAPSHOT" -> "1.21.1"
 	}
 
 	/**
-	 * Compare Minecraft versions in "1.21.1" format.
+	 * Checks if the current version is greater than or equal to the required version.
+	 *
+	 * @param required a version string like "1.21.0"
+	 * @return true if the current version is >= required version
 	 */
 	public boolean isAtLeastVersion(String required) {
-		String[] current = VersionMapper.VERSION.split("\\.");
-		String[] target = required.split("\\.");
-
-		for (int i = 0; i < Math.min(current.length, target.length); i++) {
-			int cur = Integer.parseInt(current[i]);
-			int req = Integer.parseInt(target[i]);
-			if (cur > req) return true;
-			if (cur < req) return false;
-		}
-		return current.length >= target.length;
+		Semver requiredVersion = new Semver(required);
+		return currentVersion.isGreaterThanOrEqualTo(requiredVersion);
 	}
 
 	public static void init() {
-		instance = new VersionMapper();
+		if (instance == null) {
+			instance = new VersionMapper();
+		}
 	}
 }
