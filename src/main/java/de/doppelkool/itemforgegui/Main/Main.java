@@ -11,6 +11,8 @@ import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair.*;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.VersionDependency.Materials;
+import de.doppelkool.itemforgegui.Main.VersionDependency.VersionMapper;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -21,10 +23,11 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * The plugins main class
- * Provides cross-plugin objects, such as the plugins message prefix and its own instance
+ * Provides cross-plugin objects, such as its own instance
  *
  * @author doppelkool | github.com/doppelkool
  */
@@ -57,6 +60,17 @@ public final class Main extends JavaPlugin {
 		plugin = this;
 		new Metrics(this, 24997);
 
+		PluginManager pluginmanager = Bukkit.getPluginManager();
+		try {
+			VersionMapper.init();
+			Materials.init();
+		} catch (IllegalStateException e) {
+			getLogger().log(Level.SEVERE, "Failed to enable plugin: " + e.getMessage());
+			getLogger().log(Level.SEVERE, "Currently only SpigotMC and PaperMC are supported. It seems that you are not running either. Please report if you think this is an error");
+			getLogger().log(Level.SEVERE, "-> " + this.getDescription().getWebsite() + "/issues");
+			pluginmanager.disablePlugin(this);
+		}
+
 		ConfigManager cMr = ConfigManager.getInstance();
 		if (cMr.isUniqueIdOnEditedItemEnabled()) {
 			customTagUID = new NamespacedKey(this, "id");
@@ -77,7 +91,6 @@ public final class Main extends JavaPlugin {
 
 		getCommand("edit").setExecutor(new EditCommand());
 
-		PluginManager pluginmanager = Bukkit.getPluginManager();
 		pluginmanager.registerEvents(new MenuListener(), this);
 		pluginmanager.registerEvents(new OnQuitListener(), this);
 		pluginmanager.registerEvents(new OnRespawnListener(), this);

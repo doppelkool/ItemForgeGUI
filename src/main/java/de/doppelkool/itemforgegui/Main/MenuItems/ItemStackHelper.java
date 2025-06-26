@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Resources;
+import de.doppelkool.itemforgegui.Main.VersionDependency.Materials;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -59,9 +60,11 @@ public class ItemStackHelper {
 			return true;
 		}
 
+		boolean paleMossCarpetLoaded = Materials.getInstance().isLoaded("PALE_MOSS_CARPET");
+
 		if (itemMaterial == Material.BEDROCK ||
 			itemMaterial == Material.MOSS_CARPET ||
-			itemMaterial == Material.PALE_MOSS_CARPET
+			(paleMossCarpetLoaded && itemMaterial == Material.PALE_MOSS_CARPET)
 		) {
 			return false;
 		}
