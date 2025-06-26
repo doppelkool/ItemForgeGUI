@@ -39,7 +39,6 @@ public class Materials {
 		to_two.add("RED_BUNDLE");
 		to_two.add("WHITE_BUNDLE");
 		to_two.add("YELLOW_BUNDLE");
-		to_two.add("BUNDLE");
 		to_two.add("BORDURE_INDENTED_BANNER_PATTERN");
 		to_two.add("FIELD_MASONED_BANNER_PATTERN");
 	}
