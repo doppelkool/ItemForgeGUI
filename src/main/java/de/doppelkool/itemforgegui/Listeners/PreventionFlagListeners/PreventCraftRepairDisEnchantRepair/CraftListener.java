@@ -68,15 +68,15 @@ public class CraftListener implements Listener {
 
 			if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.CRAFT)) continue;
 
-			PreventionFlagManager.CraftingPrevention activePrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
+			PreventionFlagManager.CraftingPreventionFlag activePrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
 
-			if (activePrevention == PreventionFlagManager.CraftingPrevention.ALL) {
+			if (activePrevention == PreventionFlagManager.CraftingPreventionFlag.ALL) {
 				return true;
 			}
-			if (activePrevention == PreventionFlagManager.CraftingPrevention.DEFAULT_RECIPES && isDefaultRecipe) {
+			if (activePrevention == PreventionFlagManager.CraftingPreventionFlag.DEFAULT_RECIPES && isDefaultRecipe) {
 				return true;
 			}
-			if (activePrevention == PreventionFlagManager.CraftingPrevention.CUSTOM_RECIPES && !isDefaultRecipe) {
+			if (activePrevention == PreventionFlagManager.CraftingPreventionFlag.CUSTOM_RECIPES && !isDefaultRecipe) {
 				return true;
 			}
 		}

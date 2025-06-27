@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -145,16 +146,16 @@ public class PreventionFlagManager {
 			&& isActionPrevented(item.getItemMeta(), action);
 	}
 
-	public static CraftingPrevention getActiveCraftingPrevention(ItemStack currentItem) {
+	public static CraftingPreventionFlag getActiveCraftingPrevention(ItemStack currentItem) {
 		PersistentDataContainer dataContainer = currentItem.getItemMeta().getPersistentDataContainer();
 		if (!dataContainer.has(Main.getPlugin().getCustomTagItemCraftPrevention(), PersistentDataType.STRING)) {
 			return null;
 		}
 
-		return CraftingPrevention.valueOf(dataContainer.get(Main.getPlugin().getCustomTagItemCraftPrevention(), PersistentDataType.STRING));
+		return CraftingPreventionFlag.valueOf(dataContainer.get(Main.getPlugin().getCustomTagItemCraftPrevention(), PersistentDataType.STRING));
 	}
 
-	public static void updateCraftPreventionType(ItemStack itemStack, @Nullable CraftingPrevention cycle) {
+	public static void updateCraftPreventionType(ItemStack itemStack, @Nullable PreventionFlagManager.CraftingPreventionFlag cycle) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 
 		if (cycle != null) {
@@ -172,29 +173,19 @@ public class PreventionFlagManager {
 	}
 
 	@Getter
-	public enum CraftingPrevention {
-		ALL(0, "All Crafting Recipes"),
-		DEFAULT_RECIPES(1, "Default Minecraft Crafting Recipes"),
-		CUSTOM_RECIPES(2, "Custom Crafting Recipes"),
-
+	@AllArgsConstructor
+	public enum CraftingPreventionFlag {
+		ALL("All Crafting Recipes"),
+		DEFAULT_RECIPES("Default Minecraft Crafting Recipes"),
+		CUSTOM_RECIPES("Custom Crafting Recipes"),
 		;
 
-		private final int index;
 		private final String itemDescription;
 
-		CraftingPrevention(int index, String itemDescription) {
-			this.index = index;
-			this.itemDescription = itemDescription;
+		public CraftingPreventionFlag cycle() {
+			CraftingPreventionFlag[] values = CraftingPreventionFlag.values();
+			int nextOrdinal = this.ordinal() + 1;
+			return nextOrdinal < values.length ? values[nextOrdinal] : null;
 		}
-
-		public CraftingPrevention cycle() {
-			CraftingPrevention[] values = CraftingPrevention.values();
-			int nextIndex = this.index + 1;
-			if (nextIndex >= values.length) {
-				return null;
-			}
-			return values[nextIndex];
-		}
-
 	}
 }

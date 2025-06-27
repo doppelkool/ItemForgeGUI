@@ -46,6 +46,10 @@ public final class Main extends JavaPlugin {
 	@Getter
 	private NamespacedKey customTagItemCraftPrevention;
 	@Getter
+	private NamespacedKey customTagCustomItemFlags;
+	@Getter
+	private NamespacedKey customTagCustomHideFlag;
+	@Getter
 	private NamespacedKey customTagUID;
 
 	@Getter
@@ -80,6 +84,8 @@ public final class Main extends JavaPlugin {
 
 		customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
 		customTagItemCraftPrevention = new NamespacedKey(this, "craftingPreventionType");
+		customTagCustomItemFlags = new NamespacedKey(this, "customItemFlags");
+		customTagCustomHideFlag = new NamespacedKey(this, "customHideFlag");
 		customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
 		customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
 		customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");

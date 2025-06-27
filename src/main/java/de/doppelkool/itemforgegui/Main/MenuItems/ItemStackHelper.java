@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
@@ -170,7 +171,7 @@ public class ItemStackHelper {
 		item.setItemMeta(itemMeta);
 	}
 
-	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPrevention activeCraftingPrevention) {
+	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention) {
 		ItemMeta itemMeta = itemStackClone.getItemMeta();
 		List<String> oldLore = itemMeta.getLore();
 
@@ -185,9 +186,33 @@ public class ItemStackHelper {
 			newLore.add("");
 		}
 
-		for (PreventionFlagManager.CraftingPrevention craftingPrevention : PreventionFlagManager.CraftingPrevention.values()) {
+		for (PreventionFlagManager.CraftingPreventionFlag craftingPrevention : PreventionFlagManager.CraftingPreventionFlag.values()) {
 			ChatColor color = craftingPrevention.equals(activeCraftingPrevention) ? ChatColor.GREEN : ChatColor.RED;
 			newLore.add(ChatColor.GRAY + "- " + color + craftingPrevention.getItemDescription());
+		}
+
+		itemMeta.setLore(newLore);
+		itemStackClone.setItemMeta(itemMeta);
+	}
+
+	public static void updateCustomItemFlagInMenuItemLore(ItemStack itemStackClone, CustomItemFlagManager.HideFlag activeHideFlag) {
+		ItemMeta itemMeta = itemStackClone.getItemMeta();
+		List<String> oldLore = itemMeta.getLore();
+
+		List<String> newLore = new ArrayList<>();
+		if (oldLore != null && !oldLore.isEmpty()) {
+			newLore.add(oldLore.get(0));
+			if (oldLore.size() > 1) {
+				newLore.add(oldLore.get(1));
+			}
+		} else {
+			newLore.add("");
+			newLore.add("");
+		}
+
+		for (CustomItemFlagManager.HideFlag hideFlag : CustomItemFlagManager.HideFlag.values()) {
+			ChatColor color = hideFlag.equals(activeHideFlag) ? ChatColor.GREEN : ChatColor.RED;
+			newLore.add(ChatColor.GRAY + "- " + color + hideFlag.getItemDescription());
 		}
 
 		itemMeta.setLore(newLore);

@@ -110,7 +110,7 @@ public class ItemInfoManager {
 			String loreDescription = action.getLoreDescription();
 
 			if (action == ForgeAction.CRAFT) {
-				PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
+				PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
 				loreDescription += " (" + activeCraftingPrevention.getItemDescription() + ")";
 			}
 
@@ -130,14 +130,36 @@ public class ItemInfoManager {
 		if (!itemLore.isEmpty()) {
 			updatedLore.addAll(itemLore);
 		}
-		updatedLore.add(SEPARATOR);
 
-		updatedLore.addAll(armorEffects);
-		updatedLore.addAll(preventionFlags);
+		enforceHideFlag(updatedLore);
 
 		// Update the item meta
 		meta.setLore(updatedLore);
 		item.setItemMeta(meta);
+	}
+
+	private void enforceHideFlag(List<String> updatedLore) {
+		if (!CustomItemFlagManager.isCustomFlagApplied(this.item, CustomItemFlag.HIDE)) {
+			updatedLore.add(SEPARATOR);
+			updatedLore.addAll(armorEffects);
+			updatedLore.addAll(preventionFlags);
+			return;
+		}
+
+		CustomItemFlagManager.HideFlag hideFlag = CustomItemFlagManager.getActiveHideFlag(this.item);
+		if (hideFlag == CustomItemFlagManager.HideFlag.HIDE_ARMOR_EFFECTS) {
+			updatedLore.add(SEPARATOR);
+			updatedLore.addAll(preventionFlags);
+			return;
+		}
+
+		if (hideFlag == CustomItemFlagManager.HideFlag.HIDE_PREVENTION_FLAGS) {
+			updatedLore.add(SEPARATOR);
+			updatedLore.addAll(armorEffects);
+			return;
+		}
+
+		/* HIDE_BOTH implemented implicitly */
 	}
 }
 

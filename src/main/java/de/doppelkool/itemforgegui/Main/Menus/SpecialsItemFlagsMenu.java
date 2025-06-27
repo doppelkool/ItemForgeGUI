@@ -1,12 +1,17 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.CustomItemFlag;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.CustomItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import oshi.util.tuples.Pair;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setGlow;
@@ -44,34 +49,60 @@ public class SpecialsItemFlagsMenu extends Menu {
 			return;
 		}
 
-		ItemFlag clickedFlag = switch (e.getSlot()) {
-			case 11 -> ItemFlag.HIDE_ENCHANTS;
-			case 12 -> ItemFlag.HIDE_ATTRIBUTES;
-			case 13 -> ItemFlag.HIDE_UNBREAKABLE;
-			case 14 -> ItemFlag.HIDE_DESTROYS;
-			case 15 -> ItemFlag.HIDE_PLACED_ON;
-			case 21 -> ItemFlag.HIDE_ADDITIONAL_TOOLTIP;
-			case 22 -> ItemFlag.HIDE_DYE;
-			case 23 -> ItemFlag.HIDE_ARMOR_TRIM;
-			default -> null;
-		};
+		Pair<ItemFlag, ItemStack> itemFlagItemStackPair = ItemFlagManager.SLOT_TO_FLAG.get(e.getSlot());
+		if (itemFlagItemStackPair != null) {
+			itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
 
-		if (clickedFlag == null) {
+			new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
 			return;
 		}
 
+		Pair<CustomItemFlag, ItemStack> customItemFlagItemStackPair = CustomItemFlagManager.SLOT_TO_FLAG.get(e.getSlot());
+		if (customItemFlagItemStackPair != null) {
+			customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
+
+			new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
+			return;
+		}
+	}
+
+	private void itemFlagClicked(ItemStack currentItem, ItemFlag itemFlag) {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
-		if (hasGlow(e.getCurrentItem())) {
-			itemMeta.removeItemFlags(clickedFlag);
+		if (hasGlow(currentItem)) {
+			itemMeta.removeItemFlags(itemFlag);
 		} else {
-			itemMeta.addItemFlags(clickedFlag);
+			itemMeta.addItemFlags(itemFlag);
 		}
 		itemInMainHand.setItemMeta(itemMeta);
 
 		//Only change to activated dye if flag has been applied
-		setGlow(e.getCurrentItem(), itemInMainHand.getItemMeta().hasItemFlag(clickedFlag));
+		setGlow(currentItem, itemInMainHand.getItemMeta().hasItemFlag(itemFlag));
+	}
+
+	private void customFlagClicked(ItemStack currentItem, CustomItemFlag clickedCustomFlag) {
+		boolean newStatus;
+		if (clickedCustomFlag == CustomItemFlag.HIDE) {
+			CustomItemFlagManager.HideFlag activeHideFlag = CustomItemFlagManager.getActiveHideFlag(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand());
+			CustomItemFlagManager.HideFlag nextHideFlag = activeHideFlag != null
+				? activeHideFlag.cycle()
+				: CustomItemFlagManager.HideFlag.HIDE_PREVENTION_FLAGS;
+
+			CustomItemFlagManager.updateActiveHideFlag(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), nextHideFlag);
+
+			ItemStackHelper.updateCustomItemFlagInMenuItemLore(currentItem, nextHideFlag);
+			newStatus = nextHideFlag != null;
+		} else {
+			newStatus = !ItemStackHelper.hasGlow(currentItem);
+		}
+
+		ItemStackHelper.setGlow(currentItem, newStatus);
+
+		CustomItemFlagManager.toggleCustomItemFlag(
+			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+			clickedCustomFlag,
+			newStatus);
 	}
 
 	@Override
@@ -81,37 +112,29 @@ public class SpecialsItemFlagsMenu extends Menu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
-		ItemStack hideEnchantmentsClone = ItemStacks.hideEnchantments.clone();
-		setGlow(hideEnchantmentsClone, itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS));
-		this.inventory.setItem(11, hideEnchantmentsClone);
+		ItemFlagManager.SLOT_TO_FLAG.forEach((slot, pair) -> {
+			ItemStack itemStackClone = pair.getB().clone();
 
-		ItemStack hideAttributesClone = ItemStacks.hideAttributes.clone();
-		setGlow(hideAttributesClone, itemMeta.hasItemFlag(ItemFlag.HIDE_ATTRIBUTES));
-		this.inventory.setItem(12, hideAttributesClone);
+			boolean itemFlagApplied = itemMeta.hasItemFlag(pair.getA());
+			ItemStackHelper.setGlow(itemStackClone, itemFlagApplied);
 
-		ItemStack hideUnbreakableClone = ItemStacks.hideUnbreakable.clone();
-		setGlow(hideUnbreakableClone, itemMeta.hasItemFlag(ItemFlag.HIDE_UNBREAKABLE));
-		this.inventory.setItem(13, hideUnbreakableClone);
+			this.inventory.setItem(slot, itemStackClone);
+		});
 
-		ItemStack hideDestroysClone = ItemStacks.hideDestroys.clone();
-		setGlow(hideDestroysClone, itemMeta.hasItemFlag(ItemFlag.HIDE_DESTROYS));
-		this.inventory.setItem(14, hideDestroysClone);
+		CustomItemFlagManager.SLOT_TO_FLAG.forEach((slot, pair) -> {
+			ItemStack itemStackClone = pair.getB().clone();
 
-		ItemStack hidePlacedOnClone = ItemStacks.hidePlacedOn.clone();
-		setGlow(hidePlacedOnClone, itemMeta.hasItemFlag(ItemFlag.HIDE_PLACED_ON));
-		this.inventory.setItem(15, hidePlacedOnClone);
+			boolean customFlagApplied = CustomItemFlagManager.isCustomFlagApplied(itemMeta, pair.getA());
 
-		ItemStack hideAdditionalToolTipClone = ItemStacks.hideAdditionalToolTip.clone();
-		setGlow(hideAdditionalToolTipClone, itemMeta.hasItemFlag(ItemFlag.HIDE_ADDITIONAL_TOOLTIP));
-		this.inventory.setItem(21, hideAdditionalToolTipClone);
+			if (pair.getA() == CustomItemFlag.HIDE) {
+				CustomItemFlagManager.HideFlag activeHideFlag = CustomItemFlagManager.getActiveHideFlag(itemInMainHand);
+				ItemStackHelper.updateCustomItemFlagInMenuItemLore(itemStackClone, activeHideFlag);
+			}
 
-		ItemStack hideDyeClone = ItemStacks.hideDye.clone();
-		setGlow(hideDyeClone, itemMeta.hasItemFlag(ItemFlag.HIDE_DYE));
-		this.inventory.setItem(22, hideDyeClone);
+			ItemStackHelper.setGlow(itemStackClone, customFlagApplied);
 
-		ItemStack hideArmorTrimClone = ItemStacks.hideArmorTrim.clone();
-		setGlow(hideArmorTrimClone, itemMeta.hasItemFlag(ItemFlag.HIDE_ARMOR_TRIM));
-		this.inventory.setItem(23, hideArmorTrimClone);
+			this.inventory.setItem(slot, itemStackClone);
+		});
 
 		setFillerGlass();
 	}

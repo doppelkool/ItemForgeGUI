@@ -67,6 +67,8 @@ public class ItemStacks {
 	public static final ItemStack hideDye;
 	public static final ItemStack hideArmorTrim;
 
+	public static final ItemStack itemFlagHide;
+
 	public static final ItemStack minus100;
 	public static final ItemStack minus50;
 	public static final ItemStack minus20;
@@ -169,6 +171,10 @@ public class ItemStacks {
 		hideArmorTrim = makeItem(Material.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ChatColor.GREEN + "Hide Armor Trim");
 		modifyLore(hideArmorTrim, ChatColor.YELLOW + "Hides the applied armor trim on an armor piece in its description");
 		modifyItemFlags(hideArmorTrim, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+
+		itemFlagHide = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Disable Display of Information in Item Lore");
+		modifyLore(itemFlagHide, ChatColor.YELLOW + "The following will not be displayed in the items lore:");
+		modifyItemFlags(itemFlagHide, ItemFlag.HIDE_ENCHANTS);
 
 		preventionFlags = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Edit Prevention Flags");
 		modifyLore(preventionFlags, ChatColor.YELLOW + "Edit what the player can/cannot do with that item");

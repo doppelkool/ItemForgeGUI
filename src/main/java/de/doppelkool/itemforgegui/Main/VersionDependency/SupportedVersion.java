@@ -9,7 +9,6 @@ import lombok.Getter;
  */
 public enum SupportedVersion {
 
-	v1_21("1.21"),
 	v1_21_1("1.21.1"),
 	v1_21_2("1.21.2"),
 	v1_21_3("1.21.3"),
