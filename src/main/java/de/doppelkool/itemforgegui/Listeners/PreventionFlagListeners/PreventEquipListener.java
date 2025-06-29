@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -46,7 +46,7 @@ public class PreventEquipListener implements Listener {
 			ItemStack equipped = pl.getInventory().getItem(slotIndex);
 			if (equipped == null || equipped.getType() != newArmor.getType()) return;
 
-			if (PreventionFlagManager.isActionPrevented(equipped, ForgeAction.EQUIP)) {
+			if (PreventionFlagManager.getInstance().isFlagApplied(equipped, ForgeAction.EQUIP)) {
 				pl.getInventory().setItem(slotIndex, null);
 
 				HashMap<Integer, ItemStack> leftover = pl.getInventory().addItem(equipped);
@@ -70,7 +70,7 @@ public class PreventEquipListener implements Listener {
 		}
 
 		// Check if equipping is prevented
-		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.EQUIP)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(item, ForgeAction.EQUIP)) {
 			return;
 		}
 
@@ -90,7 +90,7 @@ public class PreventEquipListener implements Listener {
 			// Check and handle armor
 			ItemStack equippedArmor = horseInv.getArmor();
 			if (equippedArmor != null && equippedArmor.getType() != Material.AIR &&
-				PreventionFlagManager.isActionPrevented(equippedArmor, ForgeAction.EQUIP)) {
+				PreventionFlagManager.getInstance().isFlagApplied(equippedArmor, ForgeAction.EQUIP)) {
 
 				horseInv.setArmor(null);
 				returnItemToPlayer(pl, equippedArmor);
@@ -100,7 +100,7 @@ public class PreventEquipListener implements Listener {
 			// Check and handle saddle
 			ItemStack equippedSaddle = horseInv.getSaddle();
 			if (equippedSaddle != null && equippedSaddle.getType() != Material.AIR &&
-				PreventionFlagManager.isActionPrevented(equippedSaddle, ForgeAction.EQUIP)) {
+				PreventionFlagManager.getInstance().isFlagApplied(equippedSaddle, ForgeAction.EQUIP)) {
 
 				horseInv.setSaddle(null);
 				returnItemToPlayer(pl, equippedSaddle);

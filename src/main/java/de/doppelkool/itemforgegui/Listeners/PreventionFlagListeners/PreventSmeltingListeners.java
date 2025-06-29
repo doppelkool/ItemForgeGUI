@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import org.bukkit.block.Furnace;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -31,8 +31,8 @@ public class PreventSmeltingListeners implements Listener {
 	private void processFurnaceEvent(Furnace furnace, Cancellable cancellable) {
 		FurnaceInventory inv = furnace.getInventory();
 
-		if (!PreventionFlagManager.isActionPrevented(inv.getItem(0), ForgeAction.SMELT)
-			&& !PreventionFlagManager.isActionPrevented(inv.getItem(1), ForgeAction.SMELT)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(inv.getItem(0), ForgeAction.SMELT)
+			&& !PreventionFlagManager.getInstance().isFlagApplied(inv.getItem(1), ForgeAction.SMELT)) {
 			return;
 		}
 		cancellable.setCancelled(true);

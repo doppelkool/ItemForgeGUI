@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -66,9 +66,9 @@ public class CraftListener implements Listener {
 		for (ItemStack item : matrix) {
 			if (item == null) continue;
 
-			if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.CRAFT)) continue;
+			if (!PreventionFlagManager.getInstance().isFlagApplied(item, ForgeAction.CRAFT)) continue;
 
-			PreventionFlagManager.CraftingPreventionFlag activePrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
+			PreventionFlagManager.CraftingPreventionFlag activePrevention = PreventionFlagManager.getInstance().getActiveCraftingPrevention(item);
 
 			if (activePrevention == PreventionFlagManager.CraftingPreventionFlag.ALL) {
 				return true;

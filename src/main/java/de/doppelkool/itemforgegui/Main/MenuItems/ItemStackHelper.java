@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.CustomItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Resources;

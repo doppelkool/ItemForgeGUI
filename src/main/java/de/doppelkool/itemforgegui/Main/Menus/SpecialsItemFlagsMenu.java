@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.CustomItemFlag;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.CustomItemFlagManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -49,7 +49,7 @@ public class SpecialsItemFlagsMenu extends Menu {
 			return;
 		}
 
-		Pair<ItemFlag, ItemStack> itemFlagItemStackPair = ItemFlagManager.SLOT_TO_FLAG.get(e.getSlot());
+		Pair<ItemFlag, ItemStack> itemFlagItemStackPair = ItemFlagManager.getInstance().getSlotToFlag().get(e.getSlot());
 		if (itemFlagItemStackPair != null) {
 			itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
 
@@ -57,7 +57,7 @@ public class SpecialsItemFlagsMenu extends Menu {
 			return;
 		}
 
-		Pair<CustomItemFlag, ItemStack> customItemFlagItemStackPair = CustomItemFlagManager.SLOT_TO_FLAG.get(e.getSlot());
+		Pair<CustomItemFlag, ItemStack> customItemFlagItemStackPair = CustomItemFlagManager.getInstance().getSlotToFlag().get(e.getSlot());
 		if (customItemFlagItemStackPair != null) {
 			customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
 
@@ -84,12 +84,12 @@ public class SpecialsItemFlagsMenu extends Menu {
 	private void customFlagClicked(ItemStack currentItem, CustomItemFlag clickedCustomFlag) {
 		boolean newStatus;
 		if (clickedCustomFlag == CustomItemFlag.HIDE) {
-			CustomItemFlagManager.HideFlag activeHideFlag = CustomItemFlagManager.getActiveHideFlag(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand());
+			CustomItemFlagManager.HideFlag activeHideFlag = CustomItemFlagManager.getInstance().getActiveHideFlag(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand());
 			CustomItemFlagManager.HideFlag nextHideFlag = activeHideFlag != null
 				? activeHideFlag.cycle()
-				: CustomItemFlagManager.HideFlag.HIDE_PREVENTION_FLAGS;
+				: CustomItemFlagManager.HideFlag.values()[0];
 
-			CustomItemFlagManager.updateActiveHideFlag(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), nextHideFlag);
+			CustomItemFlagManager.getInstance().updateActiveHideFlag(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), nextHideFlag);
 
 			ItemStackHelper.updateCustomItemFlagInMenuItemLore(currentItem, nextHideFlag);
 			newStatus = nextHideFlag != null;
@@ -99,7 +99,7 @@ public class SpecialsItemFlagsMenu extends Menu {
 
 		ItemStackHelper.setGlow(currentItem, newStatus);
 
-		CustomItemFlagManager.toggleCustomItemFlag(
+		CustomItemFlagManager.getInstance().toggleItemFlag(
 			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
 			clickedCustomFlag,
 			newStatus);
@@ -112,7 +112,7 @@ public class SpecialsItemFlagsMenu extends Menu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
-		ItemFlagManager.SLOT_TO_FLAG.forEach((slot, pair) -> {
+		ItemFlagManager.getInstance().getSlotToFlag().forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();
 
 			boolean itemFlagApplied = itemMeta.hasItemFlag(pair.getA());
@@ -121,13 +121,13 @@ public class SpecialsItemFlagsMenu extends Menu {
 			this.inventory.setItem(slot, itemStackClone);
 		});
 
-		CustomItemFlagManager.SLOT_TO_FLAG.forEach((slot, pair) -> {
+		CustomItemFlagManager.getInstance().getSlotToFlag().forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();
 
-			boolean customFlagApplied = CustomItemFlagManager.isCustomFlagApplied(itemMeta, pair.getA());
+			boolean customFlagApplied = CustomItemFlagManager.getInstance().isFlagApplied(itemMeta.getPersistentDataContainer(), pair.getA());
 
 			if (pair.getA() == CustomItemFlag.HIDE) {
-				CustomItemFlagManager.HideFlag activeHideFlag = CustomItemFlagManager.getActiveHideFlag(itemInMainHand);
+				CustomItemFlagManager.HideFlag activeHideFlag = CustomItemFlagManager.getInstance().getActiveHideFlag(itemInMainHand);
 				ItemStackHelper.updateCustomItemFlagInMenuItemLore(itemStackClone, activeHideFlag);
 			}
 

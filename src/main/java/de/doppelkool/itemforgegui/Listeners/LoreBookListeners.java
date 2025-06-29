@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -73,7 +73,7 @@ public class LoreBookListeners implements Listener {
 		ItemStack itemStack = e.getItemDrop().getItemStack();
 
 		if (itemStack.getType() == Material.WRITABLE_BOOK
-			&& PreventionFlagManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
+			&& PreventionFlagManager.getInstance().isFlagApplied(itemStack, ForgeAction.DROP)) {
 			e.setCancelled(true);
 			MessageManager.message(e.getPlayer(), Messages.BOOK_EDITOR_LORE_BOOK_DROP_DISALLOWED);
 		}

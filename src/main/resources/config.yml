@@ -23,3 +23,7 @@ armoreffects:
   showAmbient: false
   showParticles: false
   showIcon: true
+"show-flags-by-default-in-item-lore":
+  "minecraft-item-flags": true
+  "custom-item-flags": true
+  "custom-prevention-flags": true
