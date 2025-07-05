@@ -1,6 +1,5 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
-import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
@@ -10,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -169,32 +169,15 @@ public class ItemInfoManager {
 	}
 
 	private void enforceHideFlag(List<String> updatedLore) {
-		boolean showItemFlags = ConfigManager.getInstance().isShowMinecraftItemFlags();
-		boolean showArmorEffects = ConfigManager.getInstance().isShowCustomItemFlags();
-		boolean showPreventionFlags = ConfigManager.getInstance().isShowCustomPreventionFlags();
+		PersistentDataContainer container = this.item.getItemMeta().getPersistentDataContainer();
 
-		if (CustomItemFlagManager.getInstance().isFlagApplied(this.item, CustomItemFlag.HIDE)) {
-			CustomItemFlagManager.HideFlag hideFlag = CustomItemFlagManager.getInstance().getActiveHideFlag(this.item);
-			switch (hideFlag) {
-				case HIDE_ITEM_FLAGS:
-					showItemFlags = false;
-					break;
-				case HIDE_ARMOR_EFFECTS:
-					showArmorEffects = false;
-					break;
-				case HIDE_PREVENTION_FLAGS:
-					showPreventionFlags = false;
-					break;
-				case HIDE_ALL:
-					showItemFlags = false;
-					showArmorEffects = false;
-					showPreventionFlags = false;
-					break;
-			}
-		}
+		boolean showItemFlags = !CustomItemFlagManager.getInstance().isFlagApplied(container, CustomItemFlag.HIDE_ITEM_FLAGS);
+		boolean showArmorEffects = !CustomItemFlagManager.getInstance().isFlagApplied(container, CustomItemFlag.HIDE_ARMOR_EFFECTS);
+		boolean showPreventionFlags = !CustomItemFlagManager.getInstance().isFlagApplied(container, CustomItemFlag.HIDE_PREVENTION_FLAGS);
 
 		if (showItemFlags || showArmorEffects || showPreventionFlags) {
 			updatedLore.add(SEPARATOR);
+
 			if (showItemFlags) {
 				updatedLore.addAll(itemFlags);
 			}
@@ -206,5 +189,6 @@ public class ItemInfoManager {
 			}
 		}
 	}
+
 }
 

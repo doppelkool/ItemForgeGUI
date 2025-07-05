@@ -17,6 +17,7 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrent
  * @author doppelkool | github.com/doppelkool
  */
 public class ItemIdentityMenu extends Menu {
+
 	public ItemIdentityMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
 	}
@@ -33,12 +34,10 @@ public class ItemIdentityMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 18) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (e.getSlot() == 19) {
-			handleBack();
+		if (super.handleBack(e.getSlot())) {
 			return;
 		}
 

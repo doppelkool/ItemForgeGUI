@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
@@ -32,11 +33,17 @@ public class ItemEditMenu extends Menu {
 
 	public ItemEditMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+		initItemStack();
+	}
 
+	private void initItemStack() {
 		ItemStack itemInMainHand = playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+
 		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
+			CustomItemFlagManager.getInstance().initCustomItemFlags(itemInMainHand);
 			new ItemInfoManager(itemInMainHand).initItemDescription();
 		}
+
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
 			itemInMainHand);
 	}
@@ -53,8 +60,7 @@ public class ItemEditMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 18) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
 		if (e.getSlot() == 26) {

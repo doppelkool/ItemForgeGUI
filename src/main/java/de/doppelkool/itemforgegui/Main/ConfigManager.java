@@ -34,7 +34,7 @@ public class ConfigManager {
 	private final boolean armoreffectsShowIcon;
 
 	private final boolean showMinecraftItemFlags;
-	private final boolean showCustomItemFlags;
+	private final boolean showCustomArmorEffects;
 	private final boolean showCustomPreventionFlags;
 
 	private ConfigManager() {
@@ -65,7 +65,7 @@ public class ConfigManager {
 		this.armoreffectsShowIcon = this.config.getBoolean("armoreffects.showIcon");
 
 		this.showMinecraftItemFlags = this.config.getBoolean("show-flags-by-default-in-item-lore.minecraft-item-flags");
-		this.showCustomItemFlags = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-item-flags");
+		this.showCustomArmorEffects = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-armor-effects");
 		this.showCustomPreventionFlags = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-prevention-flags");
 
 	}

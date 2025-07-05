@@ -36,13 +36,10 @@ public class ItemUniquenessSettingsMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 18) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (e.getSlot() == 19) {
-			new ItemIdentityMenu(this.playerMenuUtility)
-				.open();
+		if (super.handleBack(e.getSlot(), ItemIdentityMenu::new)) {
 			return;
 		}
 
@@ -77,7 +74,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		setFillerGlass();
 	}
 
-	private void editUniqueIdentifierProcess() {;
+	private void editUniqueIdentifierProcess() {
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(

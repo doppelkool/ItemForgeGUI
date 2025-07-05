@@ -46,12 +46,10 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 45) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (e.getSlot() == 46) {
-			handleBack();
+		if (super.handleBack(e.getSlot())) {
 			return;
 		}
 

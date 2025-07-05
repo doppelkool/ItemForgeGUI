@@ -46,13 +46,10 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 45) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (e.getSlot() == 46) {
-			new SpecialsMenu(this.playerMenuUtility)
-				.open();
+		if (super.handleBack(e.getSlot(), SpecialsMenu::new)) {
 			return;
 		}
 

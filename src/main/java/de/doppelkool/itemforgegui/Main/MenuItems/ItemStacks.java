@@ -4,17 +4,13 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import de.doppelkool.itemforgegui.Main.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.*;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +37,7 @@ public class ItemStacks {
 	public static final ItemStack editColor;
 
 	public static final ItemStack itemFlags;
+	public static final ItemStack customItemFlags;
 	public static final ItemStack preventionFlags;
 	public static final ItemStack armorEffects;
 	public static final ItemStack itemDrop;
@@ -68,6 +65,8 @@ public class ItemStacks {
 	public static final ItemStack hideArmorTrim;
 
 	public static final ItemStack itemFlagHide;
+	public static final ItemStack preventionFlagHide;
+	public static final ItemStack armorEffectHide;
 
 	public static final ItemStack minus100;
 	public static final ItemStack minus50;
@@ -146,7 +145,10 @@ public class ItemStacks {
 		modifyColor(editColor, Color.BLUE);
 		modifyItemFlags(editColor, ItemFlag.HIDE_DYE, ItemFlag.HIDE_ATTRIBUTES);
 
-		itemFlags = makeItem(Material.WHITE_BANNER, ChatColor.GREEN + "Edit ItemFlags");
+		itemFlags = makeItem(Material.WHITE_BANNER, ChatColor.GREEN + "Edit Minecraft Item Flags");
+		customItemFlags = makeItem(Material.WHITE_BANNER, ChatColor.GREEN + "Edit Custom Item Flags");
+		modifyItemFlags(customItemFlags, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+		modifySpecificBannerPattern(customItemFlags);
 		hideEnchantments = makeItem(Material.ENCHANTING_TABLE, ChatColor.GREEN + "Hide Enchantments");
 		modifyLore(hideEnchantments, ChatColor.YELLOW + "Hides the enchantment in the items description");
 		modifyItemFlags(hideEnchantments, ItemFlag.HIDE_ENCHANTS);
@@ -172,9 +174,15 @@ public class ItemStacks {
 		modifyLore(hideArmorTrim, ChatColor.YELLOW + "Hides the applied armor trim on an armor piece in its description");
 		modifyItemFlags(hideArmorTrim, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
-		itemFlagHide = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Disable Display of Information in Item Lore");
-		modifyLore(itemFlagHide, ChatColor.YELLOW + "The following will not be displayed in the items lore:");
+		itemFlagHide = makeItem(Material.WHITE_BANNER, ChatColor.GREEN + "Hide Minecraft Item Flags");
+		modifyLore(itemFlagHide, ChatColor.YELLOW + "Minecraft Item Flags will not be displayed in the items lore");
 		modifyItemFlags(itemFlagHide, ItemFlag.HIDE_ENCHANTS);
+		preventionFlagHide = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Hide Prevention Flags");
+		modifyLore(preventionFlagHide, ChatColor.YELLOW + "Prevention Flags will not be displayed in the items lore");
+		modifyItemFlags(preventionFlagHide, ItemFlag.HIDE_ENCHANTS);
+		armorEffectHide = makeItem(Material.SPLASH_POTION, ChatColor.GREEN + "Hide Armor Effects");
+		modifyLore(armorEffectHide, ChatColor.YELLOW + "Armor Effects will not be displayed in the items lore");
+		modifyItemFlags(armorEffectHide, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 
 		preventionFlags = makeItem(Material.STRUCTURE_VOID, ChatColor.GREEN + "Edit Prevention Flags");
 		modifyLore(preventionFlags, ChatColor.YELLOW + "Edit what the player can/cannot do with that item");
@@ -373,9 +381,7 @@ public class ItemStacks {
 	public static void modifyCurrentValueVariableInLore(ItemStack itemToChangeLore, String currentValue) {
 		ItemMeta itemMeta = itemToChangeLore.getItemMeta();
 		List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
-		for (int i = 0; i < lore.size(); i++) {
-			lore.set(i, lore.get(i).replace("{currentValue}", currentValue));
-		}
+		lore.replaceAll(s -> s.replace("{currentValue}", currentValue));
 
 		itemMeta.setLore(lore);
 		itemToChangeLore.setItemMeta(itemMeta);
@@ -397,6 +403,15 @@ public class ItemStacks {
 		LeatherArmorMeta itemMeta = (LeatherArmorMeta) stack.getItemMeta();
 		itemMeta.setColor(color);
 		stack.setItemMeta(itemMeta);
+	}
+
+	private static void modifySpecificBannerPattern(ItemStack stack) {
+		BannerMeta bannerMeta = (BannerMeta) stack.getItemMeta();
+		bannerMeta.setPatterns(List.of(
+			new Pattern(DyeColor.RED, PatternType.GRADIENT),
+			new Pattern(DyeColor.BLUE, PatternType.STRIPE_DOWNRIGHT)
+		));
+		stack.setItemMeta(bannerMeta);
 	}
 
 	public static void modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {

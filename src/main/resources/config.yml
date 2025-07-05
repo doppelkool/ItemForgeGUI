@@ -25,5 +25,5 @@ armoreffects:
   showIcon: true
 "show-flags-by-default-in-item-lore":
   "minecraft-item-flags": true
-  "custom-item-flags": true
+  "custom-armor-effects": true
   "custom-prevention-flags": true

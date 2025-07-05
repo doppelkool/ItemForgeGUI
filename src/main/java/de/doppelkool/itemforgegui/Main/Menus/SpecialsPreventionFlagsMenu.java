@@ -36,17 +36,14 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 36) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (e.getSlot() == 37) {
-			new SpecialsMenu(playerMenuUtility)
-				.open();
+		if (super.handleBack(e.getSlot(), SpecialsMenu::new)) {
 			return;
 		}
 
-		ForgeAction clickedForgeAction = PreventionFlagManager.getInstance().SLOT_TO_ACTION.get(e.getSlot()).getA();
+		ForgeAction clickedForgeAction = PreventionFlagManager.SLOT_TO_ACTION.get(e.getSlot()).getA();
 		if (clickedForgeAction == null) {
 			return;
 		}
@@ -74,7 +71,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 			newStatus = !ItemStackHelper.hasGlow(currentItem);
 		}
 
-		ItemStackHelper.setGlow(currentItem, newStatus);
+		ItemStackHelper.setActivated(currentItem, newStatus);
 
 		PreventionFlagManager.getInstance().toggleItemFlag(
 			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
@@ -88,7 +85,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
-		PreventionFlagManager.getInstance().SLOT_TO_ACTION.forEach((slot, pair) -> {
+		PreventionFlagManager.SLOT_TO_ACTION.forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();
 
 			if (isLogicallyApplyable(itemInMainHand, pair.getA())) {
@@ -100,7 +97,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 					ItemStackHelper.updateCraftingPreventionInMenuItemLore(itemStackClone, activeCraftingPrevention);
 				}
 
-				ItemStackHelper.setGlow(itemStackClone, actionPrevented);
+				ItemStackHelper.setActivated(itemStackClone, actionPrevented);
 			} else {
 				itemStackClone = ItemStacks.notAvailable(itemStackClone);
 			}

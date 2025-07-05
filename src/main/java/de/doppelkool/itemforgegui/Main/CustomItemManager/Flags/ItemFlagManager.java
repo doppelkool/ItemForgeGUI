@@ -25,7 +25,7 @@ public class ItemFlagManager {
 		slotToFlag.put(12, new Pair<>(ItemFlag.HIDE_ATTRIBUTES, ItemStacks.hideAttributes));
 		slotToFlag.put(13, new Pair<>(ItemFlag.HIDE_UNBREAKABLE, ItemStacks.hideUnbreakable));
 		slotToFlag.put(14, new Pair<>(ItemFlag.HIDE_DESTROYS, ItemStacks.hideDestroys));
-		slotToFlag.put(20, new Pair<>(ItemFlag.HIDE_PLACED_ON, ItemStacks.hidePlacedOn));
+		slotToFlag.put(15, new Pair<>(ItemFlag.HIDE_PLACED_ON, ItemStacks.hidePlacedOn));
 		slotToFlag.put(21, new Pair<>(ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemStacks.hideAdditionalToolTip));
 		slotToFlag.put(22, new Pair<>(ItemFlag.HIDE_DYE, ItemStacks.hideDye));
 		slotToFlag.put(23, new Pair<>(ItemFlag.HIDE_ARMOR_TRIM, ItemStacks.hideArmorTrim));
