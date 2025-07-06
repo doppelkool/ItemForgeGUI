@@ -124,7 +124,7 @@ public class Materials {
 		to_six.add("BLACK_HARNESS");
 	}
 
-	// ────── 1.21.6 ──────
+	// ────── 1.21.7 ──────
 	private static final List<String> to_seven = new ArrayList<>();
 	static {
 		to_seven.add("MUSIC_DISC_LAVA_CHICKEN");
