@@ -60,9 +60,9 @@ public class ConfigManager {
 		this.uniqueIdOnEditedItemEnabled = this.config.getBoolean("unique-id-on-edited-item");
 		this.differCappedEffectsEnabled = this.config.getBoolean("differ-capped-effects");
 
-		this.armoreffectsShowAmbient = this.config.getBoolean("armoreffects.showAmbient");
-		this.armoreffectsShowParticles = this.config.getBoolean("armoreffects.showParticles");
-		this.armoreffectsShowIcon = this.config.getBoolean("armoreffects.showIcon");
+		this.armoreffectsShowAmbient = this.config.getBoolean("armor-effects.showAmbient");
+		this.armoreffectsShowParticles = this.config.getBoolean("armor-effects.showParticles");
+		this.armoreffectsShowIcon = this.config.getBoolean("armor-effects.showIcon");
 
 		this.showMinecraftItemFlags = this.config.getBoolean("show-flags-by-default-in-item-lore.minecraft-item-flags");
 		this.showCustomArmorEffects = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-armor-effects");

@@ -19,7 +19,7 @@
   # WEAVING,
   # WIND_CHARGED
 "differ-capped-effects": true
-armoreffects:
+"armor-effects":
   showAmbient: false
   showParticles: false
   showIcon: true

@@ -25,16 +25,15 @@ public class ItemInfoManager {
 
 	private final ItemStack item;
 	private final ItemMeta meta;
-	String SEPARATOR = ChatColor.DARK_GRAY + "―――";
-	String HEADER_COLOR = ChatColor.GRAY + "" + ChatColor.UNDERLINE;
-	String ENTRY_COLOR = ChatColor.GRAY + "";
-	String ITEM_FLAGS_HEADER = HEADER_COLOR + "Item Flags";
-	String EMPTY_ITEM_FLAGS_HEADER = ENTRY_COLOR + "Item Flags: Empty";
-	String ARMOR_EFFECTS_HEADER = HEADER_COLOR + "Armor Effects";
-	String EMPTY_ARMOR_EFFECTS_HEADER = ENTRY_COLOR + "Armor Effects: Empty";
-	String PREVENTION_FLAGS_HEADER = HEADER_COLOR + "Prevention Flags";
-	String EMPTY_PREVENTION_FLAGS_HEADER = ENTRY_COLOR + "Prevention Flags: Empty";
-	private List<String> itemInfoLines;
+
+	private static final String SEPARATOR = ChatColor.DARK_GRAY + "―――";
+	private static final String HEADER_COLOR = ChatColor.GRAY + "" + ChatColor.UNDERLINE;
+	private static final String ENTRY_COLOR = ChatColor.GRAY + "";
+	private static final String ITEM_FLAGS_HEADER = HEADER_COLOR + "Item Flags";
+	private static final String ARMOR_EFFECTS_HEADER = HEADER_COLOR + "Armor Effects";
+	private static final String PREVENTION_FLAGS_HEADER = HEADER_COLOR + "Prevention Flags";
+
+	private final List<String> itemInfoLines;
 
 	@Getter
 	private List<String> itemLore;
@@ -93,7 +92,6 @@ public class ItemInfoManager {
 		List<ItemFlag> flags = new ArrayList<>(item.getItemMeta().getItemFlags());
 
 		if (flags.isEmpty()) {
-			itemFlags.add(EMPTY_ITEM_FLAGS_HEADER);
 			return;
 		}
 
@@ -111,7 +109,6 @@ public class ItemInfoManager {
 		Map<PotionEffectType, Integer> effects = ArmorEffectManager.getAllActivatedPotionEffectTypesAsMap(item);
 
 		if (effects.isEmpty()) {
-			armorEffects.add(EMPTY_ARMOR_EFFECTS_HEADER);
 			return;
 		}
 
@@ -130,7 +127,6 @@ public class ItemInfoManager {
 		List<ForgeAction> flags = PreventionFlagManager.getInstance().mapItemFlags(item.getItemMeta().getPersistentDataContainer());
 
 		if (flags.isEmpty()) {
-			preventionFlags.add(EMPTY_PREVENTION_FLAGS_HEADER);
 			return;
 		}
 
