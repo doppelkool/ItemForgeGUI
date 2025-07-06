@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ public class PreventPlaceListener implements Listener {
 	public void preventPlace(BlockPlaceEvent e) {
 		ItemStack item = e.getItemInHand();
 
-		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.PLACE)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(item, ForgeAction.PLACE)) {
 			return;
 		}
 
@@ -37,7 +37,7 @@ public class PreventPlaceListener implements Listener {
 		Player pl = e.getPlayer();
 		ItemStack item = pl.getInventory().getItemInMainHand();
 
-		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.PLACE)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(item, ForgeAction.PLACE)) {
 			return;
 		}
 

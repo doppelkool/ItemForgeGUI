@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -25,7 +25,7 @@ public class PreventAlteringListeners implements Listener {
 			return;
 		}
 
-		if (!PreventionFlagManager.isActionPrevented(itemStack, ForgeAction.DROP)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(itemStack, ForgeAction.DROP)) {
 			return;
 		}
 

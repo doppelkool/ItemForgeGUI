@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Resources;
@@ -143,7 +143,7 @@ public class ItemStackHelper {
 			&& (item.getItemMeta().getEnchantLevel(glowEnchantment) == 1);
 	}
 
-	public static void setGlow(ItemStack item, boolean active) {
+	public static void setActivated(ItemStack item, boolean active) {
 		String activatedLorePart = "Activated";
 		String deactivatedLorePart = "Deactivated";
 
@@ -155,22 +155,22 @@ public class ItemStackHelper {
 
 			if (lore.getFirst().contains(activatedLorePart) ||
 				lore.getFirst().contains(deactivatedLorePart)) {
-				lore.remove(0);
+				lore.removeFirst();
 			}
 		}
 
 		if (active) {
 			itemMeta.addEnchant(glowEnchantment, 1, true);
-			lore.add(0, ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
+			lore.addFirst(ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
 		} else {
 			itemMeta.removeEnchant(glowEnchantment);
-			lore.add(0, ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
+			lore.addFirst(ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
 		}
 		itemMeta.setLore(lore);
 		item.setItemMeta(itemMeta);
 	}
 
-	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPrevention activeCraftingPrevention) {
+	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention) {
 		ItemMeta itemMeta = itemStackClone.getItemMeta();
 		List<String> oldLore = itemMeta.getLore();
 
@@ -185,7 +185,7 @@ public class ItemStackHelper {
 			newLore.add("");
 		}
 
-		for (PreventionFlagManager.CraftingPrevention craftingPrevention : PreventionFlagManager.CraftingPrevention.values()) {
+		for (PreventionFlagManager.CraftingPreventionFlag craftingPrevention : PreventionFlagManager.CraftingPreventionFlag.values()) {
 			ChatColor color = craftingPrevention.equals(activeCraftingPrevention) ? ChatColor.GREEN : ChatColor.RED;
 			newLore.add(ChatColor.GRAY + "- " + color + craftingPrevention.getItemDescription());
 		}

@@ -124,11 +124,18 @@ public class Materials {
 		to_six.add("BLACK_HARNESS");
 	}
 
+	// ────── 1.21.7 ──────
+	private static final List<String> to_seven = new ArrayList<>();
+	static {
+		to_seven.add("MUSIC_DISC_LAVA_CHICKEN");
+	}
+
 	private Materials() {
 		loadIfAtLeast("1.21.2", to_two);
 		loadIfAtLeast("1.21.4", to_four);
 		loadIfAtLeast("1.21.5", to_five);
 		loadIfAtLeast("1.21.6", to_six);
+		loadIfAtLeast("1.21.7", to_seven);
 	}
 
 	private void loadIfAtLeast(String version, List<String> materialNames) {

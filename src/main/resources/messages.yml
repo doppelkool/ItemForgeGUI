@@ -49,10 +49,10 @@ sign-editor:
       invalid-input: "&cThe strength you entered is not valid"
 
 book-editor:
-  information: "&7-&aYou have received a book\n
+  information: "\n &7-&aYou have received a book\n
       &7-&aPlease edit the content according to your futures item lore and click &7'&aDone&7'\n
       &7-&aYour item was temporarily stored and will be replaced back after editing the book\n
-      [&cWarning&7] &cSituations with no changes to the item lore won't be detected."
+      &7[&cWarning&7] &cSituations with no changes to the item lore won't be detected!"
   lore-book-drop-disallowed: "&cYou are not allowed to do this!"
 
 action-prevented:

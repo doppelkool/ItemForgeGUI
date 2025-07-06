@@ -8,6 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Function;
+
 /**
  * Class Description
  *
@@ -18,8 +20,14 @@ public abstract class Menu implements InventoryHolder {
 	protected PlayerMenuUtility playerMenuUtility;
 	protected Inventory inventory;
 
+	protected int closeInventorySlot;
+	protected int backInventorySlot;
+
 	public Menu(PlayerMenuUtility playerMenuUtility) {
 		this.playerMenuUtility = playerMenuUtility;
+
+		closeInventorySlot = this.getSlots() - 9;
+		backInventorySlot = this.getSlots() - 8;
 	}
 
 	public abstract String getMenuName();
@@ -63,17 +71,37 @@ public abstract class Menu implements InventoryHolder {
 			inventory.setItem(i + 8, ItemStacks.FILLER_GLASS); // Right column
 		}
 
-		this.inventory.setItem(this.getSlots() - 9, ItemStacks.closeInventory);
-		this.inventory.setItem(this.getSlots() - 8, ItemStacks.backInventory);
+		this.inventory.setItem(closeInventorySlot, ItemStacks.closeInventory);
+		this.inventory.setItem(backInventorySlot, ItemStacks.backInventory);
 	}
 
-	protected void handleClose() {
-		this.playerMenuUtility.getOwner().closeInventory();
+	protected boolean handleClose(int slot) {
+		if (slot == closeInventorySlot) {
+			this.playerMenuUtility.getOwner().closeInventory();
+			return true;
+		}
+		return false;
 	}
 
 	protected void handleBack() {
-		new ItemEditMenu(this.playerMenuUtility)
+		new ItemEditMenu(playerMenuUtility)
 			.open();
+	}
+
+	protected boolean handleBack(int slot) {
+		if (slot == backInventorySlot) {
+			handleBack();
+			return true;
+		}
+		return false;
+	}
+
+	protected boolean handleBack(int slot, @NotNull Function<PlayerMenuUtility, Menu> newMenu) {
+		if (slot == backInventorySlot) {
+			newMenu.apply(playerMenuUtility).open();
+			return true;
+		}
+		return false;
 	}
 
 }

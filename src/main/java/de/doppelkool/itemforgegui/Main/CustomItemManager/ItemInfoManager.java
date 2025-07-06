@@ -1,10 +1,15 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
 import lombok.Getter;
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -20,17 +25,20 @@ public class ItemInfoManager {
 
 	private final ItemStack item;
 	private final ItemMeta meta;
-	String SEPARATOR = ChatColor.DARK_GRAY + "―――";
-	String HEADER_COLOR = ChatColor.GRAY + "" + ChatColor.UNDERLINE;
-	String ENTRY_COLOR = ChatColor.GRAY + "";
-	String ARMOR_EFFECTS_HEADER = HEADER_COLOR + "Armor Effects";
-	String EMPTY_ARMOR_EFFECTS_HEADER = ENTRY_COLOR + "Armor Effects: Empty";
-	String PREVENTION_FLAGS_HEADER = HEADER_COLOR + "Prevention Flags";
-	String EMPTY_PREVENTION_FLAGS_HEADER = ENTRY_COLOR + "Prevention Flags: Empty";
-	private List<String> itemInfoLines;
+
+	private static final String SEPARATOR = ChatColor.DARK_GRAY + "―――";
+	private static final String HEADER_COLOR = ChatColor.GRAY + "" + ChatColor.UNDERLINE;
+	private static final String ENTRY_COLOR = ChatColor.GRAY + "";
+	private static final String ITEM_FLAGS_HEADER = HEADER_COLOR + "Item Flags";
+	private static final String ARMOR_EFFECTS_HEADER = HEADER_COLOR + "Armor Effects";
+	private static final String PREVENTION_FLAGS_HEADER = HEADER_COLOR + "Prevention Flags";
+
+	private final List<String> itemInfoLines;
 
 	@Getter
 	private List<String> itemLore;
+	@Getter
+	private List<String> itemFlags;
 	@Getter
 	private List<String> armorEffects;
 	@Getter
@@ -46,6 +54,7 @@ public class ItemInfoManager {
 
 	private void parseLore() {
 		this.itemLore = new ArrayList<>();
+		this.itemFlags = new ArrayList<>();
 		this.armorEffects = new ArrayList<>();
 		this.preventionFlags = new ArrayList<>();
 
@@ -59,6 +68,7 @@ public class ItemInfoManager {
 			itemLore.add(trimmed);
 		}
 
+		loadItemFlags(item);
 		loadArmorEffects(item);
 		loadPreventionFlags(item);
 
@@ -67,10 +77,28 @@ public class ItemInfoManager {
 	}
 
 	public void initItemDescription() {
+		loadItemFlags(item);
 		loadArmorEffects(item);
 		loadPreventionFlags(item);
 
 		updateItemInfo();
+	}
+
+	/**
+	 * Loads Item Flags and ensures "Item Flags: Empty" is shown if none exist.
+	 */
+	private void loadItemFlags(ItemStack item) {
+		itemFlags = new ArrayList<>();
+		List<ItemFlag> flags = new ArrayList<>(item.getItemMeta().getItemFlags());
+
+		if (flags.isEmpty()) {
+			return;
+		}
+
+		itemFlags.add(ITEM_FLAGS_HEADER);
+		for (ItemFlag effect : flags) {
+			itemFlags.add(ENTRY_COLOR + "- " + effect.name());
+		}
 	}
 
 	/**
@@ -81,7 +109,6 @@ public class ItemInfoManager {
 		Map<PotionEffectType, Integer> effects = ArmorEffectManager.getAllActivatedPotionEffectTypesAsMap(item);
 
 		if (effects.isEmpty()) {
-			armorEffects.add(EMPTY_ARMOR_EFFECTS_HEADER);
 			return;
 		}
 
@@ -97,10 +124,9 @@ public class ItemInfoManager {
 	 */
 	private void loadPreventionFlags(ItemStack item) {
 		preventionFlags = new ArrayList<>();
-		List<ForgeAction> flags = PreventionFlagManager.mapNotAllowedForgeActions(item.getItemMeta().getPersistentDataContainer());
+		List<ForgeAction> flags = PreventionFlagManager.getInstance().mapItemFlags(item.getItemMeta().getPersistentDataContainer());
 
 		if (flags.isEmpty()) {
-			preventionFlags.add(EMPTY_PREVENTION_FLAGS_HEADER);
 			return;
 		}
 
@@ -110,7 +136,7 @@ public class ItemInfoManager {
 			String loreDescription = action.getLoreDescription();
 
 			if (action == ForgeAction.CRAFT) {
-				PreventionFlagManager.CraftingPrevention activeCraftingPrevention = PreventionFlagManager.getActiveCraftingPrevention(item);
+				PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention = PreventionFlagManager.getInstance().getActiveCraftingPrevention(item);
 				loreDescription += " (" + activeCraftingPrevention.getItemDescription() + ")";
 			}
 
@@ -130,14 +156,35 @@ public class ItemInfoManager {
 		if (!itemLore.isEmpty()) {
 			updatedLore.addAll(itemLore);
 		}
-		updatedLore.add(SEPARATOR);
 
-		updatedLore.addAll(armorEffects);
-		updatedLore.addAll(preventionFlags);
+		enforceHideFlag(updatedLore);
 
 		// Update the item meta
 		meta.setLore(updatedLore);
 		item.setItemMeta(meta);
 	}
+
+	private void enforceHideFlag(List<String> updatedLore) {
+		PersistentDataContainer container = this.item.getItemMeta().getPersistentDataContainer();
+
+		boolean showItemFlags = !CustomItemFlagManager.getInstance().isFlagApplied(container, CustomItemFlag.HIDE_ITEM_FLAGS);
+		boolean showArmorEffects = !CustomItemFlagManager.getInstance().isFlagApplied(container, CustomItemFlag.HIDE_ARMOR_EFFECTS);
+		boolean showPreventionFlags = !CustomItemFlagManager.getInstance().isFlagApplied(container, CustomItemFlag.HIDE_PREVENTION_FLAGS);
+
+		if (showItemFlags || showArmorEffects || showPreventionFlags) {
+			updatedLore.add(SEPARATOR);
+
+			if (showItemFlags) {
+				updatedLore.addAll(itemFlags);
+			}
+			if (showArmorEffects) {
+				updatedLore.addAll(armorEffects);
+			}
+			if (showPreventionFlags) {
+				updatedLore.addAll(preventionFlags);
+			}
+		}
+	}
+
 }
 

@@ -26,4 +26,16 @@ public class PlayerMenuUtility {
 	public PlayerMenuUtility(Player pl) {
 		this.owner = pl;
 	}
+
+	@Override
+	public String toString() {
+		return "{" +
+			"owner=" + owner +
+			",tempStoredItem=" + tempStoredItem +
+			",storedSlot=" + storedSlot +
+			",targetEnchantment=" + targetEnchantment +
+			",targetPotionEffectType=" + targetPotionEffectType +
+			",signNumberEditor=" + signNumberEditor +
+			"}";
+	}
 }

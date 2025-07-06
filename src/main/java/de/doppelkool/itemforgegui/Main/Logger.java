@@ -1,7 +1,8 @@
 package de.doppelkool.itemforgegui.Main;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
@@ -42,7 +43,7 @@ public class Logger {
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getDisplayName() : "meta null",
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getLore() : "meta null",
 			itemStack.getType(),
-			(itemStack.getItemMeta() != null) ? PreventionFlagManager.getNotAllowedForgeActions(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
+			(itemStack.getItemMeta() != null) ? PreventionFlagManager.getInstance().mapItemFlags(itemStack.getItemMeta().getPersistentDataContainer()) : "meta null",
 			(itemStack.getItemMeta() != null) ? itemStack.getItemMeta().getPersistentDataContainer().get(Main.getPlugin().getCustomArmorEffectsKey(),
 				Main.getPlugin().getCustomArmorEffectListDataType()) : "meta null",
 			itemStack
@@ -189,6 +190,18 @@ public class Logger {
 				"contains: %s\n",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
 			String.join(", ", e)
+		));
+	}
+
+	public static void log(PlayerMenuUtility playerMenuUtility) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			playerMenuUtility.toString()
 		));
 	}
 
