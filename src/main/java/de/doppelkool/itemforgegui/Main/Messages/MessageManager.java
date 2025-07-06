@@ -1,13 +1,12 @@
 package de.doppelkool.itemforgegui.Main.Messages;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
-import lombok.Getter;
+import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,24 +23,22 @@ import java.util.logging.Level;
  * @author doppelkool | github.com/doppelkool
  */
 public class MessageManager {
-
-	@Getter
+	private static final String MESSAGES_FILE_NAME = "messages.yml";
 	private static MessageManager instance;
 
 	private FileConfiguration messages;
 	private final File messagesFile;
 
-	public MessageManager(JavaPlugin plugin) {
-		instance = this;
-		messagesFile = new File(plugin.getDataFolder(), "messages.yml");
+	public MessageManager() {
+		messagesFile = new File(Main.getPlugin().getDataFolder(), MESSAGES_FILE_NAME);
 
-		try (InputStream in = plugin.getResource("messages.yml")) {
+		try (InputStream in = Main.getPlugin().getResource(MESSAGES_FILE_NAME)) {
 			if (!messagesFile.exists()) {
 				Files.copy(in, messagesFile.toPath());
 			}
 
-			ConfigUpdater.update(plugin,
-				"messages.yml",
+			ConfigUpdater.update(Main.getPlugin(),
+				MESSAGES_FILE_NAME,
 				messagesFile,
 				List.of()
 			);
@@ -102,5 +99,12 @@ public class MessageManager {
 		}
 		// Color code support
 		return ChatColor.translateAlternateColorCodes('&', msg);
+	}
+
+	public static MessageManager getInstance() {
+		if (instance == null) {
+			instance = new MessageManager();
+		}
+		return instance;
 	}
 }

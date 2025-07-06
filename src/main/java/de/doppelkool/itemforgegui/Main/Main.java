@@ -9,6 +9,9 @@ import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair.*;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.VersionDependency.Materials;
@@ -46,6 +49,10 @@ public final class Main extends JavaPlugin {
 	@Getter
 	private NamespacedKey customTagItemCraftPrevention;
 	@Getter
+	private NamespacedKey customTagCustomItemFlags;
+	@Getter
+	private NamespacedKey customTagCustomHideFlag;
+	@Getter
 	private NamespacedKey customTagUID;
 
 	@Getter
@@ -76,10 +83,10 @@ public final class Main extends JavaPlugin {
 			customTagUID = new NamespacedKey(this, "id");
 		}
 
-		new MessageManager(this);
-
 		customTagItemNotAllowedForgeActions = new NamespacedKey(this, "notAllowedForgeActions");
 		customTagItemCraftPrevention = new NamespacedKey(this, "craftingPreventionType");
+		customTagCustomItemFlags = new NamespacedKey(this, "customItemFlags");
+		customTagCustomHideFlag = new NamespacedKey(this, "customHideFlag");
 		customLoreEditBookKey = new NamespacedKey(this, "isEditLoreBook");
 		customNotAvailableStackIDKey = new NamespacedKey(this, "isNotAvailable");
 		customEnchantmentStackIDKey = new NamespacedKey(this, "enchantmentInvID");
@@ -88,6 +95,11 @@ public final class Main extends JavaPlugin {
 		customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
 		customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
 		customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
+
+		MessageManager.getInstance();
+		ItemFlagManager.getInstance();
+		PreventionFlagManager.getInstance();
+		CustomItemFlagManager.getInstance();
 
 		getCommand("edit").setExecutor(new EditCommand());
 

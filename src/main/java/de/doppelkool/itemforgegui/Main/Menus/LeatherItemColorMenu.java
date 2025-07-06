@@ -64,15 +64,12 @@ public class LeatherItemColorMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 45) {
+		if (super.handleClose(e.getSlot())) {
 			this.playerMenuUtility.setTempStoredItem(null);
-			handleClose();
 			return;
 		}
-
-		if (e.getSlot() == 46) {
+		if (super.handleBack(e.getSlot())) {
 			this.playerMenuUtility.setTempStoredItem(null);
-			handleBack();
 			return;
 		}
 

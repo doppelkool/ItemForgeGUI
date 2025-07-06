@@ -12,16 +12,16 @@ import java.util.List;
  */
 public abstract class EditNumberMenu extends Menu {
 
-	protected List<SlotItemAction> SLOT_ITEMS = List.of(
-		new SlotItemAction(9, ItemStacks.toMin, e -> handleToZero()),
-		new SlotItemAction(17, ItemStacks.toMax, e -> handleToMax()),
-		new SlotItemAction(10, ItemStacks.minus100, e -> handleMinus100()),
-		new SlotItemAction(11, ItemStacks.minus10, e -> handleMinus10()),
-		new SlotItemAction(12, ItemStacks.minus1, e -> handleMinus1()),
-		new SlotItemAction(14, ItemStacks.plus1, e -> handlePlus1()),
-		new SlotItemAction(15, ItemStacks.plus10, e -> handlePlus10()),
-		new SlotItemAction(16, ItemStacks.plus100, e -> handlePlus100()),
-		new SlotItemAction(22, ItemStacks.customValue, e -> handleCustomNumber(e))
+	protected List<SlotItemWrapper.SlotItemEvent> SLOT_ITEMS = List.of(
+		new SlotItemWrapper.SlotItemEvent(9, ItemStacks.toMin, e -> handleToZero()),
+		new SlotItemWrapper.SlotItemEvent(17, ItemStacks.toMax, e -> handleToMax()),
+		new SlotItemWrapper.SlotItemEvent(10, ItemStacks.minus100, e -> handleMinus100()),
+		new SlotItemWrapper.SlotItemEvent(11, ItemStacks.minus10, e -> handleMinus10()),
+		new SlotItemWrapper.SlotItemEvent(12, ItemStacks.minus1, e -> handleMinus1()),
+		new SlotItemWrapper.SlotItemEvent(14, ItemStacks.plus1, e -> handlePlus1()),
+		new SlotItemWrapper.SlotItemEvent(15, ItemStacks.plus10, e -> handlePlus10()),
+		new SlotItemWrapper.SlotItemEvent(16, ItemStacks.plus100, e -> handlePlus100()),
+		new SlotItemWrapper.SlotItemEvent(22, ItemStacks.customValue, e -> handleCustomNumber(e))
 	);
 
 	public EditNumberMenu(PlayerMenuUtility playerMenuUtility) {
@@ -35,12 +35,10 @@ public abstract class EditNumberMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-		if (e.getSlot() == 27) {
-			handleClose();
+		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (e.getSlot() == 28) {
-			handleBack();
+		if (super.handleBack(e.getSlot())) {
 			return;
 		}
 
@@ -61,7 +59,7 @@ public abstract class EditNumberMenu extends Menu {
 	@Override
 	public void setMenuItems() {
 		addMenuBorder();
-		for (SlotItemAction item : SLOT_ITEMS)
+		for (SlotItemWrapper.SlotItemEvent item : SLOT_ITEMS)
 			this.inventory.setItem(item.slot(), item.item());
 		setFillerGlass();
 	}

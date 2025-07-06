@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.PreventCraftRepairDisEnchantRepair;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +22,7 @@ public class AnvilListenerHelper {
 		if (rightItem == null) {
 			// == One input item (aka. renaming action) ==
 
-			return isRenamingAttempt && PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
+			return isRenamingAttempt && PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.RENAME)
 				? PrepareAnvilResult.DENY
 				: PrepareAnvilResult.ALLOW;
 		}
@@ -93,10 +93,10 @@ public class AnvilListenerHelper {
 	 */
 	private static PrepareAnvilResult checkRepairPrevention(ItemStack leftItem, ItemStack rightItem, boolean isRenamingAttempt) {
 		if (isVanillaRepairable(leftItem, rightItem)) {
-			if (isRenamingAttempt && PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)) {
+			if (isRenamingAttempt && PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.RENAME)) {
 				return PrepareAnvilResult.DENY;
 			}
-			if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.REPAIR)) {
+			if (PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.REPAIR)) {
 				return PrepareAnvilResult.DENY;
 			}
 		}
@@ -131,12 +131,12 @@ public class AnvilListenerHelper {
 			return PrepareAnvilResult.DENY_WITHOUT_MSG;
 		}
 		if (isRenamingAttempt) {
-			if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
-				|| PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)) {
+			if (PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.RENAME)
+				|| PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.ENCHANT)) {
 				return PrepareAnvilResult.DENY;
 			}
 		} else {
-			if (PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.ENCHANT)) {
+			if (PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.ENCHANT)) {
 				return PrepareAnvilResult.DENY;
 			}
 		}
@@ -148,8 +148,8 @@ public class AnvilListenerHelper {
 	 */
 	private static PrepareAnvilResult checkRenamingPrevention(ItemStack leftItem, ItemStack rightItem) {
 		boolean renamePreventionActiveOnBothItems =
-			PreventionFlagManager.isActionPrevented(leftItem, ForgeAction.RENAME)
-				|| PreventionFlagManager.isActionPrevented(rightItem, ForgeAction.RENAME);
+			PreventionFlagManager.getInstance().isFlagApplied(leftItem, ForgeAction.RENAME)
+				|| PreventionFlagManager.getInstance().isFlagApplied(rightItem, ForgeAction.RENAME);
 
 		return renamePreventionActiveOnBothItems
 			? PrepareAnvilResult.DENY

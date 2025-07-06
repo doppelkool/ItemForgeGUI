@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.DuplicateEventManager;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
@@ -50,7 +50,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 			return false;
 		}
 
-		if (!PreventionFlagManager.isActionPrevented(item, ForgeAction.LAUNCH)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(item, ForgeAction.LAUNCH)) {
 			return false;
 		}
 
@@ -64,7 +64,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 			return;
 		}
 
-		if (!PreventionFlagManager.isActionPrevented(shotItem, ForgeAction.LAUNCH)) {
+		if (!PreventionFlagManager.getInstance().isFlagApplied(shotItem, ForgeAction.LAUNCH)) {
 			return;
 		}
 
