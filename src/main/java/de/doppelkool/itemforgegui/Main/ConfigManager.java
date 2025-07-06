@@ -38,6 +38,9 @@ public class ConfigManager {
 	private final boolean showCustomPreventionFlags;
 
 	private ConfigManager() {
+		File pluginFolder = new File(Main.getPlugin().getDataFolder().toURI());
+		pluginFolder.mkdirs();
+
 		this.configFile = new File(Main.getPlugin().getDataFolder(), CONFIG_FILE_NAME);
 
 		try (InputStream in = Main.getPlugin().getResource(CONFIG_FILE_NAME)) {
@@ -52,7 +55,7 @@ public class ConfigManager {
 			);
 		} catch (IOException e) {
 			Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
-			Bukkit.getLogger().log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
+			e.getStackTrace();
 		}
 
 		this.config = YamlConfiguration.loadConfiguration(configFile);
