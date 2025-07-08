@@ -12,6 +12,7 @@ import java.util.UUID;
  * Manager class to extend from to prevent multiple executions of one event at once
  *
  * @author doppelkool | github.com/doppelkool
+ * @param <E> - The event which is used by the event manager
  */
 public abstract class DuplicateEventManager<E extends Event> {
 	private final HashMap<UUID, Boolean> pendingPlayerUUIDs = new HashMap<>();
@@ -63,7 +64,7 @@ public abstract class DuplicateEventManager<E extends Event> {
 	protected abstract boolean eventLogic(E event);
 
 	/**
-	 * @implNote Needs to be overridden by events that don't implement {@link Cancellable} to specify cancel behaviour
+	 * Needs to be overridden by events that don't implement {@link Cancellable} to specify cancel behaviour
 	 */
 	protected void customCancelLogic(E event) {
 	}
