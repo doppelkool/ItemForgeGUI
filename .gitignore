@@ -1,6 +1,7 @@
 ﻿.idea
+.github
 target
-ItemForgeGUI.iml
 spigot
 moveArtifact.bat
-.github
+createHostJavadocs.bat
+ItemForgeGUI.iml
