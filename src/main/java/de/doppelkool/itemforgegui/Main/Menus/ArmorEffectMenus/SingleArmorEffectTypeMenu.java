@@ -5,7 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -29,7 +29,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 
 	@Override
 	public String getMenuName() {
-		return ItemStackHelper.formatCAPSName(potionEffectToEdit.getTranslationKey());
+		return ItemStackModifyHelper.formatCAPSName(potionEffectToEdit.getTranslationKey());
 	}
 
 	@Override

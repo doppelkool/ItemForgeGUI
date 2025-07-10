@@ -2,7 +2,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager.Flags;
 
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.CustomItemFlagMenu.CustomItemFlagItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import oshi.util.tuples.Pair;
@@ -16,9 +16,9 @@ public class CustomItemFlagManager extends CustomFlagManager<CustomItemFlag> {
 	protected static CustomItemFlagManager instance;
 
 	public CustomItemFlagManager() {
-		slotToFlag.put(11, new Pair<>(CustomItemFlag.HIDE_ITEM_FLAGS, ItemStacks.itemFlagHide));
-		slotToFlag.put(13, new Pair<>(CustomItemFlag.HIDE_PREVENTION_FLAGS, ItemStacks.preventionFlagHide));
-		slotToFlag.put(15, new Pair<>(CustomItemFlag.HIDE_ARMOR_EFFECTS, ItemStacks.armorEffectHide));
+		slotToFlag.put(11, new Pair<>(CustomItemFlag.HIDE_ITEM_FLAGS, CustomItemFlagItems.itemFlagHide));
+		slotToFlag.put(13, new Pair<>(CustomItemFlag.HIDE_PREVENTION_FLAGS, CustomItemFlagItems.preventionFlagHide));
+		slotToFlag.put(15, new Pair<>(CustomItemFlag.HIDE_ARMOR_EFFECTS, CustomItemFlagItems.armorEffectHide));
 	}
 
 	@Override

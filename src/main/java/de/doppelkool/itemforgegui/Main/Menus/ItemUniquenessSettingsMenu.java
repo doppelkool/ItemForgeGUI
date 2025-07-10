@@ -4,13 +4,13 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierMan
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyCurrentValueVariableInLore;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -62,14 +62,14 @@ public class ItemUniquenessSettingsMenu extends Menu {
 
 		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
-		ItemStack clone = ItemStacks.itemUniquenessSettingsShowID.clone();
+		ItemStack clone = ItemUniquenessItems.itemUniquenessSettingsShowID.clone();
 		modifyCurrentValueVariableInLore(
 			clone,
 			UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
 
 		this.inventory.setItem(4, clone);
-		this.inventory.setItem(12, ItemStacks.copyUniqueIdentifier);
-		this.inventory.setItem(14, ItemStacks.editUniqueIdentifier);
+		this.inventory.setItem(12, ItemUniquenessItems.copyUniqueIdentifier);
+		this.inventory.setItem(14, ItemUniquenessItems.editUniqueIdentifier);
 
 		setFillerGlass();
 	}

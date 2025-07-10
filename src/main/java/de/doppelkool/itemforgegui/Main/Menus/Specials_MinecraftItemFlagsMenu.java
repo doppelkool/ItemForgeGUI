@@ -4,15 +4,15 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import oshi.util.tuples.Pair;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.hasGlow;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper.setActivated;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper.hasGlow;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper.setActivated;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -79,7 +79,7 @@ public class Specials_MinecraftItemFlagsMenu extends Menu {
 			ItemStack itemStackClone = pair.getB().clone();
 
 			boolean itemFlagApplied = itemMeta.hasItemFlag(pair.getA());
-			ItemStackHelper.setActivated(itemStackClone, itemFlagApplied);
+			ItemStackModifyHelper.setActivated(itemStackClone, itemFlagApplied);
 
 			this.inventory.setItem(slot, itemStackClone);
 		});

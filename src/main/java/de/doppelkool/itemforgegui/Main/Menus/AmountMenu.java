@@ -3,7 +3,7 @@ package de.doppelkool.itemforgegui.Main.Menus;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -30,7 +30,7 @@ public class AmountMenu extends EditNumberMenu {
 
 		//Custom Item for default stack size
 		if (this.item.getMaxStackSize() != 1) {
-			ItemStack toDefault = ItemStacks.toDefault.clone();
+			ItemStack toDefault = GlobalItems.toDefault.clone();
 			toDefault.setAmount(this.item.getMaxStackSize());
 			this.inventory.setItem(13, toDefault);
 		}

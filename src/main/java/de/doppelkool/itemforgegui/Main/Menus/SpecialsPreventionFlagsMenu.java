@@ -5,8 +5,8 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -65,13 +65,13 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
 				nextCraftingPrevention
 			);
-			ItemStackHelper.updateCraftingPreventionInMenuItemLore(currentItem, nextCraftingPrevention);
+			ItemStackModifyHelper.updateCraftingPreventionInMenuItemLore(currentItem, nextCraftingPrevention);
 			newStatus = nextCraftingPrevention != null;
 		} else {
-			newStatus = !ItemStackHelper.hasGlow(currentItem);
+			newStatus = !ItemStackModifyHelper.hasGlow(currentItem);
 		}
 
-		ItemStackHelper.setActivated(currentItem, newStatus);
+		ItemStackModifyHelper.setActivated(currentItem, newStatus);
 
 		PreventionFlagManager.getInstance().toggleItemFlag(
 			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
@@ -94,12 +94,12 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 
 				if (pair.getA() == ForgeAction.CRAFT) {
 					PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention = PreventionFlagManager.getInstance().getActiveCraftingPrevention(itemInMainHand);
-					ItemStackHelper.updateCraftingPreventionInMenuItemLore(itemStackClone, activeCraftingPrevention);
+					ItemStackModifyHelper.updateCraftingPreventionInMenuItemLore(itemStackClone, activeCraftingPrevention);
 				}
 
-				ItemStackHelper.setActivated(itemStackClone, actionPrevented);
+				ItemStackModifyHelper.setActivated(itemStackClone, actionPrevented);
 			} else {
-				itemStackClone = ItemStacks.notAvailable(itemStackClone);
+				itemStackClone = ItemStackCreateHelper.notAvailable(itemStackClone);
 			}
 
 			this.inventory.setItem(slot, itemStackClone);

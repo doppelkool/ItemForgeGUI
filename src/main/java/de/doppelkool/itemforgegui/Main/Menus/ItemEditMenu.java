@@ -6,8 +6,10 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierMan
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.MainMenuItems;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.DeactivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
@@ -21,7 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
 
 /**
  * Main menu to enter the main function of this plugin.
@@ -50,7 +52,7 @@ public class ItemEditMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Edit: " + ItemStackHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Edit: " + ItemStackModifyHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
 	}
 
 	@Override
@@ -98,13 +100,13 @@ public class ItemEditMenu extends Menu {
 				.open();
 			return;
 		}
-		if (e.getSlot() == 15 && (ItemStackHelper.isLeather(item.getType()) || ItemStackHelper.isWolfArmor(item.getType()))) {
+		if (e.getSlot() == 15 && (ItemStackModifyHelper.isLeather(item.getType()) || ItemStackModifyHelper.isWolfArmor(item.getType()))) {
 			new LeatherItemColorMenu(this.playerMenuUtility)
 				.open();
 			return;
 		}
 		if (e.getSlot() == 15 &&
-			ItemStackHelper.isOnlyDyeColorableWithoutMixins(item.getType())) {
+			ItemStackModifyHelper.isOnlyDyeColorableWithoutMixins(item.getType())) {
 			new ColorPickerMenu(this.playerMenuUtility)
 				.open();
 			return;
@@ -120,43 +122,43 @@ public class ItemEditMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		this.inventory.setItem(26, ItemStacks.itemIdentity);
+		this.inventory.setItem(26, MainMenuItems.itemIdentity);
 
 		//No back Button in Main Menu
-		this.inventory.setItem(this.getSlots() - 8, ItemStacks.FILLER_GLASS);
+		this.inventory.setItem(this.getSlots() - 8, GlobalItems.FILLER_GLASS);
 
-		this.inventory.setItem(10, ItemStacks.editName);
-		this.inventory.setItem(11, ItemStacks.editLore);
-		this.inventory.setItem(12, ItemStacks.editEnchantments);
+		this.inventory.setItem(10, MainMenuItems.editName);
+		this.inventory.setItem(11, MainMenuItems.editLore);
+		this.inventory.setItem(12, MainMenuItems.editEnchantments);
 
 		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		if (ItemStackHelper.isDamageable(item)) {
-			this.inventory.setItem(13, ItemStacks.editDurability);
+		if (ItemStackModifyHelper.isDamageable(item)) {
+			this.inventory.setItem(13, MainMenuItems.editDurability);
 		} else {
-			this.inventory.setItem(13, notAvailable(ItemStacks.editDurability));
+			this.inventory.setItem(13, notAvailable(MainMenuItems.editDurability));
 		}
 
-		this.inventory.setItem(14, ItemStacks.editAmount);
+		this.inventory.setItem(14, MainMenuItems.editAmount);
 
 		if (editColorAvailable(item)) {
-			this.inventory.setItem(15, ItemStacks.editColor);
+			this.inventory.setItem(15, MainMenuItems.editColor);
 		} else {
-			this.inventory.setItem(15, notAvailable(ItemStacks.editColor));
+			this.inventory.setItem(15, notAvailable(MainMenuItems.editColor));
 		}
 
-		this.inventory.setItem(16, ItemStacks.editSpecials);
+		this.inventory.setItem(16, MainMenuItems.editSpecials);
 		setFillerGlass();
 
 	}
 
 	private boolean editColorAvailable(ItemStack item) {
-		return ItemStackHelper.isLeather(item.getType()) ||
-			ItemStackHelper.isWolfArmor(item.getType()) ||
-			ItemStackHelper.isOnlyDyeColorableWithoutMixins(item.getType());
+		return ItemStackModifyHelper.isLeather(item.getType()) ||
+			ItemStackModifyHelper.isWolfArmor(item.getType()) ||
+			ItemStackModifyHelper.isOnlyDyeColorableWithoutMixins(item.getType());
 	}
 
 	private void editLoreProcess() {
-		ItemStackHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
+		ItemStackModifyHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
 		playerMenuUtility.getOwner().closeInventory();
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.BOOK_EDITOR_INFORMATION);
 	}

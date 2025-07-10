@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main.MenuItems;
+package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import org.bukkit.Bukkit;
@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.makeItem;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyItemFlags;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.makeItem;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyItemFlags;
 
 /**
  * Class Description
