@@ -1,6 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.List;
@@ -13,15 +13,15 @@ import java.util.List;
 public abstract class EditNumberMenu extends Menu {
 
 	protected List<SlotItemWrapper.SlotItemEvent> SLOT_ITEMS = List.of(
-		new SlotItemWrapper.SlotItemEvent(9, ItemStacks.toMin, e -> handleToZero()),
-		new SlotItemWrapper.SlotItemEvent(17, ItemStacks.toMax, e -> handleToMax()),
-		new SlotItemWrapper.SlotItemEvent(10, ItemStacks.minus100, e -> handleMinus100()),
-		new SlotItemWrapper.SlotItemEvent(11, ItemStacks.minus10, e -> handleMinus10()),
-		new SlotItemWrapper.SlotItemEvent(12, ItemStacks.minus1, e -> handleMinus1()),
-		new SlotItemWrapper.SlotItemEvent(14, ItemStacks.plus1, e -> handlePlus1()),
-		new SlotItemWrapper.SlotItemEvent(15, ItemStacks.plus10, e -> handlePlus10()),
-		new SlotItemWrapper.SlotItemEvent(16, ItemStacks.plus100, e -> handlePlus100()),
-		new SlotItemWrapper.SlotItemEvent(22, ItemStacks.customValue, e -> handleCustomNumber(e))
+		new SlotItemWrapper.SlotItemEvent(9, GlobalItems.toMin, e -> handleToZero()),
+		new SlotItemWrapper.SlotItemEvent(17, GlobalItems.toMax, e -> handleToMax()),
+		new SlotItemWrapper.SlotItemEvent(10, GlobalItems.minus100, e -> handleMinus100()),
+		new SlotItemWrapper.SlotItemEvent(11, GlobalItems.minus10, e -> handleMinus10()),
+		new SlotItemWrapper.SlotItemEvent(12, GlobalItems.minus1, e -> handleMinus1()),
+		new SlotItemWrapper.SlotItemEvent(14, GlobalItems.plus1, e -> handlePlus1()),
+		new SlotItemWrapper.SlotItemEvent(15, GlobalItems.plus10, e -> handlePlus10()),
+		new SlotItemWrapper.SlotItemEvent(16, GlobalItems.plus100, e -> handlePlus100()),
+		new SlotItemWrapper.SlotItemEvent(22, GlobalItems.customValue, e -> handleCustomNumber(e))
 	);
 
 	public EditNumberMenu(PlayerMenuUtility playerMenuUtility) {

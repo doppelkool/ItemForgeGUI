@@ -4,11 +4,11 @@ import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemIdentityItems;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyCurrentValueVariableInLore;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -55,7 +55,7 @@ public class ItemIdentityMenu extends Menu {
 		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
 		if (ConfigManager.getInstance().isUniqueIdOnEditedItemEnabled()) {
-			ItemStack clone = ItemStacks.openItemUniquenessSettings.clone();
+			ItemStack clone = ItemIdentityItems.openItemUniquenessSettings.clone();
 			modifyCurrentValueVariableInLore(
 				clone,
 				UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));

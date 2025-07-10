@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author doppelkool | github.com/doppelkool
  */
-public class ItemStackHelper {
+public class ItemStackModifyHelper {
 
 	private static final Enchantment glowEnchantment = Enchantment.LUCK_OF_THE_SEA;
 

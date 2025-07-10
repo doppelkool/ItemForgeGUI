@@ -3,8 +3,8 @@ package de.doppelkool.itemforgegui.Main.Menus;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.ColorPickerMenuItems;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -26,23 +26,23 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
 public class ColorPickerMenu extends Menu {
 
 	private static final List<SlotItemWrapper.SlotItem> SLOT_TO_ITEMS = List.of(
-		new SlotItemWrapper.SlotItem(10, ItemStacks.DEFAULT_dye),
-		new SlotItemWrapper.SlotItem(12, ItemStacks.WHITE_dye),
-		new SlotItemWrapper.SlotItem(13, ItemStacks.LIGHT_GRAY_dye),
-		new SlotItemWrapper.SlotItem(14, ItemStacks.GRAY_dye),
-		new SlotItemWrapper.SlotItem(15, ItemStacks.BLACK_dye),
-		new SlotItemWrapper.SlotItem(16, ItemStacks.BROWN_dye),
-		new SlotItemWrapper.SlotItem(21, ItemStacks.RED_dye),
-		new SlotItemWrapper.SlotItem(22, ItemStacks.ORANGE_dye),
-		new SlotItemWrapper.SlotItem(23, ItemStacks.YELLOW_dye),
-		new SlotItemWrapper.SlotItem(24, ItemStacks.LIME_dye),
-		new SlotItemWrapper.SlotItem(25, ItemStacks.GREEN_dye),
-		new SlotItemWrapper.SlotItem(29, ItemStacks.CYAN_dye),
-		new SlotItemWrapper.SlotItem(30, ItemStacks.LIGHT_BLUE_dye),
-		new SlotItemWrapper.SlotItem(31, ItemStacks.BLUE_dye),
-		new SlotItemWrapper.SlotItem(32, ItemStacks.PURPLE_dye),
-		new SlotItemWrapper.SlotItem(33, ItemStacks.MAGENTA_dye),
-		new SlotItemWrapper.SlotItem(34, ItemStacks.PINK_dye)
+		new SlotItemWrapper.SlotItem(10, ColorPickerMenuItems.DEFAULT_dye),
+		new SlotItemWrapper.SlotItem(12, ColorPickerMenuItems.WHITE_dye),
+		new SlotItemWrapper.SlotItem(13, ColorPickerMenuItems.LIGHT_GRAY_dye),
+		new SlotItemWrapper.SlotItem(14, ColorPickerMenuItems.GRAY_dye),
+		new SlotItemWrapper.SlotItem(15, ColorPickerMenuItems.BLACK_dye),
+		new SlotItemWrapper.SlotItem(16, ColorPickerMenuItems.BROWN_dye),
+		new SlotItemWrapper.SlotItem(21, ColorPickerMenuItems.RED_dye),
+		new SlotItemWrapper.SlotItem(22, ColorPickerMenuItems.ORANGE_dye),
+		new SlotItemWrapper.SlotItem(23, ColorPickerMenuItems.YELLOW_dye),
+		new SlotItemWrapper.SlotItem(24, ColorPickerMenuItems.LIME_dye),
+		new SlotItemWrapper.SlotItem(25, ColorPickerMenuItems.GREEN_dye),
+		new SlotItemWrapper.SlotItem(29, ColorPickerMenuItems.CYAN_dye),
+		new SlotItemWrapper.SlotItem(30, ColorPickerMenuItems.LIGHT_BLUE_dye),
+		new SlotItemWrapper.SlotItem(31, ColorPickerMenuItems.BLUE_dye),
+		new SlotItemWrapper.SlotItem(32, ColorPickerMenuItems.PURPLE_dye),
+		new SlotItemWrapper.SlotItem(33, ColorPickerMenuItems.MAGENTA_dye),
+		new SlotItemWrapper.SlotItem(34, ColorPickerMenuItems.PINK_dye)
 	);
 
 	public ColorPickerMenu(PlayerMenuUtility playerMenuUtility) {
@@ -51,7 +51,7 @@ public class ColorPickerMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Color Picker: " + ItemStackHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Color Picker: " + ItemStackModifyHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
 	}
 
 	@Override

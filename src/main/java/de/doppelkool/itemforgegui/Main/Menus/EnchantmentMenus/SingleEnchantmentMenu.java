@@ -4,7 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.enchantments.Enchantment;
@@ -33,7 +33,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 	@Override
 	public String getMenuName() {
-		return ItemStackHelper.formatCAPSName(enchantmentToEdit.getTranslationKey());
+		return ItemStackModifyHelper.formatCAPSName(enchantmentToEdit.getTranslationKey());
 	}
 
 	@Override

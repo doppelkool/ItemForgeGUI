@@ -5,7 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagMan
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -50,9 +50,9 @@ public class Specials_CustomItemFlagsMenu extends Menu {
 	}
 
 	private void customFlagClicked(ItemStack currentItem, CustomItemFlag clickedCustomFlag) {
-		boolean newStatus = !ItemStackHelper.hasGlow(currentItem);
+		boolean newStatus = !ItemStackModifyHelper.hasGlow(currentItem);
 
-		ItemStackHelper.setActivated(currentItem, newStatus);
+		ItemStackModifyHelper.setActivated(currentItem, newStatus);
 
 		CustomItemFlagManager.getInstance().toggleItemFlag(
 			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
@@ -72,7 +72,7 @@ public class Specials_CustomItemFlagsMenu extends Menu {
 			CustomItemFlag flag = pair.getA();
 
 			boolean isActive = CustomItemFlagManager.getInstance().isFlagApplied(container, flag);
-			ItemStackHelper.setActivated(itemStackClone, isActive);
+			ItemStackModifyHelper.setActivated(itemStackClone, isActive);
 
 			this.inventory.setItem(slot, itemStackClone);
 		});

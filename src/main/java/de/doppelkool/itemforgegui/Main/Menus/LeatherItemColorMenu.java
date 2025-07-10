@@ -2,8 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.LeatherItemMenuItems;
 import org.bukkit.Color;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +13,7 @@ import org.bukkit.inventory.meta.ColorableArmorMeta;
 
 import java.util.List;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.modifyCurrentValueVariableInLore;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyCurrentValueVariableInLore;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -35,17 +37,17 @@ public class LeatherItemColorMenu extends Menu {
 	);
 
 	private static final ItemStack[] editNumbersMinus = new ItemStack[]{
-		ItemStacks.minus50,
-		ItemStacks.minus20,
-		ItemStacks.minus5,
-		ItemStacks.minus1,
+		GlobalItems.minus50,
+		GlobalItems.minus20,
+		GlobalItems.minus5,
+		GlobalItems.minus1,
 	};
 
 	private static final ItemStack[] editNumbersPlus = new ItemStack[]{
-		ItemStacks.plus1,
-		ItemStacks.plus5,
-		ItemStacks.plus20,
-		ItemStacks.plus50,
+		GlobalItems.plus1,
+		GlobalItems.plus5,
+		GlobalItems.plus20,
+		GlobalItems.plus50,
 	};
 
 	public LeatherItemColorMenu(PlayerMenuUtility playerMenuUtility) {
@@ -59,7 +61,7 @@ public class LeatherItemColorMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Color Picker: " + ItemStackHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Color Picker: " + ItemStackModifyHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
 	}
 
 	@Override
@@ -152,11 +154,11 @@ public class LeatherItemColorMenu extends Menu {
 		loadAllRGBCaps();
 		placeColorRow();
 
-		ItemStack resetBackLeatherItem = ItemStacks.resetBackLeatherItem.clone();
+		ItemStack resetBackLeatherItem = LeatherItemMenuItems.resetBackLeatherItem.clone();
 		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta) itemInMainHand.getItemMeta();
 
 		resetBackLeatherItem.setType(itemInMainHand.getType());
-		ItemStacks.modifyColor(resetBackLeatherItem, itemInMainHandItemMeta.getColor());
+		ItemStackCreateHelper.modifyColor(resetBackLeatherItem, itemInMainHandItemMeta.getColor());
 
 		this.inventory.setItem(53, resetBackLeatherItem);
 
@@ -167,19 +169,19 @@ public class LeatherItemColorMenu extends Menu {
 		Color color = ((ColorableArmorMeta) this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta())
 			.getColor();
 
-		ItemStack redCap = ItemStacks.RED_CAP.clone();
+		ItemStack redCap = LeatherItemMenuItems.RED_CAP.clone();
 		modifyCurrentValueVariableInLore(
 			redCap,
 			String.valueOf(color.getRed()));
 		this.inventory.setItem(13, redCap);
 
-		ItemStack greenCap = ItemStacks.GREEN_CAP.clone();
+		ItemStack greenCap = LeatherItemMenuItems.GREEN_CAP.clone();
 		modifyCurrentValueVariableInLore(
 			greenCap,
 			String.valueOf(color.getGreen()));
 		this.inventory.setItem(22, greenCap);
 
-		ItemStack blueCap = ItemStacks.BLUE_CAP.clone();
+		ItemStack blueCap = LeatherItemMenuItems.BLUE_CAP.clone();
 		modifyCurrentValueVariableInLore(
 			blueCap,
 			String.valueOf(color.getBlue()));

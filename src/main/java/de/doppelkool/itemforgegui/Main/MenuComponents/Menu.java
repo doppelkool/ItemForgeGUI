@@ -1,6 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -54,25 +54,25 @@ public abstract class Menu implements InventoryHolder {
 	public void setFillerGlass() {
 		for (int i = 0; i < getSlots(); i++) {
 			if (inventory.getItem(i) == null) {
-				inventory.setItem(i, ItemStacks.FILLER_GLASS);
+				inventory.setItem(i, GlobalItems.FILLER_GLASS);
 			}
 		}
 	}
 
 	public void addMenuBorder() {
 		for (int i = 0; i < 9; i++) {
-			inventory.setItem(i, ItemStacks.FILLER_GLASS); // Top row
-			inventory.setItem(getSlots() - 9 + i, ItemStacks.FILLER_GLASS); // Bottom row
+			inventory.setItem(i, GlobalItems.FILLER_GLASS); // Top row
+			inventory.setItem(getSlots() - 9 + i, GlobalItems.FILLER_GLASS); // Bottom row
 		}
 
 		// Left and right columns (excluding corners already set)
 		for (int i = 9; i < getSlots() - 9; i += 9) {
-			inventory.setItem(i, ItemStacks.FILLER_GLASS); // Left column
-			inventory.setItem(i + 8, ItemStacks.FILLER_GLASS); // Right column
+			inventory.setItem(i, GlobalItems.FILLER_GLASS); // Left column
+			inventory.setItem(i + 8, GlobalItems.FILLER_GLASS); // Right column
 		}
 
-		this.inventory.setItem(closeInventorySlot, ItemStacks.closeInventory);
-		this.inventory.setItem(backInventorySlot, ItemStacks.backInventory);
+		this.inventory.setItem(closeInventorySlot, GlobalItems.closeInventory);
+		this.inventory.setItem(backInventorySlot, GlobalItems.backInventory);
 	}
 
 	protected boolean handleClose(int slot) {

@@ -2,9 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +15,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -92,11 +93,11 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 		addCustomMenuFillingForEffects();
 
 		if (this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().hasEnchants()) {
-			this.inventory.setItem(52, ItemStacks.activatedEnchantments);
+			this.inventory.setItem(52, EnchantmentMenuItems.activatedEnchantments);
 		} else {
-			this.inventory.setItem(52, notAvailable(ItemStacks.activatedEnchantments));
+			this.inventory.setItem(52, notAvailable(EnchantmentMenuItems.activatedEnchantments));
 		}
-		this.inventory.setItem(53, ItemStacks.FILLER_GLASS);
+		this.inventory.setItem(53, GlobalItems.FILLER_GLASS);
 
 		fillMenuWithDeactivatedEnchantments();
 	}
@@ -112,7 +113,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 				} else if (e.equals(Enchantment.VANISHING_CURSE)) {
 					return "Curse of Vanishing";
 				} else {
-					return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+					return ItemStackModifyHelper.formatCAPSName(e.getTranslationKey());
 				}
 			})).collect(Collectors.toCollection(ArrayList::new));
 

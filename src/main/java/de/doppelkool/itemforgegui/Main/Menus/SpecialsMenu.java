@@ -4,7 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.SpecialMenuItems;
 import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,10 +23,11 @@ import java.util.List;
 public class SpecialsMenu extends Menu {
 
 	private final List<SlotItemWrapper.SlotItemExecute> SLOT_TO_ITEMS = List.of(
-		new SlotItemWrapper.SlotItemExecute(10, ItemStacks.itemFlags, () -> new Specials_MinecraftItemFlagsMenu(playerMenuUtility).open()),
-		new SlotItemWrapper.SlotItemExecute(11, ItemStacks.customItemFlags, () -> new Specials_CustomItemFlagsMenu(playerMenuUtility).open()),
-		new SlotItemWrapper.SlotItemExecute(13, ItemStacks.preventionFlags, () -> new SpecialsPreventionFlagsMenu(playerMenuUtility).open()),
-		new SlotItemWrapper.SlotItemExecute(15, ItemStacks.armorEffects, () -> armorEffectsClicked())
+		new SlotItemWrapper.SlotItemExecute(10, SpecialMenuItems.itemFlags, () -> new Specials_MinecraftItemFlagsMenu(playerMenuUtility).open()),
+		new SlotItemWrapper.SlotItemExecute(11, SpecialMenuItems.customItemFlags, () -> new Specials_CustomItemFlagsMenu(playerMenuUtility).open()),
+		new SlotItemWrapper.SlotItemExecute(13, SpecialMenuItems.preventionFlags, () -> new SpecialsPreventionFlagsMenu(playerMenuUtility).open()),
+		new SlotItemWrapper.SlotItemExecute(15, SpecialMenuItems.armorEffects, () -> armorEffectsClicked()),
+		new SlotItemWrapper.SlotItemExecute(16, SpecialMenuItems.attributeModifiers, () -> attributeModifiersClicked())
 	);
 
 	public SpecialsMenu(PlayerMenuUtility playerMenuUtility) {
@@ -71,6 +72,12 @@ public class SpecialsMenu extends Menu {
 			new SpecialsActivatedArmorEffectsMenu(this.playerMenuUtility)
 				.open();
 		}
+	}
+
+	private void attributeModifiersClicked() {
+		//ToDo
+		//Determine of direct access to creating new
+		//Or to Menu where already exist be displayed
 	}
 
 	@Override

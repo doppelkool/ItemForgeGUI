@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.PotionEffectStacks;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

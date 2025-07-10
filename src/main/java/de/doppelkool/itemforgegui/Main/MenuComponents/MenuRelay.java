@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -32,7 +32,7 @@ public interface MenuRelay {
 		 * - Event is caused by double click
 		 * */
 		return
-			!(item.equals(ItemStacks.FILLER_GLASS)
+			!(item.equals(GlobalItems.FILLER_GLASS)
 				|| (item.hasItemMeta() &&
 				item.getItemMeta().getPersistentDataContainer().has(Main.getPlugin().getCustomNotAvailableStackIDKey()))
 				|| e.getClickedInventory().getType() == InventoryType.PLAYER

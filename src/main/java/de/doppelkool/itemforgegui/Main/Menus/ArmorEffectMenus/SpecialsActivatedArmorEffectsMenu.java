@@ -6,9 +6,10 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
-import de.doppelkool.itemforgegui.Main.MenuItems.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.PotionEffectStacks;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
 
 /**
  * Class Description
@@ -114,11 +115,11 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		if (ArmorEffectManager.getAllDeactivatedPotionEffectTypes(itemInMainHand)
 			.isEmpty()) {
-			this.inventory.setItem(53, notAvailable(ItemStacks.deactivatedEnchantments));
+			this.inventory.setItem(53, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
 		} else {
-			this.inventory.setItem(53, ItemStacks.deactivatedEnchantments);
+			this.inventory.setItem(53, EnchantmentMenuItems.deactivatedEnchantments);
 		}
-		this.inventory.setItem(52, ItemStacks.FILLER_GLASS);
+		this.inventory.setItem(52, GlobalItems.FILLER_GLASS);
 
 		fillMenuWithActivatedEnchantments();
 	}
@@ -134,7 +135,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 				if (e.equals(PotionEffectType.SPEED)) {
 					return "Swiftness";
 				} else {
-					return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+					return ItemStackModifyHelper.formatCAPSName(e.getTranslationKey());
 				}
 			})).toList();
 

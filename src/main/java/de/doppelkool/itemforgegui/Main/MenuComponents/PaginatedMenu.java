@@ -1,6 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -24,16 +24,16 @@ public abstract class PaginatedMenu extends Menu {
 	}
 
 	public void addPaginatedItems() {
-		inventory.setItem(45, ItemStacks.closeInventory);
-		inventory.setItem(46, ItemStacks.backInventory);
-		inventory.setItem(48, ItemStacks.paginatedMenuLeft);
-		inventory.setItem(50, ItemStacks.paginatedMenuRight);
+		inventory.setItem(45, GlobalItems.closeInventory);
+		inventory.setItem(46, GlobalItems.backInventory);
+		inventory.setItem(48, GlobalItems.paginatedMenuLeft);
+		inventory.setItem(50, GlobalItems.paginatedMenuRight);
 	}
 
 	//For Enchantments and ArmorEffects
 	public void addCustomMenuFillingForEffects() {
 		for (Integer i : fillingGlassSlots) {
-			this.inventory.setItem(i, ItemStacks.FILLER_GLASS);
+			this.inventory.setItem(i, GlobalItems.FILLER_GLASS);
 		}
 	}
 

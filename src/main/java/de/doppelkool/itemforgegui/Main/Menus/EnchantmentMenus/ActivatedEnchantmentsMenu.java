@@ -3,9 +3,10 @@ package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.EnchantmentStacks;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.notAvailable;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
 
 /**
  * Submenu as part of the main function of this plugin.
@@ -96,11 +97,11 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		if (EnchantmentStacks.getAllDeactivatedEnchantments(itemInMainHand)
 			.isEmpty()) {
-			this.inventory.setItem(53, notAvailable(ItemStacks.deactivatedEnchantments));
+			this.inventory.setItem(53, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
 		} else {
-			this.inventory.setItem(53, ItemStacks.deactivatedEnchantments);
+			this.inventory.setItem(53, EnchantmentMenuItems.deactivatedEnchantments);
 		}
-		this.inventory.setItem(52, ItemStacks.FILLER_GLASS);
+		this.inventory.setItem(52, GlobalItems.FILLER_GLASS);
 
 		fillMenuWithActivatedEnchantments();
 	}
@@ -119,7 +120,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 				} else if (e.equals(Enchantment.VANISHING_CURSE)) {
 					return "Curse of Vanishing";
 				} else {
-					return ItemStackHelper.formatCAPSName(e.getTranslationKey());
+					return ItemStackModifyHelper.formatCAPSName(e.getTranslationKey());
 				}
 			})).toList();
 
