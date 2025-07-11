@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
 import org.bukkit.*;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
@@ -14,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
@@ -63,6 +63,12 @@ public class ItemStackCreateHelper {
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta) itemStack.getItemMeta();
 		meta.addStoredEnchant(enchantment, 1, true);
 		itemStack.setItemMeta(meta);
+	}
+
+	public static void modifyPotionType(ItemStack fireProtectionItem, PotionType potionType) {
+		PotionMeta potionMeta = (PotionMeta) fireProtectionItem.getItemMeta();
+		potionMeta.setBasePotionType(potionType);
+		fireProtectionItem.setItemMeta(potionMeta);
 	}
 
 	public static void modifyColor(ItemStack stack, Color color) {

@@ -3,10 +3,10 @@ package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacks;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacksMap;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -81,7 +81,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 			ItemStack item = this.inventory.getItem(slot);
 			PersistentDataContainer persistentDataContainer = item.getItemMeta().getPersistentDataContainer();
 			Integer itemStackID = persistentDataContainer.get(Main.getPlugin().getCustomEnchantmentStackIDKey(), PersistentDataType.INTEGER);
-			Enchantment enchantment = EnchantmentStacks.itemStackIDToEnchantment.get(itemStackID);
+			Enchantment enchantment = EnchantmentStacksMap.itemStackIDToEnchantment.get(itemStackID);
 			this.playerMenuUtility.setTargetEnchantment(enchantment);
 
 			new SingleEnchantmentMenu(this.playerMenuUtility)
@@ -95,7 +95,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		addCustomMenuFillingForEffects();
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		if (EnchantmentStacks.getAllDeactivatedEnchantments(itemInMainHand)
+		if (EnchantmentStacksMap.getAllDeactivatedEnchantments(itemInMainHand)
 			.isEmpty()) {
 			this.inventory.setItem(53, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
 		} else {
@@ -131,7 +131,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		for (int i = startIndex; i < endIndex; i++) {
 			Enchantment activatedEnchantment = enchantmentList.get(i);
 			Integer strength = activatedEnchantmentsToStrength.get(activatedEnchantment);
-			ItemStack activatedEnchantmentStack = EnchantmentStacks.enchantmentsToItemStack.get(activatedEnchantment).clone();
+			ItemStack activatedEnchantmentStack = EnchantmentStacksMap.enchantmentsToItemStack.get(activatedEnchantment).clone();
 
 			int inventorySlot = getInventorySlot(slotIndex);
 

@@ -6,7 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.*;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.makeItem;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyColor;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyItemFlags;
+import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyLore;
 
 /**
  * Class Description

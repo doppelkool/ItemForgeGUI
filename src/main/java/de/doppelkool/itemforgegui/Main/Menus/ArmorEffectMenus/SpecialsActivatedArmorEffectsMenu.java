@@ -9,7 +9,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectStacksMap;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -84,7 +84,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 			ItemStack item = this.inventory.getItem(slot);
 			PersistentDataContainer persistentDataContainer = item.getItemMeta().getPersistentDataContainer();
 			Integer itemStackID = persistentDataContainer.get(Main.getPlugin().getCustomArmorEffectsKeyStackIDKey(), PersistentDataType.INTEGER);
-			PotionEffectType potionEffectType = PotionEffectStacks.itemStackIDToPotionEffectType.get(itemStackID);
+			PotionEffectType potionEffectType = ArmorEffectStacksMap.itemStackIDToPotionEffectType.get(itemStackID);
 
 			if (ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
 				ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
@@ -146,7 +146,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 		for (int i = startIndex; i < endIndex; i++) {
 			PotionEffectType potionEffectType = enchantmentList.get(i);
 			Integer strength = activatedPotionEffectTypesToStrength.get(potionEffectType);
-			ItemStack activatedPotionEffectTypesStack = PotionEffectStacks.potionEffectTypeToItemStack.get(potionEffectType).clone();
+			ItemStack activatedPotionEffectTypesStack = ArmorEffectStacksMap.potionEffectTypeToItemStack.get(potionEffectType).clone();
 
 			int inventorySlot = getInventorySlot(slotIndex);
 
