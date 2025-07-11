@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectStacksMap;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -40,10 +40,10 @@ public class ArmorEffectManager {
 		Map<PotionEffectType, Integer> activatedPotionEffectTypes = getAllActivatedPotionEffectTypesAsMap(is);
 
 		if (activatedPotionEffectTypes.isEmpty()) {
-			return new ArrayList<>(PotionEffectStacks.potionEffectTypeToItemStack.keySet().stream().toList());
+			return new ArrayList<>(ArmorEffectStacksMap.potionEffectTypeToItemStack.keySet().stream().toList());
 		}
 
-		for (PotionEffectType potionEffectType : PotionEffectStacks.potionEffectTypeToItemStack.keySet()) {
+		for (PotionEffectType potionEffectType : ArmorEffectStacksMap.potionEffectTypeToItemStack.keySet()) {
 			if (activatedPotionEffectTypes.get(potionEffectType) == null) {
 				list.add(potionEffectType);
 			}

@@ -2,10 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacks;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacksMap;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -75,7 +75,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 		if (emptyInvSpace.contains(e.getSlot())) {
 			int slot = e.getSlot();
 			ItemStack item = this.inventory.getItem(slot);
-			Enchantment enchantment = EnchantmentStacks.enchantmentsToItemStack.entrySet().stream()
+			Enchantment enchantment = EnchantmentStacksMap.enchantmentsToItemStack.entrySet().stream()
 				.filter(entry -> entry.getValue().equals(item))
 				.map(Map.Entry::getKey)
 				.findFirst()
@@ -103,7 +103,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 	}
 
 	private void fillMenuWithDeactivatedEnchantments() {
-		deactivatedEnchantmentsToStrength = EnchantmentStacks.getAllDeactivatedEnchantments(
+		deactivatedEnchantmentsToStrength = EnchantmentStacksMap.getAllDeactivatedEnchantments(
 				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()
 			)
 			.stream()
@@ -123,7 +123,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 
 		for (int i = startIndex; i < endIndex; i++) {
 			Enchantment deactivatedEnchantment = deactivatedEnchantmentsToStrength.get(i);
-			ItemStack deactivatedEnchantmentStack = EnchantmentStacks.enchantmentsToItemStack.get(deactivatedEnchantment);
+			ItemStack deactivatedEnchantmentStack = EnchantmentStacksMap.enchantmentsToItemStack.get(deactivatedEnchantment);
 
 			if (deactivatedEnchantmentStack != null) {
 				int inventorySlot = getInventorySlot(slotIndex);

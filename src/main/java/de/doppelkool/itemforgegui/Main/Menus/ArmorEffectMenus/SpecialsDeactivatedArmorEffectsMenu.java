@@ -9,7 +9,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.PotionEffectStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectStacksMap;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -79,7 +79,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 		if (emptyInvSpace.contains(e.getSlot())) {
 			int slot = e.getSlot();
 			ItemStack item = this.inventory.getItem(slot);
-			PotionEffectType potionEffectType = PotionEffectStacks.potionEffectTypeToItemStack.entrySet().stream()
+			PotionEffectType potionEffectType = ArmorEffectStacksMap.potionEffectTypeToItemStack.entrySet().stream()
 				.filter(entry -> entry.getValue().equals(item))
 				.map(Map.Entry::getKey)
 				.findFirst()
@@ -139,7 +139,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 
 		for (int i = startIndex; i < endIndex; i++) {
 			PotionEffectType deactivatedPotionEffectTypes = deactivatedPotionEffectTypesToStrength.get(i);
-			ItemStack deactivatedPotionEffectTypesStack = PotionEffectStacks.potionEffectTypeToItemStack.get(deactivatedPotionEffectTypes);
+			ItemStack deactivatedPotionEffectTypesStack = ArmorEffectStacksMap.potionEffectTypeToItemStack.get(deactivatedPotionEffectTypes);
 
 			if (deactivatedPotionEffectTypesStack != null) {
 				int inventorySlot = getInventorySlot(slotIndex);
