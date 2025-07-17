@@ -8,7 +8,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectStacksMap;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -32,10 +32,13 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.no
  */
 public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 
+	private final int switchToDeactivatedArmorEffectsItemSlot;
+
 	private HashMap<PotionEffectType, Integer> activatedPotionEffectTypesToStrength = new HashMap<>();
 
 	public SpecialsActivatedArmorEffectsMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+		switchToDeactivatedArmorEffectsItemSlot = this.getSlots() - 1;
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 
 	@Override
 	public int getSlots() {
-		return 9 * 6;
+		return super.getSlots();
 	}
 
 	@Override
@@ -56,25 +59,14 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 		if(super.handleBack(e.getSlot(), SpecialsMenu::new)) {
 			return;
 		}
-
-		if (e.getSlot() == 48) {
-			if (page != 0) {
-				page = page - 1;
-				super.open();
-			}
+		if(super.pageBack(e.getSlot())) {
+			return;
+		}
+		if(super.pageForward(e.getSlot(), activatedPotionEffectTypesToStrength.size())) {
 			return;
 		}
 
-		if (e.getSlot() == 50) {
-			int nextPageStartIndex = (page + 1) * getMaxItemsPerPage();
-			if (nextPageStartIndex < activatedPotionEffectTypesToStrength.size()) {
-				page++;
-				super.open();
-			}
-			return;
-		}
-
-		if (e.getSlot() == 53) {
+		if (switchToDeactivatedArmorEffectsItemSlot == e.getSlot()) {
 			new SpecialsDeactivatedArmorEffectsMenu(this.playerMenuUtility)
 				.open();
 		}
@@ -113,11 +105,11 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 		addCustomMenuFillingForEffects();
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		if (ArmorEffectManager.getAllDeactivatedPotionEffectTypes(itemInMainHand)
+		if (!ArmorEffectManager.getAllDeactivatedPotionEffectTypes(itemInMainHand)
 			.isEmpty()) {
-			this.inventory.setItem(53, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
+			this.inventory.setItem(switchToDeactivatedArmorEffectsItemSlot, ArmorEffectItems.deactivatedArmorEffects);
 		} else {
-			this.inventory.setItem(53, EnchantmentMenuItems.deactivatedEnchantments);
+			this.inventory.setItem(switchToDeactivatedArmorEffectsItemSlot, notAvailable(ArmorEffectItems.deactivatedArmorEffects));
 		}
 		this.inventory.setItem(52, GlobalItems.FILLER_GLASS);
 
@@ -139,8 +131,8 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 				}
 			})).toList();
 
-		int startIndex = getMaxItemsPerPage() * page;
-		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), enchantmentList.size());
+		int startIndex = this.maxItemsPerPage * page;
+		int endIndex = Math.min(startIndex + this.maxItemsPerPage, enchantmentList.size());
 		int slotIndex = 0;
 
 		for (int i = startIndex; i < endIndex; i++) {

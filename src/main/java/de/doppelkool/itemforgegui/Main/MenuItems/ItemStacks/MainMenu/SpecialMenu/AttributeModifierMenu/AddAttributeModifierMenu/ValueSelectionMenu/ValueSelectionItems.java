@@ -20,12 +20,24 @@ public class ValueSelectionItems {
 
 	static {
 		operationAddNumber = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Add Number");
-		modifyLore(operationAddNumber, ChatColor.YELLOW + "Click to activate and modify");
+		modifyLore(
+			operationAddNumber,
+			ChatColor.DARK_AQUA + "Adds the specified number to the attributes base value",
+			ChatColor.YELLOW + "Click to activate and modify"
+		);
 
 		operationAddScalar = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Add Scalar");
-		modifyLore(operationAddScalar, ChatColor.YELLOW + "Click to activate and modify");
+		modifyLore(
+			operationAddScalar,
+			ChatColor.DARK_AQUA + "Applies the modifier amount as a fraction of the base value",
+			ChatColor.YELLOW + "Click to activate and modify"
+		);
 
 		operationMultiplyScalarOne = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Add Scalar + One");
-		modifyLore(operationMultiplyScalarOne, ChatColor.YELLOW + "Click to activate and modify");
+		modifyLore(
+			operationMultiplyScalarOne,
+			ChatColor.DARK_AQUA + "After all base and scalar additions, scales the final value",
+			ChatColor.YELLOW + "Click to activate and modify"
+		);
 	}
 }

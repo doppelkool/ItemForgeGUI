@@ -11,7 +11,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Comparator;
@@ -29,10 +28,13 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.no
  */
 public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
+	private final int activatedEnchantmentsSlot;
+
 	private HashMap<Enchantment, Integer> activatedEnchantmentsToStrength = new HashMap<>();
 
 	public ActivatedEnchantmentsMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+		activatedEnchantmentsSlot = this.getSlots() - 1;
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 
 	@Override
 	public int getSlots() {
-		return 9 * 6;
+		return super.getSlots();
 	}
 
 	@Override
@@ -53,40 +55,35 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		if (super.handleBack(e.getSlot())) {
 			return;
 		}
-
-		if (e.getSlot() == 48) {
-			if (page != 0) {
-				page = page - 1;
-				super.open();
-			}
+		if(super.pageBack(e.getSlot())) {
+			return;
+		}
+		if(super.pageForward(e.getSlot(), activatedEnchantmentsToStrength.size())) {
 			return;
 		}
 
-		if (e.getSlot() == 50) {
-			int nextPageStartIndex = (page + 1) * getMaxItemsPerPage();
-			if (nextPageStartIndex < activatedEnchantmentsToStrength.size()) {
-				page++;
-				super.open();
-			}
-			return;
-		}
-
-		if (e.getSlot() == 53) {
+		if (activatedEnchantmentsSlot == e.getSlot()) {
 			new DeactivatedEnchantmentsMenu(this.playerMenuUtility)
 				.open();
+			return;
 		}
 
 		if (emptyInvSpace.contains(e.getSlot())) {
-			int slot = e.getSlot();
-			ItemStack item = this.inventory.getItem(slot);
-			PersistentDataContainer persistentDataContainer = item.getItemMeta().getPersistentDataContainer();
-			Integer itemStackID = persistentDataContainer.get(Main.getPlugin().getCustomEnchantmentStackIDKey(), PersistentDataType.INTEGER);
-			Enchantment enchantment = EnchantmentStacksMap.itemStackIDToEnchantment.get(itemStackID);
-			this.playerMenuUtility.setTargetEnchantment(enchantment);
-
-			new SingleEnchantmentMenu(this.playerMenuUtility)
-				.open();
+			openModifyActivatedEnchantmentMenu(e.getSlot());
+			return;
 		}
+	}
+
+	private void openModifyActivatedEnchantmentMenu(int clickedSlot) {
+		Integer itemStackID = this.inventory.getItem(clickedSlot)
+			.getItemMeta()
+			.getPersistentDataContainer()
+			.get(Main.getPlugin().getCustomEnchantmentStackIDKey(), PersistentDataType.INTEGER);
+		Enchantment enchantment = EnchantmentStacksMap.itemStackIDToEnchantment.get(itemStackID);
+
+		this.playerMenuUtility.setTargetEnchantment(enchantment);
+		new SingleEnchantmentMenu(this.playerMenuUtility)
+			.open();
 	}
 
 	@Override
@@ -97,9 +94,9 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		if (EnchantmentStacksMap.getAllDeactivatedEnchantments(itemInMainHand)
 			.isEmpty()) {
-			this.inventory.setItem(53, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
+			this.inventory.setItem(activatedEnchantmentsSlot, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
 		} else {
-			this.inventory.setItem(53, EnchantmentMenuItems.deactivatedEnchantments);
+			this.inventory.setItem(activatedEnchantmentsSlot, EnchantmentMenuItems.deactivatedEnchantments);
 		}
 		this.inventory.setItem(52, GlobalItems.FILLER_GLASS);
 
@@ -124,8 +121,8 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 				}
 			})).toList();
 
-		int startIndex = getMaxItemsPerPage() * page;
-		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), enchantmentList.size());
+		int startIndex = this.maxItemsPerPage * page;
+		int endIndex = Math.min(startIndex + this.maxItemsPerPage, enchantmentList.size());
 		int slotIndex = 0;
 
 		for (int i = startIndex; i < endIndex; i++) {

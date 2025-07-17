@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
+import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -7,6 +8,10 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.SpecialMenuItems;
 import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ActiveAttributeModifersMenu;
+import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.CreateAttributeModifierMenu;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -57,7 +62,7 @@ public class SpecialsMenu extends Menu {
 			.filter(slotItemExecute -> slotItemExecute.slot() == e.getSlot())
 			.findAny()
 			.orElseThrow()
-			.menuConsumer()
+			.runnable()
 			.run();
 	}
 
@@ -75,10 +80,19 @@ public class SpecialsMenu extends Menu {
 	}
 
 	private void attributeModifiersClicked() {
-		//ToDo
-		//Determine of direct access to creating new
-		//Or to Menu where already exist be displayed
-	}
+		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		Multimap<Attribute, AttributeModifier> attributeModifiers = itemInMainHand.getItemMeta().getAttributeModifiers();
+
+		if(attributeModifiers == null || attributeModifiers.isEmpty()) {
+			new CreateAttributeModifierMenu(this.playerMenuUtility)
+				.open();
+			return;
+		} else {
+			new ActiveAttributeModifersMenu(this.playerMenuUtility)
+				.open();
+			return;
+		}
+}
 
 	@Override
 	public void setMenuItems() {

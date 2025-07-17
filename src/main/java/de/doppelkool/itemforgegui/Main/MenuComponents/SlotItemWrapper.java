@@ -17,6 +17,9 @@ public class SlotItemWrapper {
 	public record SlotItemEvent(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {
 	}
 
-	public record SlotItemExecute(int slot, ItemStack item, Runnable menuConsumer) {
+	public record SlotItemExecute(int slot, ItemStack item, Runnable runnable) {
+	}
+
+	public record SlotExecute(int slot, Runnable runnable) {
 	}
 }
