@@ -59,6 +59,9 @@ public final class Main extends JavaPlugin {
 	private NamespacedKey customArmorEffectsKeyStackIDKey;
 	@Getter
 	private NamespacedKey customArmorEffectsKey;
+
+	@Getter
+	private NamespacedKey customAttributeModifierKeyStackIDKey;
 	private PersistentDataType<byte[], ForgeArmorEffect> customPersistantDataTypeArmorEffect;
 	@Getter
 	private CollectionDataType<ArrayList<ForgeArmorEffect>, ForgeArmorEffect> customArmorEffectListDataType;
@@ -93,6 +96,7 @@ public final class Main extends JavaPlugin {
 		customArmorEffectsKeyStackIDKey = new NamespacedKey(this, "armorEffectsInvID");
 
 		customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
+		customAttributeModifierKeyStackIDKey = new NamespacedKey(this, "attributeInvID");
 		customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
 		customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
 

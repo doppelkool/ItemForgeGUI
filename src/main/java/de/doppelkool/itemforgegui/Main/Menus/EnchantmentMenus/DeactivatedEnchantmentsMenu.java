@@ -25,10 +25,13 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.no
  */
 public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 
+	private final int activatedEnchantmentsSlot;
+
 	private ArrayList<Enchantment> deactivatedEnchantmentsToStrength = new ArrayList<>();
 
 	public DeactivatedEnchantmentsMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+		activatedEnchantmentsSlot = this.getSlots() - 2;
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 
 	@Override
 	public int getSlots() {
-		return 9 * 6;
+		return super.getSlots();
 	}
 
 	@Override
@@ -49,42 +52,37 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 		if (super.handleBack(e.getSlot())) {
 			return;
 		}
-
-		if (e.getSlot() == 48) {
-			if (page != 0) {
-				page = page - 1;
-				super.open();
-			}
+		if(super.pageBack(e.getSlot())) {
+			return;
+		}
+		if(super.pageForward(e.getSlot(), deactivatedEnchantmentsToStrength.size())) {
 			return;
 		}
 
-		if (e.getSlot() == 50) {
-			int nextPageStartIndex = (page + 1) * getMaxItemsPerPage();
-			if (nextPageStartIndex < deactivatedEnchantmentsToStrength.size()) {
-				page++;
-				super.open();
-			}
-			return;
-		}
-
-		if (e.getSlot() == 52) {
+		if (activatedEnchantmentsSlot == e.getSlot()) {
 			new ActivatedEnchantmentsMenu(this.playerMenuUtility)
 				.open();
+			return;
 		}
 
 		if (emptyInvSpace.contains(e.getSlot())) {
-			int slot = e.getSlot();
-			ItemStack item = this.inventory.getItem(slot);
-			Enchantment enchantment = EnchantmentStacksMap.enchantmentsToItemStack.entrySet().stream()
-				.filter(entry -> entry.getValue().equals(item))
-				.map(Map.Entry::getKey)
-				.findFirst()
-				.get(); //Handled every other case
-			this.playerMenuUtility.setTargetEnchantment(enchantment);
-
-			new SingleEnchantmentMenu(this.playerMenuUtility)
-				.open();
+			openAddActivatedEnchantmentMenu(e.getSlot());
+			return;
 		}
+	}
+
+	private void openAddActivatedEnchantmentMenu(int slot) {
+		ItemStack item = this.inventory.getItem(slot);
+		Enchantment enchantment = EnchantmentStacksMap.enchantmentsToItemStack.entrySet().stream()
+			//ToDo same as in Attribute filling
+			.filter(entry -> entry.getValue().equals(item))
+			.map(Map.Entry::getKey)
+			.findAny()
+			.orElseThrow();
+
+		this.playerMenuUtility.setTargetEnchantment(enchantment);
+		new SingleEnchantmentMenu(this.playerMenuUtility)
+			.open();
 	}
 
 	@Override
@@ -93,9 +91,9 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 		addCustomMenuFillingForEffects();
 
 		if (this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().hasEnchants()) {
-			this.inventory.setItem(52, EnchantmentMenuItems.activatedEnchantments);
+			this.inventory.setItem(activatedEnchantmentsSlot, EnchantmentMenuItems.activatedEnchantments);
 		} else {
-			this.inventory.setItem(52, notAvailable(EnchantmentMenuItems.activatedEnchantments));
+			this.inventory.setItem(activatedEnchantmentsSlot, notAvailable(EnchantmentMenuItems.activatedEnchantments));
 		}
 		this.inventory.setItem(53, GlobalItems.FILLER_GLASS);
 
@@ -117,8 +115,8 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 				}
 			})).collect(Collectors.toCollection(ArrayList::new));
 
-		int startIndex = getMaxItemsPerPage() * page;
-		int endIndex = Math.min(startIndex + getMaxItemsPerPage(), deactivatedEnchantmentsToStrength.size());
+		int startIndex = this.maxItemsPerPage * page;
+		int endIndex = Math.min(startIndex + this.maxItemsPerPage, deactivatedEnchantmentsToStrength.size());
 		int slotIndex = 0;
 
 		for (int i = startIndex; i < endIndex; i++) {
