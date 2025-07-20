@@ -130,6 +130,9 @@ public class Materials {
 		to_seven.add("MUSIC_DISC_LAVA_CHICKEN");
 	}
 
+	// ────── 1.21.8 ──────
+	// No new Materials
+
 	private Materials() {
 		loadIfAtLeast("1.21.2", to_two);
 		loadIfAtLeast("1.21.4", to_four);
