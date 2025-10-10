@@ -29,7 +29,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 
 	@Override
 	public String getMenuName() {
-		return ItemStackModifyHelper.formatCAPSName(potionEffectToEdit.getTranslationKey());
+		return ItemStackModifyHelper.formatTranslationalNames(potionEffectToEdit.getTranslationKey());
 	}
 
 	@Override

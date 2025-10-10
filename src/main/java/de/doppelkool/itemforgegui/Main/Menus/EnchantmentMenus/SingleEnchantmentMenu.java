@@ -33,7 +33,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 	@Override
 	public String getMenuName() {
-		return ItemStackModifyHelper.formatCAPSName(enchantmentToEdit.getTranslationKey());
+		return ItemStackModifyHelper.formatTranslationalNames(enchantmentToEdit.getTranslationKey());
 	}
 
 	@Override

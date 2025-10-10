@@ -39,7 +39,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (super.handleBack(e.getSlot(), ItemIdentityMenu::new)) {
+		if (super.handleBack(e.getSlot(), null, ItemIdentityMenu::new)) {
 			return;
 		}
 

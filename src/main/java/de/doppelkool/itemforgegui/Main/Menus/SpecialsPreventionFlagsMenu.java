@@ -39,7 +39,7 @@ public class SpecialsPreventionFlagsMenu extends Menu {
 		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (super.handleBack(e.getSlot(), SpecialsMenu::new)) {
+		if (super.handleBack(e.getSlot(), null, SpecialsMenu::new)) {
 			return;
 		}
 

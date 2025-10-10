@@ -114,7 +114,7 @@ public class ItemInfoManager {
 
 		armorEffects.addFirst(ARMOR_EFFECTS_HEADER);
 		for (Map.Entry<PotionEffectType, Integer> effect : effects.entrySet()) {
-			String formattedEffectType = ItemStackModifyHelper.formatCAPSName(effect.getKey().getTranslationKey());
+			String formattedEffectType = ItemStackModifyHelper.formatTranslationalNames(effect.getKey().getTranslationKey());
 			armorEffects.add(ENTRY_COLOR + "- " + formattedEffectType + " " + effect.getValue());
 		}
 	}

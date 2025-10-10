@@ -47,16 +47,11 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 	}
 
 	@Override
-	public int getSlots() {
-		return super.getSlots();
-	}
-
-	@Override
 	public void handleMenu(InventoryClickEvent e) {
 		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if(super.handleBack(e.getSlot(), SpecialsMenu::new)) {
+		if(super.handleBack(e.getSlot(), null, SpecialsMenu::new)) {
 			return;
 		}
 		if(super.pageBack(e.getSlot())) {
@@ -127,7 +122,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 				if (e.equals(PotionEffectType.SPEED)) {
 					return "Swiftness";
 				} else {
-					return ItemStackModifyHelper.formatCAPSName(e.getTranslationKey());
+					return ItemStackModifyHelper.formatTranslationalNames(e.getTranslationKey());
 				}
 			})).toList();
 

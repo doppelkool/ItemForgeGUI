@@ -1,6 +1,11 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * A simple storage class to hold encoded {@link org.bukkit.block.Skull} information containing a link to its texture
@@ -42,5 +47,49 @@ public enum SkullData {
 
 	SkullData(String base64encoded) {
 		this.base64encoded = base64encoded;
+	}
+
+	public static String extractSkinUrl(String base64) {
+		if (base64 == null || base64.trim().isEmpty()) {
+			return null;
+		}
+
+		String json = decodeBase64ToJson(base64.trim());
+		if (json == null) return null;
+
+		try {
+			JsonNode root = new ObjectMapper().readTree(json);
+			JsonNode urlNode = root.at("/textures/SKIN/url");
+			return urlNode.isTextual() ? urlNode.asText() : null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private static String decodeBase64ToJson(String input) {
+		for (Base64.Decoder decoder : new Base64.Decoder[]{
+			Base64.getDecoder(),
+			Base64.getUrlDecoder()
+		}) {
+			try {
+				String padded = padBase64(input);
+				byte[] decoded = decoder.decode(padded);
+				String json = new String(decoded, StandardCharsets.UTF_8);
+
+				// Quick JSON validation
+				if (json.startsWith("{") && json.contains("textures")) {
+					return json;
+				}
+			} catch (Exception ignored) {}
+		}
+		return null;
+	}
+
+	private static String padBase64(String s) {
+		int pad = 4 - (s.length() % 4);
+		if (pad < 4) {
+			s += "=".repeat(pad);
+		}
+		return s;
 	}
 }

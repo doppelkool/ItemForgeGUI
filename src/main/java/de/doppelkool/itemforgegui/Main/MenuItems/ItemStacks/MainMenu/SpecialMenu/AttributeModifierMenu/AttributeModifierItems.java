@@ -17,10 +17,20 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.mo
 public class AttributeModifierItems {
 
 	public static final ItemStack addNewAttributeModifier;
+	public static final ItemStack confirmAddNewAttributeModifier_Activated;
+	public static final ItemStack confirmAddNewAttributeModifier_Deactivated;
 
 	static {
 		addNewAttributeModifier = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Add new Attribute Modifier");
 		modifyLore(addNewAttributeModifier, ChatColor.YELLOW + "Add a new Attribute Modifier to the item");
 		modifyToCustomHead(addNewAttributeModifier, SkullData.QUARTZ_PLUS);
+
+		confirmAddNewAttributeModifier_Activated = makeItem(Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Confirm");
+		modifyLore(confirmAddNewAttributeModifier_Activated, ChatColor.YELLOW + "Adds the new Attribute Modifier to the item");
+
+		confirmAddNewAttributeModifier_Deactivated = makeItem(Material.RED_STAINED_GLASS_PANE, ChatColor.GREEN + "Confirm");
+		modifyLore(confirmAddNewAttributeModifier_Deactivated,
+			ChatColor.YELLOW + "Add a new Attribute Modifier to the item",
+			"{warning_valueMissing}");
 	}
 }

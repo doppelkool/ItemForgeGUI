@@ -117,7 +117,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 				} else if (e.equals(Enchantment.VANISHING_CURSE)) {
 					return "Curse of Vanishing";
 				} else {
-					return ItemStackModifyHelper.formatCAPSName(e.getTranslationKey());
+					return ItemStackModifyHelper.formatTranslationalNames(e.getTranslationKey());
 				}
 			})).toList();
 

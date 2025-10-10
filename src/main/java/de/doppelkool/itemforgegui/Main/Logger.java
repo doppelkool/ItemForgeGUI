@@ -3,6 +3,8 @@ package de.doppelkool.itemforgegui.Main;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
@@ -205,4 +207,45 @@ public class Logger {
 		));
 	}
 
+	public static void log(List<SlotItemWrapper.SlotItemExecute> list, int slot) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		String a = "";
+		for (int i = 0; i < list.size(); i++) {
+			SlotItemWrapper.SlotItemExecute a1 = list.get(i);
+			a += a1.slot() + " : " + a1.item().getType() + " : " + a1.runnable();
+		}
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			a
+		));
+	}
+
+	public static void log(AttributeItem selectedAttribute) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		if(selectedAttribute == null) {
+			Bukkit.getLogger().info(String.format(
+				"Map<PotionEffectType, Integer Log ->\n" +
+					"at: %s\n" +
+					"null",
+				stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName()));
+			return;
+		}
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"attribute: %s\n",
+				"getType: %s\n",
+				"slot: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			selectedAttribute.attribute(),
+			selectedAttribute.item().getType(),
+			selectedAttribute.slot()
+		));
+	}
 }

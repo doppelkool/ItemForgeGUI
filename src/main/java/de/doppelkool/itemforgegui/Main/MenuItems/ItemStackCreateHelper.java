@@ -1,24 +1,27 @@
 package de.doppelkool.itemforgegui.Main.MenuItems;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import com.mojang.authlib.properties.PropertyMap;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
 import org.bukkit.*;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionType;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.util.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 /**
@@ -65,6 +68,30 @@ public class ItemStackCreateHelper {
 		itemStack.setItemMeta(meta);
 	}
 
+	public static void modifyStoredSlot(ItemStack itemStack, EquipmentSlot toBeStored) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		itemMeta.getPersistentDataContainer().set(
+			Main.getPlugin().getCustomEquipmentSlotIDKey(),
+			PersistentDataType.STRING,
+			toBeStored.name()
+		);
+
+		itemStack.setItemMeta(itemMeta);
+	}
+
+	public static void modifyAttributeCategory(ItemStack itemStack, AttributeCategory toBeStored) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		itemMeta.getPersistentDataContainer().set(
+			Main.getPlugin().getCustomAttributeModifierKeyCategoryIDKey(),
+			PersistentDataType.INTEGER,
+			toBeStored.ordinal()
+		);
+
+		itemStack.setItemMeta(itemMeta);
+	}
+
 	public static void modifyPotionType(ItemStack fireProtectionItem, PotionType potionType) {
 		PotionMeta potionMeta = (PotionMeta) fireProtectionItem.getItemMeta();
 		potionMeta.setBasePotionType(potionType);
@@ -86,33 +113,18 @@ public class ItemStackCreateHelper {
 		stack.setItemMeta(bannerMeta);
 	}
 
-	public static void modifyToCustomHead(ItemStack itemToEdit, SkullData skullData) {
+	public static void modifyToCustomHead(ItemStack skull, SkullData skullData) {
 		try {
-			UUID uuid = UUID.randomUUID();
-			GameProfile profile = new GameProfile(uuid, "itemforgegui");
-			PropertyMap propertyMap = profile.getProperties();
-			propertyMap.put("textures", new Property("textures", skullData.getBase64encoded()));
+			SkullMeta meta = (SkullMeta) skull.getItemMeta();
 
-			Class<?> rpClass = Class.forName("net.minecraft.world.item.component.ResolvableProfile");
+			PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID(), "CustomHead");
 
-			Constructor<?> rpCtor = rpClass.getDeclaredConstructor(
-				Optional.class, Optional.class, PropertyMap.class, GameProfile.class
-			);
+			PlayerTextures textures = profile.getTextures();
+			textures.setSkin(new URL(SkullData.extractSkinUrl(skullData.getBase64encoded())));
+			profile.setTextures(textures);
 
-			Object rpInstance = rpCtor.newInstance(
-				Optional.of("itemforgegui"),
-				Optional.of(uuid),
-				propertyMap,
-				profile
-			);
-
-			SkullMeta meta = (SkullMeta) itemToEdit.getItemMeta();
-			Field profileField = meta.getClass().getDeclaredField("profile");
-			profileField.setAccessible(true);
-			profileField.set(meta, rpInstance);
-
-			itemToEdit.setItemMeta(meta);
-
+			meta.setOwnerProfile(profile);
+			skull.setItemMeta(meta);
 		} catch (Exception e) {
 			Bukkit.getLogger().log(Level.SEVERE, "Failed to modify skull head:", e);
 		}

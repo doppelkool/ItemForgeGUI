@@ -14,8 +14,6 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
-import de.doppelkool.itemforgegui.Main.VersionDependency.Materials;
-import de.doppelkool.itemforgegui.Main.VersionDependency.VersionMapper;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -26,7 +24,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 /**
  * The plugins main class
@@ -62,6 +59,13 @@ public final class Main extends JavaPlugin {
 
 	@Getter
 	private NamespacedKey customAttributeModifierKeyStackIDKey;
+
+	@Getter
+	private NamespacedKey customAttributeModifierKeyCategoryIDKey;
+
+	@Getter
+	private NamespacedKey customEquipmentSlotIDKey;
+
 	private PersistentDataType<byte[], ForgeArmorEffect> customPersistantDataTypeArmorEffect;
 	@Getter
 	private CollectionDataType<ArrayList<ForgeArmorEffect>, ForgeArmorEffect> customArmorEffectListDataType;
@@ -69,17 +73,6 @@ public final class Main extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		new Metrics(this, 24997);
-
-		PluginManager pluginmanager = Bukkit.getPluginManager();
-		try {
-			VersionMapper.init();
-			Materials.init();
-		} catch (IllegalStateException e) {
-			getLogger().log(Level.SEVERE, "Failed to enable plugin: " + e.getMessage());
-			getLogger().log(Level.SEVERE, "Currently only SpigotMC and PaperMC are supported. It seems that you are not running either. Please report if you think this is an error");
-			getLogger().log(Level.SEVERE, "-> " + this.getDescription().getWebsite() + "/issues");
-			pluginmanager.disablePlugin(this);
-		}
 
 		ConfigManager cMr = ConfigManager.getInstance();
 		if (cMr.isUniqueIdOnEditedItemEnabled()) {
@@ -97,6 +90,10 @@ public final class Main extends JavaPlugin {
 
 		customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
 		customAttributeModifierKeyStackIDKey = new NamespacedKey(this, "attributeInvID");
+		customAttributeModifierKeyCategoryIDKey = new NamespacedKey(this, "attributeCategoryID");
+
+		customEquipmentSlotIDKey = new NamespacedKey(this, "equipmentSlot");
+
 		customPersistantDataTypeArmorEffect = new ConfigurationSerializableDataType<>(ForgeArmorEffect.class);
 		customArmorEffectListDataType = DataType.asArrayList(customPersistantDataTypeArmorEffect);
 
@@ -107,6 +104,7 @@ public final class Main extends JavaPlugin {
 
 		getCommand("edit").setExecutor(new EditCommand());
 
+		PluginManager pluginmanager = Bukkit.getPluginManager();
 		pluginmanager.registerEvents(new MenuListener(), this);
 		pluginmanager.registerEvents(new OnQuitListener(), this);
 		pluginmanager.registerEvents(new OnRespawnListener(), this);

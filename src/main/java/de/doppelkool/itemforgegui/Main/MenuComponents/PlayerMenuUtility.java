@@ -8,9 +8,12 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 /**
  * Class Description
@@ -46,6 +49,7 @@ public class PlayerMenuUtility {
 			"}";
 	}
 
+	@Getter
 	@Setter
 	@NoArgsConstructor
 	@AllArgsConstructor
@@ -53,6 +57,24 @@ public class PlayerMenuUtility {
 		private Attribute attribute;
 		private double amount;
 		private AttributeModifier.Operation operation;
-		private EquipmentSlotGroup slotGroup;
+		private LinkedHashMap<EquipmentSlot, Boolean> slotMap = new LinkedHashMap<>();
+		{
+			slotMap.put(EquipmentSlot.HEAD, false);
+			slotMap.put(EquipmentSlot.CHEST, false);
+			slotMap.put(EquipmentSlot.LEGS, false);
+			slotMap.put(EquipmentSlot.FEET, false);
+			slotMap.put(EquipmentSlot.HAND, false);
+			slotMap.put(EquipmentSlot.OFF_HAND, false);
+		}
+
+		@Override
+		public String toString() {
+			return "{" +
+				"attribute=" + attribute +
+				",amount=" + amount +
+				",Operation=" + operation +
+				",slotMap=" + Arrays.toString(slotMap.entrySet().toArray()) +
+				"}";
+		}
 	}
 }

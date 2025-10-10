@@ -11,15 +11,13 @@ import java.util.function.Consumer;
  * @author doppelkool | github.com/doppelkool
  */
 public class SlotItemWrapper {
-	public record SlotItem(int slot, ItemStack item) {
-	}
+	public record SlotItem(int slot, ItemStack item) {}
 
-	public record SlotItemEvent(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {
-	}
+	public record SlotItemEvent(int slot, ItemStack item, Consumer<InventoryClickEvent> onClick) {}
 
-	public record SlotItemExecute(int slot, ItemStack item, Runnable runnable) {
-	}
+	public record SlotItemExecute(int slot, ItemStack item, Runnable runnable) {}
 
-	public record SlotExecute(int slot, Runnable runnable) {
-	}
+	public record SlotItemConsumer(int slot, ItemStack item, Consumer<Integer> runnable) {}
+
+	public record SlotExecute(int slot, Runnable runnable) {}
 }

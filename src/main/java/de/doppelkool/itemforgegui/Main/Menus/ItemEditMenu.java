@@ -45,13 +45,16 @@ public class ItemEditMenu extends Menu {
 			new ItemInfoManager(itemInMainHand).initItemDescription();
 		}
 
+		//Fallback reset of progress of attribute modifier creation if player exited inventory via esc or similar
+		this.playerMenuUtility.setAttributeStorage(new PlayerMenuUtility.AttributeStorage());
+
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
 			itemInMainHand);
 	}
 
 	@Override
 	public String getMenuName() {
-		return "Edit: " + ItemStackModifyHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Edit: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
 	}
 
 	@Override

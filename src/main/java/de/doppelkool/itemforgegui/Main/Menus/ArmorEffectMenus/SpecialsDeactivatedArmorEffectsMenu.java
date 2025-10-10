@@ -48,7 +48,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (super.handleBack(e.getSlot(), SpecialsMenu::new)) {
+		if (super.handleBack(e.getSlot(), null, SpecialsMenu::new)) {
 			return;
 		}
 		if(super.pageBack(e.getSlot())) {
@@ -124,7 +124,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 				if (e.equals(PotionEffectType.SPEED)) {
 					return "Swiftness";
 				} else {
-					return ItemStackModifyHelper.formatCAPSName(e.getTranslationKey());
+					return ItemStackModifyHelper.formatTranslationalNames(e.getTranslationKey());
 				}
 			})).collect(Collectors.toCollection(ArrayList::new));
 

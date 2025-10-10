@@ -5,7 +5,6 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Resources;
-import de.doppelkool.itemforgegui.Main.VersionDependency.Materials;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -19,7 +18,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Class Description
@@ -30,7 +32,7 @@ public class ItemStackModifyHelper {
 
 	private static final Enchantment glowEnchantment = Enchantment.LUCK_OF_THE_SEA;
 
-	public static String formatCAPSName(String name) {
+	public static String formatTranslationalNames(String name) {
 		String[] parts = name.split("\\.", 3);
 		String result = parts.length == 3 ? parts[2] : name;
 
@@ -43,6 +45,13 @@ public class ItemStackModifyHelper {
 		}
 
 		return formattedName.toString().trim();
+	}
+
+	public static String formatCAPSNames(String name) {
+		return Arrays.stream(name.toLowerCase(Locale.ROOT)
+				.split("_"))
+				.map(w -> Character.toUpperCase(w.charAt(0)) + w.substring(1))
+				.collect(Collectors.joining(" "));
 	}
 
 	public static boolean isLeather(Material itemMaterial) {
@@ -60,11 +69,9 @@ public class ItemStackModifyHelper {
 			return true;
 		}
 
-		boolean paleMossCarpetLoaded = Materials.getInstance().isLoaded("PALE_MOSS_CARPET");
-
 		if (itemMaterial == Material.BEDROCK ||
 			itemMaterial == Material.MOSS_CARPET ||
-			(paleMossCarpetLoaded && itemMaterial == Material.PALE_MOSS_CARPET)
+			(itemMaterial == Material.PALE_MOSS_CARPET)
 		) {
 			return false;
 		}
@@ -143,6 +150,16 @@ public class ItemStackModifyHelper {
 			&& (item.getItemMeta().getEnchantLevel(glowEnchantment) == 1);
 	}
 
+	public static void setGlow(ItemStack item, boolean active) {
+		ItemMeta itemMeta = item.getItemMeta();
+		if (active) {
+			itemMeta.addEnchant(glowEnchantment, 1, true);
+		} else {
+			itemMeta.removeEnchant(glowEnchantment);
+		}
+		item.setItemMeta(itemMeta);
+	}
+
 	public static void setActivated(ItemStack item, boolean active) {
 		String activatedLorePart = "Activated";
 		String deactivatedLorePart = "Deactivated";
@@ -160,14 +177,13 @@ public class ItemStackModifyHelper {
 		}
 
 		if (active) {
-			itemMeta.addEnchant(glowEnchantment, 1, true);
 			lore.addFirst(ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
 		} else {
-			itemMeta.removeEnchant(glowEnchantment);
 			lore.addFirst(ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
 		}
 		itemMeta.setLore(lore);
 		item.setItemMeta(itemMeta);
+		ItemStackModifyHelper.setGlow(item, active);
 	}
 
 	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention) {

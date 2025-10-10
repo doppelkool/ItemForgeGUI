@@ -51,7 +51,7 @@ public class ColorPickerMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Color Picker: " + ItemStackModifyHelper.formatCAPSName(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Color Picker: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
 	}
 
 	@Override

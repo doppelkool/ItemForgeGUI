@@ -5,9 +5,12 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManage
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeModifierItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeModifierStacksMap;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistry;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -42,7 +45,7 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 		if (super.handleClose(e.getSlot())) {
 			return;
 		}
-		if (super.handleBack(e.getSlot(), SpecialsMenu::new)) {
+		if (super.handleBack(e.getSlot(), null, SpecialsMenu::new)) {
 			return;
 		}
 		if(super.pageBack(e.getSlot())) {
@@ -54,7 +57,9 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 		}
 
 		if (isCreateNewAttributeItemAvailable() && addAttributeModifierItemSlot == e.getSlot()) {
-			openCreateAttributeModifierMenu();
+			this.playerMenuUtility.setAttributeStorage(new PlayerMenuUtility.AttributeStorage());
+			new CreateAttributeModifierMenu(this.playerMenuUtility)
+				.open();
 		}
 
 		if (emptyInvSpace.contains(e.getSlot())) {
@@ -62,24 +67,26 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 		}
 	}
 
-	private void openCreateAttributeModifierMenu() {
-		this.playerMenuUtility.setAttributeStorage(new PlayerMenuUtility.AttributeStorage());
-		new CreateAttributeModifierMenu(this.playerMenuUtility)
-			.open();
-	}
-
 	private void openModifyClickedAttributeModifierMenu(int clickedSlot) {
-		Integer itemStackID = this.inventory.getItem(clickedSlot)
+		ItemStack clickedAttributeItem = this.inventory.getItem(clickedSlot);
+
+		Integer attributeCategoryOrdinal = clickedAttributeItem
+			.getItemMeta()
+			.getPersistentDataContainer()
+			.get(Main.getPlugin().getCustomAttributeModifierKeyCategoryIDKey(), PersistentDataType.INTEGER);
+		AttributeCategory attributeCategory = AttributeCategory.values()[attributeCategoryOrdinal];
+
+		Integer attributeIndex = clickedAttributeItem
 			.getItemMeta()
 			.getPersistentDataContainer()
 			.get(Main.getPlugin().getCustomAttributeModifierKeyStackIDKey(), PersistentDataType.INTEGER);
-
-		Attribute attribute = AttributeModifierStacksMap.itemStackIDToAttributeType.get(itemStackID);
-
-		PlayerMenuUtility.AttributeStorage attributeStorage = new PlayerMenuUtility.AttributeStorage();
-		attributeStorage.setAttribute(attribute);
-
-		this.playerMenuUtility.setAttributeStorage(attributeStorage);
+		AttributeItem attributeItem = AttributeRegistry.REGISTRY
+			.getItems(attributeCategory)
+			.get(attributeIndex);
+		Bukkit.getLogger().info(attributeItem.slot() + " : " + attributeItem.item().getType() + " : " + attributeItem.attribute().getKeyOrNull());
+		this.playerMenuUtility
+			.getAttributeStorage()
+			.setAttribute(attributeItem.attribute());
 
 		//new ModifyAttributeModifierMenu(this.playerMenuUtility)
 		//	.open();
@@ -115,12 +122,9 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 		for (int i = startIndex; i < endIndex; i++) {
 			Map.Entry<Attribute, AttributeModifier> attributeModifierEntry = entries.get(i);
 
-			ItemStack attributeItemStack = AttributeModifierStacksMap.attributeTypeToItemStack.get(attributeModifierEntry.getKey());
-			if (attributeItemStack == null) {
-				continue;
-			}
+			AttributeItem attributeItemFromAttribute = AttributeRegistry.REGISTRY.getItem(attributeModifierEntry.getKey());
+			ItemStack attributeItemStackclone = attributeItemFromAttribute.item().clone();
 
-			ItemStack attributeItemStackclone = attributeItemStack.clone();
 			AttributeModifierManager.insertValues(
 				attributeItemStackclone,
 				attributeModifierEntry

@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
@@ -96,8 +97,9 @@ public abstract class Menu implements InventoryHolder {
 		return false;
 	}
 
-	protected boolean handleBack(int slot, @NotNull Function<PlayerMenuUtility, Menu> newMenu) {
+	protected boolean handleBack(int slot, @Nullable Runnable effect, @NotNull Function<PlayerMenuUtility, Menu> newMenu) {
 		if (slot == backInventorySlot) {
+			if (effect != null) effect.run();
 			newMenu.apply(playerMenuUtility).open();
 			return true;
 		}

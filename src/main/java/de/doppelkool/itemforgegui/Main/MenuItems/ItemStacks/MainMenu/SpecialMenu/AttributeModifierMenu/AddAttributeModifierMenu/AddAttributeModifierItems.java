@@ -29,8 +29,8 @@ public class AddAttributeModifierItems {
 		modifyLore(valueSelection, ChatColor.YELLOW + "Select the strength of the attribute modifier", "",
 			ChatColor.GRAY + "Currently selected: {currentValue}"
 		);
-		slotSelection = makeItem(Material.CHAINMAIL_CHESTPLATE, ChatColor.GREEN + "Attribute Selection");
-		modifyLore(slotSelection, ChatColor.YELLOW + "Select the attribute to modify", "",
+		slotSelection = makeItem(Material.CHAINMAIL_CHESTPLATE, ChatColor.GREEN + "Slot Selection");
+		modifyLore(slotSelection, ChatColor.YELLOW + "Select the slot the modifier will activate on", "",
 			ChatColor.GRAY + "Currently selected: {currentValue}"
 		);
 		modifyItemFlags(slotSelection, ItemFlag.HIDE_ATTRIBUTES);
