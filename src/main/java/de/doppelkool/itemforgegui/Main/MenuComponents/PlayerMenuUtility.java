@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * Class Description
@@ -55,9 +55,8 @@ public class PlayerMenuUtility {
 	@AllArgsConstructor
 	public static class AttributeStorage {
 		private Attribute attribute;
-		private double amount;
-		private AttributeModifier.Operation operation;
-		private LinkedHashMap<EquipmentSlot, Boolean> slotMap = new LinkedHashMap<>();
+		private EnumMap<AttributeModifier.Operation, Double> modifierValues = new EnumMap<>(AttributeModifier.Operation.class);
+		private EnumMap<EquipmentSlot, Boolean> slotMap = new EnumMap<>(EquipmentSlot.class);
 		{
 			slotMap.put(EquipmentSlot.HEAD, false);
 			slotMap.put(EquipmentSlot.CHEST, false);
@@ -71,8 +70,7 @@ public class PlayerMenuUtility {
 		public String toString() {
 			return "{" +
 				"attribute=" + attribute +
-				",amount=" + amount +
-				",Operation=" + operation +
+				",modifierValues=" + modifierValues +
 				",slotMap=" + Arrays.toString(slotMap.entrySet().toArray()) +
 				"}";
 		}

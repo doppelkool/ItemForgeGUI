@@ -4,12 +4,14 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.enchantments.Enchantment;
@@ -30,6 +32,7 @@ public class SignNumberEditor {
 	private Sign sign;
 	private Location signLocation;
 	private NUMBER_EDIT_TYPE type;
+	private AttributeModifier.Operation targetOperation;
 
 	public SignNumberEditor(Player pl) throws IllegalStateException {
 		this.pl = pl;
@@ -56,6 +59,14 @@ public class SignNumberEditor {
 	public static Integer parseInteger(String line) {
 		try {
 			return Integer.parseInt(line);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
+	public static Double parseDouble(String line) {
+		try {
+			return Double.parseDouble(line);
 		} catch (NumberFormatException e) {
 			return null;
 		}
@@ -105,6 +116,18 @@ public class SignNumberEditor {
 		return this;
 	}
 
+	public SignNumberEditor editAttributeModifierValue(double amountBefore) {
+		type = NUMBER_EDIT_TYPE.ATTRIBUTE_MODIFIER_VALUE;
+		sign.getSide(Side.FRONT).setLine(0, "" + amountBefore);
+		sign.update();
+		return this;
+	}
+
+	public SignNumberEditor setTargetOperation(AttributeModifier.Operation targetOperation) {
+		this.targetOperation = targetOperation;
+		return this;
+	}
+
 	public SignNumberEditor openSign() {
 		Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
 			pl.openSign(sign);
@@ -118,6 +141,7 @@ public class SignNumberEditor {
 		ENCHANTMENT,
 		ARMOR_EFFECT,
 		ITEM_ID,
+		ATTRIBUTE_MODIFIER_VALUE,
 
 		;
 	}

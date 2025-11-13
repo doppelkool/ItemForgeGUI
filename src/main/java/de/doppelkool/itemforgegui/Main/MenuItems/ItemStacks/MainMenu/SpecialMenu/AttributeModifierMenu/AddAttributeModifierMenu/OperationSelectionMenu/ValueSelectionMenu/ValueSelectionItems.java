@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.ValueSelectionMenu;
+package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.OperationSelectionMenu.ValueSelectionMenu;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

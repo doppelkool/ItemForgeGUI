@@ -28,7 +28,7 @@ public class AttributeModifierItems {
 		confirmAddNewAttributeModifier_Activated = makeItem(Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmAddNewAttributeModifier_Activated, ChatColor.YELLOW + "Adds the new Attribute Modifier to the item");
 
-		confirmAddNewAttributeModifier_Deactivated = makeItem(Material.RED_STAINED_GLASS_PANE, ChatColor.GREEN + "Confirm");
+		confirmAddNewAttributeModifier_Deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmAddNewAttributeModifier_Deactivated,
 			ChatColor.YELLOW + "Add a new Attribute Modifier to the item",
 			"{warning_valueMissing}");

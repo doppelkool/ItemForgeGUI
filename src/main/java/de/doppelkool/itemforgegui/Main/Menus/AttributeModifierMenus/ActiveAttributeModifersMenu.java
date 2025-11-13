@@ -88,8 +88,8 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 			.getAttributeStorage()
 			.setAttribute(attributeItem.attribute());
 
-		//new ModifyAttributeModifierMenu(this.playerMenuUtility)
-		//	.open();
+		new ModifyAttributeModifierMenu(this.playerMenuUtility)
+			.open();
 	}
 
 	@Override

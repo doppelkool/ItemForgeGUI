@@ -6,6 +6,7 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -18,6 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -246,6 +248,30 @@ public class Logger {
 			selectedAttribute.attribute(),
 			selectedAttribute.item().getType(),
 			selectedAttribute.slot()
+		));
+	}
+
+	public static void log( EnumMap<AttributeModifier. Operation, Double> enummap) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		if(enummap == null) {
+			Bukkit.getLogger().info(String.format(
+				"Map<PotionEffectType, Integer Log ->\n" +
+					"at: %s\n" +
+					"null",
+				stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName()));
+			return;
+		}
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"ADD_NUMBER: %s\n" +
+				"ADD_SCALAR: %s\n" +
+				"MULTIPLY_SCALAR_1: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			enummap.get(AttributeModifier.Operation.ADD_NUMBER),
+			enummap.get(AttributeModifier.Operation.ADD_SCALAR),
+			enummap.get(AttributeModifier.Operation.MULTIPLY_SCALAR_1)
 		));
 	}
 }

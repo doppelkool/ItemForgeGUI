@@ -30,6 +30,8 @@ public class GlobalItems {
 	public static final ItemStack minus10;
 	public static final ItemStack minus5;
 	public static final ItemStack minus1;
+	public static final ItemStack minusPoint1;
+	public static final ItemStack plusPoint1;
 	public static final ItemStack plus1;
 	public static final ItemStack plus5;
 	public static final ItemStack plus10;
@@ -70,6 +72,10 @@ public class GlobalItems {
 		modifyToCustomHead(minus5, SkullData.REDSTONE_FIVE);
 		minus1 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-1");
 		modifyToCustomHead(minus1, SkullData.REDSTONE_ONE);
+		minusPoint1 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-0.1");
+		modifyToCustomHead(minusPoint1, SkullData.REDSTONE_POINT_ONE);
+		plusPoint1 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "+0.1");
+		modifyToCustomHead(plusPoint1, SkullData.LIME_POINT_ONE);
 		plus1 = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "+1");
 		modifyToCustomHead(plus1, SkullData.LIME_ONE);
 		plus5 = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "+5");

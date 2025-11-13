@@ -61,7 +61,7 @@ public class SlotSelectionItems {
 		modifyStoredSlot(offHandSlot, EquipmentSlot.OFF_HAND);
 		modifyItemFlags(offHandSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
-		confirmSlots_deactivated = makeItem(Material.RED_STAINED_GLASS, ChatColor.GREEN + "Confirm");
+		confirmSlots_deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmSlots_deactivated,
 			ChatColor.YELLOW + "Confirm Slot Selection",
 			ChatColor.RED + "Deactivated: No Slot selected");

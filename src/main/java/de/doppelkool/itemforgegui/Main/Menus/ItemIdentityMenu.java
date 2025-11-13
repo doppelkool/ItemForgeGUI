@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemIdentityItems;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -58,6 +59,7 @@ public class ItemIdentityMenu extends Menu {
 			ItemStack clone = ItemIdentityItems.openItemUniquenessSettings.clone();
 			modifyCurrentValueVariableInLore(
 				clone,
+				ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
 				UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
 			this.inventory.setItem(13, clone);
 		}

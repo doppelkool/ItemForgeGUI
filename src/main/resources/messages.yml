@@ -48,6 +48,11 @@ sign-editor:
       empty-input: "&cThe strength you entered is not valid"
       invalid-input: "&cThe strength you entered is not valid"
 
+    attribute-modifier:
+      information: "&aPlease edit the content to the attribute modifiers future amount and click &7'&aDone&7'"
+      empty-input: "&cThe amount you entered is not valid"
+      invalid-input: "&cThe amount you entered is not valid"
+
 book-editor:
   information: "\n &7-&aYou have received a book\n
       &7-&aPlease edit the content according to your futures item lore and click &7'&aDone&7'\n

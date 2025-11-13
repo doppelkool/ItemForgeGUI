@@ -53,9 +53,10 @@ public class AttributeSelectionItems {
 		modifyLore(environmentalAndSurvival, ChatColor.YELLOW + "Click to select attribute category");
 		modifyItemFlags(combat, ItemFlag.HIDE_ENCHANTS);
 
-		confirmSlots_deactivated = makeItem(Material.RED_STAINED_GLASS, ChatColor.GREEN + "Confirm");
+		confirmSlots_deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmSlots_deactivated,
 			ChatColor.YELLOW + "Confirm Attribute Selection",
+			//TODO change respectively to value or slot select, eg. the ones that are not selected
 			ChatColor.RED + "Deactivated: No Attribute selected");
 
 		confirmSlots = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Confirm");

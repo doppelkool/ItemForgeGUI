@@ -1,4 +1,4 @@
-package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus;
+package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;

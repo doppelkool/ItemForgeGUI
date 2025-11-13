@@ -24,6 +24,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * The plugins main class
@@ -64,6 +66,9 @@ public final class Main extends JavaPlugin {
 	private NamespacedKey customAttributeModifierKeyCategoryIDKey;
 
 	@Getter
+	private ArrayList<NamespacedKey> customAttributeModifierPluginKeys;
+
+	@Getter
 	private NamespacedKey customEquipmentSlotIDKey;
 
 	private PersistentDataType<byte[], ForgeArmorEffect> customPersistantDataTypeArmorEffect;
@@ -91,6 +96,7 @@ public final class Main extends JavaPlugin {
 		customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
 		customAttributeModifierKeyStackIDKey = new NamespacedKey(this, "attributeInvID");
 		customAttributeModifierKeyCategoryIDKey = new NamespacedKey(this, "attributeCategoryID");
+		customAttributeModifierPluginKeys = new ArrayList<>();
 
 		customEquipmentSlotIDKey = new NamespacedKey(this, "equipmentSlot");
 
@@ -113,6 +119,7 @@ public final class Main extends JavaPlugin {
 		pluginmanager.registerEvents(new EditAmountSignListener(), this);
 		pluginmanager.registerEvents(new EditSingleEnchantmentStrengthSignListener(), this);
 		pluginmanager.registerEvents(new EditSingleArmorEffectStrengthSignListener(), this);
+		pluginmanager.registerEvents(new EditAttributeModifierAmountSignListener(), this);
 		pluginmanager.registerEvents(new EditItemIDSignListener(), this);
 		pluginmanager.registerEvents(new PreventAlteringListeners(), this);
 		pluginmanager.registerEvents(new PreventApplyListener(), this);
@@ -134,5 +141,11 @@ public final class Main extends JavaPlugin {
 		CustomBlockData.registerListener(this);
 
 		ConfigurationSerialization.registerClass(ForgeArmorEffect.class);
+	}
+
+	public NamespacedKey getRandomKey() {
+		NamespacedKey randomKey = new NamespacedKey(plugin, UUID.randomUUID().toString().replace("-", ""));
+		customAttributeModifierPluginKeys.add(randomKey);
+		return randomKey;
 	}
 }

@@ -172,18 +172,21 @@ public class LeatherItemColorMenu extends Menu {
 		ItemStack redCap = LeatherItemMenuItems.RED_CAP.clone();
 		modifyCurrentValueVariableInLore(
 			redCap,
+			ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
 			String.valueOf(color.getRed()));
 		this.inventory.setItem(13, redCap);
 
 		ItemStack greenCap = LeatherItemMenuItems.GREEN_CAP.clone();
 		modifyCurrentValueVariableInLore(
 			greenCap,
+			ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
 			String.valueOf(color.getGreen()));
 		this.inventory.setItem(22, greenCap);
 
 		ItemStack blueCap = LeatherItemMenuItems.BLUE_CAP.clone();
 		modifyCurrentValueVariableInLore(
 			blueCap,
+			ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
 			String.valueOf(color.getBlue()));
 		this.inventory.setItem(31, blueCap);
 	}

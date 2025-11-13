@@ -52,9 +52,7 @@ public abstract class EditNumberMenu extends Menu {
 			.orElseThrow()
 			.onClick()
 			.accept(e);
-
 	}
-
 
 	@Override
 	public void setMenuItems() {

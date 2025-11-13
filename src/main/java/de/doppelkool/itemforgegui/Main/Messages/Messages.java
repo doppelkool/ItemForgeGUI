@@ -36,6 +36,10 @@ public enum Messages {
 	SIGN_EDITOR_EDIT_ENCHANTMENT_EMPTY_INPUT("sign-editor.edit.enchantment.empty-input"),
 	SIGN_EDITOR_EDIT_ENCHANTMENT_INVALID_INPUT("sign-editor.edit.enchantment.invalid-input"),
 
+	SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INFORMATION("sign-editor.edit.attribute-modifier.information"),
+	SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_EMPTY_INPUT("sign-editor.edit.attribute-modifier.empty-input"),
+	SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INVALID_INPUT("sign-editor.edit.attribute-modifier.invalid-input"),
+
 	BOOK_EDITOR_INFORMATION("book-editor.information"),
 	BOOK_EDITOR_LORE_BOOK_DROP_DISALLOWED("book-editor.lore-book-drop-disallowed"),
 

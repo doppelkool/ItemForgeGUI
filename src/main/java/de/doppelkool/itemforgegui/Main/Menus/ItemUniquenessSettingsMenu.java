@@ -4,6 +4,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierMan
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -65,6 +66,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		ItemStack clone = ItemUniquenessItems.itemUniquenessSettingsShowID.clone();
 		modifyCurrentValueVariableInLore(
 			clone,
+			ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
 			UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
 
 		this.inventory.setItem(4, clone);

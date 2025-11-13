@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionType;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,10 +48,27 @@ public class ItemStackCreateHelper {
 		itemStack.setItemMeta(itemMeta);
 	}
 
-	public static void modifyCurrentValueVariableInLore(ItemStack itemToChangeLore, String currentValue) {
+	public enum LoreVariable {
+		CURRENT_VALUE("currentValue"),
+		CURRENT_ATTRIBUTE("currentAttribute"),
+		MISSING_VALUE("warning_valueMissing"),
+		CURRENT_VALUE__ADD_NUMBER("currentValue_addNumber"),
+		CURRENT_VALUE__ADD_SCALAR("currentValue_addScalar"),
+		CURRENT_VALUE__MULTIPLY_SCALAR_1("currentValue_multiplyScalar1"),
+
+		;
+
+		private final String loreVariable;
+
+		LoreVariable(String loreVariable) {
+			this.loreVariable = loreVariable;
+		}
+	}
+
+	public static void modifyCurrentValueVariableInLore(ItemStack itemToChangeLore, LoreVariable variableString, String currentValue) {
 		ItemMeta itemMeta = itemToChangeLore.getItemMeta();
 		List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
-		lore.replaceAll(s -> s.replace("{currentValue}", currentValue));
+		lore.replaceAll(s -> s.replace("{" + variableString.loreVariable + "}", currentValue));
 
 		itemMeta.setLore(lore);
 		itemToChangeLore.setItemMeta(itemMeta);
