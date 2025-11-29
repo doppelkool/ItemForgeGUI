@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.MenuItems;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
@@ -16,7 +17,6 @@ import org.bukkit.potion.PotionType;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -98,13 +98,13 @@ public class ItemStackCreateHelper {
 		itemStack.setItemMeta(itemMeta);
 	}
 
-	public static void modifyAttributeCategory(ItemStack itemStack, AttributeCategory toBeStored) {
+	public static void modifyAttributeStringInPDC(ItemStack itemStack, Attribute toBeStored) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 
 		itemMeta.getPersistentDataContainer().set(
-			Main.getPlugin().getCustomAttributeModifierKeyCategoryIDKey(),
-			PersistentDataType.INTEGER,
-			toBeStored.ordinal()
+			Main.getPlugin().getCustomAttributeModifierKey_AttributeString(),
+			PersistentDataType.STRING,
+			toBeStored.getKey().getKey()
 		);
 
 		itemStack.setItemMeta(itemMeta);

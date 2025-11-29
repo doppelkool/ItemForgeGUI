@@ -24,7 +24,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -60,10 +59,7 @@ public final class Main extends JavaPlugin {
 	private NamespacedKey customArmorEffectsKey;
 
 	@Getter
-	private NamespacedKey customAttributeModifierKeyStackIDKey;
-
-	@Getter
-	private NamespacedKey customAttributeModifierKeyCategoryIDKey;
+	private NamespacedKey customAttributeModifierKey_AttributeString;
 
 	@Getter
 	private ArrayList<NamespacedKey> customAttributeModifierPluginKeys;
@@ -94,8 +90,7 @@ public final class Main extends JavaPlugin {
 		customArmorEffectsKeyStackIDKey = new NamespacedKey(this, "armorEffectsInvID");
 
 		customArmorEffectsKey = new NamespacedKey(this, "armorEffects");
-		customAttributeModifierKeyStackIDKey = new NamespacedKey(this, "attributeInvID");
-		customAttributeModifierKeyCategoryIDKey = new NamespacedKey(this, "attributeCategoryID");
+		customAttributeModifierKey_AttributeString = new NamespacedKey(this, "attributeString");
 		customAttributeModifierPluginKeys = new ArrayList<>();
 
 		customEquipmentSlotIDKey = new NamespacedKey(this, "equipmentSlot");

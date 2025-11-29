@@ -1,7 +1,12 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
@@ -37,6 +42,10 @@ public class AttributeRegistry {
 
 	private static NamespacedKey keyOf(Attribute attr) {
 		return attr.getKey();
+	}
+
+	public Attribute getByKeyString(String key) {
+		return Registry.ATTRIBUTE.getOrThrow(NamespacedKey.minecraft(key));
 	}
 
 	public AttributeRegistry(Map<AttributeCategory, List<AttributeItem>> source) {

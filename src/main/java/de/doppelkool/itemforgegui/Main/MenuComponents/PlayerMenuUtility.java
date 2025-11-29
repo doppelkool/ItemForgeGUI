@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -73,6 +74,14 @@ public class PlayerMenuUtility {
 				",modifierValues=" + modifierValues +
 				",slotMap=" + Arrays.toString(slotMap.entrySet().toArray()) +
 				"}";
+		}
+
+		public void fillByAttributeModifier(Attribute attribute, Collection<AttributeModifier> activeModifier) {
+			this.attribute = attribute;
+
+			activeModifier.forEach(modifier -> {
+
+			});
 		}
 	}
 }

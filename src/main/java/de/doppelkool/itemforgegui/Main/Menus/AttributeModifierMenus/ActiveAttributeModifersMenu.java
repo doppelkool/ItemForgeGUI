@@ -11,12 +11,16 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistry;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.slf4j.Logger;
+import org.w3c.dom.Attr;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -70,23 +74,18 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 	private void openModifyClickedAttributeModifierMenu(int clickedSlot) {
 		ItemStack clickedAttributeItem = this.inventory.getItem(clickedSlot);
 
-		Integer attributeCategoryOrdinal = clickedAttributeItem
+		String attributeString = clickedAttributeItem
 			.getItemMeta()
 			.getPersistentDataContainer()
-			.get(Main.getPlugin().getCustomAttributeModifierKeyCategoryIDKey(), PersistentDataType.INTEGER);
-		AttributeCategory attributeCategory = AttributeCategory.values()[attributeCategoryOrdinal];
+			.get(Main.getPlugin().getCustomAttributeModifierKey_AttributeString(), PersistentDataType.STRING);
+		Attribute attribute = AttributeRegistry.REGISTRY.getByKeyString(attributeString);
 
-		Integer attributeIndex = clickedAttributeItem
-			.getItemMeta()
-			.getPersistentDataContainer()
-			.get(Main.getPlugin().getCustomAttributeModifierKeyStackIDKey(), PersistentDataType.INTEGER);
-		AttributeItem attributeItem = AttributeRegistry.REGISTRY
-			.getItems(attributeCategory)
-			.get(attributeIndex);
-		Bukkit.getLogger().info(attributeItem.slot() + " : " + attributeItem.item().getType() + " : " + attributeItem.attribute().getKeyOrNull());
+		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		Collection<AttributeModifier> attributeModifiers = itemInMainHand.getItemMeta().getAttributeModifiers(attribute);
+
 		this.playerMenuUtility
 			.getAttributeStorage()
-			.setAttribute(attributeItem.attribute());
+			.fillByAttributeModifier(attributeModifiers);
 
 		new ModifyAttributeModifierMenu(this.playerMenuUtility)
 			.open();

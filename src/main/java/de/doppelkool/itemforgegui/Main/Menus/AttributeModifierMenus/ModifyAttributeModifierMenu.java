@@ -57,7 +57,7 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 			return;
 		}
 		if (super.handleBack(e.getSlot(),
-			() -> this.playerMenuUtility.setAttributeStorage(null),
+			null,
 			ActiveAttributeModifersMenu::new)) {
 			return;
 		}

@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -39,6 +40,8 @@ public class AttributeModifierManager {
 			"Operation '" + formattedOperation + "'",
 			"by " + amount,
 			"for " + formattedSlot);
+
+		ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeModifierEntry.getKey());
 	}
 
 	private static String map(EquipmentSlotGroup slotGroup) {
