@@ -2,25 +2,23 @@ package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus;
 
 import de.doppelkool.itemforgegui.Main.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.AddAttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.AttributeSelectionMenu.AttributeSelectionItems;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.AttributeSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.SlotSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.OperationSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.ModifyAttributeModifierItems;
+import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.EditValueMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyCurrentValueVariableInLore;
 
 /**
  * Class Description
@@ -28,8 +26,67 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.mo
  * @author doppelkool | github.com/doppelkool
  */
 public class ModifyAttributeModifierMenu extends ConfirmableMenu {
+
+	private final Map<SlotItemWrapper.SlotItem, EquipmentSlotGroup> slotItemToEquipmentSlot = Map.of(
+		new SlotItemWrapper.SlotItem(10, ModifyAttributeModifierItems.headSlot), EquipmentSlotGroup.HEAD,
+		new SlotItemWrapper.SlotItem(11, ModifyAttributeModifierItems.chestSlot), EquipmentSlotGroup.CHEST,
+		new SlotItemWrapper.SlotItem(12, ModifyAttributeModifierItems.legSlot), EquipmentSlotGroup.LEGS,
+		new SlotItemWrapper.SlotItem(13, ModifyAttributeModifierItems.bootSlot), EquipmentSlotGroup.FEET,
+		new SlotItemWrapper.SlotItem(15, ModifyAttributeModifierItems.mainHandSlot), EquipmentSlotGroup.MAINHAND,
+		new SlotItemWrapper.SlotItem(16, ModifyAttributeModifierItems.offHandSlot), EquipmentSlotGroup.OFFHAND
+	);
+
 	public ModifyAttributeModifierMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility, 26);
+		if (this.playerMenuUtility.getModifyAttributeStorage().getOperationDoubleValues() != null) {
+			computeValuesFromSubMenuIntoStorage();
+		} else {
+			loadValuesFromItemIntoStorage();
+		}
+	}
+
+	private void computeValuesFromSubMenuIntoStorage() {
+		EquipmentSlotGroup selectedSlotGroup = this.playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup();
+		EnumMap<AttributeModifier.Operation, Double> valuesToCompute = this.playerMenuUtility.getModifyAttributeStorage().getOperationDoubleValues();
+
+		this.playerMenuUtility.getModifyAttributeStorage()
+			.getModifierValues()
+			.computeIfAbsent(selectedSlotGroup, k -> new EnumMap<>(AttributeModifier.Operation.class))
+			.putAll(valuesToCompute);
+
+		this.playerMenuUtility.getModifyAttributeStorage().setOperationDoubleValues(null);
+	}
+
+	private void loadValuesFromItemIntoStorage() {
+		boolean msgNoMultipleSameModifiersAllowed = false;
+		Attribute byAttribute = this.playerMenuUtility.getModifyAttributeStorage().getAttribute();
+		Collection<AttributeModifier> activeAttributeModifiersByAttribute = getActiveAttributeModifiersByAttribute(byAttribute);
+
+		Map<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> modifierValues = this.playerMenuUtility.getModifyAttributeStorage().getModifierValues();
+		for (AttributeModifier attributeModifier : activeAttributeModifiersByAttribute) {
+			Map<AttributeModifier.Operation, Double> operationDoubleMap = modifierValues.get(attributeModifier.getSlotGroup());
+
+			//Warning for not supported feature (multiple modifiers identified by identical keys)
+			if(operationDoubleMap.get(attributeModifier.getOperation()) != null) {
+				msgNoMultipleSameModifiersAllowed = true;
+			}
+
+			operationDoubleMap.put(attributeModifier.getOperation(), attributeModifier.getAmount());
+		}
+
+		if(msgNoMultipleSameModifiersAllowed) {
+			this.playerMenuUtility.getOwner().sendMessage(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_MANUAL_BUTTON, true));
+		}
+
+		this.playerMenuUtility.getModifyAttributeStorage().setModifierValues(modifierValues);
+	}
+
+	private Collection<AttributeModifier> getActiveAttributeModifiersByAttribute(Attribute attribute) {
+		return this.playerMenuUtility.getOwner()
+			.getInventory()
+			.getItemInMainHand()
+			.getItemMeta()
+			.getAttributeModifiers(attribute);
 	}
 
 	@Override
@@ -40,14 +97,6 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 	@Override
 	public int getSlots() {
 		return 9 * 3;
-	}
-
-	private boolean isValueSelectionActivated() {
-		return this.playerMenuUtility.getAttributeStorage().getAttribute() != null;
-	}
-
-	private boolean isSlotSelectionActivated() {
-		return this.playerMenuUtility.getAttributeStorage().getAttribute() != null;
 	}
 
 	@Override
@@ -62,109 +111,75 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 			return;
 		}
 		if (super.handleConfirm(e.getSlot(),
-			() -> {
-				ItemStackModifyHelper.modifyAttributeModifierOnItem(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), this.playerMenuUtility.getAttributeStorage());
-				this.playerMenuUtility.setAttributeStorage(null);
-			},
+			this::applyAttributeModifiersOnItem,
 			ActiveAttributeModifersMenu::new)) {
 			return;
 		}
 
-		//TODO slots in setting and executing
-		if(e.getSlot() == 11) {
-			new AttributeSelectionMenu(this.playerMenuUtility)
-				.open();
-			return;
-		}
-		if (isValueSelectionActivated() && e.getSlot() == 13) {
-			new OperationSelectionMenu(this.playerMenuUtility)
-				.open();
-			return;
-		}
-		if (isSlotSelectionActivated() && e.getSlot() == 15) {
-			new SlotSelectionMenu(this.playerMenuUtility)
-				.open();
-			return;
-		}
+		EquipmentSlotGroup clickedSlotGroup = slotItemToEquipmentSlot.entrySet().stream()
+			.filter(si -> si.getKey().slot() == e.getSlot())
+			.findFirst()
+			.orElseThrow()
+			.getValue();
+		this.playerMenuUtility.getModifyAttributeStorage().setSelectedSlotGroup(clickedSlotGroup);
+		this.playerMenuUtility.getModifyAttributeStorage().setOperationDoubleValues(
+			this.playerMenuUtility.getModifyAttributeStorage().getModifierValues().get(clickedSlotGroup)
+		);
+
+		new EditValueMenu(this.playerMenuUtility)
+			.open();
 	}
 
-	private ItemStack attributeSelection() {
-		ItemStack attributeSelection = AddAttributeModifierItems.attributeSelection.clone();
-
-		Attribute attribute = this.playerMenuUtility.getAttributeStorage().getAttribute();
-		String loreStringForAttribute = attribute != null ? ItemStackModifyHelper.formatTranslationalNames(attribute.getTranslationKey()) : "-";
-		modifyCurrentValueVariableInLore(attributeSelection, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,loreStringForAttribute);
-
-		return attributeSelection;
-	}
-
-	private ItemStack valueSelection() {
-		if(!isValueSelectionActivated()) {
-			return AddAttributeModifierItems.valueSelection_deactivated.clone();
-		}
-
-		EnumMap<AttributeModifier.Operation, Double> modifierValues = this.playerMenuUtility.getAttributeStorage().getModifierValues();
-		Double operationAddNumber = modifierValues.get(AttributeModifier.Operation.ADD_NUMBER);
-		Double operationAddScalar = modifierValues.get(AttributeModifier.Operation.ADD_SCALAR);
-		Double operationMultiplyScalar1 = modifierValues.get(AttributeModifier.Operation.MULTIPLY_SCALAR_1);
-
-		String loreStringForAttributeAddNumber = operationAddNumber != null ? String.valueOf(operationAddNumber) : "-";
-		String loreStringForAttributeAddScalar = operationAddScalar != null ? String.valueOf(operationAddScalar) : "-";
-		String loreStringForAttributeMultiplyScalar1 = operationMultiplyScalar1 != null ? String.valueOf(operationMultiplyScalar1) : "-";
-
-		ItemStack valueSelection = AddAttributeModifierItems.valueSelection.clone();
-
-		modifyCurrentValueVariableInLore(valueSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_NUMBER,loreStringForAttributeAddNumber);
-		modifyCurrentValueVariableInLore(valueSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_SCALAR,loreStringForAttributeAddScalar);
-		modifyCurrentValueVariableInLore(valueSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__MULTIPLY_SCALAR_1,loreStringForAttributeMultiplyScalar1);
-
-		return valueSelection;
-	}
-
-	private ItemStack slotSelection() {
-		if(!isSlotSelectionActivated()) {
-			return AddAttributeModifierItems.slotSelection_deactivated.clone();
-		}
-
-		ItemStack slotSelection = AddAttributeModifierItems.slotSelection.clone();
-		Map<EquipmentSlot, Boolean> slotMap = this.playerMenuUtility.getAttributeStorage().getSlotMap();
-
-		String slotListString = slotMap.entrySet().stream()
-			.filter(Map.Entry::getValue)
-			.map(e -> ItemStackModifyHelper.formatCAPSNames(e.getKey().name()))
-			.collect(Collectors.collectingAndThen(
-				Collectors.joining(", "),
-				s -> s.isEmpty() ? "-" : s
-			));
-
-		modifyCurrentValueVariableInLore(slotSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,slotListString);
-
-		return slotSelection;
+	private void applyAttributeModifiersOnItem() {
+		ItemStackModifyHelper.addAttributeModifierToItem(
+			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+			this.playerMenuUtility.getModifyAttributeStorage());
 	}
 
 	@Override
 	public void setMenuItems() {
 		addMenuBorder();
-		this.inventory.setItem(11, attributeSelection());
-		this.inventory.setItem(13, valueSelection());
-		this.inventory.setItem(15, slotSelection());
+
+		Attribute attribute = this.playerMenuUtility.getModifyAttributeStorage().getAttribute();
+		Map<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> activeAttributeModifiersByAttributeAndSlot = this.playerMenuUtility.getModifyAttributeStorage().getModifierValues();
+
+		slotItemToEquipmentSlot.forEach((key, value) -> {
+
+			ItemStack equipmentSlotItem = key.item().clone();
+
+			ItemStackCreateHelper.modifyCurrentValueVariableInLore(
+				equipmentSlotItem,
+				ItemStackCreateHelper.LoreVariable.CURRENT_ATTRIBUTE,
+				ItemStackModifyHelper.formatTranslationalNames(attribute.getTranslationKey())
+			);
+
+			Map<AttributeModifier.Operation, ItemStackCreateHelper.LoreVariable> operationToLoreVariable = Map.of(
+				AttributeModifier.Operation.ADD_NUMBER, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_NUMBER,
+				AttributeModifier.Operation.ADD_SCALAR, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_SCALAR,
+				AttributeModifier.Operation.MULTIPLY_SCALAR_1, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__MULTIPLY_SCALAR_1
+			);
+
+
+			for (AttributeModifier.Operation operation : AttributeModifier.Operation.values()) {
+				Double v = activeAttributeModifiersByAttributeAndSlot.get(value).get(operation);
+				String valueToReplace = v == null ? "-" : String.valueOf(v);
+
+				ItemStackCreateHelper.modifyCurrentValueVariableInLore(
+					equipmentSlotItem,
+					operationToLoreVariable.get(operation),
+					valueToReplace
+				);
+			}
+
+			this.inventory.setItem(key.slot(), equipmentSlotItem);
+		});
+
 		updateConfirmSlot();
 		setFillerGlass();
 	}
 
 	@Override
-	protected boolean isConfirmable() {
-		//TODO combine literally all isConfirmable in the 3 submenus together instead of retyping the criteria here
-		PlayerMenuUtility.AttributeStorage attributeStorage = this.playerMenuUtility.getAttributeStorage();
-		return attributeStorage.getAttribute() != null &&
-			attributeStorage.getSlotMap().containsValue(true) &&
-			!attributeStorage.getModifierValues().isEmpty();
-	}
-
-	@Override
 	protected ItemStack getConfirmableItem() {
-		return isConfirmable()
-			? AttributeSelectionItems.confirmSlots.clone()
-			: AttributeSelectionItems.confirmSlots_deactivated.clone();
+		return AttributeSelectionItems.confirmSlots.clone();
 	}
 }

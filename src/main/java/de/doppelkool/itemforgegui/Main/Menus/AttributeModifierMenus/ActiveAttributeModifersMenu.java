@@ -5,24 +5,21 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManage
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistry;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
-import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.slf4j.Logger;
-import org.w3c.dom.Attr;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
 
@@ -72,20 +69,15 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 	}
 
 	private void openModifyClickedAttributeModifierMenu(int clickedSlot) {
-		ItemStack clickedAttributeItem = this.inventory.getItem(clickedSlot);
-
-		String attributeString = clickedAttributeItem
+		String attributeString = this.inventory.getItem(clickedSlot)
 			.getItemMeta()
 			.getPersistentDataContainer()
 			.get(Main.getPlugin().getCustomAttributeModifierKey_AttributeString(), PersistentDataType.STRING);
 		Attribute attribute = AttributeRegistry.REGISTRY.getByKeyString(attributeString);
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		Collection<AttributeModifier> attributeModifiers = itemInMainHand.getItemMeta().getAttributeModifiers(attribute);
-
-		this.playerMenuUtility
-			.getAttributeStorage()
-			.fillByAttributeModifier(attributeModifiers);
+		PlayerMenuUtility.ModifyAttributeStorage modifyAttributeStorage = new PlayerMenuUtility.ModifyAttributeStorage();
+		modifyAttributeStorage.setAttribute(attribute);
+		this.playerMenuUtility.setModifyAttributeStorage(modifyAttributeStorage);
 
 		new ModifyAttributeModifierMenu(this.playerMenuUtility)
 			.open();
@@ -111,23 +103,31 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 
 	private void fillMenuWithActivatedAttributes() {
 		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		Multimap<Attribute, AttributeModifier> attributeModifiers = itemInMainHand.getItemMeta().getAttributeModifiers();
-		List<Map.Entry<Attribute, AttributeModifier>> entries = attributeModifiers.entries().stream().toList();
+		Map<Attribute, List<AttributeModifier>> entries = itemInMainHand.getItemMeta().getAttributeModifiers().asMap()
+			.entrySet()
+			.stream()
+			.collect(Collectors.toMap(
+				Map.Entry::getKey,
+				e -> new ArrayList<>(e.getValue())
+			));
 
 		int startIndex = this.maxItemsPerPage * page;
-		int endIndex = Math.min(startIndex + this.maxItemsPerPage, attributeModifiers.size());
+		int endIndex = Math.min(startIndex + this.maxItemsPerPage, entries.size());
 		int slotIndex = 0;
 
 		for (int i = startIndex; i < endIndex; i++) {
-			Map.Entry<Attribute, AttributeModifier> attributeModifierEntry = entries.get(i);
+			Map.Entry<Attribute, List<AttributeModifier>> attributeModifierEntry = entries.entrySet().stream().toList().get(i);
 
 			AttributeItem attributeItemFromAttribute = AttributeRegistry.REGISTRY.getItem(attributeModifierEntry.getKey());
 			ItemStack attributeItemStackclone = attributeItemFromAttribute.item().clone();
 
 			AttributeModifierManager.insertValues(
 				attributeItemStackclone,
+				attributeItemFromAttribute.attribute(),
 				attributeModifierEntry
 			);
+
+			ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeItemFromAttribute.attribute());
 
 			int inventorySlot = getInventorySlot(slotIndex);
 			inventory.setItem(inventorySlot, attributeItemStackclone);

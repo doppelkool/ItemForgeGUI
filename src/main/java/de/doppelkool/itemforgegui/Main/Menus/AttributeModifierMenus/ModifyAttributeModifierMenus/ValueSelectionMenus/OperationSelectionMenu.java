@@ -6,16 +6,11 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.AttributeSelectionMenu.AttributeSelectionItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.OperationSelectionMenu.OperationSelectionItems;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.CreateAttributeModifierMenu;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.AttributeSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.SlotSelectionMenu;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.AddNumberOperationMenu;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.AddScalarOperationMenu;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.MultiplyScalar1OperationMenu;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.ValueSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -125,8 +120,6 @@ public class OperationSelectionMenu extends ConfirmableMenu {
 
 	@Override
 	protected ItemStack getConfirmableItem() {
-		Logger.log(this.playerMenuUtility.getAttributeStorage().getModifierValues());
-
 		return isConfirmable()
 			? OperationSelectionItems.confirmAddNewAttributeModifierValue_Activated.clone()
 			//TODO Replace valueMissing variable

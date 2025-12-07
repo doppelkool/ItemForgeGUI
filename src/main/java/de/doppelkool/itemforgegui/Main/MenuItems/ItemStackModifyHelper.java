@@ -9,9 +9,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
@@ -229,31 +231,28 @@ public class ItemStackModifyHelper {
 		itemStack.setItemMeta(itemMeta);
 	}
 
-	public static void modifyAttributeModifierOnItem(ItemStack itemStack, PlayerMenuUtility.AttributeStorage attributeStorage) {
+	public static void addAttributeModifierToItem(ItemStack itemStack, PlayerMenuUtility.ModifyAttributeStorage modifyAttributeStorage) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.removeAttributeModifier(modifyAttributeStorage.getAttribute());
 
-		List<AttributeModifier> toRemove = new ArrayList<>();
-		List<AttributeModifier> toAdd = new ArrayList<>();
-
-		for (Map.Entry<AttributeModifier.Operation, Double> modifierToChange : attributeStorage.getModifierValues().entrySet()) {
-			for (AttributeModifier attributeModifier : itemMeta.getAttributeModifiers(attributeStorage.getAttribute())) {
-				if(modifierToChange.getKey() == attributeModifier.getOperation()) {
-					toRemove.add(attributeModifier);
-
-					toAdd.add(new AttributeModifier(
-						Main.getPlugin().getRandomKey(),
-						modifierToChange.getValue(),
-						attributeModifier.getOperation(),
-						attributeModifier.getSlotGroup()));
-				}
+		for(Map.Entry<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> slotMapEntry : modifyAttributeStorage.getModifierValues().entrySet()) {
+			for (Map.Entry<AttributeModifier.Operation, Double> entry : slotMapEntry.getValue().entrySet()) {
+				AttributeModifier attributeModifier = new AttributeModifier(
+					Main.getPlugin().getRandomKey(),
+					entry.getValue(),
+					entry.getKey(),
+					slotMapEntry.getKey());
+				itemMeta.addAttributeModifier(modifyAttributeStorage.getAttribute(), attributeModifier);
 			}
 		}
+		itemStack.setItemMeta(itemMeta);
+	}
 
-		for (AttributeModifier attributeModifier : toRemove) {
-			itemMeta.removeAttributeModifier(attributeStorage.getAttribute(), attributeModifier);
-		}
-		for (AttributeModifier attributeModifier : toAdd) {
-			itemMeta.addAttributeModifier(attributeStorage.getAttribute(), attributeModifier);
+	public static void addAttributeModifierToItem(ItemStack itemStack, Attribute attribute, List<AttributeModifier> attributeModifierList) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		for(AttributeModifier attributeModifier : attributeModifierList) {
+			itemMeta.addAttributeModifier(attribute, attributeModifier);
 		}
 
 		itemStack.setItemMeta(itemMeta);

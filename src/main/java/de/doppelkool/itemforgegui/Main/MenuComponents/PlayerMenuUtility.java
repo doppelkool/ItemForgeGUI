@@ -1,20 +1,18 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
-import com.google.common.collect.ImmutableMap;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.checkerframework.checker.units.qual.A;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class Description
@@ -23,6 +21,7 @@ import java.util.*;
  */
 @Getter
 @Setter
+@ToString
 public class PlayerMenuUtility {
 
 	private Player owner;
@@ -31,6 +30,7 @@ public class PlayerMenuUtility {
 	private int storedSlot;
 	private Enchantment targetEnchantment;
 	private AttributeStorage attributeStorage;
+	private ModifyAttributeStorage modifyAttributeStorage;
 	private PotionEffectType targetPotionEffectType;
 	private SignNumberEditor signNumberEditor;
 
@@ -38,22 +38,11 @@ public class PlayerMenuUtility {
 		this.owner = pl;
 	}
 
-	@Override
-	public String toString() {
-		return "{" +
-			"owner=" + owner +
-			",tempStoredItem=" + tempStoredItem +
-			",storedSlot=" + storedSlot +
-			",targetEnchantment=" + targetEnchantment +
-			",targetPotionEffectType=" + targetPotionEffectType +
-			",signNumberEditor=" + signNumberEditor +
-			"}";
-	}
-
 	@Getter
 	@Setter
 	@NoArgsConstructor
 	@AllArgsConstructor
+	@ToString
 	public static class AttributeStorage {
 		private Attribute attribute;
 		private EnumMap<AttributeModifier.Operation, Double> modifierValues = new EnumMap<>(AttributeModifier.Operation.class);
@@ -66,22 +55,28 @@ public class PlayerMenuUtility {
 			slotMap.put(EquipmentSlot.HAND, false);
 			slotMap.put(EquipmentSlot.OFF_HAND, false);
 		}
+	}
 
-		@Override
-		public String toString() {
-			return "{" +
-				"attribute=" + attribute +
-				",modifierValues=" + modifierValues +
-				",slotMap=" + Arrays.toString(slotMap.entrySet().toArray()) +
-				"}";
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@ToString
+	public static class ModifyAttributeStorage {
+		//Slot Selection Menu
+		private Attribute attribute;
+		private Map<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> modifierValues = new HashMap<>();
+		{
+			modifierValues.put(EquipmentSlotGroup.HEAD, new EnumMap<>(AttributeModifier.Operation.class));
+			modifierValues.put(EquipmentSlotGroup.CHEST, new EnumMap<>(AttributeModifier.Operation.class));
+			modifierValues.put(EquipmentSlotGroup.LEGS, new EnumMap<>(AttributeModifier.Operation.class));
+			modifierValues.put(EquipmentSlotGroup.FEET, new EnumMap<>(AttributeModifier.Operation.class));
+			modifierValues.put(EquipmentSlotGroup.MAINHAND, new EnumMap<>(AttributeModifier.Operation.class));
+			modifierValues.put(EquipmentSlotGroup.OFFHAND, new EnumMap<>(AttributeModifier.Operation.class));
 		}
 
-		public void fillByAttributeModifier(Attribute attribute, Collection<AttributeModifier> activeModifier) {
-			this.attribute = attribute;
-
-			activeModifier.forEach(modifier -> {
-
-			});
-		}
+		//Value Selection Menu
+		private EquipmentSlotGroup selectedSlotGroup;
+		private EnumMap<AttributeModifier.Operation, Double> operationDoubleValues;
 	}
 }

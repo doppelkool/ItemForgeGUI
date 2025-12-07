@@ -1,20 +1,17 @@
 package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus;
 
+import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.AddAttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AddAttributeModifierMenu.AttributeSelectionMenu.AttributeSelectionItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.AttributeSelectionMenu;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.SlotSelectionMenu;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.OperationSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.ValueSelectionMenu;
 import de.doppelkool.itemforgegui.Main.Menus.SpecialsMenu;
-import de.doppelkool.itemforgegui.Main.Menus.SpecialsPreventionFlagsMenu;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -22,7 +19,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -73,7 +69,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 		}
 		if (super.handleBack(e.getSlot(),
 			() -> this.playerMenuUtility.setAttributeStorage(null),
-			SpecialsMenu::new)) {
+			this::determineBackMenu)) {
 			return;
 		}
 		if (super.handleConfirm(e.getSlot(),
@@ -100,6 +96,15 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 			new SlotSelectionMenu(this.playerMenuUtility)
 				.open();
 			return;
+		}
+	}
+
+	private Menu determineBackMenu(PlayerMenuUtility playerMenuUtility) {
+		Multimap<Attribute, AttributeModifier> attributeModifiers = playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().getAttributeModifiers();
+		if(attributeModifiers == null || attributeModifiers.isEmpty()) {
+			return new SpecialsMenu(this.playerMenuUtility);
+		} else {
+			return new ActiveAttributeModifersMenu(this.playerMenuUtility);
 		}
 	}
 

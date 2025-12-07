@@ -1,6 +1,9 @@
 package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus;
 
-import de.doppelkool.itemforgegui.Main.MenuComponents.*;
+import de.doppelkool.itemforgegui.Main.MenuComponents.ConfirmableMenu;
+import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;

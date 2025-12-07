@@ -1,14 +1,10 @@
 package de.doppelkool.itemforgegui.Main.MenuComponents;
 
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 /**
  * Class Description
@@ -25,4 +21,6 @@ public class SlotItemWrapper {
 	public record SlotItemConsumer(int slot, ItemStack item, Consumer<Integer> runnable) {}
 
 	public record SlotExecute(int slot, Runnable runnable) {}
+
+	public record SlotItemOperationValueEdit(int slot, ItemStack item, AttributeModifier.Operation operation, Double valueEdit) {}
 }

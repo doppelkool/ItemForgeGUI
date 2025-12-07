@@ -84,3 +84,6 @@ misc:
     information: "&aCopy the unique identifier by clicking &7->"
     copy-button: "&7[&aCOPY&7]"
     manual-button: "&7[&aMANUAL&7]"
+
+attribute-modifier:
+  warning-with-same-details: "&7[&cWarning&7] &cThere have been multiple Attribute Modifiers with the same key details found. This is currently not supported. Be careful with the output!"

@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -272,6 +273,44 @@ public class Logger {
 			enummap.get(AttributeModifier.Operation.ADD_NUMBER),
 			enummap.get(AttributeModifier.Operation.ADD_SCALAR),
 			enummap.get(AttributeModifier.Operation.MULTIPLY_SCALAR_1)
+		));
+	}
+
+	public static void log2(Map<EquipmentSlotGroup, Map<AttributeModifier.Operation, Double>> modifierValues) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			modifierValues.entrySet().stream()
+				.map(eff -> eff.getKey().toString() + "-" + eff.getValue())
+				.collect(Collectors.toList())
+		));
+	}
+	public static void log3(Map<AttributeModifier.Operation, Double> modifierValues) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			modifierValues.entrySet().stream()
+				.map(eff -> eff.getKey().toString() + "-" + eff.getValue())
+				.collect(Collectors.toList())
+		));
+	}
+	public static void log2(List<AttributeModifier> modifiers) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			modifiers
 		));
 	}
 }

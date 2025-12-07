@@ -65,6 +65,8 @@ public enum Messages {
 	MISC_COPY_UNIQUE_IDENTIFIER_COPY_BUTTON("misc.copy-unique-identifier.copy-button"),
 	MISC_COPY_UNIQUE_IDENTIFIER_MANUAL_BUTTON("misc.copy-unique-identifier.manual-button"),
 
+	ATTRIBUTE_MODIFIER_WARNING_WITH_SAME_DETAILS("attribute-modifier.warning-with-same-details"),
+
 	;
 
 	@Getter

@@ -92,7 +92,7 @@ public class SpecialsMenu extends Menu {
 				.open();
 			return;
 		}
-}
+	}
 
 	@Override
 	public void setMenuItems() {

@@ -20,7 +20,9 @@ public abstract class ConfirmableMenu extends Menu {
 		this.confirmationItemSlot = confirmationItemSlot;
 	}
 
-	protected abstract boolean isConfirmable();
+	protected boolean isConfirmable() {
+		return true;
+	}
 
 	protected abstract ItemStack getConfirmableItem();
 

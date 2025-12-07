@@ -1,14 +1,14 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.google.common.collect.Multimap;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,21 +27,25 @@ public class AttributeModifierManager {
 		return attributeModifiers.keySet().size() != 35;
 	}
 
-	public static void insertValues(ItemStack attributeItemStackclone, Map.Entry<Attribute, AttributeModifier> attributeModifierEntry) {
-		AttributeModifier.Operation operation = attributeModifierEntry.getValue().getOperation();
-		String formattedOperation = map(operation.name());
+	//public static void insertValues(ItemStack attributeItemStackclone, Map.Entry<Attribute, List<AttributeModifier>> attributeModifierEntry) {
+	//	AttributeModifier.Operation operation = attributeModifierEntry.getValue().getOperation();
+	//	String formattedOperation = map(operation.name());
+//
+	//	double amount = attributeModifierEntry.getValue().getAmount();
+//
+	//	EquipmentSlotGroup slotGroup = attributeModifierEntry.getValue().getSlotGroup();
+	//	String formattedSlot = map(slotGroup);
+//
+	//	ItemStackCreateHelper.modifyLore(attributeItemStackclone,
+	//		"Operation '" + formattedOperation + "'",
+	//		"by " + amount,
+	//		"for " + formattedSlot);
+//
+	//	ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeModifierEntry.getKey());
+	//}
 
-		double amount = attributeModifierEntry.getValue().getAmount();
-
-		EquipmentSlotGroup slotGroup = attributeModifierEntry.getValue().getSlotGroup();
-		String formattedSlot = map(slotGroup);
-
-		ItemStackCreateHelper.modifyLore(attributeItemStackclone,
-			"Operation '" + formattedOperation + "'",
-			"by " + amount,
-			"for " + formattedSlot);
-
-		ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeModifierEntry.getKey());
+	public static void insertValues(ItemStack attributeItemStackclone, Attribute attribute, Map.Entry<Attribute, List<AttributeModifier>> attributeModifierEntry) {
+		ItemStackModifyHelper.addAttributeModifierToItem(attributeItemStackclone, attribute, attributeModifierEntry.getValue());
 	}
 
 	private static String map(EquipmentSlotGroup slotGroup) {
