@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManager;
 import de.doppelkool.itemforgegui.Main.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuComponents.SlotItemWrapper;
@@ -18,7 +19,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Class Description
@@ -60,7 +63,10 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 	private void loadValuesFromItemIntoStorage() {
 		boolean msgNoMultipleSameModifiersAllowed = false;
 		Attribute byAttribute = this.playerMenuUtility.getModifyAttributeStorage().getAttribute();
-		Collection<AttributeModifier> activeAttributeModifiersByAttribute = getActiveAttributeModifiersByAttribute(byAttribute);
+		ItemStack itemInMainHand = this.playerMenuUtility.getOwner()
+			.getInventory()
+			.getItemInMainHand();
+		Collection<AttributeModifier> activeAttributeModifiersByAttribute = AttributeModifierManager.getActiveAttributeModifiersByAttribute(itemInMainHand, byAttribute);
 
 		Map<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> modifierValues = this.playerMenuUtility.getModifyAttributeStorage().getModifierValues();
 		for (AttributeModifier attributeModifier : activeAttributeModifiersByAttribute) {
@@ -79,14 +85,6 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 		}
 
 		this.playerMenuUtility.getModifyAttributeStorage().setModifierValues(modifierValues);
-	}
-
-	private Collection<AttributeModifier> getActiveAttributeModifiersByAttribute(Attribute attribute) {
-		return this.playerMenuUtility.getOwner()
-			.getInventory()
-			.getItemInMainHand()
-			.getItemMeta()
-			.getAttributeModifiers(attribute);
 	}
 
 	@Override
@@ -140,8 +138,9 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 	public void setMenuItems() {
 		addMenuBorder();
 
+		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 		Attribute attribute = this.playerMenuUtility.getModifyAttributeStorage().getAttribute();
-		Map<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> activeAttributeModifiersByAttributeAndSlot = this.playerMenuUtility.getModifyAttributeStorage().getModifierValues();
+		Collection<AttributeModifier> activeAttributeModifiersByAttribute = AttributeModifierManager.getActiveAttributeModifiersByAttribute(itemInMainHand, attribute);
 
 		slotItemToEquipmentSlot.forEach((key, value) -> {
 
@@ -153,22 +152,11 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 				ItemStackModifyHelper.formatTranslationalNames(attribute.getTranslationKey())
 			);
 
-			Map<AttributeModifier.Operation, ItemStackCreateHelper.LoreVariable> operationToLoreVariable = Map.of(
-				AttributeModifier.Operation.ADD_NUMBER, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_NUMBER,
-				AttributeModifier.Operation.ADD_SCALAR, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_SCALAR,
-				AttributeModifier.Operation.MULTIPLY_SCALAR_1, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__MULTIPLY_SCALAR_1
-			);
-
-
-			for (AttributeModifier.Operation operation : AttributeModifier.Operation.values()) {
-				Double v = activeAttributeModifiersByAttributeAndSlot.get(value).get(operation);
-				String valueToReplace = v == null ? "-" : String.valueOf(v);
-
-				ItemStackCreateHelper.modifyCurrentValueVariableInLore(
-					equipmentSlotItem,
-					operationToLoreVariable.get(operation),
-					valueToReplace
-				);
+			Collection<AttributeModifier> activeAttributeModifiersByAttributeAndSlot = AttributeModifierManager.filterBySlot(activeAttributeModifiersByAttribute, value);
+			if(!activeAttributeModifiersByAttributeAndSlot.isEmpty()) {
+				AttributeModifierManager.applyAttributeLore(equipmentSlotItem, attribute, activeAttributeModifiersByAttribute);
+			} else {
+				//todo add empty line
 			}
 
 			this.inventory.setItem(key.slot(), equipmentSlotItem);

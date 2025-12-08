@@ -124,7 +124,7 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 			AttributeModifierManager.insertValues(
 				attributeItemStackclone,
 				attributeItemFromAttribute.attribute(),
-				attributeModifierEntry
+				attributeModifierEntry.getValue()
 			);
 
 			ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeItemFromAttribute.attribute());

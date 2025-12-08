@@ -1,6 +1,8 @@
 package de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus;
 
 import com.google.common.collect.Multimap;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManager;
+import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
@@ -16,8 +18,10 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -124,19 +128,29 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 		}
 
 		EnumMap<AttributeModifier.Operation, Double> modifierValues = this.playerMenuUtility.getAttributeStorage().getModifierValues();
-		Double operationAddNumber = modifierValues.get(AttributeModifier.Operation.ADD_NUMBER);
-		Double operationAddScalar = modifierValues.get(AttributeModifier.Operation.ADD_SCALAR);
-		Double operationMultiplyScalar1 = modifierValues.get(AttributeModifier.Operation.MULTIPLY_SCALAR_1);
-
-		String loreStringForAttributeAddNumber = operationAddNumber != null ? String.valueOf(operationAddNumber) : "-";
-		String loreStringForAttributeAddScalar = operationAddScalar != null ? String.valueOf(operationAddScalar) : "-";
-		String loreStringForAttributeMultiplyScalar1 = operationMultiplyScalar1 != null ? String.valueOf(operationMultiplyScalar1) : "-";
+		Collection<AttributeModifier> attributeModifiers = modifierValues.entrySet().stream()
+			.map(entry ->
+				new AttributeModifier(
+					Main.getPlugin().getRandomKey(),
+					entry.getValue(),
+					entry.getKey(),
+					EquipmentSlotGroup.ANY))
+			.toList();
 
 		ItemStack valueSelection = AddAttributeModifierItems.valueSelection.clone();
+		Attribute attribute = this.playerMenuUtility.getAttributeStorage().getAttribute();
 
-		modifyCurrentValueVariableInLore(valueSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_NUMBER,loreStringForAttributeAddNumber);
-		modifyCurrentValueVariableInLore(valueSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__ADD_SCALAR,loreStringForAttributeAddScalar);
-		modifyCurrentValueVariableInLore(valueSelection,ItemStackCreateHelper.LoreVariable.CURRENT_VALUE__MULTIPLY_SCALAR_1,loreStringForAttributeMultiplyScalar1);
+		if(!modifierValues.isEmpty()) {
+			AttributeModifierManager.applyAttributeLore(valueSelection, attribute, attributeModifiers);
+		} else {
+			//todo add empty line
+		}
+
+		ItemStackCreateHelper.modifyCurrentValueVariableInLore(
+			valueSelection,
+			ItemStackCreateHelper.LoreVariable.CURRENT_ATTRIBUTE,
+			ItemStackModifyHelper.formatTranslationalNames(attribute.getTranslationKey())
+		);
 
 		return valueSelection;
 	}

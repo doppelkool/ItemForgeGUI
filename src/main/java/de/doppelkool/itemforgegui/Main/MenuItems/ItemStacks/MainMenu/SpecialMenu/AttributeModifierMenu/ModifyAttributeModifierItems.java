@@ -29,56 +29,32 @@ public class ModifyAttributeModifierItems {
 
 	static {
 		headSlot = makeItem(Material.LEATHER_HELMET, ChatColor.GREEN + "Head Slot");
-		modifyLore(headSlot, ChatColor.YELLOW + "Click to modify attribute modifier for {currentAttribute}, Slot Head", "",
-			ChatColor.GRAY + "Existing modifier values: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}");
+		modifyLore(headSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Head");
 		modifyStoredSlot(headSlot, EquipmentSlot.HEAD);
 		modifyItemFlags(headSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		chestSlot = makeItem(Material.CHAINMAIL_CHESTPLATE, ChatColor.GREEN + "Chest Slot");
-		modifyLore(chestSlot, ChatColor.YELLOW + "Click to modify attribute modifier for {currentAttribute}, Slot Chest", "",
-			ChatColor.GRAY + "Existing modifier values: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}");
+		modifyLore(chestSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Chest");
 		modifyStoredSlot(chestSlot, EquipmentSlot.CHEST);
 		modifyItemFlags(chestSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		legSlot = makeItem(Material.GOLDEN_LEGGINGS, ChatColor.GREEN + "Leg Slot");
-		modifyLore(legSlot, ChatColor.YELLOW + "Click to modify attribute modifier for {currentAttribute}, Slot Legs", "",
-			ChatColor.GRAY + "Existing modifier values: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}");
+		modifyLore(legSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Legs");
 		modifyStoredSlot(legSlot, EquipmentSlot.LEGS);
 		modifyItemFlags(legSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		bootSlot = makeItem(Material.NETHERITE_BOOTS, ChatColor.GREEN + "Boot Slot");
-		modifyLore(bootSlot, ChatColor.YELLOW + "Click to modify attribute modifier for {currentAttribute}, Slot Feet", "",
-			ChatColor.GRAY + "Existing modifier values: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}");
+		modifyLore(bootSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Feet");
 		modifyStoredSlot(bootSlot, EquipmentSlot.FEET);
 		modifyItemFlags(bootSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		mainHandSlot = makeItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Main Hand Slot");
-		modifyLore(mainHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for {currentAttribute}, Slot Main Hand", "",
-			ChatColor.GRAY + "Existing modifier values: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}");
+		modifyLore(mainHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Main Hand");
 		modifyStoredSlot(mainHandSlot, EquipmentSlot.HAND);
 		modifyItemFlags(mainHandSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		offHandSlot = makeItem(Material.SHIELD, ChatColor.GREEN + "Off Hand Slot");
-		modifyLore(offHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for {currentAttribute}, Slot Off Hand", "",
-			ChatColor.GRAY + "Existing modifier values: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}");
+		modifyLore(offHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Off Hand");
 		modifyStoredSlot(offHandSlot, EquipmentSlot.OFF_HAND);
 		modifyItemFlags(offHandSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 	}

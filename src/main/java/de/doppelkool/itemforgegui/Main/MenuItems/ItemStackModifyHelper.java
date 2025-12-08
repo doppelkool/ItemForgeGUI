@@ -248,7 +248,7 @@ public class ItemStackModifyHelper {
 		itemStack.setItemMeta(itemMeta);
 	}
 
-	public static void addAttributeModifierToItem(ItemStack itemStack, Attribute attribute, List<AttributeModifier> attributeModifierList) {
+	public static void addAttributeModifierToItem(ItemStack itemStack, Attribute attribute, Collection<AttributeModifier> attributeModifierList) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
 
 		for(AttributeModifier attributeModifier : attributeModifierList) {

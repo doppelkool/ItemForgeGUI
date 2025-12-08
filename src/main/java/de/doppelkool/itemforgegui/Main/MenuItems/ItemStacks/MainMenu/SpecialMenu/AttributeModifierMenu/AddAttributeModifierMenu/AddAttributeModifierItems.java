@@ -29,12 +29,7 @@ public class AddAttributeModifierItems {
 		);
 
 		valueSelection = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Value Selection");
-		modifyLore(valueSelection, ChatColor.YELLOW + "Select the strength of the attribute modifier", "",
-			ChatColor.GRAY + "Currently selected: ",
-			ChatColor.GRAY + "- Add Number: {currentValue_addNumber}",
-			ChatColor.GRAY + "- Add Scalar: {currentValue_addScalar}",
-			ChatColor.GRAY + "- Multiply Scalar1: {currentValue_multiplyScalar1}"
-		);
+		modifyLore(valueSelection, ChatColor.YELLOW + "Click to edit the values for {currentAttribute}");
 
 		valueSelection_deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Value Selection");
 		modifyLore(valueSelection_deactivated, ChatColor.YELLOW + "Select the strength of the attribute modifier", "",
