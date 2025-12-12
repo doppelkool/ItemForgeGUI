@@ -7,12 +7,18 @@ import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.AddNumberOperationMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
+import lombok.SneakyThrows;
 import org.bukkit.Material;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.EnumMap;
 
 /**
  * Class Description
@@ -46,28 +52,40 @@ public class EditAttributeModifierAmountSignListener implements Listener {
 			return;
 		}
 
-		playerMenuUtility.getAttributeStorage().getModifierValues().put(
-			playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundUp(amount)
-		);
+		//TODo maybe create two listeners one for creating attribute modifier and one for editing
+		//ToDo optimize and rewrite variables
+		if(playerMenuUtility.getAttributeStorage() != null) {
+			playerMenuUtility.getAttributeStorage().getModifierValues().put(
+				playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundUp(amount)
+			);
+		} else {
+			EnumMap<AttributeModifier.Operation, Double> operationDoubleEnumMap = playerMenuUtility.getModifyAttributeStorage().getModifierValues().get(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup());
+
+			if(operationDoubleEnumMap == null) {
+				operationDoubleEnumMap = new EnumMap<>(AttributeModifier.Operation.class);
+			}
+
+			operationDoubleEnumMap.put(playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundUp(amount));
+			playerMenuUtility.getModifyAttributeStorage().getModifierValues().put(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup(), operationDoubleEnumMap);
+		}
 		endProcess(playerMenuUtility);
 	}
 
 	private double roundUp(double setValue) {
-		return Math.ceil((setValue) * 10) / 10.0;
+		return BigDecimal.valueOf(setValue)
+			.setScale(3, RoundingMode.HALF_UP)
+			.doubleValue();
 	}
 
+	@SneakyThrows
 	private void endProcess(PlayerMenuUtility util) {
 		util.getOwner().getLocation().getBlock().setType(Material.AIR);
-		util.setSignNumberEditor(null);
 
 		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
 		new ItemInfoManager(item).updateItemInfo();
-		if (item.getItemMeta().hasEnchants()) {
-			new AddNumberOperationMenu(util)
-				.open();
-		} else {
-			new AddNumberOperationMenu(util)
-				.open();
-		}
+		util.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
+			.newInstance(util)
+			.open();
+		util.setSignNumberEditor(null);
 	}
 }

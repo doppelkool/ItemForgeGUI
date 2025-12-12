@@ -51,6 +51,7 @@ public class ItemStackCreateHelper {
 		CURRENT_VALUE("currentValue"),
 		CURRENT_ATTRIBUTE("currentAttribute"),
 		MISSING_VALUE("warning_valueMissing"),
+		CURRENT_OPERATION("currentOperation"),
 		CURRENT_VALUE__ADD_NUMBER("currentValue_addNumber"),
 		CURRENT_VALUE__ADD_SCALAR("currentValue_addScalar"),
 		CURRENT_VALUE__MULTIPLY_SCALAR_1("currentValue_multiplyScalar1"),

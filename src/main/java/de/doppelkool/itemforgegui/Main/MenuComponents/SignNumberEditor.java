@@ -15,6 +15,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -32,6 +33,7 @@ public class SignNumberEditor {
 	private Location signLocation;
 	private NUMBER_EDIT_TYPE type;
 	private AttributeModifier.Operation targetOperation;
+	private Class<? extends ConfirmableMenu> returnInventory;
 
 	public SignNumberEditor(Player pl) throws IllegalStateException {
 		this.pl = pl;
@@ -124,6 +126,11 @@ public class SignNumberEditor {
 
 	public SignNumberEditor setTargetOperation(AttributeModifier.Operation targetOperation) {
 		this.targetOperation = targetOperation;
+		return this;
+	}
+
+	public SignNumberEditor setReturnInventory(Class<? extends ConfirmableMenu> returnInventory) {
+		this.returnInventory = returnInventory;
 		return this;
 	}
 

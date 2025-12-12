@@ -155,6 +155,7 @@ public class AddNumberOperationMenu extends ConfirmableMenu {
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editAttributeModifierValue(this.currentValue)
+			.setReturnInventory(OperationSelectionMenu.class)
 			.setTargetOperation(AttributeModifier.Operation.ADD_NUMBER)
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INFORMATION);

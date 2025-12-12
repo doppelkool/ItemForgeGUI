@@ -128,4 +128,18 @@ public class ModifyAttributeModifierItems {
 		modifyLore(confirmValues, ChatColor.YELLOW + "Confirm Slot Selection");
 		modifyToCustomHead(confirmValues, SkullData.QUARTZ_CHECK);
 	}
+
+	public static final ItemStack infoBook;
+
+	static {
+		infoBook = makeItem(Material.WRITABLE_BOOK, ChatColor.GREEN + "Information");
+		modifyItemFlags(infoBook, ItemFlag.HIDE_ENCHANTS);
+		modifyLore(infoBook,
+			ChatColor.YELLOW + "Operation" + ChatColor.GRAY + ": " + ChatColor.YELLOW  + "{currentOperation}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": " + ChatColor.YELLOW  + "{currentValue}",
+			"",
+			ChatColor.GRAY + "*left click* to set the value through manual enter",
+			ChatColor.GRAY + "*right click* to set the value to zero"
+		);
+	}
 }

@@ -99,6 +99,7 @@ public class MultiplyScalar1OperationMenu extends ConfirmableMenu {
 		setFillerGlass();
 	}
 
+	//TODo to ItemStacks
 	private ItemStack getInfoBook() {
 		ItemStack infoCurrentValuesBook = OperationConfirmationItems.infoCurrentValuesBook.clone();
 		ItemStackCreateHelper.modifyLore(infoCurrentValuesBook,
@@ -155,6 +156,7 @@ public class MultiplyScalar1OperationMenu extends ConfirmableMenu {
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editAttributeModifierValue(this.currentValue)
+			.setReturnInventory(OperationSelectionMenu.class)
 			.setTargetOperation(AttributeModifier.Operation.MULTIPLY_SCALAR_1)
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INFORMATION);

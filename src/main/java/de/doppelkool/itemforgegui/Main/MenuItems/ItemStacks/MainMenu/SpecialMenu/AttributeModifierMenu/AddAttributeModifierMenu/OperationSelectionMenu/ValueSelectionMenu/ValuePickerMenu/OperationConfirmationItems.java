@@ -20,6 +20,7 @@ public class OperationConfirmationItems {
 
 	static {
 		infoCurrentValuesBook = makeItem(Material.BOOK, ChatColor.GREEN + "Information:");
+		//TODO Check needed
 		modifyLore(
 			infoCurrentValuesBook
 		);
