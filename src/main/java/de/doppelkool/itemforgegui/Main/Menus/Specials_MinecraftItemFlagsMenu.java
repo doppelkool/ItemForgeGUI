@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import oshi.util.tuples.Pair;
+import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
 
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper.setActivated;

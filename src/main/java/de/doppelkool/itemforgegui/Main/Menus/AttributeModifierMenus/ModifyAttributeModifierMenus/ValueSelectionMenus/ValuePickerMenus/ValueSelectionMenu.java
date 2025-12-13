@@ -7,7 +7,7 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import oshi.util.tuples.Pair;
+import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
 
 import java.util.Set;
 

@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
-import oshi.util.tuples.Pair;
+import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
 
 import java.util.HashMap;
 

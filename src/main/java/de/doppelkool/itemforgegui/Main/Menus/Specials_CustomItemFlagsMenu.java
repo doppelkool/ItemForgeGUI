@@ -9,7 +9,7 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import oshi.util.tuples.Pair;
+import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
 
 /**
  * Class Description
