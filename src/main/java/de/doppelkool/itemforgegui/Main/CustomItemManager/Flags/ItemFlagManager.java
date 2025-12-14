@@ -4,7 +4,7 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu
 import lombok.Getter;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import java.util.HashMap;
 import java.util.Map;

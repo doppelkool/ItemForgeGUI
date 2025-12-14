@@ -1,13 +1,13 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu;
 
-import de.doppelkool.itemforgegui.Main.MenuItems.SkullData;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SkullData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.makeItem;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyLore;
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.modifyToCustomHead;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.makeItem;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyLore;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyToCustomHead;
 
 /**
  * Class Description

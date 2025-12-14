@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuRelay;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.MenuRelay;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;

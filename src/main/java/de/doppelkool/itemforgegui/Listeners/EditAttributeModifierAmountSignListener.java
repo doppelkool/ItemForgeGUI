@@ -1,10 +1,9 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.Menus.AttributeModifierMenus.ModifyAttributeModifierMenus.ValueSelectionMenus.ValuePickerMenus.AddNumberOperationMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import lombok.SneakyThrows;
@@ -55,7 +54,7 @@ public class EditAttributeModifierAmountSignListener implements Listener {
 		//TODo maybe create two listeners one for creating attribute modifier and one for editing
 		//ToDo optimize and rewrite variables
 		if(playerMenuUtility.getAttributeStorage() != null) {
-			playerMenuUtility.getAttributeStorage().getModifierValues().put(
+			playerMenuUtility.getAttributeStorage().getOperationDoubleValues().put(
 				playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundUp(amount)
 			);
 		} else {

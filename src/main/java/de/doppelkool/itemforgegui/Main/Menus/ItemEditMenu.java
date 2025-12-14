@@ -4,13 +4,14 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagMan
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.MainMenuItems;
-import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.ActivatedEnchantmentsMenu;
-import de.doppelkool.itemforgegui.Main.Menus.EnchantmentMenus.DeactivatedEnchantmentsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.*;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.ActivatedEnchantmentsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.DeactivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -22,7 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper.notAvailable;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.notAvailable;
 
 /**
  * Main menu to enter the main function of this plugin.

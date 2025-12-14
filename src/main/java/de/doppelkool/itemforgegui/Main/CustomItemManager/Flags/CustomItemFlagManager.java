@@ -5,7 +5,7 @@ import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.CustomItemFlagMenu.CustomItemFlagItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 /**
  * Class Description

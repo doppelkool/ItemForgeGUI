@@ -1,6 +1,6 @@
 package de.doppelkool.itemforgegui.Commands;
 
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;

@@ -2,11 +2,11 @@ package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
-import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;

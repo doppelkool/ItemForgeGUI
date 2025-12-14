@@ -3,7 +3,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemFlag;

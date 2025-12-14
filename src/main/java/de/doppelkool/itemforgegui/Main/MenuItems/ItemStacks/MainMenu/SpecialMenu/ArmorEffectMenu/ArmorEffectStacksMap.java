@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
-import de.doppelkool.itemforgegui.Main.MenuComponents.Pair;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

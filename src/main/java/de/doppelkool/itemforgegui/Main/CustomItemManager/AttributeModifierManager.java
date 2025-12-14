@@ -1,19 +1,14 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager;
 
 import com.google.common.collect.Multimap;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Step;
-import org.checkerframework.checker.units.qual.A;
-import org.jline.builtins.Less;
 
-import javax.annotation.meta.When;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;

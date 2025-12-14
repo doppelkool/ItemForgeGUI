@@ -86,4 +86,4 @@ misc:
     manual-button: "&7[&aMANUAL&7]"
 
 attribute-modifier:
-  warning-with-same-details: "&7[&cWarning&7] &cThere have been multiple Attribute Modifiers with the same key details found. This is currently not supported. Be careful with the output!"
+  warning-with-same-details: "&7[&cWarning&7] &cThere are multiple Attribute Modifiers with the same key details on your item. This is currently not supported. Be careful with the result!"

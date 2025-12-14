@@ -4,8 +4,8 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagMan
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
