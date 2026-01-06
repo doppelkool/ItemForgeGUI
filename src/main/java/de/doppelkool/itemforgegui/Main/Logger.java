@@ -246,9 +246,9 @@ public class Logger {
 				"getType: %s\n",
 				"slot: %s\n",
 			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
-			selectedAttribute.attribute(),
-			selectedAttribute.item().getType(),
-			selectedAttribute.slot()
+			selectedAttribute.getAttribute(),
+			selectedAttribute.getItem().getType(),
+			selectedAttribute.getSlot()
 		));
 	}
 

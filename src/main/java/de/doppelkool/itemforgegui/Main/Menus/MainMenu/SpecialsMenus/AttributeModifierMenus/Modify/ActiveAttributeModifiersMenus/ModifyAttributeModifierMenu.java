@@ -96,7 +96,7 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 			ActiveAttributeModifersMenu::new)) {
 			return;
 		}
-		if (super.handleConfirm(e.getSlot(),
+		if (isConfirmable() && super.handleConfirm(e.getSlot(),
 			this::applyAttributeModifiersOnItem,
 			ActiveAttributeModifersMenu::new)) {
 			return;

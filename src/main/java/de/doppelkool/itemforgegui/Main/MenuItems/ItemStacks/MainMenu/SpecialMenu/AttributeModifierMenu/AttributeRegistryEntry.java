@@ -1,5 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu;
 
+import lombok.Setter;
+
 /**
  * Class Description
  *

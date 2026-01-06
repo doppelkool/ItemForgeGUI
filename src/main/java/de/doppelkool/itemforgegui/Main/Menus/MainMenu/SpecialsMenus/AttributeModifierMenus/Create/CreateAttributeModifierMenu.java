@@ -78,7 +78,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 			this::determineBackMenu)) {
 			return;
 		}
-		if (super.handleConfirm(e.getSlot(),
+		if (isConfirmable() && super.handleConfirm(e.getSlot(),
 			() -> {
 				ItemStackModifyHelper.addAttributeModifierToItem(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), this.playerMenuUtility.getAttributeStorage());
 				this.playerMenuUtility.setAttributeStorage(null);

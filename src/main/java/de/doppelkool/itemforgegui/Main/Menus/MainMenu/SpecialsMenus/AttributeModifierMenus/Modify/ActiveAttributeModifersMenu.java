@@ -121,15 +121,15 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 			Map.Entry<Attribute, List<AttributeModifier>> attributeModifierEntry = entries.entrySet().stream().toList().get(i);
 
 			AttributeItem attributeItemFromAttribute = AttributeRegistry.REGISTRY.getItem(attributeModifierEntry.getKey());
-			ItemStack attributeItemStackclone = attributeItemFromAttribute.item().clone();
+			ItemStack attributeItemStackclone = attributeItemFromAttribute.getItem().clone();
 
 			AttributeModifierManager.insertValues(
 				attributeItemStackclone,
-				attributeItemFromAttribute.attribute(),
+				attributeItemFromAttribute.getAttribute(),
 				attributeModifierEntry.getValue()
 			);
 
-			ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeItemFromAttribute.attribute());
+			ItemStackCreateHelper.modifyAttributeStringInPDC(attributeItemStackclone, attributeItemFromAttribute.getAttribute());
 
 			int inventorySlot = getInventorySlot(slotIndex);
 			inventory.setItem(inventorySlot, attributeItemStackclone);

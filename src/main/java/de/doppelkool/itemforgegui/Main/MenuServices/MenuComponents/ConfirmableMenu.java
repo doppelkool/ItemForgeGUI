@@ -31,7 +31,7 @@ public abstract class ConfirmableMenu extends Menu {
 	}
 
 	protected boolean handleConfirm(int slot, @Nullable Runnable effect, @NotNull Function<PlayerMenuUtility, Menu> newMenu) {
-		if (slot == confirmationItemSlot && isConfirmable()) {
+		if (slot == confirmationItemSlot) {
 			if (effect != null) effect.run();
 			newMenu.apply(playerMenuUtility).open();
 			return true;

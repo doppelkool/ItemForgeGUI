@@ -51,7 +51,7 @@ public class SlotSelectionMenu extends ConfirmableMenu {
 		if (super.handleBack(e.getSlot(), null, CreateAttributeModifierMenu::new)) {
 			return;
 		}
-		if (super.handleConfirm(e.getSlot(), null, CreateAttributeModifierMenu::new)) {
+		if (isConfirmable() && super.handleConfirm(e.getSlot(), null, CreateAttributeModifierMenu::new)) {
 			return;
 		}
 

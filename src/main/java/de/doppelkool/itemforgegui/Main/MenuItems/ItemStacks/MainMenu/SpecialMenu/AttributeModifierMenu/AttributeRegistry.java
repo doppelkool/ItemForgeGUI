@@ -1,5 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu;
 
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
@@ -47,7 +49,7 @@ public class AttributeRegistry {
 	public AttributeRegistry(Map<AttributeCategory, List<AttributeItem>> source) {
 		source.forEach((category, items) -> {
 			for (AttributeItem it : items) {
-				NamespacedKey k = keyOf(it.attribute());
+				NamespacedKey k = keyOf(it.getAttribute());
 				AttributeRegistryEntry prev = attributeToEntry.putIfAbsent(k, new AttributeRegistryEntry(it, category));
 				if (prev != null) {
 					throw new IllegalStateException("Duplicate Attribute: " + k + " in " + category);
@@ -71,6 +73,22 @@ public class AttributeRegistry {
 	public List<AttributeItem> getItems(AttributeCategory category) {
 		List<AttributeItem> out = new ArrayList<>();
 		for (AttributeRegistryEntry e : attributeToEntry.values()) if (e.category() == category) out.add(e.item());
+		return Collections.unmodifiableList(out);
+	}
+
+	public List<AttributeItem> getItems_AlreadyAppliedAreBarriers(AttributeCategory category, Set<Attribute> filteredOut) {
+		List<AttributeItem> out = new ArrayList<>();
+		for (AttributeRegistryEntry e : attributeToEntry.values()) {
+			if (e.category() != category) {
+				continue;
+			}
+
+			AttributeItem item = e.item().clone();
+			if (filteredOut.contains(item.getAttribute())) {
+				item.setItem(ItemStackCreateHelper.notAvailable(item.getItem().clone()));
+			}
+			out.add(item);
+		}
 		return Collections.unmodifiableList(out);
 	}
 }

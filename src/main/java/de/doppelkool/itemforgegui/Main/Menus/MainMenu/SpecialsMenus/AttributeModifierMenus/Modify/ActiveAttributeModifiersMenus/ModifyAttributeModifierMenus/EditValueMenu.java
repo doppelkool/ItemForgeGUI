@@ -11,6 +11,7 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifiersMenus.ModifyAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.ClickType;
@@ -90,7 +91,7 @@ public class EditValueMenu extends ConfirmableMenu {
 			ModifyAttributeModifierMenu::new)) {
 			return;
 		}
-		if (super.handleConfirm(e.getSlot(),
+		if (isConfirmable() && super.handleConfirm(e.getSlot(),
 			null,
 			ModifyAttributeModifierMenu::new)) {
 			return;
@@ -121,10 +122,13 @@ public class EditValueMenu extends ConfirmableMenu {
 			.add(BigDecimal.valueOf(slotItemOperationValueEdit.valueEdit()))
 			.setScale(3, RoundingMode.HALF_UP);
 
-		if(newValue.equals(BigDecimal.ZERO)) {
+		if(newValue.doubleValue() == 0.000) {
 			operationDoubleValues.remove(slotItemOperationValueEdit.operation());
+			Bukkit.getLogger().info("removed");
 		} else {
 			operationDoubleValues.put(slotItemOperationValueEdit.operation(), newValue.doubleValue());
+			Bukkit.getLogger().info("add with not zero: " + newValue
+			);
 		}
 	}
 

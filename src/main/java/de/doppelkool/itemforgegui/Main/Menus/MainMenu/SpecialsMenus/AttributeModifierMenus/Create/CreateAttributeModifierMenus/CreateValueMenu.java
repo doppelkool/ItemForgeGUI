@@ -90,7 +90,7 @@ public class CreateValueMenu extends ConfirmableMenu {
 			CreateAttributeModifierMenu::new)) {
 			return;
 		}
-		if (super.handleConfirm(e.getSlot(),
+		if (isConfirmable() && super.handleConfirm(e.getSlot(),
 			null,
 			CreateAttributeModifierMenu::new)) {
 			return;

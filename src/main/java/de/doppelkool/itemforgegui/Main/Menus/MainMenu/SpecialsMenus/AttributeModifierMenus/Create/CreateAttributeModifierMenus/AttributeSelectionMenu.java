@@ -65,8 +65,8 @@ public class AttributeSelectionMenu extends ConfirmableMenu {
 			CreateAttributeModifierMenu::new)) {
 			return;
 		}
-		if (super.handleConfirm(e.getSlot(),
-			() -> this.playerMenuUtility.getAttributeStorage().setAttribute(selectedAttributeInMenu.attribute()),
+		if (isConfirmable() && super.handleConfirm(e.getSlot(),
+			() -> this.playerMenuUtility.getAttributeStorage().setAttribute(selectedAttributeInMenu.getAttribute()),
 			CreateAttributeModifierMenu::new)) {
 			return;
 		}
@@ -87,7 +87,7 @@ public class AttributeSelectionMenu extends ConfirmableMenu {
 
 	private void attributeClicked(int slot) {
 		AttributeRegistry.REGISTRY.getItems(this.selectedCategoryInMenu).stream()
-			.filter((attributeItem) -> attributeItem.slot() == slot).findAny()
+			.filter((attributeItem) -> attributeItem.getSlot() == slot).findAny()
 			.ifPresent(attributeItem -> this.selectedAttributeInMenu = attributeItem);
 		loadItemsForSelectedCategory();
 	}
@@ -133,13 +133,22 @@ public class AttributeSelectionMenu extends ConfirmableMenu {
 
 	private void loadItemsForSelectedCategory() {
 		emptyAttributeItems();
-		AttributeRegistry.REGISTRY.getItems(this.selectedCategoryInMenu)
+
+		Set<Attribute> alreadyAppliedAttributes = this.playerMenuUtility.getOwner()
+			.getInventory()
+			.getItemInMainHand()
+			.getItemMeta()
+			.getAttributeModifiers()
+			.asMap()
+			.keySet();
+
+		AttributeRegistry.REGISTRY.getItems_AlreadyAppliedAreBarriers(this.selectedCategoryInMenu, alreadyAppliedAttributes)
 			.forEach((attributeItem) -> {
-				ItemStack item = attributeItem.item().clone();
-				if(this.selectedAttributeInMenu != null && attributeItem.attribute() == this.selectedAttributeInMenu.attribute()) {
+				ItemStack item = attributeItem.getItem().clone();
+				if(this.selectedAttributeInMenu != null && attributeItem.getAttribute() == this.selectedAttributeInMenu.getAttribute()) {
 					ItemStackModifyHelper.setGlow(item, true);
 				}
-				this.inventory.setItem(attributeItem.slot(), item);
+				this.inventory.setItem(attributeItem.getSlot(), item);
 			}
 		);
 	}
