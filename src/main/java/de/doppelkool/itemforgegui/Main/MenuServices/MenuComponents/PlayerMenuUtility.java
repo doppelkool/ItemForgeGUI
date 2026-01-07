@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents;
 
+import de.doppelkool.itemforgegui.API.ItemForgeGuiAPI;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import lombok.*;
 import org.bukkit.attribute.Attribute;
@@ -14,6 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Class Description
@@ -26,6 +28,8 @@ import java.util.Map;
 public class PlayerMenuUtility {
 
 	private Player owner;
+	private ObservableObject<ItemStack> itemInHand;
+	private Optional<ItemForgeGuiAPI.ItemForgeCallback> APICallback;
 
 	private ItemStack tempStoredItem;
 	private int storedSlot;

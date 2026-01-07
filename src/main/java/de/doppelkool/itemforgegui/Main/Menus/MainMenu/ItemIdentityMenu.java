@@ -54,7 +54,7 @@ public class ItemIdentityMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 
 		if (ConfigManager.getInstance().isUniqueIdOnEditedItemEnabled()) {
 			ItemStack clone = ItemIdentityItems.openItemUniquenessSettings.clone();

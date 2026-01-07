@@ -62,7 +62,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 
 		ItemStack clone = ItemUniquenessItems.itemUniquenessSettingsShowID.clone();
 		modifyCurrentValueVariableInLore(
@@ -82,7 +82,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(
 				UniqueItemIdentifierManager.getUniqueItemIdentifierOrEmptyString(
-					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta()))
+					this.playerMenuUtility.getItemInHand().get().getItemMeta()))
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_UNIQUEID_INFORMATION);
 	}

@@ -5,6 +5,7 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ObservableObject;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
@@ -16,6 +17,7 @@ import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -41,13 +43,15 @@ public class ItemEditMenu extends Menu {
 	private void initItemStack() {
 		ItemStack itemInMainHand = playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 
+		playerMenuUtility.setItemInHand(new ObservableObject<>(itemInMainHand));
+		playerMenuUtility.getItemInHand().onChange(updated -> {
+			playerMenuUtility.getOwner().getInventory().setItemInMainHand(updated);
+			playerMenuUtility.getAPICallback().ifPresent(cb -> cb.onItemEdited(updated));
+		});
+
 		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
 			CustomItemFlagManager.getInstance().initCustomItemFlags(itemInMainHand);
-			new ItemInfoManager(itemInMainHand).initItemDescription();
 		}
-
-		//Fallback reset of progress of attribute modifier creation if player exited inventory via esc or similar
-		this.playerMenuUtility.setAttributeStorage(new PlayerMenuUtility.AttributeStorage());
 
 		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
 			itemInMainHand);
@@ -55,7 +59,7 @@ public class ItemEditMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Edit: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Edit: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getItemInHand().get().getType().getTranslationKey());
 	}
 
 	@Override
@@ -81,7 +85,7 @@ public class ItemEditMenu extends Menu {
 			editLoreProcess();
 			return;
 		}
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 		if (e.getSlot() == 12) {
 			ItemMeta itemMeta = item.getItemMeta();
 			if (!itemMeta.hasEnchants()) {
@@ -134,7 +138,7 @@ public class ItemEditMenu extends Menu {
 		this.inventory.setItem(11, MainMenuItems.editLore);
 		this.inventory.setItem(12, MainMenuItems.editEnchantments);
 
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 		if (ItemStackModifyHelper.isDamageable(item)) {
 			this.inventory.setItem(13, MainMenuItems.editDurability);
 		} else {
@@ -180,12 +184,12 @@ public class ItemEditMenu extends Menu {
 						String translatedText = ChatColor.translateAlternateColorCodes('&', outputItemMeta.getDisplayName());
 						outputItemMeta.setDisplayName(translatedText);
 						outputItem.setItemMeta(outputItemMeta);
-						this.playerMenuUtility.getOwner().getInventory().setItemInMainHand(outputItem);
+						playerMenuUtility.getItemInHand().set(outputItem);
 					}),
 					AnvilGUI.ResponseAction.close(),
 					AnvilGUI.ResponseAction.openInventory(this.inventory));
 			})
-			.itemLeft(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand())
+			.itemLeft(this.playerMenuUtility.getItemInHand().get())
 			.plugin(Main.getPlugin())
 			.preventClose()
 			.title("Rename the item")

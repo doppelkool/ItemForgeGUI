@@ -6,6 +6,8 @@ import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
+import lombok.extern.slf4j.Slf4j;
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,13 +17,11 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author doppelkool | github.com/doppelkool
  */
+@Slf4j
 public class AmountMenu extends EditNumberMenu {
-
-	private final ItemStack item;
 
 	public AmountMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
-		this.item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
 	}
 
 	@Override
@@ -29,9 +29,10 @@ public class AmountMenu extends EditNumberMenu {
 		super.setMenuItems();
 
 		//Custom Item for default stack size
-		if (this.item.getMaxStackSize() != 1) {
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
+		if (itemStack.getMaxStackSize() != 1) {
 			ItemStack toDefault = GlobalItems.toDefault.clone();
-			toDefault.setAmount(this.item.getMaxStackSize());
+			toDefault.setAmount(itemStack.getMaxStackSize());
 			this.inventory.setItem(13, toDefault);
 		}
 	}
@@ -44,12 +45,12 @@ public class AmountMenu extends EditNumberMenu {
 	@Override
 	//Swapped with toOne
 	protected void handleToZero() {
-		this.item.setAmount(1);
+		this.playerMenuUtility.getItemInHand().get().setAmount(1);
 	}
 
 	@Override
 	protected void handleToMax() {
-		this.item.setAmount(99);
+		this.playerMenuUtility.getItemInHand().get().setAmount(99);
 	}
 
 	@Override
@@ -58,26 +59,30 @@ public class AmountMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleMinus10() {
-		int targetAmount = Math.max(this.item.getAmount() - 10, 1);
-		this.item.setAmount(targetAmount);
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
+		int targetAmount = Math.max(itemStack.getAmount() - 10, 1);
+		itemStack.setAmount(targetAmount);
 	}
 
 	@Override
 	protected void handleMinus1() {
-		int targetAmount = Math.max(this.item.getAmount() - 1, 1);
-		this.item.setAmount(targetAmount);
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
+		int targetAmount = Math.max(itemStack.getAmount() - 1, 1);
+		itemStack.setAmount(targetAmount);
 	}
 
 	@Override
 	protected void handlePlus1() {
-		int targetAmount = this.item.getAmount() + 1;
-		this.item.setAmount(targetAmount);
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
+		int targetAmount = itemStack.getAmount() + 1;
+		itemStack.setAmount(targetAmount);
 	}
 
 	@Override
 	protected void handlePlus10() {
-		int targetAmount = this.item.getAmount() + 10;
-		this.item.setAmount(targetAmount);
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
+		int targetAmount = itemStack.getAmount() + 10;
+		itemStack.setAmount(targetAmount);
 	}
 
 	@Override
@@ -88,7 +93,7 @@ public class AmountMenu extends EditNumberMenu {
 	protected void handleCustomNumber(InventoryClickEvent e) {
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
-			.editAmount(this.item.getAmount())
+			.editAmount(this.playerMenuUtility.getItemInHand().get().getAmount())
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_AMOUNT_INFORMATION);
 	}
@@ -96,7 +101,7 @@ public class AmountMenu extends EditNumberMenu {
 	@Override
 	protected boolean onCustomItemClick(InventoryClickEvent e) {
 		if (e.getSlot() == 13) {
-			this.item.setAmount(this.item.getMaxStackSize());
+			this.playerMenuUtility.getItemInHand().get().setAmount(this.playerMenuUtility.getItemInHand().get().getMaxStackSize());
 			return true;
 		}
 		return false;

@@ -49,13 +49,13 @@ public class MinecraftItemFlagsMenu extends Menu {
 		if (itemFlagItemStackPair != null) {
 			itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
 
-			new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
+			new ItemInfoManager(this.playerMenuUtility.getItemInHand().get()).updateItemInfo();
 			return;
 		}
 	}
 
 	private void itemFlagClicked(ItemStack currentItem, ItemFlag itemFlag) {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
 		if (hasGlow(currentItem)) {
@@ -73,7 +73,7 @@ public class MinecraftItemFlagsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
 		ItemFlagManager.getInstance().getSlotToFlag().forEach((slot, pair) -> {

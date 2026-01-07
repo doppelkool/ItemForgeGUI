@@ -91,7 +91,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		addPaginatedItems();
 		addCustomMenuFillingForEffects();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		if (EnchantmentStacksMap.getAllDeactivatedEnchantments(itemInMainHand)
 			.isEmpty()) {
 			this.inventory.setItem(activatedEnchantmentsSlot, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
@@ -104,7 +104,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 	}
 
 	private void fillMenuWithActivatedEnchantments() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ItemMeta itemInMainHandItemMeta = itemInMainHand.getItemMeta();
 		Map<Enchantment, Integer> enchants = itemInMainHandItemMeta.getEnchants();
 		this.activatedEnchantmentsToStrength = new HashMap<>(enchants);

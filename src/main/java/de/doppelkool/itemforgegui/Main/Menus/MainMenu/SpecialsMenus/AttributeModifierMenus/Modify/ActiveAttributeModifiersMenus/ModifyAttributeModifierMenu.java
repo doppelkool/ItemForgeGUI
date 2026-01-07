@@ -118,7 +118,7 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 
 	private void applyAttributeModifiersOnItem() {
 		ItemStackModifyHelper.addAttributeModifierToItem(
-			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+			this.playerMenuUtility.getItemInHand().get(),
 			this.playerMenuUtility.getModifyAttributeStorage());
 	}
 
@@ -126,7 +126,7 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		Attribute attribute = this.playerMenuUtility.getModifyAttributeStorage().getAttribute();
 		Collection<AttributeModifier> activeAttributeModifiersByAttribute = AttributeModifierManager.getActiveAttributeModifiersByAttribute(itemInMainHand, attribute);
 

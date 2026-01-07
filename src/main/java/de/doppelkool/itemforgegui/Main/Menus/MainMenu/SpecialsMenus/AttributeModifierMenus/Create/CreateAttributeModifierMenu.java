@@ -80,7 +80,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 		}
 		if (isConfirmable() && super.handleConfirm(e.getSlot(),
 			() -> {
-				ItemStackModifyHelper.addAttributeModifierToItem(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), this.playerMenuUtility.getAttributeStorage());
+				ItemStackModifyHelper.addAttributeModifierToItem(this.playerMenuUtility.getItemInHand().get(), this.playerMenuUtility.getAttributeStorage());
 				this.playerMenuUtility.setAttributeStorage(null);
 			},
 			ActiveAttributeModifersMenu::new)) {

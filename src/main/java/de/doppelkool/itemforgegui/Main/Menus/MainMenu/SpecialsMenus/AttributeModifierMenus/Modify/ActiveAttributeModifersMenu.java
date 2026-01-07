@@ -54,7 +54,7 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 		if(super.pageBack(e.getSlot())) {
 			return;
 		}
-		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().getAttributeModifiers();
+		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getItemInHand().get().getItemMeta().getAttributeModifiers();
 		if(super.pageForward(e.getSlot(), attributeModifiers.size())) {
 			return;
 		}
@@ -100,11 +100,11 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 	}
 
 	private boolean isCreateNewAttributeItemAvailable() {
-		return AttributeModifierManager.canMore(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta());
+		return AttributeModifierManager.canMore(this.playerMenuUtility.getItemInHand().get().getItemMeta());
 	}
 
 	private void fillMenuWithActivatedAttributes() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		Map<Attribute, List<AttributeModifier>> entries = itemInMainHand.getItemMeta().getAttributeModifiers().asMap()
 			.entrySet()
 			.stream()

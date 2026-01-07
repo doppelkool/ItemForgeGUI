@@ -90,7 +90,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 		addPaginatedItems();
 		addCustomMenuFillingForEffects();
 
-		if (this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().hasEnchants()) {
+		if (this.playerMenuUtility.getItemInHand().get().getItemMeta().hasEnchants()) {
 			this.inventory.setItem(activatedEnchantmentsSlot, EnchantmentMenuItems.activatedEnchantments);
 		} else {
 			this.inventory.setItem(activatedEnchantmentsSlot, notAvailable(EnchantmentMenuItems.activatedEnchantments));
@@ -102,7 +102,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 
 	private void fillMenuWithDeactivatedEnchantments() {
 		deactivatedEnchantmentsToStrength = EnchantmentStacksMap.getAllDeactivatedEnchantments(
-				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()
+				this.playerMenuUtility.getItemInHand().get()
 			)
 			.stream()
 			.sorted(Comparator.comparing(e -> {

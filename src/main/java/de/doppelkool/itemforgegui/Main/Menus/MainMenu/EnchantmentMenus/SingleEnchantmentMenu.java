@@ -26,7 +26,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 	public SingleEnchantmentMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
-		this.itemToBeEnchanted = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		this.itemToBeEnchanted = this.playerMenuUtility.getItemInHand().get();
 		this.itemToBeEnchantedMeta = itemToBeEnchanted.getItemMeta();
 		this.enchantmentToEdit = this.playerMenuUtility.getTargetEnchantment();
 	}
