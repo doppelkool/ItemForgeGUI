@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus;
 
+import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
@@ -10,10 +11,12 @@ import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistry;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -134,11 +137,12 @@ public class AttributeSelectionMenu extends ConfirmableMenu {
 	private void loadItemsForSelectedCategory() {
 		emptyAttributeItems();
 
-		Set<Attribute> alreadyAppliedAttributes = this.playerMenuUtility.getOwner()
+		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getOwner()
 			.getInventory()
 			.getItemInMainHand()
 			.getItemMeta()
-			.getAttributeModifiers()
+			.getAttributeModifiers();
+		Set<Attribute> alreadyAppliedAttributes = attributeModifiers == null || attributeModifiers.isEmpty() ? new HashSet<>() : attributeModifiers
 			.asMap()
 			.keySet();
 
