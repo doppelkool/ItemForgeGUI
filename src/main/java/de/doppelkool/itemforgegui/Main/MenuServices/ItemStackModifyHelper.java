@@ -102,14 +102,9 @@ public class ItemStackModifyHelper {
 		int heldItemSlot = inventory.getHeldItemSlot();
 		util.setStoredSlot(heldItemSlot);
 
-		ItemStack item = inventory.getItem(heldItemSlot);
-		util.setTempStoredItem(item);
-
-		ItemStack itemInMainHand = inventory.getItemInMainHand();
-
 		ItemStack nextItem = null;
 		if (key.equals(Main.getPlugin().getCustomLoreEditBookKey())) {
-			nextItem = createCustomLoreBook(itemInMainHand);
+			nextItem = createCustomLoreBook(util.getItemInHand().get());
 		}
 		inventory.setItem(heldItemSlot, nextItem);
 	}

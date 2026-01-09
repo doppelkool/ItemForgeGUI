@@ -106,7 +106,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 	}
 
 	private Menu determineBackMenu(PlayerMenuUtility playerMenuUtility) {
-		Multimap<Attribute, AttributeModifier> attributeModifiers = playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().getAttributeModifiers();
+		Multimap<Attribute, AttributeModifier> attributeModifiers = playerMenuUtility.getItemInHand().get().getItemMeta().getAttributeModifiers();
 		if(attributeModifiers == null || attributeModifiers.isEmpty()) {
 			return new SpecialsMenu(this.playerMenuUtility);
 		} else {

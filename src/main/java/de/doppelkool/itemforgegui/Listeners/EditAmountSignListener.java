@@ -47,7 +47,7 @@ public class EditAmountSignListener implements Listener {
 		amount = Integer.min(amount, 99);
 		amount = Integer.max(amount, 1);
 
-		pl.getInventory().getItemInMainHand().setAmount(amount);
+		playerMenuUtility.getItemInHand().get().setAmount(amount);
 		endProcess(playerMenuUtility);
 	}
 

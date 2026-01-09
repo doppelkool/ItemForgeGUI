@@ -86,9 +86,7 @@ public class SpecialsMenu extends Menu {
 	}
 
 	private void attributeModifiersClicked() {
-		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getOwner()
-			.getInventory()
-			.getItemInMainHand()
+		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getItemInHand().get()
 			.getItemMeta()
 			.getAttributeModifiers();
 
@@ -107,9 +105,7 @@ public class SpecialsMenu extends Menu {
 	public void sendWarningForNotSupportedFeature() {
 		Map<Key, Integer> seen = new HashMap<>();
 
-		for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : this.playerMenuUtility.getOwner()
-			.getInventory()
-			.getItemInMainHand()
+		for (Map.Entry<Attribute, Collection<AttributeModifier>> entry : this.playerMenuUtility.getItemInHand().get()
 			.getItemMeta()
 			.getAttributeModifiers()
 			.asMap()

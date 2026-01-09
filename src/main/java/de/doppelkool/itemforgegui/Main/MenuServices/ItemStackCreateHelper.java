@@ -119,8 +119,17 @@ public class ItemStackCreateHelper {
 		fireProtectionItem.setItemMeta(potionMeta);
 	}
 
+	/**
+	 * @implNote Only give leather items, or items which metas are of type LeatherArmorMeta
+	 *
+	 * @return Color of the leather item
+	 */
+	public static Color getColorOfLeatherItem(ItemStack leatherArmorMeta) {
+		return ((ColorableArmorMeta)leatherArmorMeta.getItemMeta()).getColor();
+	}
+
 	public static void modifyColor(ItemStack stack, Color color) {
-		LeatherArmorMeta itemMeta = (LeatherArmorMeta) stack.getItemMeta();
+		ColorableArmorMeta itemMeta = (ColorableArmorMeta) stack.getItemMeta();
 		itemMeta.setColor(color);
 		stack.setItemMeta(itemMeta);
 	}

@@ -67,21 +67,20 @@ public class LeatherItemColorMenu extends Menu {
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
 		if (super.handleClose(e.getSlot())) {
-			this.playerMenuUtility.setTempStoredItem(null);
+			this.playerMenuUtility.setLeatherColorPicker_ResetColor(null);
 			return;
 		}
 		if (super.handleBack(e.getSlot())) {
-			this.playerMenuUtility.setTempStoredItem(null);
+			this.playerMenuUtility.setLeatherColorPicker_ResetColor(null);
 			return;
 		}
 
 		if (e.getSlot() == 53) {
-			if (this.playerMenuUtility.getTempStoredItem() == null) {
+			if (this.playerMenuUtility.getLeatherColorPicker_ResetColor() == null) {
 				return;
 			}
 
-			this.playerMenuUtility.getItemInHand().set(this.playerMenuUtility.getTempStoredItem());
-
+			resetColor();
 			loadAllRGBCaps();
 			return;
 		}
@@ -92,6 +91,13 @@ public class LeatherItemColorMenu extends Menu {
 			editItem(this.playerMenuUtility.getItemInHand().get(), e.getSlot());
 			loadAllRGBCaps();
 		}
+	}
+
+	private void resetColor() {
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
+		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta) itemInMainHand.getItemMeta();
+		itemInMainHandItemMeta.setColor(this.playerMenuUtility.getLeatherColorPicker_ResetColor());
+		itemInMainHand.setItemMeta(itemInMainHandItemMeta);
 	}
 
 	private void editItem(ItemStack itemInMainHand, int slot) {
@@ -138,16 +144,15 @@ public class LeatherItemColorMenu extends Menu {
 		addMenuBorder();
 
 		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
-		this.playerMenuUtility.setTempStoredItem(itemInMainHand);
+		Color colorOfLeatherItem = ItemStackCreateHelper.getColorOfLeatherItem(itemInMainHand);
+		this.playerMenuUtility.setLeatherColorPicker_ResetColor(colorOfLeatherItem);
 
 		loadAllRGBCaps();
 		placeColorRow();
 
 		ItemStack resetBackLeatherItem = LeatherItemMenuItems.resetBackLeatherItem.clone();
-		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta) itemInMainHand.getItemMeta();
-
 		resetBackLeatherItem.setType(itemInMainHand.getType());
-		ItemStackCreateHelper.modifyColor(resetBackLeatherItem, itemInMainHandItemMeta.getColor());
+		ItemStackCreateHelper.modifyColor(resetBackLeatherItem, colorOfLeatherItem);
 
 		this.inventory.setItem(53, resetBackLeatherItem);
 

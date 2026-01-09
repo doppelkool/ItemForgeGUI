@@ -49,7 +49,7 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		}
 
 		//new strength = entered strength \/ 255
-		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = playerMenuUtility.getItemInHand().get();
 
 		strength = Integer.min(strength, 255);
 		strength = Integer.max(strength, 0);
@@ -63,17 +63,17 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		endProcess(playerMenuUtility);
 	}
 
-	private void endProcess(PlayerMenuUtility util) {
-		util.getOwner().getLocation().getBlock().setType(Material.AIR);
-		util.setSignNumberEditor(null);
+	private void endProcess(PlayerMenuUtility playerMenuUtility) {
+		playerMenuUtility.getOwner().getLocation().getBlock().setType(Material.AIR);
+		playerMenuUtility.setSignNumberEditor(null);
 
-		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
 		if (ArmorEffectManager.hasArmorEffects(item)) {
-			new SpecialsActivatedArmorEffectsMenu(util)
+			new SpecialsActivatedArmorEffectsMenu(playerMenuUtility)
 				.open();
 		} else {
-			new SpecialsDeactivatedArmorEffectsMenu(util)
+			new SpecialsDeactivatedArmorEffectsMenu(playerMenuUtility)
 				.open();
 		}
 	}

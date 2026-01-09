@@ -137,9 +137,7 @@ public class AttributeSelectionMenu extends ConfirmableMenu {
 	private void loadItemsForSelectedCategory() {
 		emptyAttributeItems();
 
-		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getOwner()
-			.getInventory()
-			.getItemInMainHand()
+		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getItemInHand().get()
 			.getItemMeta()
 			.getAttributeModifiers();
 		Set<Attribute> alreadyAppliedAttributes = attributeModifiers == null || attributeModifiers.isEmpty() ? new HashSet<>() : attributeModifiers

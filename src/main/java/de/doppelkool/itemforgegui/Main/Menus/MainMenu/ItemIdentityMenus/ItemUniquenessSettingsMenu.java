@@ -46,7 +46,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		}
 
 		if (e.getSlot() == 12) {
-			UniqueItemIdentifierManager.sendCopyUniqueIdentifier(this.playerMenuUtility.getOwner());
+			UniqueItemIdentifierManager.sendCopyUniqueIdentifier(this.playerMenuUtility.getOwner(), this.playerMenuUtility.getItemInHand().get());
 			this.playerMenuUtility.getOwner().closeInventory();
 			return;
 		}

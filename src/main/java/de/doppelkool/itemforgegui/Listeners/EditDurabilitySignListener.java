@@ -49,7 +49,7 @@ public class EditDurabilitySignListener implements Listener {
 			return;
 		}
 
-		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = playerMenuUtility.getItemInHand().get();
 
 		durability = Integer.min(durability, itemInMainHand.getType().getMaxDurability());
 		durability = Integer.max(durability, 0);

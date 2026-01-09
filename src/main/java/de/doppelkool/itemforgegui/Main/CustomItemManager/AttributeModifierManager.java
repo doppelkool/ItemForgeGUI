@@ -91,26 +91,9 @@ public class AttributeModifierManager {
 	 * shown as lore. “Fake” copies are added to the lore with similar formatting.
 	 */
 	public static void applyAttributeModifierValuesLore(ItemStack item, Attribute attribute, Collection<AttributeModifier> attributesToDisplay) {
-		if (item == null || attributesToDisplay == null || attributesToDisplay.isEmpty()) {
-			return;
-		}
-
-		ItemMeta meta = item.getItemMeta();
-		if (meta == null) {
-			return;
-		}
-
-		List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
-
-		for (AttributeModifier mod : attributesToDisplay) {
-			String line = formatAttributeLine(attribute, mod.getAmount(), mod.getOperation());
-			if (line != null && !line.isEmpty()) {
-				lore.add(line);
-			}
-		}
-
-		meta.setLore(lore);
-		item.setItemMeta(meta);
+		EnumMap<AttributeModifier.Operation, Double> enummap = new EnumMap<>(AttributeModifier.Operation.class);
+		attributesToDisplay.forEach(attr -> enummap.put(attr.getOperation(), attr.getAmount()));
+		applyAttributeModifierValuesLore(item, attribute, enummap);
 	}
 
 	/**

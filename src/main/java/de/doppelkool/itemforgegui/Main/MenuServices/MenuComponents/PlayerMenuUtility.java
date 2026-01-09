@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents;
 import de.doppelkool.itemforgegui.API.ItemForgeGuiAPI;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import lombok.*;
+import org.bukkit.Color;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -31,13 +32,13 @@ public class PlayerMenuUtility {
 	private ObservableObject<ItemStack> itemInHand;
 	private Optional<ItemForgeGuiAPI.ItemForgeCallback> APICallback = Optional.empty();
 
-	private ItemStack tempStoredItem;
 	private int storedSlot;
 	private Enchantment targetEnchantment;
 	private AttributeStorage attributeStorage;
 	private ModifyAttributeStorage modifyAttributeStorage;
 	private PotionEffectType targetPotionEffectType;
 	private SignNumberEditor signNumberEditor;
+	private Color leatherColorPicker_ResetColor;
 
 	public PlayerMenuUtility(Player pl) {
 		this.owner = pl;

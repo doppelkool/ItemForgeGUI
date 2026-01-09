@@ -77,14 +77,14 @@ public class EditAttributeModifierAmountSignListener implements Listener {
 	}
 
 	@SneakyThrows
-	private void endProcess(PlayerMenuUtility util) {
-		util.getOwner().getLocation().getBlock().setType(Material.AIR);
+	private void endProcess(PlayerMenuUtility playerMenuUtility) {
+		playerMenuUtility.getOwner().getLocation().getBlock().setType(Material.AIR);
 
-		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
-		util.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
-			.newInstance(util)
+		playerMenuUtility.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
+			.newInstance(playerMenuUtility)
 			.open();
-		util.setSignNumberEditor(null);
+		playerMenuUtility.setSignNumberEditor(null);
 	}
 }
