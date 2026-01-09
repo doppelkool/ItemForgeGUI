@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager.Flags;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.PreventionFlagMenu.PreventionFlagItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
@@ -11,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import java.util.HashMap;
 

@@ -1,10 +1,10 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.ColorPickerMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.ColorPickerMenuItems;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;

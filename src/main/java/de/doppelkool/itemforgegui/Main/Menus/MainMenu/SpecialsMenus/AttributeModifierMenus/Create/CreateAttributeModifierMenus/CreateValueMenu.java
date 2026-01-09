@@ -1,13 +1,13 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.GlobalAttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.ModifyAttributeModifierItems.EditValuesItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -90,7 +90,7 @@ public class CreateValueMenu extends ConfirmableMenu {
 			CreateAttributeModifierMenu::new)) {
 			return;
 		}
-		if (isConfirmable() && super.handleConfirm(e.getSlot(),
+		if (super.handleConfirm(e.getSlot(),
 			null,
 			CreateAttributeModifierMenu::new)) {
 			return;
@@ -193,7 +193,7 @@ public class CreateValueMenu extends ConfirmableMenu {
 
 		Double currentValueForOperation = this.playerMenuUtility.getAttributeStorage()
 			.getOperationDoubleValues()
-			.getOrDefault(operation, 0d);
+			.get(operation);
 		String loreValueRepresent;
 		if (currentValueForOperation != null) {
 			loreValueRepresent = currentValueForOperation.toString();

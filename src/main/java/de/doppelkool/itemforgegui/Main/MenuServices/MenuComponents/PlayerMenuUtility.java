@@ -29,7 +29,7 @@ public class PlayerMenuUtility {
 
 	private Player owner;
 	private ObservableObject<ItemStack> itemInHand;
-	private Optional<ItemForgeGuiAPI.ItemForgeCallback> APICallback;
+	private Optional<ItemForgeGuiAPI.ItemForgeCallback> APICallback = Optional.empty();
 
 	private ItemStack tempStoredItem;
 	private int storedSlot;

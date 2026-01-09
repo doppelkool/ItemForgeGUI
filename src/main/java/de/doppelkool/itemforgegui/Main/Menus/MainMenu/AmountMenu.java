@@ -1,13 +1,12 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import lombok.extern.slf4j.Slf4j;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 

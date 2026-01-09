@@ -1,23 +1,22 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.MainMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ObservableObject;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.MainMenuItems;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.*;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.DeactivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -46,6 +45,8 @@ public class ItemEditMenu extends Menu {
 		playerMenuUtility.setItemInHand(new ObservableObject<>(itemInMainHand));
 		playerMenuUtility.getItemInHand().onChange(updated -> {
 			playerMenuUtility.getOwner().getInventory().setItemInMainHand(updated);
+
+			Bukkit.getLogger().finest("API Callback onItemEdited called");
 			playerMenuUtility.getAPICallback().ifPresent(cb -> cb.onItemEdited(updated));
 		});
 

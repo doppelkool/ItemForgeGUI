@@ -2,15 +2,15 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper.setActivated;

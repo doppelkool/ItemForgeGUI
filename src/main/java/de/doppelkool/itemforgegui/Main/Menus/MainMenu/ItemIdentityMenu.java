@@ -2,10 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemIdentityItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemIdentityItems;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenus.ItemUniquenessSettingsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

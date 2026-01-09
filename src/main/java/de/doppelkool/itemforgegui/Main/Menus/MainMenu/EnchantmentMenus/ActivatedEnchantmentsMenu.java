@@ -1,12 +1,12 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacksMap;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

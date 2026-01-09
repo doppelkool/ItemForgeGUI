@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AttributeSelectionItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
 import lombok.Getter;
 
 /**

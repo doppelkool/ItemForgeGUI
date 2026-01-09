@@ -1,14 +1,14 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus;
 
 import com.google.common.collect.Multimap;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AttributeSelectionItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeCategory;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistry;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AttributeSelectionItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -68,7 +68,7 @@ public class AttributeSelectionMenu extends ConfirmableMenu {
 			CreateAttributeModifierMenu::new)) {
 			return;
 		}
-		if (isConfirmable() && super.handleConfirm(e.getSlot(),
+		if (super.handleConfirm(e.getSlot(),
 			() -> this.playerMenuUtility.getAttributeStorage().setAttribute(selectedAttributeInMenu.getAttribute()),
 			CreateAttributeModifierMenu::new)) {
 			return;

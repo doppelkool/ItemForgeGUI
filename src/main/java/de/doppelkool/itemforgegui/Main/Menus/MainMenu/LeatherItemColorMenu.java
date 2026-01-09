@@ -1,12 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ObservableObject;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.LeatherItemMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import org.bukkit.Color;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

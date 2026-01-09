@@ -8,6 +8,7 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
@@ -19,10 +20,7 @@ import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -43,8 +41,12 @@ public class ItemStackCreateHelper {
 	}
 
 	public static void modifyLore(ItemStack itemStack, @NotNull String... lore) {
+		modifyLore(itemStack, List.of(lore));
+	}
+
+	public static void modifyLore(ItemStack itemStack, List<String> lore) {
 		ItemMeta itemMeta = itemStack.getItemMeta();
-		itemMeta.setLore(List.of(lore));
+		itemMeta.setLore(lore);
 		itemStack.setItemMeta(itemMeta);
 	}
 
@@ -168,5 +170,44 @@ public class ItemStackCreateHelper {
 		itemStackNotAvailable.setItemMeta(itemMeta);
 		itemStackNotAvailable.setType(Material.BARRIER);
 		return itemStackNotAvailable;
+	}
+
+	public static Set<EquipmentSlotGroup> getEquippableSlotGroups(ItemStack item) {
+		Set<EquipmentSlotGroup> slots = new HashSet<>(Set.of(
+			EquipmentSlotGroup.MAINHAND,
+			EquipmentSlotGroup.OFFHAND
+		));
+
+		Material type = item.getType();
+		String name = type.name();
+
+		// HEAD
+		if (name.endsWith("_HELMET")
+			|| type == Material.CARVED_PUMPKIN
+			|| type == Material.PLAYER_HEAD
+			|| type == Material.CREEPER_HEAD
+			|| type == Material.DRAGON_HEAD
+			|| type == Material.SKELETON_SKULL
+			|| type == Material.WITHER_SKELETON_SKULL
+			|| type == Material.ZOMBIE_HEAD) {
+			slots.add(EquipmentSlotGroup.HEAD);
+		}
+
+		// CHEST
+		if (name.endsWith("_CHESTPLATE") || type == Material.ELYTRA) {
+			slots.add(EquipmentSlotGroup.CHEST);
+		}
+
+		// LEGS
+		if (name.endsWith("_LEGGINGS")) {
+			slots.add(EquipmentSlotGroup.LEGS);
+		}
+
+		// FEET
+		if (name.endsWith("_BOOTS")) {
+			slots.add(EquipmentSlotGroup.FEET);
+		}
+
+		return slots;
 	}
 }

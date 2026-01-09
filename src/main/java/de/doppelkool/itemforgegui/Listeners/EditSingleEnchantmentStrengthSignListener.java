@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.DeactivatedEnchantmentsMenu;

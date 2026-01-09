@@ -4,8 +4,6 @@ import lombok.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Objects;
-
 /**
  * Class Description
  *

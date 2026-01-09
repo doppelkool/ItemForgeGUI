@@ -2,29 +2,24 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
 import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManager;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.SpecialMenuItems;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.SpecialMenuItems;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.PreventionFlagsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifersMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.CustomItemFlagsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.MinecraftItemFlagsMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifersMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.PreventionFlagsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.w3c.dom.Attr;
 
 import java.util.*;
 

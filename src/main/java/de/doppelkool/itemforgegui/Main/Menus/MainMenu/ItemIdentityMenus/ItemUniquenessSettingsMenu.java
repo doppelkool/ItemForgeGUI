@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;

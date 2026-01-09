@@ -1,17 +1,16 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifiersMenus.ModifyAttributeModifierMenus;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.GlobalAttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.ModifyAttributeModifierItems.EditValuesItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifiersMenus.ModifyAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.ClickType;
@@ -91,12 +90,11 @@ public class EditValueMenu extends ConfirmableMenu {
 			ModifyAttributeModifierMenu::new)) {
 			return;
 		}
-		if (isConfirmable() && super.handleConfirm(e.getSlot(),
+		if (super.handleConfirm(e.getSlot(),
 			null,
 			ModifyAttributeModifierMenu::new)) {
 			return;
 		}
-
 		Optional<SlotItemWrapper.SlotItemOperationValueEdit> clickedInfoBook = INFO_BOOKS.stream()
 			.filter(ib -> ib.slot() == e.getSlot())
 			.findFirst();
@@ -124,11 +122,8 @@ public class EditValueMenu extends ConfirmableMenu {
 
 		if(newValue.doubleValue() == 0.000) {
 			operationDoubleValues.remove(slotItemOperationValueEdit.operation());
-			Bukkit.getLogger().info("removed");
 		} else {
 			operationDoubleValues.put(slotItemOperationValueEdit.operation(), newValue.doubleValue());
-			Bukkit.getLogger().info("add with not zero: " + newValue
-			);
 		}
 	}
 

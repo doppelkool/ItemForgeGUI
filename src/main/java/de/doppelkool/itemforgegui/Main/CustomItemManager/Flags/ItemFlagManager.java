@@ -1,10 +1,10 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager.Flags;
 
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.MinecraftItemFlagMenu.MinecraftItemFlagItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 import lombok.Getter;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
