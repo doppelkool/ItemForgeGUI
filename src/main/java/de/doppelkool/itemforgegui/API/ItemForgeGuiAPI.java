@@ -28,7 +28,6 @@ public class ItemForgeGuiAPI {
 	}
 
 	public interface ItemForgeCallback {
-		void onItemEdited(ItemStack result);
 		void onEditFinish(ItemStack result);
 	}
 

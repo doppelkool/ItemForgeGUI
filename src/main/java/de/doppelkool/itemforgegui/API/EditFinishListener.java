@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.API;
 
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import org.bukkit.Bukkit;
@@ -17,7 +18,17 @@ public class EditFinishListener implements Listener {
 
 	@EventHandler
 	public void editFinish(InventoryCloseEvent e) {
+		if (!(e.getInventory().getHolder() instanceof Menu)) {
+			return;
+		}
+
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility((Player) e.getPlayer());
+		if(playerMenuUtility.getCurrentMenu() == null || playerMenuUtility.isMenuTransitioning()) {
+			return;
+		}
+
+		playerMenuUtility.setCurrentMenu(null);
+
 		playerMenuUtility.getAPICallback().ifPresent(cb -> {
 			Bukkit.getLogger().finest("API Callback onEditFinish called");
 			cb.onEditFinish(playerMenuUtility.getItemInHand().get());

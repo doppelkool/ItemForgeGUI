@@ -32,6 +32,9 @@ public class PlayerMenuUtility {
 	private ObservableObject<ItemStack> itemInHand;
 	private Optional<ItemForgeGuiAPI.ItemForgeCallback> APICallback = Optional.empty();
 
+	private Menu currentMenu = null;
+	private boolean isMenuTransitioning = false;
+
 	private int storedSlot;
 	private Enchantment targetEnchantment;
 	private AttributeStorage attributeStorage;

@@ -29,6 +29,8 @@ public abstract class Menu implements InventoryHolder {
 
 		closeInventorySlot = this.getSlots() - 9;
 		backInventorySlot = this.getSlots() - 8;
+
+		playerMenuUtility.setMenuTransitioning(true);
 	}
 
 	public abstract String getMenuName();
@@ -45,6 +47,8 @@ public abstract class Menu implements InventoryHolder {
 		this.setMenuItems();
 
 		playerMenuUtility.getOwner().openInventory(inventory);
+		playerMenuUtility.setCurrentMenu(this);
+		playerMenuUtility.setMenuTransitioning(false);
 	}
 
 	@Override

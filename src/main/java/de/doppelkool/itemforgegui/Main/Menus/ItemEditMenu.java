@@ -15,7 +15,6 @@ import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.Deactivat
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -40,22 +39,16 @@ public class ItemEditMenu extends Menu {
 	}
 
 	private void initItemStack() {
-		ItemStack itemInMainHand = playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-
-		playerMenuUtility.setItemInHand(new ObservableObject<>(itemInMainHand));
-		playerMenuUtility.getItemInHand().onChange(updated -> {
-			playerMenuUtility.getOwner().getInventory().setItemInMainHand(updated);
-
-			Bukkit.getLogger().finest("API Callback onItemEdited called");
-			playerMenuUtility.getAPICallback().ifPresent(cb -> cb.onItemEdited(updated));
-		});
-
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
-			CustomItemFlagManager.getInstance().initCustomItemFlags(itemInMainHand);
+		if (playerMenuUtility.getAPICallback().isEmpty()) {
+			playerMenuUtility.setItemInHand(new ObservableObject<>(playerMenuUtility.getOwner().getInventory().getItemInMainHand()));
 		}
 
-		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(
-			itemInMainHand);
+		ItemStack itemInHandStack = playerMenuUtility.getItemInHand().get();
+		if (!UniqueItemIdentifierManager.isUniqueItem(itemInHandStack)) {
+			CustomItemFlagManager.getInstance().initCustomItemFlags(itemInHandStack);
+		}
+
+		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemInHandStack);
 	}
 
 	@Override
