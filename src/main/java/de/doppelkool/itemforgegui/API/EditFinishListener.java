@@ -32,7 +32,7 @@ public class EditFinishListener implements Listener {
 		playerMenuUtility.getAPICallback().ifPresent(cb -> {
 			Bukkit.getLogger().finest("API Callback onEditFinish called");
 			cb.onEditFinish(playerMenuUtility.getItemInHand().get());
+			MenuManager.removePlayerMenuUtility(playerMenuUtility.getOwner());
 		});
 	}
-
 }

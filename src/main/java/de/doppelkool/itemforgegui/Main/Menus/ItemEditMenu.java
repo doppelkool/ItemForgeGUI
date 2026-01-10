@@ -46,7 +46,7 @@ public class ItemEditMenu extends Menu {
 		if (playerMenuUtility.getAPICallback().isEmpty()) {
 			itemToBeEdited = playerMenuUtility.getOwner().getInventory().getItemInMainHand().clone();
 
-			ObservableObject<ItemStack> itemInHand = new ObservableObject<>(itemToBeEdited); //TODO Finsih callback wird nicht korrekt gesendet
+			ObservableObject<ItemStack> itemInHand = new ObservableObject<>(itemToBeEdited);
 			itemInHand.onChange((item) -> {
 				playerMenuUtility.getOwner().getInventory().setItemInMainHand(item);
 			});
@@ -171,14 +171,9 @@ public class ItemEditMenu extends Menu {
 			ItemStackModifyHelper.isOnlyDyeColorableWithoutMixins(item.getType());
 	}
 
-	private void editLoreProcess() {
-		ItemStackModifyHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
-		playerMenuUtility.getOwner().closeInventory();
-		MessageManager.message(playerMenuUtility.getOwner(), Messages.BOOK_EDITOR_INFORMATION);
-	}
-
 	private void editNameProcess() {
 		ItemStack item = this.playerMenuUtility.getItemInHand().get().clone();
+		playerMenuUtility.setMenuTransitioning(true);
 
 		new AnvilGUI.Builder()
 			.onClick((slot, stateSnapshot) -> {
@@ -196,6 +191,8 @@ public class ItemEditMenu extends Menu {
 						itemMeta.setDisplayName(translatedText);
 						item.setItemMeta(itemMeta);
 						playerMenuUtility.getItemInHand().set(item);
+
+						playerMenuUtility.setMenuTransitioning(false);
 					}),
 					AnvilGUI.ResponseAction.close(),
 					AnvilGUI.ResponseAction.openInventory(this.inventory));
@@ -205,5 +202,12 @@ public class ItemEditMenu extends Menu {
 			.preventClose()
 			.title("Rename the item")
 			.open(this.playerMenuUtility.getOwner());
+	}
+
+	private void editLoreProcess() {
+		ItemStackModifyHelper.swapItemInHandWithEditAttributeBook(this.playerMenuUtility, Main.getPlugin().getCustomLoreEditBookKey());
+		playerMenuUtility.setMenuTransitioning(true);
+		playerMenuUtility.getOwner().closeInventory();
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.BOOK_EDITOR_INFORMATION);
 	}
 }
