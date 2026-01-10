@@ -137,7 +137,9 @@ public class EditValueMenu extends ConfirmableMenu {
 			EnumMap<AttributeModifier.Operation, Double> operationDoubleValues = this.playerMenuUtility.getModifyAttributeStorage().getOperationDoubleValues();
 			double valueToManualEdit = operationDoubleValues.getOrDefault(clickedInfoBook.operation(), 0d);
 
+			playerMenuUtility.setMenuTransitioning(true);
 			playerMenuUtility.getOwner().closeInventory();
+
 			playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 				.editAttributeModifierValue(valueToManualEdit)
 				.setReturnInventory(EditValueMenu.class)

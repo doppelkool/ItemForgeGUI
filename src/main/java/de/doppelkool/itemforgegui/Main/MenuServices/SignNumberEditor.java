@@ -19,6 +19,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Map;
+
 /**
  * Class Description
  *
@@ -42,8 +44,8 @@ public class SignNumberEditor {
 
 		Material type = signLocation.getBlock().getType();
 		if (type != Material.AIR) {
-			MessageManager.message(pl, Messages.SIGN_EDITOR_NOT_PLACED_BLOCK_BLOCKADE);
-			Bukkit.getLogger().info(ChatColor.RED + pl.getName() + "-" + type + "-This material is in the way of a sign placement");
+			MessageManager.message(pl, Messages.SIGN_EDITOR_NOT_PLACED_BLOCK_BLOCKADE, Map.of("BLOCK_NAME", ItemStackModifyHelper.formatCAPSNames(type.name())));
+			Bukkit.getLogger().info(ChatColor.RED + pl.getName() + "-" + type + "-This material was in the way of a sign placement");
 		}
 
 		signLocation.getBlock().setType(Material.BIRCH_SIGN);

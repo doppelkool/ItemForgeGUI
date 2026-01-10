@@ -149,6 +149,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
+		playerMenuUtility.setMenuTransitioning(true);
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editEnchantment(itemToBeEnchanted, enchantmentToEdit)

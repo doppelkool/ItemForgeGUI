@@ -18,7 +18,7 @@ edit-command:
   empty-item: "&cYou cannot edit an empty item"
 
 sign-editor:
-  not-placed-block-blockade: "&cThere is already a block at your location"
+  not-placed-block-blockade: "&cThere was already a block at your location. {BLOCK_NAME} was replaced"
   edit:
     amount:
       information: "&aPlease edit the content to the items future amount and click &7'&aDone&7'"

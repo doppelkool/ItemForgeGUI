@@ -78,6 +78,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 	}
 
 	private void editUniqueIdentifierProcess() {
+		playerMenuUtility.setMenuTransitioning(true);
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(

@@ -103,6 +103,7 @@ public class DurabilityMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleCustomNumber(InventoryClickEvent e) {
+		playerMenuUtility.setMenuTransitioning(true);
 		playerMenuUtility.getOwner().closeInventory();
 		Damageable itemMeta = (Damageable) this.damageableItem.getItemMeta();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())

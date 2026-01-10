@@ -1,25 +1,19 @@
 package de.doppelkool.itemforgegui.Main.MenuServices;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -95,50 +89,6 @@ public class ItemStackModifyHelper {
 
 	public static boolean isDamageable(ItemStack item) {
 		return item.getType().getMaxDurability() != 0;
-	}
-
-	public static void swapItemInHandWithEditAttributeBook(PlayerMenuUtility util, NamespacedKey key) {
-		PlayerInventory inventory = util.getOwner().getInventory();
-		int heldItemSlot = inventory.getHeldItemSlot();
-		util.setStoredSlot(heldItemSlot);
-
-		ItemStack nextItem = null;
-		if (key.equals(Main.getPlugin().getCustomLoreEditBookKey())) {
-			nextItem = createCustomLoreBook(util.getItemInHand().get());
-		}
-		inventory.setItem(heldItemSlot, nextItem);
-	}
-
-	private static ItemStack createCustomLoreBook(ItemStack itemInMainHand) {
-		ItemMeta itemMeta = itemInMainHand.getItemMeta();
-
-		ItemStack book = new ItemStack(Material.WRITABLE_BOOK);
-		BookMeta meta = (BookMeta) book.getItemMeta();
-
-		if (itemMeta.hasLore()) {
-			setBookPagesFromExistingLore(meta, new ItemInfoManager(itemInMainHand).getItemLore());
-		}
-
-		PersistentDataContainer pdc = meta.getPersistentDataContainer();
-		pdc.set(Main.getPlugin().getCustomLoreEditBookKey(), PersistentDataType.BOOLEAN, true);
-
-		book.setItemMeta(meta);
-		return book;
-	}
-
-	private static void setBookPagesFromExistingLore(BookMeta bookMeta, List<String> lore) {
-		bookMeta.setTitle("Edit the item lore");
-		bookMeta.setAuthor(" ");
-
-		for (int i = 0; i < lore.size(); i += 13) {
-			int end = Math.min(i + 13, lore.size());
-			List<String> pageLines = lore.subList(i, end);
-
-			String pageContent = String.join("\n", pageLines)
-				.replace(ChatColor.COLOR_CHAR, '&');
-
-			bookMeta.addPage(pageContent);
-		}
 	}
 
 	public static boolean hasGlow(ItemStack item) {

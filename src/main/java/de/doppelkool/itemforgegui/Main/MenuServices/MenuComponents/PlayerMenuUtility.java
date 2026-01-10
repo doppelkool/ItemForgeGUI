@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents;
 
 import de.doppelkool.itemforgegui.API.ItemForgeGuiAPI;
+import de.doppelkool.itemforgegui.Main.MenuServices.LoreProcessManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import lombok.*;
 import org.bukkit.Color;
@@ -35,7 +36,7 @@ public class PlayerMenuUtility {
 	private Menu currentMenu = null;
 	private boolean isMenuTransitioning = false;
 
-	private int storedSlot;
+	private LoreProcessManager.LoreProcessStorage loreProcessStorage;
 	private Enchantment targetEnchantment;
 	private AttributeStorage attributeStorage;
 	private ModifyAttributeStorage modifyAttributeStorage;
