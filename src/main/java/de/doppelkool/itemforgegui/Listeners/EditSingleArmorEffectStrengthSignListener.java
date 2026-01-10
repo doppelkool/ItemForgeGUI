@@ -59,6 +59,7 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		} else {
 			ArmorEffectManager.addArmorEffect(itemInMainHand, playerMenuUtility.getTargetPotionEffectType(), strength);
 		}
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
 
 		endProcess(playerMenuUtility);
 	}
@@ -69,6 +70,8 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 
 		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+
 		if (ArmorEffectManager.hasArmorEffects(item)) {
 			new SpecialsActivatedArmorEffectsMenu(playerMenuUtility)
 				.open();

@@ -60,6 +60,8 @@ public class EditDurabilitySignListener implements Listener {
 		itemMeta.setDamage(itemInMainHand.getType().getMaxDurability() - durability);
 
 		itemInMainHand.setItemMeta(itemMeta);
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
+
 		endProcess(playerMenuUtility);
 	}
 

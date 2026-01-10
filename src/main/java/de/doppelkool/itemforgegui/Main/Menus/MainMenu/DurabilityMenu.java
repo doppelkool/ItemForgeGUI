@@ -37,12 +37,14 @@ public class DurabilityMenu extends EditNumberMenu {
 	protected void handleToZero() {
 		damageableItemMeta.setDamage(damageableItemMaxDurability);
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
 	protected void handleToMax() {
 		damageableItemMeta.setDamage(0);
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class DurabilityMenu extends EditNumberMenu {
 			clampDurability(
 				damageableItemMeta.getDamage() + 100));
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
@@ -59,6 +62,7 @@ public class DurabilityMenu extends EditNumberMenu {
 			clampDurability(
 				damageableItemMeta.getDamage() + 10));
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
@@ -67,6 +71,7 @@ public class DurabilityMenu extends EditNumberMenu {
 			clampDurability(
 				damageableItemMeta.getDamage() + 1));
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
@@ -75,6 +80,7 @@ public class DurabilityMenu extends EditNumberMenu {
 			clampDurability(
 				damageableItemMeta.getDamage() - 1));
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
@@ -83,6 +89,7 @@ public class DurabilityMenu extends EditNumberMenu {
 			clampDurability(
 				damageableItemMeta.getDamage() - 10));
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override
@@ -91,6 +98,7 @@ public class DurabilityMenu extends EditNumberMenu {
 			clampDurability(
 				damageableItemMeta.getDamage() - 100));
 		damageableItem.setItemMeta(damageableItemMeta);
+		playerMenuUtility.getItemInHand().set(damageableItem);
 	}
 
 	@Override

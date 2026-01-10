@@ -45,9 +45,12 @@ public class LoreBookListeners implements Listener {
 		String content = String.join("\n", newBookMeta.getPages());
 		String formattedString = ChatColor.translateAlternateColorCodes('&', content);
 
-		new ItemInfoManager(playerMenuUtility.getItemInHand().get())
+		ItemStack item = playerMenuUtility.getItemInHand().get();
+		new ItemInfoManager(item)
 			.setItemLore(List.of(formattedString.split("\n")))
 			.updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+
 		endProcess(playerMenuUtility);
 	}
 

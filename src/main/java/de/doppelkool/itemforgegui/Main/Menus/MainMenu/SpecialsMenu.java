@@ -75,6 +75,8 @@ public class SpecialsMenu extends Menu {
 	private void armorEffectsClicked() {
 		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 		ArmorEffectManager.initPDCVariable(item);
+		playerMenuUtility.getItemInHand().set(item);
+
 		if (ArmorEffectManager.getAllActivatedPotionEffectTypesAsList(item)
 			.isEmpty()) {
 			new SpecialsDeactivatedArmorEffectsMenu(this.playerMenuUtility)

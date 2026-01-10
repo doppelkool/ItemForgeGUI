@@ -45,7 +45,9 @@ public class CustomItemFlagsMenu extends Menu {
 		if (customItemFlagItemStackPair != null) {
 			customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
 
-			new ItemInfoManager(this.playerMenuUtility.getItemInHand().get()).updateItemInfo();
+			ItemStack item = this.playerMenuUtility.getItemInHand().get();
+			new ItemInfoManager(item).updateItemInfo();
+			playerMenuUtility.getItemInHand().set(item);
 			return;
 		}
 	}
@@ -55,10 +57,12 @@ public class CustomItemFlagsMenu extends Menu {
 
 		ItemStackModifyHelper.setActivated(currentItem, newStatus);
 
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
 		CustomItemFlagManager.getInstance().toggleItemFlag(
-			this.playerMenuUtility.getItemInHand().get(),
+			itemStack,
 			clickedCustomFlag,
 			newStatus);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override

@@ -82,6 +82,8 @@ public class EditAttributeModifierAmountSignListener implements Listener {
 
 		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+
 		playerMenuUtility.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
 			.newInstance(playerMenuUtility)
 			.open();

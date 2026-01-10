@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Class Description
@@ -47,7 +48,10 @@ public class EditAmountSignListener implements Listener {
 		amount = Integer.min(amount, 99);
 		amount = Integer.max(amount, 1);
 
-		playerMenuUtility.getItemInHand().get().setAmount(amount);
+		ItemStack itemStack = playerMenuUtility.getItemInHand().get();
+		itemStack.setAmount(amount);
+		playerMenuUtility.getItemInHand().set(itemStack);
+
 		endProcess(playerMenuUtility);
 	}
 

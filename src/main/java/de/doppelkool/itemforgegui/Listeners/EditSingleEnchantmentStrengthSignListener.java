@@ -61,6 +61,8 @@ public class EditSingleEnchantmentStrengthSignListener implements Listener {
 		}
 
 		itemInMainHand.setItemMeta(itemMeta);
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
+
 		endProcess(playerMenuUtility);
 	}
 
@@ -70,6 +72,8 @@ public class EditSingleEnchantmentStrengthSignListener implements Listener {
 
 		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+
 		if (item.getItemMeta().hasEnchants()) {
 			new ActivatedEnchantmentsMenu(playerMenuUtility)
 				.open();

@@ -49,7 +49,9 @@ public class MinecraftItemFlagsMenu extends Menu {
 		if (itemFlagItemStackPair != null) {
 			itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
 
-			new ItemInfoManager(this.playerMenuUtility.getItemInHand().get()).updateItemInfo();
+			ItemStack item = this.playerMenuUtility.getItemInHand().get();
+			new ItemInfoManager(item).updateItemInfo();
+			playerMenuUtility.getItemInHand().set(item);
 			return;
 		}
 	}
@@ -64,6 +66,7 @@ public class MinecraftItemFlagsMenu extends Menu {
 			itemMeta.addItemFlags(itemFlag);
 		}
 		itemInMainHand.setItemMeta(itemMeta);
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
 
 		//Only change to activated dye if flag has been applied
 		setActivated(currentItem, itemInMainHand.getItemMeta().hasItemFlag(itemFlag));

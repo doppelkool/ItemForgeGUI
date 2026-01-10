@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Main.Menus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.MainMenuItems;
@@ -15,6 +16,7 @@ import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.Deactivat
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import net.wesjd.anvilgui.AnvilGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -39,16 +41,27 @@ public class ItemEditMenu extends Menu {
 	}
 
 	private void initItemStack() {
+		ItemStack itemToBeEdited;
+
 		if (playerMenuUtility.getAPICallback().isEmpty()) {
-			playerMenuUtility.setItemInHand(new ObservableObject<>(playerMenuUtility.getOwner().getInventory().getItemInMainHand()));
+			itemToBeEdited = playerMenuUtility.getOwner().getInventory().getItemInMainHand().clone();
+
+			ObservableObject<ItemStack> itemInHand = new ObservableObject<>(itemToBeEdited); //TODO Finsih callback wird nicht korrekt gesendet
+			itemInHand.onChange((item) -> {
+				playerMenuUtility.getOwner().getInventory().setItemInMainHand(item);
+			});
+			playerMenuUtility.setItemInHand(itemInHand);
+		} else {
+			itemToBeEdited = playerMenuUtility.getItemInHand().get().clone();
 		}
 
-		ItemStack itemInHandStack = playerMenuUtility.getItemInHand().get();
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemInHandStack)) {
-			CustomItemFlagManager.getInstance().initCustomItemFlags(itemInHandStack);
+		if (!UniqueItemIdentifierManager.isUniqueItem(itemToBeEdited)) {
+			CustomItemFlagManager.getInstance().initCustomItemFlags(itemToBeEdited);
 		}
 
-		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemInHandStack);
+		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemToBeEdited);
+
+		playerMenuUtility.getItemInHand().set(itemToBeEdited);
 	}
 
 	@Override
@@ -165,6 +178,8 @@ public class ItemEditMenu extends Menu {
 	}
 
 	private void editNameProcess() {
+		ItemStack item = this.playerMenuUtility.getItemInHand().get().clone();
+
 		new AnvilGUI.Builder()
 			.onClick((slot, stateSnapshot) -> {
 				if (slot != AnvilGUI.Slot.OUTPUT) {
@@ -173,17 +188,19 @@ public class ItemEditMenu extends Menu {
 
 				return Arrays.asList(
 					AnvilGUI.ResponseAction.run(() -> {
-						ItemStack outputItem = stateSnapshot.getOutputItem();
-						ItemMeta outputItemMeta = outputItem.getItemMeta();
+						ItemStack renamedItemToEdit = stateSnapshot.getOutputItem();
+						ItemMeta outputItemMeta = renamedItemToEdit.getItemMeta();
 						String translatedText = ChatColor.translateAlternateColorCodes('&', outputItemMeta.getDisplayName());
-						outputItemMeta.setDisplayName(translatedText);
-						outputItem.setItemMeta(outputItemMeta);
-						playerMenuUtility.getItemInHand().set(outputItem);
+
+						ItemMeta itemMeta = item.getItemMeta();
+						itemMeta.setDisplayName(translatedText);
+						item.setItemMeta(itemMeta);
+						playerMenuUtility.getItemInHand().set(item);
 					}),
 					AnvilGUI.ResponseAction.close(),
 					AnvilGUI.ResponseAction.openInventory(this.inventory));
 			})
-			.itemLeft(this.playerMenuUtility.getItemInHand().get())
+			.itemLeft(item)
 			.plugin(Main.getPlugin())
 			.preventClose()
 			.title("Rename the item")

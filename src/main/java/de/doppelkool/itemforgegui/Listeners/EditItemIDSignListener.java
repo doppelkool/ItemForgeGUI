@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Class Description
@@ -54,9 +55,12 @@ public class EditItemIDSignListener implements Listener {
 			return;
 		}
 
+		ItemStack itemStack = playerMenuUtility.getItemInHand().get();
 		UniqueItemIdentifierManager.setUniqueItemIdentifier(
-			playerMenuUtility.getItemInHand().get(),
+			itemStack,
 			uniqueID.trim().replace(" ", "_"));
+		playerMenuUtility.getItemInHand().set(itemStack);
+		
 		endProcess(playerMenuUtility);
 	}
 

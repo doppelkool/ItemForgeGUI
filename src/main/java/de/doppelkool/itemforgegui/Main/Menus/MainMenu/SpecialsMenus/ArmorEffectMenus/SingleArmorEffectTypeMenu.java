@@ -48,6 +48,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 		ArmorEffectManager.removeArmorEffect(itemToBeEnchanted, potionEffectToEdit);
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -55,6 +56,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 		ArmorEffectManager.addArmorEffect(itemToBeEnchanted, potionEffectToEdit, 255);
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -70,6 +72,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 		}
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -85,6 +88,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 		}
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -100,6 +104,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 		}
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -118,6 +123,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 				: Integer.min(strength + 1, 255));
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -136,6 +142,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 				: Integer.min(strength + 10, 255));
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override
@@ -154,6 +161,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 				: Integer.min(strength + 100, 255));
 
 		new ItemInfoManager(itemToBeEnchanted).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(itemToBeEnchanted);
 	}
 
 	@Override

@@ -99,6 +99,7 @@ public class ColorPickerMenu extends Menu {
 			);
 		}
 		itemInMainHand.setType(futureColoredItemType);
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
 	}
 
 	@Nullable

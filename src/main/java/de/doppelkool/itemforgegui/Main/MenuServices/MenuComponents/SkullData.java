@@ -1,7 +1,8 @@
 package de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.Getter;
 
 import java.nio.charset.StandardCharsets;
@@ -61,9 +62,16 @@ public enum SkullData {
 		if (json == null) return null;
 
 		try {
-			JsonNode root = new ObjectMapper().readTree(json);
-			JsonNode urlNode = root.at("/textures/SKIN/url");
-			return urlNode.isTextual() ? urlNode.asText() : null;
+			JsonObject root = JsonParser.parseString(json).getAsJsonObject();
+
+			JsonElement urlElement = root
+				.getAsJsonObject("textures")
+				.getAsJsonObject("SKIN")
+				.get("url");
+
+			return (urlElement != null && urlElement.isJsonPrimitive())
+				? urlElement.getAsString()
+				: null;
 		} catch (Exception e) {
 			return null;
 		}

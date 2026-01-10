@@ -74,9 +74,11 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 			PotionEffectType potionEffectType = ArmorEffectStacksMap.itemStackIDToPotionEffectType.get(itemStackID);
 
 			if (ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
+				
 				ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 				ArmorEffectManager.removeArmorEffect(itemInMainHand, potionEffectType);
 				new ItemInfoManager(itemInMainHand).updateItemInfo();
+				playerMenuUtility.getItemInHand().set(itemInMainHand);
 
 				if (ArmorEffectManager.hasArmorEffects(itemInMainHand)) {
 					new SpecialsActivatedArmorEffectsMenu(this.playerMenuUtility)

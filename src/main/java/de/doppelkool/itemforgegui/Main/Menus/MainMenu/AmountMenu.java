@@ -19,8 +19,11 @@ import org.bukkit.inventory.ItemStack;
 @Slf4j
 public class AmountMenu extends EditNumberMenu {
 
+	private ItemStack itemStack;
+
 	public AmountMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
+		itemStack = this.playerMenuUtility.getItemInHand().get();
 	}
 
 	@Override
@@ -44,12 +47,14 @@ public class AmountMenu extends EditNumberMenu {
 	@Override
 	//Swapped with toOne
 	protected void handleToZero() {
-		this.playerMenuUtility.getItemInHand().get().setAmount(1);
+		itemStack.setAmount(1);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override
 	protected void handleToMax() {
-		this.playerMenuUtility.getItemInHand().get().setAmount(99);
+		itemStack.setAmount(99);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override
@@ -58,30 +63,30 @@ public class AmountMenu extends EditNumberMenu {
 
 	@Override
 	protected void handleMinus10() {
-		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
 		int targetAmount = Math.max(itemStack.getAmount() - 10, 1);
 		itemStack.setAmount(targetAmount);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override
 	protected void handleMinus1() {
-		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
 		int targetAmount = Math.max(itemStack.getAmount() - 1, 1);
 		itemStack.setAmount(targetAmount);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override
 	protected void handlePlus1() {
-		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
 		int targetAmount = itemStack.getAmount() + 1;
 		itemStack.setAmount(targetAmount);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override
 	protected void handlePlus10() {
-		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
 		int targetAmount = itemStack.getAmount() + 10;
 		itemStack.setAmount(targetAmount);
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override
@@ -92,7 +97,7 @@ public class AmountMenu extends EditNumberMenu {
 	protected void handleCustomNumber(InventoryClickEvent e) {
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
-			.editAmount(this.playerMenuUtility.getItemInHand().get().getAmount())
+			.editAmount(itemStack.getAmount())
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_AMOUNT_INFORMATION);
 	}
@@ -100,7 +105,8 @@ public class AmountMenu extends EditNumberMenu {
 	@Override
 	protected boolean onCustomItemClick(InventoryClickEvent e) {
 		if (e.getSlot() == 13) {
-			this.playerMenuUtility.getItemInHand().get().setAmount(this.playerMenuUtility.getItemInHand().get().getMaxStackSize());
+			itemStack.setAmount(itemStack.getMaxStackSize());
+			playerMenuUtility.getItemInHand().set(itemStack);
 			return true;
 		}
 		return false;

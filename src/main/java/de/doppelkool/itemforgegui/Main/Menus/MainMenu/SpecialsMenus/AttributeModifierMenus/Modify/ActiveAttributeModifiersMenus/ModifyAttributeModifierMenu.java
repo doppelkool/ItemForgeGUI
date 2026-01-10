@@ -117,9 +117,11 @@ public class ModifyAttributeModifierMenu extends ConfirmableMenu {
 	}
 
 	private void applyAttributeModifiersOnItem() {
+		ItemStack itemStack = this.playerMenuUtility.getItemInHand().get();
 		ItemStackModifyHelper.addAttributeModifierToItem(
-			this.playerMenuUtility.getItemInHand().get(),
+			itemStack,
 			this.playerMenuUtility.getModifyAttributeStorage());
+		playerMenuUtility.getItemInHand().set(itemStack);
 	}
 
 	@Override

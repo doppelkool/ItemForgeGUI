@@ -73,9 +73,12 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 				.get(); //Handled every other case
 
 			if (ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
+
 				ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 				ArmorEffectManager.addArmorEffect(itemInMainHand, potionEffectType, 1);
 				new ItemInfoManager(itemInMainHand).updateItemInfo();
+				playerMenuUtility.getItemInHand().set(itemInMainHand);
+
 				new SpecialsActivatedArmorEffectsMenu(playerMenuUtility)
 					.open();
 				return;
