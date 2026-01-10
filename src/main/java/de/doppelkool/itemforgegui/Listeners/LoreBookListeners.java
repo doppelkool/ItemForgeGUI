@@ -4,8 +4,8 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagMan
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -32,8 +32,7 @@ public class LoreBookListeners implements Listener {
 	public void onPlayerEditLoreBook(PlayerEditBookEvent e) {
 		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
-		ItemStack tempStoredItem = playerMenuUtility.getTempStoredItem();
-		if (tempStoredItem == null || !e.getPlayer()
+		if (!e.getPlayer()
 			.getInventory()
 			.getItemInMainHand()
 			.getItemMeta()
@@ -46,7 +45,7 @@ public class LoreBookListeners implements Listener {
 		String content = String.join("\n", newBookMeta.getPages());
 		String formattedString = ChatColor.translateAlternateColorCodes('&', content);
 
-		new ItemInfoManager(tempStoredItem)
+		new ItemInfoManager(playerMenuUtility.getItemInHand().get())
 			.setItemLore(List.of(formattedString.split("\n")))
 			.updateItemInfo();
 		endProcess(playerMenuUtility);
@@ -56,9 +55,7 @@ public class LoreBookListeners implements Listener {
 		Player pl = util.getOwner();
 
 		Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
-			pl.getInventory().setItem(util.getStoredSlot(), util.getTempStoredItem());
-
-			util.setTempStoredItem(null);
+			pl.getInventory().setItem(util.getStoredSlot(), util.getItemInHand().get());
 			util.setStoredSlot(-1);
 
 			new ItemEditMenu(util)

@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenus.ItemUniquenessSettingsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
@@ -55,7 +55,7 @@ public class EditItemIDSignListener implements Listener {
 		}
 
 		UniqueItemIdentifierManager.setUniqueItemIdentifier(
-			pl.getInventory().getItemInMainHand(),
+			playerMenuUtility.getItemInHand().get(),
 			uniqueID.trim().replace(" ", "_"));
 		endProcess(playerMenuUtility);
 	}

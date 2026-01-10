@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.ActivatedEnchantmentsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus.DeactivatedEnchantmentsMenu;
@@ -49,7 +49,7 @@ public class EditSingleEnchantmentStrengthSignListener implements Listener {
 		}
 
 		//new strength = entered strength \/ 255
-		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = playerMenuUtility.getItemInHand().get();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
 		strength = Integer.min(strength, 255);
@@ -64,17 +64,17 @@ public class EditSingleEnchantmentStrengthSignListener implements Listener {
 		endProcess(playerMenuUtility);
 	}
 
-	private void endProcess(PlayerMenuUtility util) {
-		util.getOwner().getLocation().getBlock().setType(Material.AIR);
-		util.setSignNumberEditor(null);
+	private void endProcess(PlayerMenuUtility playerMenuUtility) {
+		playerMenuUtility.getOwner().getLocation().getBlock().setType(Material.AIR);
+		playerMenuUtility.setSignNumberEditor(null);
 
-		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
 		if (item.getItemMeta().hasEnchants()) {
-			new ActivatedEnchantmentsMenu(util)
+			new ActivatedEnchantmentsMenu(playerMenuUtility)
 				.open();
 		} else {
-			new DeactivatedEnchantmentsMenu(util)
+			new DeactivatedEnchantmentsMenu(playerMenuUtility)
 				.open();
 		}
 	}

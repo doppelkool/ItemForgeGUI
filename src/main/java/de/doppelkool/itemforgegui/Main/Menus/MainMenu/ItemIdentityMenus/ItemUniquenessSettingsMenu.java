@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -46,7 +46,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		}
 
 		if (e.getSlot() == 12) {
-			UniqueItemIdentifierManager.sendCopyUniqueIdentifier(this.playerMenuUtility.getOwner());
+			UniqueItemIdentifierManager.sendCopyUniqueIdentifier(this.playerMenuUtility.getOwner(), this.playerMenuUtility.getItemInHand().get());
 			this.playerMenuUtility.getOwner().closeInventory();
 			return;
 		}
@@ -62,7 +62,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 
 		ItemStack clone = ItemUniquenessItems.itemUniquenessSettingsShowID.clone();
 		modifyCurrentValueVariableInLore(
@@ -82,7 +82,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(
 				UniqueItemIdentifierManager.getUniqueItemIdentifierOrEmptyString(
-					this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta()))
+					this.playerMenuUtility.getItemInHand().get().getItemMeta()))
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_UNIQUEID_INFORMATION);
 	}

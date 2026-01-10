@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.AmountMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
@@ -47,7 +47,7 @@ public class EditAmountSignListener implements Listener {
 		amount = Integer.min(amount, 99);
 		amount = Integer.max(amount, 1);
 
-		pl.getInventory().getItemInMainHand().setAmount(amount);
+		playerMenuUtility.getItemInHand().get().setAmount(amount);
 		endProcess(playerMenuUtility);
 	}
 

@@ -5,6 +5,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.collections.CollectionDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableDataType;
+import de.doppelkool.itemforgegui.API.EditFinishListener;
 import de.doppelkool.itemforgegui.Commands.EditCommand;
 import de.doppelkool.itemforgegui.Listeners.*;
 import de.doppelkool.itemforgegui.Listeners.PreventionFlagListeners.*;
@@ -131,6 +132,7 @@ public final class Main extends JavaPlugin {
 		pluginmanager.registerEvents(new PreventSmeltingListeners(), this);
 		pluginmanager.registerEvents(new UnEquipEffectArmorListener(), this);
 		pluginmanager.registerEvents(new DrinkMilkListener(), this);
+		pluginmanager.registerEvents(new EditFinishListener(), this);
 
 		ArmorEquipEvent.registerListener(this);
 		CustomBlockData.registerListener(this);

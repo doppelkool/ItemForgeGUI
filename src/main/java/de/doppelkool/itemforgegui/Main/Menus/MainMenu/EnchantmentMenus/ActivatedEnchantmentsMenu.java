@@ -1,12 +1,12 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacksMap;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -91,7 +91,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 		addPaginatedItems();
 		addCustomMenuFillingForEffects();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		if (EnchantmentStacksMap.getAllDeactivatedEnchantments(itemInMainHand)
 			.isEmpty()) {
 			this.inventory.setItem(activatedEnchantmentsSlot, notAvailable(EnchantmentMenuItems.deactivatedEnchantments));
@@ -104,7 +104,7 @@ public class ActivatedEnchantmentsMenu extends PaginatedMenu {
 	}
 
 	private void fillMenuWithActivatedEnchantments() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ItemMeta itemInMainHandItemMeta = itemInMainHand.getItemMeta();
 		Map<Enchantment, Integer> enchants = itemInMainHandItemMeta.getEnchants();
 		this.activatedEnchantmentsToStrength = new HashMap<>(enchants);

@@ -1,10 +1,12 @@
 package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu;
 
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -20,6 +22,8 @@ import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.Spec
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistryFiller.loadInteractionAndReach;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistryFiller.loadMobility;
 import static de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistryFiller.loadPerceptionAndAwareness;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyItemFlags;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyLore;
 
 public class AttributeRegistry {
 	public static final AttributeRegistry REGISTRY;
@@ -76,19 +80,29 @@ public class AttributeRegistry {
 		return Collections.unmodifiableList(out);
 	}
 
-	public List<AttributeItem> getItems_AlreadyAppliedAreBarriers(AttributeCategory category, Set<Attribute> filteredOut) {
+	public List<AttributeItem> getItems_AlreadyAppliedAreBarriers(AttributeCategory category, Set<Attribute> deactivatedAttributes) {
 		List<AttributeItem> out = new ArrayList<>();
 		for (AttributeRegistryEntry e : attributeToEntry.values()) {
 			if (e.category() != category) {
 				continue;
 			}
-
 			AttributeItem item = e.item().clone();
-			if (filteredOut.contains(item.getAttribute())) {
-				item.setItem(ItemStackCreateHelper.notAvailable(item.getItem().clone()));
-			}
+			prepareAttributeItem(item, deactivatedAttributes);
 			out.add(item);
 		}
 		return Collections.unmodifiableList(out);
+	}
+
+	private void prepareAttributeItem(AttributeItem item, Set<Attribute> deactivatedAttributes) {
+		ItemStack attributeItemstack = item.getItem().clone();
+
+		modifyLore(attributeItemstack, ChatColor.YELLOW + "Click to select attribute type");
+		modifyItemFlags(attributeItemstack, ItemFlag.HIDE_ATTRIBUTES);
+
+		if (deactivatedAttributes.contains(item.getAttribute())) {
+			attributeItemstack = ItemStackCreateHelper.notAvailable(attributeItemstack);
+		}
+
+		item.setItem(attributeItemstack);
 	}
 }

@@ -27,3 +27,8 @@
   "minecraft-item-flags": true
   "custom-armor-effects": true
   "custom-prevention-flags": true
+# Controls whether attribute modifiers can be created for equipment slots that the item (which is currently edited) cannot be equipped in
+#  true -> deactivates slots the item is not equippable on
+#  false -> activates slots that an item cannot normally be equipped on
+"attribute-modifier":
+  "validate-attribute-slotgroups": true

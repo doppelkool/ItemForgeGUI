@@ -2,10 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffect
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,7 +23,7 @@ public class SingleArmorEffectTypeMenu extends EditNumberMenu {
 
 	public SingleArmorEffectTypeMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
-		this.itemToBeEnchanted = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		this.itemToBeEnchanted = this.playerMenuUtility.getItemInHand().get();
 		this.potionEffectToEdit = this.playerMenuUtility.getTargetPotionEffectType();
 	}
 

@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.LeatherItemMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import org.bukkit.Color;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,28 +61,26 @@ public class LeatherItemColorMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Color Picker: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Color Picker: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getItemInHand().get().getType().getTranslationKey());
 	}
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
 		if (super.handleClose(e.getSlot())) {
-			this.playerMenuUtility.setTempStoredItem(null);
+			this.playerMenuUtility.setLeatherColorPicker_ResetColor(null);
 			return;
 		}
 		if (super.handleBack(e.getSlot())) {
-			this.playerMenuUtility.setTempStoredItem(null);
+			this.playerMenuUtility.setLeatherColorPicker_ResetColor(null);
 			return;
 		}
 
 		if (e.getSlot() == 53) {
-			if (this.playerMenuUtility.getTempStoredItem() == null) {
+			if (this.playerMenuUtility.getLeatherColorPicker_ResetColor() == null) {
 				return;
 			}
 
-			this.playerMenuUtility.getOwner().getInventory().setItemInMainHand(
-				this.playerMenuUtility.getTempStoredItem());
-
+			resetColor();
 			loadAllRGBCaps();
 			return;
 		}
@@ -90,21 +88,20 @@ public class LeatherItemColorMenu extends Menu {
 		if (slotsRow1.contains(e.getSlot())
 			|| slotsRow2.contains(e.getSlot())
 			|| slotsRow3.contains(e.getSlot())) {
-			ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-			ItemStack newItem = editItem(itemInMainHand, e.getSlot());
-			if (newItem == null) {
-				return;
-			}
-
-			this.playerMenuUtility.getOwner().getInventory().setItemInMainHand(newItem);
+			editItem(this.playerMenuUtility.getItemInHand().get(), e.getSlot());
 			loadAllRGBCaps();
 		}
 	}
 
-	private ItemStack editItem(ItemStack itemInMainHand, int slot) {
-		ItemStack clone = itemInMainHand.clone();
+	private void resetColor() {
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
+		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta) itemInMainHand.getItemMeta();
+		itemInMainHandItemMeta.setColor(this.playerMenuUtility.getLeatherColorPicker_ResetColor());
+		itemInMainHand.setItemMeta(itemInMainHandItemMeta);
+	}
 
-		ColorableArmorMeta colorable = (ColorableArmorMeta) clone.getItemMeta();
+	private void editItem(ItemStack itemInMainHand, int slot) {
+		ColorableArmorMeta colorable = (ColorableArmorMeta) itemInMainHand.getItemMeta();
 		Color color = colorable.getColor();
 
 		int row = slot / 9;
@@ -123,7 +120,7 @@ public class LeatherItemColorMenu extends Menu {
 		};
 
 		if (increment == 0) {
-			return null;
+			return;
 		}
 
 		color = switch (row) {
@@ -134,9 +131,7 @@ public class LeatherItemColorMenu extends Menu {
 		};
 
 		colorable.setColor(color);
-		clone.setItemMeta(colorable);
-
-		return clone;
+		itemInMainHand.setItemMeta(colorable);
 	}
 
 	// ensure 0 <= value <= 255
@@ -148,17 +143,16 @@ public class LeatherItemColorMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
-		this.playerMenuUtility.setTempStoredItem(itemInMainHand);
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
+		Color colorOfLeatherItem = ItemStackCreateHelper.getColorOfLeatherItem(itemInMainHand);
+		this.playerMenuUtility.setLeatherColorPicker_ResetColor(colorOfLeatherItem);
 
 		loadAllRGBCaps();
 		placeColorRow();
 
 		ItemStack resetBackLeatherItem = LeatherItemMenuItems.resetBackLeatherItem.clone();
-		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta) itemInMainHand.getItemMeta();
-
 		resetBackLeatherItem.setType(itemInMainHand.getType());
-		ItemStackCreateHelper.modifyColor(resetBackLeatherItem, itemInMainHandItemMeta.getColor());
+		ItemStackCreateHelper.modifyColor(resetBackLeatherItem, colorOfLeatherItem);
 
 		this.inventory.setItem(53, resetBackLeatherItem);
 
@@ -166,7 +160,7 @@ public class LeatherItemColorMenu extends Menu {
 	}
 
 	private void loadAllRGBCaps() {
-		Color color = ((ColorableArmorMeta) this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta())
+		Color color = ((ColorableArmorMeta) this.playerMenuUtility.getItemInHand().get().getItemMeta())
 			.getColor();
 
 		ItemStack redCap = LeatherItemMenuItems.RED_CAP.clone();

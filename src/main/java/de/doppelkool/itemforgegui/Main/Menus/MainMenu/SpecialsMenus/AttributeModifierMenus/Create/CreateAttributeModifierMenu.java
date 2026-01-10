@@ -3,18 +3,18 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeMo
 import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AddAttributeModifierItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AttributeSelectionItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AddAttributeModifierItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AttributeSelectionItems;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifersMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.AttributeSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.SlotSelectionMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.CreateValueMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.AttributeSelectionMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.CreateValueMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.SlotSelectionMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifersMenu;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -78,9 +78,9 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 			this::determineBackMenu)) {
 			return;
 		}
-		if (isConfirmable() && super.handleConfirm(e.getSlot(),
+		if (super.handleConfirm(e.getSlot(),
 			() -> {
-				ItemStackModifyHelper.addAttributeModifierToItem(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(), this.playerMenuUtility.getAttributeStorage());
+				ItemStackModifyHelper.addAttributeModifierToItem(this.playerMenuUtility.getItemInHand().get(), this.playerMenuUtility.getAttributeStorage());
 				this.playerMenuUtility.setAttributeStorage(null);
 			},
 			ActiveAttributeModifersMenu::new)) {
@@ -106,7 +106,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 	}
 
 	private Menu determineBackMenu(PlayerMenuUtility playerMenuUtility) {
-		Multimap<Attribute, AttributeModifier> attributeModifiers = playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().getAttributeModifiers();
+		Multimap<Attribute, AttributeModifier> attributeModifiers = playerMenuUtility.getItemInHand().get().getItemMeta().getAttributeModifiers();
 		if(attributeModifiers == null || attributeModifiers.isEmpty()) {
 			return new SpecialsMenu(this.playerMenuUtility);
 		} else {
@@ -164,7 +164,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 		Attribute attribute = this.playerMenuUtility.getAttributeStorage().getAttribute();
 
 		if(!modifierValues.isEmpty()) {
-			AttributeModifierManager.applyAttributeLore(valueSelection, attribute, attributeModifiers);
+			AttributeModifierManager.applyAttributeModifierValuesLore(valueSelection, attribute, attributeModifiers);
 		} else {
 			//todo add empty line
 		}

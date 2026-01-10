@@ -1,10 +1,10 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.ColorPickerMenuItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ColorMenu.ColorPickerMenuItems;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -51,7 +51,7 @@ public class ColorPickerMenu extends Menu {
 
 	@Override
 	public String getMenuName() {
-		return "Color Picker: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType().getTranslationKey());
+		return "Color Picker: " + ItemStackModifyHelper.formatTranslationalNames(this.playerMenuUtility.getItemInHand().get().getType().getTranslationKey());
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ColorPickerMenu extends Menu {
 			return;
 		}
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 
 		//Default-Colored target item is already in players hand
 		if (e.getSlot() == 10
@@ -139,7 +139,7 @@ public class ColorPickerMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		Material typeInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getType();
+		Material typeInMainHand = this.playerMenuUtility.getItemInHand().get().getType();
 
 		for (SlotItemWrapper.SlotItem slotItem : SLOT_TO_ITEMS) {
 			if (slotItem == SLOT_TO_ITEMS.getFirst()

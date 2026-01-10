@@ -39,19 +39,19 @@ public class AttributeSelectionItems {
 
 		mobility = makeItem(Material.ELYTRA, ChatColor.GREEN + "Mobility");
 		modifyLore(mobility, ChatColor.YELLOW + "Click to select attribute category");
-		modifyItemFlags(combat, ItemFlag.HIDE_ENCHANTS);
+		modifyItemFlags(mobility, ItemFlag.HIDE_ENCHANTS);
 
 		interactionAndReach = makeItem(Material.SHEARS, ChatColor.GREEN + "Interaction and Reach");
 		modifyLore(interactionAndReach, ChatColor.YELLOW + "Click to select attribute category");
-		modifyItemFlags(combat, ItemFlag.HIDE_ENCHANTS);
+		modifyItemFlags(interactionAndReach, ItemFlag.HIDE_ENCHANTS);
 
 		perceptionAndAwareness = makeItem(Material.SPYGLASS, ChatColor.GREEN + "Perception and Awareness");
 		modifyLore(perceptionAndAwareness, ChatColor.YELLOW + "Click to select attribute category");
-		modifyItemFlags(combat, ItemFlag.HIDE_ENCHANTS);
+		modifyItemFlags(perceptionAndAwareness, ItemFlag.HIDE_ENCHANTS);
 
 		environmentalAndSurvival = makeItem(Material.WATER_BUCKET, ChatColor.GREEN + "Environmental and Survival");
 		modifyLore(environmentalAndSurvival, ChatColor.YELLOW + "Click to select attribute category");
-		modifyItemFlags(combat, ItemFlag.HIDE_ENCHANTS);
+		modifyItemFlags(environmentalAndSurvival, ItemFlag.HIDE_ENCHANTS);
 
 		confirmSlots_deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmSlots_deactivated,

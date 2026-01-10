@@ -23,7 +23,7 @@ public class DurabilityMenu extends EditNumberMenu {
 
 	public DurabilityMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
-		this.damageableItem = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		this.damageableItem = this.playerMenuUtility.getItemInHand().get();
 		this.damageableItemMeta = (Damageable) damageableItem.getItemMeta();
 		this.damageableItemMaxDurability = damageableItem.getType().getMaxDurability();
 	}

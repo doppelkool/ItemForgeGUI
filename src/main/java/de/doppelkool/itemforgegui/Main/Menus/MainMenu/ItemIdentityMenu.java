@@ -2,10 +2,10 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu;
 
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemIdentityItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemIdentityItems;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenus.ItemUniquenessSettingsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -54,7 +54,7 @@ public class ItemIdentityMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack item = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 
 		if (ConfigManager.getInstance().isUniqueIdOnEditedItemEnabled()) {
 			ItemStack clone = ItemIdentityItems.openItemUniquenessSettings.clone();

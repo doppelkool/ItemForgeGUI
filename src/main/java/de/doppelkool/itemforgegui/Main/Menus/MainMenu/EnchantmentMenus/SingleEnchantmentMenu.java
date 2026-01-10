@@ -1,10 +1,10 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.EditNumberMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.enchantments.Enchantment;
@@ -26,7 +26,7 @@ public class SingleEnchantmentMenu extends EditNumberMenu {
 
 	public SingleEnchantmentMenu(PlayerMenuUtility playerMenuUtility) {
 		super(playerMenuUtility);
-		this.itemToBeEnchanted = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		this.itemToBeEnchanted = this.playerMenuUtility.getItemInHand().get();
 		this.itemToBeEnchantedMeta = itemToBeEnchanted.getItemMeta();
 		this.enchantmentToEdit = this.playerMenuUtility.getTargetEnchantment();
 	}

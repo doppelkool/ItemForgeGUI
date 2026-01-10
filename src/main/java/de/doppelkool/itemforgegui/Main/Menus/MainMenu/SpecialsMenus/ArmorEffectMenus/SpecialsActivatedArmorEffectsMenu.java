@@ -4,12 +4,12 @@ import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectStacksMap;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -74,7 +74,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 			PotionEffectType potionEffectType = ArmorEffectStacksMap.itemStackIDToPotionEffectType.get(itemStackID);
 
 			if (ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
-				ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+				ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 				ArmorEffectManager.removeArmorEffect(itemInMainHand, potionEffectType);
 				new ItemInfoManager(itemInMainHand).updateItemInfo();
 
@@ -99,7 +99,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 		addPaginatedItems();
 		addCustomMenuFillingForEffects();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		if (!ArmorEffectManager.getAllDeactivatedPotionEffectTypes(itemInMainHand)
 			.isEmpty()) {
 			this.inventory.setItem(switchToDeactivatedArmorEffectsItemSlot, ArmorEffectItems.deactivatedArmorEffects);
@@ -112,7 +112,7 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 	}
 
 	private void fillMenuWithActivatedEnchantments() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		Map<PotionEffectType, Integer> enchants = ArmorEffectManager.getAllActivatedPotionEffectTypesAsMap(itemInMainHand);
 		this.activatedPotionEffectTypesToStrength = new HashMap<>(enchants);
 

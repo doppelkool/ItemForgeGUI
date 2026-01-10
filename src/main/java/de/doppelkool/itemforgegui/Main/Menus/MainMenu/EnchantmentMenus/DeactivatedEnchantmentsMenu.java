@@ -1,11 +1,11 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.EnchantmentMenus;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentMenuItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.EnchantmentMenu.EnchantmentStacksMap;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -90,7 +90,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 		addPaginatedItems();
 		addCustomMenuFillingForEffects();
 
-		if (this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().hasEnchants()) {
+		if (this.playerMenuUtility.getItemInHand().get().getItemMeta().hasEnchants()) {
 			this.inventory.setItem(activatedEnchantmentsSlot, EnchantmentMenuItems.activatedEnchantments);
 		} else {
 			this.inventory.setItem(activatedEnchantmentsSlot, notAvailable(EnchantmentMenuItems.activatedEnchantments));
@@ -102,7 +102,7 @@ public class DeactivatedEnchantmentsMenu extends PaginatedMenu {
 
 	private void fillMenuWithDeactivatedEnchantments() {
 		deactivatedEnchantmentsToStrength = EnchantmentStacksMap.getAllDeactivatedEnchantments(
-				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()
+				this.playerMenuUtility.getItemInHand().get()
 			)
 			.stream()
 			.sorted(Comparator.comparing(e -> {

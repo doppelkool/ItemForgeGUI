@@ -3,6 +3,7 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager.Flags;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -12,7 +13,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -106,18 +106,16 @@ public class UniqueItemIdentifierManager {
 			uniqueId);
 	}
 
-	public static void sendCopyUniqueIdentifier(Player pl) {
-		ItemStack itemStack = pl.getInventory().getItemInMainHand();
-
+	public static void sendCopyUniqueIdentifier(Player pl, ItemStack itemInMainHand) {
 		TextComponent msg0 = new TextComponent(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_INFORMATION));
 
 		TextComponent msg1 = new TextComponent(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_COPY_BUTTON, false));
-		msg1.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, getOrSetUniqueItemIdentifier(itemStack)));
+		msg1.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, getOrSetUniqueItemIdentifier(itemInMainHand)));
 
 		TextComponent msg2 = new TextComponent(" ");
 
 		TextComponent msg3 = new TextComponent(MessageManager.format(Messages.MISC_COPY_UNIQUE_IDENTIFIER_MANUAL_BUTTON, false));
-		msg3.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, getOrSetUniqueItemIdentifier(itemStack)));
+		msg3.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, getOrSetUniqueItemIdentifier(itemInMainHand)));
 
 		pl.spigot().sendMessage(msg0, msg1, msg2, msg3);
 	}

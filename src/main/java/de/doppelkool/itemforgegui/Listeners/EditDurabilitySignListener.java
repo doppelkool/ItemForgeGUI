@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.DurabilityMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
@@ -49,7 +49,7 @@ public class EditDurabilitySignListener implements Listener {
 			return;
 		}
 
-		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = playerMenuUtility.getItemInHand().get();
 
 		durability = Integer.min(durability, itemInMainHand.getType().getMaxDurability());
 		durability = Integer.max(durability, 0);

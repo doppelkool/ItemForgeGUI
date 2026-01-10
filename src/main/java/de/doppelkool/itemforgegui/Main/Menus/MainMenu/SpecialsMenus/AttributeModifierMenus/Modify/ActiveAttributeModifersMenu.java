@@ -3,15 +3,15 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeMo
 import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeModifierItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeRegistry;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifiersMenus.ModifyAttributeModifierMenu;
-import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -54,7 +54,7 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 		if(super.pageBack(e.getSlot())) {
 			return;
 		}
-		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta().getAttributeModifiers();
+		Multimap<Attribute, AttributeModifier> attributeModifiers = this.playerMenuUtility.getItemInHand().get().getItemMeta().getAttributeModifiers();
 		if(super.pageForward(e.getSlot(), attributeModifiers.size())) {
 			return;
 		}
@@ -100,11 +100,11 @@ public class ActiveAttributeModifersMenu extends PaginatedMenu {
 	}
 
 	private boolean isCreateNewAttributeItemAvailable() {
-		return AttributeModifierManager.canMore(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand().getItemMeta());
+		return AttributeModifierManager.canMore(this.playerMenuUtility.getItemInHand().get().getItemMeta());
 	}
 
 	private void fillMenuWithActivatedAttributes() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		Map<Attribute, List<AttributeModifier>> entries = itemInMainHand.getItemMeta().getAttributeModifiers().asMap()
 			.entrySet()
 			.stream()

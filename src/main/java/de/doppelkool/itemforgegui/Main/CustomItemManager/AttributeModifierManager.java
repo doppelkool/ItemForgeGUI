@@ -90,7 +90,17 @@ public class AttributeModifierManager {
 	 * Takes an ItemStack and an Attribute whose modifiers should be
 	 * shown as lore. “Fake” copies are added to the lore with similar formatting.
 	 */
-	public static void applyAttributeLore(ItemStack item, Attribute attribute, Collection<AttributeModifier> attributesToDisplay) {
+	public static void applyAttributeModifierValuesLore(ItemStack item, Attribute attribute, Collection<AttributeModifier> attributesToDisplay) {
+		EnumMap<AttributeModifier.Operation, Double> enummap = new EnumMap<>(AttributeModifier.Operation.class);
+		attributesToDisplay.forEach(attr -> enummap.put(attr.getOperation(), attr.getAmount()));
+		applyAttributeModifierValuesLore(item, attribute, enummap);
+	}
+
+	/**
+	 * Takes an ItemStack and an Attribute whose modifiers should be
+	 * shown as lore. “Fake” copies are added to the lore with similar formatting.
+	 */
+	public static void applyAttributeModifierValuesLore(ItemStack item, Attribute attribute, EnumMap<AttributeModifier.Operation, Double> attributesToDisplay) {
 		if (item == null || attributesToDisplay == null || attributesToDisplay.isEmpty()) {
 			return;
 		}
@@ -102,8 +112,8 @@ public class AttributeModifierManager {
 
 		List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
 
-		for (AttributeModifier mod : attributesToDisplay) {
-			String line = formatAttributeLine(attribute, mod);
+		for (Map.Entry<AttributeModifier.Operation, Double> mod : attributesToDisplay.entrySet()) {
+			String line = formatAttributeLine(attribute, mod.getValue(), mod.getKey());
 			if (line != null && !line.isEmpty()) {
 				lore.add(line);
 			}
@@ -119,14 +129,14 @@ public class AttributeModifierManager {
 	 * Formats a single attribute+modifier line to look similar to vanilla.
 	 * Example: " +7 Attack Damage" with a color depending on whether it’s good/bad.
 	 */
-	private static String formatAttributeLine(Attribute attribute, AttributeModifier modifier) {
-		double amount = modifier.getAmount();
+	private static String formatAttributeLine(Attribute attribute, double modifierAmount, AttributeModifier.Operation modifierOperation) {
+		double amount = modifierAmount;
 		if (amount == 0) return null;
 
 		boolean positive = amount > 0;
 
 		String valuePart;
-		AttributeModifier.Operation op = modifier.getOperation();
+		AttributeModifier.Operation op = modifierOperation;
 		switch (op) {
 			case ADD_NUMBER:
 				// +5 Attack Damage

@@ -2,15 +2,15 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper.hasGlow;
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper.setActivated;
@@ -49,13 +49,13 @@ public class MinecraftItemFlagsMenu extends Menu {
 		if (itemFlagItemStackPair != null) {
 			itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
 
-			new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
+			new ItemInfoManager(this.playerMenuUtility.getItemInHand().get()).updateItemInfo();
 			return;
 		}
 	}
 
 	private void itemFlagClicked(ItemStack currentItem, ItemFlag itemFlag) {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
 		if (hasGlow(currentItem)) {
@@ -73,7 +73,7 @@ public class MinecraftItemFlagsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ItemMeta itemMeta = itemInMainHand.getItemMeta();
 
 		ItemFlagManager.getInstance().getSlotToFlag().forEach((slot, pair) -> {

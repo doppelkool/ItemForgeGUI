@@ -3,10 +3,10 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import de.doppelkool.itemforgegui.Main.Resources;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -51,19 +51,19 @@ public class PreventionFlagsMenu extends Menu {
 
 		forgeActionClicked(e.getCurrentItem(), clickedForgeAction);
 
-		new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
+		new ItemInfoManager(this.playerMenuUtility.getItemInHand().get()).updateItemInfo();
 	}
 
 	private void forgeActionClicked(ItemStack currentItem, ForgeAction clickedAction) {
 		boolean newStatus;
 		if (clickedAction == ForgeAction.CRAFT) {
-			PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention = PreventionFlagManager.getInstance().getActiveCraftingPrevention(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand());
+			PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention = PreventionFlagManager.getInstance().getActiveCraftingPrevention(this.playerMenuUtility.getItemInHand().get());
 			PreventionFlagManager.CraftingPreventionFlag nextCraftingPrevention = activeCraftingPrevention != null
 				? activeCraftingPrevention.cycle()
 				: PreventionFlagManager.CraftingPreventionFlag.ALL;
 
 			PreventionFlagManager.getInstance().updateCraftPreventionType(
-				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+				this.playerMenuUtility.getItemInHand().get(),
 				nextCraftingPrevention
 			);
 			ItemStackModifyHelper.updateCraftingPreventionInMenuItemLore(currentItem, nextCraftingPrevention);
@@ -75,7 +75,7 @@ public class PreventionFlagsMenu extends Menu {
 		ItemStackModifyHelper.setActivated(currentItem, newStatus);
 
 		PreventionFlagManager.getInstance().toggleItemFlag(
-			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+			this.playerMenuUtility.getItemInHand().get(),
 			clickedAction,
 			newStatus);
 	}
@@ -84,7 +84,7 @@ public class PreventionFlagsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 
 		PreventionFlagManager.SLOT_TO_ACTION.forEach((slot, pair) -> {
 			ItemStack itemStackClone = pair.getB().clone();

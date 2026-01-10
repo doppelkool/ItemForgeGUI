@@ -4,12 +4,12 @@ import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.ArmorEffectMenu.ArmorEffectStacksMap;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +73,7 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 				.get(); //Handled every other case
 
 			if (ConfigManager.getInstance().isDifferCappedEffectsEnabled() && ArmorEffectManager.isCappedEffect(potionEffectType)) {
-				ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+				ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 				ArmorEffectManager.addArmorEffect(itemInMainHand, potionEffectType, 1);
 				new ItemInfoManager(itemInMainHand).updateItemInfo();
 				new SpecialsActivatedArmorEffectsMenu(playerMenuUtility)
@@ -110,14 +110,14 @@ public class SpecialsDeactivatedArmorEffectsMenu extends PaginatedMenu {
 	}
 
 	private boolean isActivatedArmorEffectsItemAvailable() {
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		ArrayList<ForgeArmorEffect> allDeactivatedPotionEffectTypes = ArmorEffectManager.getAllActivatedPotionEffectTypesAsList(itemInMainHand);
 		return !allDeactivatedPotionEffectTypes.isEmpty();
 	}
 
 	private void fillMenuWithDeactivatedArmorEffects() {
 		deactivatedPotionEffectTypesToStrength = ArmorEffectManager.getAllDeactivatedPotionEffectTypes(
-				this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()
+				this.playerMenuUtility.getItemInHand().get()
 			)
 			.stream()
 			.sorted(Comparator.comparing(e -> {

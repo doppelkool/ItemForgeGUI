@@ -3,14 +3,14 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 
 /**
  * Class Description
@@ -45,7 +45,7 @@ public class CustomItemFlagsMenu extends Menu {
 		if (customItemFlagItemStackPair != null) {
 			customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
 
-			new ItemInfoManager(this.playerMenuUtility.getOwner().getInventory().getItemInMainHand()).updateItemInfo();
+			new ItemInfoManager(this.playerMenuUtility.getItemInHand().get()).updateItemInfo();
 			return;
 		}
 	}
@@ -56,7 +56,7 @@ public class CustomItemFlagsMenu extends Menu {
 		ItemStackModifyHelper.setActivated(currentItem, newStatus);
 
 		CustomItemFlagManager.getInstance().toggleItemFlag(
-			this.playerMenuUtility.getOwner().getInventory().getItemInMainHand(),
+			this.playerMenuUtility.getItemInHand().get(),
 			clickedCustomFlag,
 			newStatus);
 	}
@@ -65,7 +65,7 @@ public class CustomItemFlagsMenu extends Menu {
 	public void setMenuItems() {
 		addMenuBorder();
 
-		ItemStack itemInMainHand = this.playerMenuUtility.getOwner().getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		PersistentDataContainer container = itemInMainHand.getItemMeta().getPersistentDataContainer();
 
 		CustomItemFlagManager.getInstance().getSlotToFlag().forEach((slot, pair) -> {

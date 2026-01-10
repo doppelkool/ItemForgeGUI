@@ -1,8 +1,8 @@
 package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -26,7 +26,7 @@ import java.util.EnumMap;
  */
 public class EditAttributeModifierAmountSignListener implements Listener {
 	@EventHandler
-	public void onPlayerEditAttributeMOdifierAmountSign(SignChangeEvent e) {
+	public void onPlayerEditAttributeModifierAmountSign(SignChangeEvent e) {
 		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
 		SignNumberEditor signNumberEditor = playerMenuUtility.getSignNumberEditor();
@@ -77,14 +77,14 @@ public class EditAttributeModifierAmountSignListener implements Listener {
 	}
 
 	@SneakyThrows
-	private void endProcess(PlayerMenuUtility util) {
-		util.getOwner().getLocation().getBlock().setType(Material.AIR);
+	private void endProcess(PlayerMenuUtility playerMenuUtility) {
+		playerMenuUtility.getOwner().getLocation().getBlock().setType(Material.AIR);
 
-		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
-		util.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
-			.newInstance(util)
+		playerMenuUtility.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
+			.newInstance(playerMenuUtility)
 			.open();
-		util.setSignNumberEditor(null);
+		playerMenuUtility.setSignNumberEditor(null);
 	}
 }

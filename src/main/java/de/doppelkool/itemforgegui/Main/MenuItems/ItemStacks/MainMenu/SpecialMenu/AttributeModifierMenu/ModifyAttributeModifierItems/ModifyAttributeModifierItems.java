@@ -27,32 +27,32 @@ public class ModifyAttributeModifierItems {
 
 	static {
 		headSlot = makeItem(Material.LEATHER_HELMET, ChatColor.GREEN + "Head Slot");
-		modifyLore(headSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Head");
+		modifyLore(headSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}");
 		modifyStoredSlot(headSlot, EquipmentSlot.HEAD);
 		modifyItemFlags(headSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		chestSlot = makeItem(Material.CHAINMAIL_CHESTPLATE, ChatColor.GREEN + "Chest Slot");
-		modifyLore(chestSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Chest");
+		modifyLore(chestSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}");
 		modifyStoredSlot(chestSlot, EquipmentSlot.CHEST);
 		modifyItemFlags(chestSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		legSlot = makeItem(Material.GOLDEN_LEGGINGS, ChatColor.GREEN + "Leg Slot");
-		modifyLore(legSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Legs");
+		modifyLore(legSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}");
 		modifyStoredSlot(legSlot, EquipmentSlot.LEGS);
 		modifyItemFlags(legSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		bootSlot = makeItem(Material.NETHERITE_BOOTS, ChatColor.GREEN + "Boot Slot");
-		modifyLore(bootSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Feet");
+		modifyLore(bootSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}");
 		modifyStoredSlot(bootSlot, EquipmentSlot.FEET);
 		modifyItemFlags(bootSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		mainHandSlot = makeItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Main Hand Slot");
-		modifyLore(mainHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Main Hand");
+		modifyLore(mainHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}");
 		modifyStoredSlot(mainHandSlot, EquipmentSlot.HAND);
 		modifyItemFlags(mainHandSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 
 		offHandSlot = makeItem(Material.SHIELD, ChatColor.GREEN + "Off Hand Slot");
-		modifyLore(offHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}", "-> Slot: Off Hand");
+		modifyLore(offHandSlot, ChatColor.YELLOW + "Click to modify attribute modifier for", "-> Attribute: {currentAttribute}");
 		modifyStoredSlot(offHandSlot, EquipmentSlot.OFF_HAND);
 		modifyItemFlags(offHandSlot, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 	}
