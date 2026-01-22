@@ -20,8 +20,19 @@
   # WIND_CHARGED
 "differ-capped-effects": true
 "armor-effects":
-  showAmbient: false
+  # If true, potion particles will be visible around the player.
+  # Set this to false if you want the effect to be completely invisible
+  # (no swirling particles).
   showParticles: false
+
+  # If true, the effect will be marked as "ambient".
+  # Ambient effects have a more subtle visual style and are typically used
+  # for effects coming from beacons
+  showAmbient: false
+
+  # If true, the potion effect icon will be shown in the player's HUD
+  # (top-right corner of the screen).
+  # Set this to false to hide the icon while still applying the effect.
   showIcon: true
 "show-flags-by-default-in-item-lore":
   "minecraft-item-flags": true

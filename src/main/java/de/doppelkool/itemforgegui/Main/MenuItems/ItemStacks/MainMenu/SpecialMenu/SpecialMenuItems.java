@@ -33,6 +33,6 @@ public class SpecialMenuItems {
 		modifyLore(armorEffects, ChatColor.YELLOW + "Edit effects the armor applies to the player when worn");
 		modifyItemFlags(armorEffects, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 		attributeModifiers = makeItem(Material.DRAGON_BREATH, ChatColor.GREEN + "Edit Attribute Modifiers");
-		modifyLore(attributeModifiers, ChatColor.YELLOW + "Edit attributes the item applies to the player when interacted");
+		modifyLore(attributeModifiers, ChatColor.YELLOW + "Edit attributes the item applies to the player when worn or held");
 	}
 }
