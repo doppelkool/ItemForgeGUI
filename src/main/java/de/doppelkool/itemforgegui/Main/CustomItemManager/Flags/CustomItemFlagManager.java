@@ -38,13 +38,24 @@ public class CustomItemFlagManager extends CustomFlagManager<CustomItemFlag> {
 		return instance;
 	}
 
-	public void initCustomItemFlags(ItemStack itemInMainHand) {
-		boolean activateHideItemFlags = !ConfigManager.getInstance().isShowMinecraftItemFlags();
-		boolean activateHideArmorEffects = !ConfigManager.getInstance().isShowCustomArmorEffects();
-		boolean activateHidePreventionFlags = !ConfigManager.getInstance().isShowCustomPreventionFlags();
+	public void initShowMinecraftItemFlagsFlag(ItemStack itemInMainHand) {
+		if (!isFlagApplied(itemInMainHand, CustomItemFlag.HIDE_ITEM_FLAGS)) {
+			boolean activateHideItemFlags = !ConfigManager.getInstance().isShowMinecraftItemFlags();
+			this.toggleItemFlag(itemInMainHand, CustomItemFlag.HIDE_ITEM_FLAGS, activateHideItemFlags);
+		}
+	}
 
-		this.toggleItemFlag(itemInMainHand,CustomItemFlag.HIDE_ITEM_FLAGS, activateHideItemFlags);
-		this.toggleItemFlag(itemInMainHand,CustomItemFlag.HIDE_ARMOR_EFFECTS, activateHideArmorEffects);
-		this.toggleItemFlag(itemInMainHand,CustomItemFlag.HIDE_PREVENTION_FLAGS, activateHidePreventionFlags);
+	public void initShowArmorEffectsFlag(ItemStack itemInMainHand) {
+		if (!isFlagApplied(itemInMainHand, CustomItemFlag.HIDE_ARMOR_EFFECTS)) {
+			boolean activateHideArmorEffects = !ConfigManager.getInstance().isShowCustomArmorEffects();
+			this.toggleItemFlag(itemInMainHand, CustomItemFlag.HIDE_ARMOR_EFFECTS, activateHideArmorEffects);
+		}
+	}
+
+	public void initShowPreventionFlagsFlag(ItemStack itemInMainHand) {
+		if (!isFlagApplied(itemInMainHand, CustomItemFlag.HIDE_PREVENTION_FLAGS)) {
+			boolean activateHidePreventionFlags = !ConfigManager.getInstance().isShowCustomPreventionFlags();
+			this.toggleItemFlag(itemInMainHand, CustomItemFlag.HIDE_PREVENTION_FLAGS, activateHidePreventionFlags);
+		}
 	}
 }

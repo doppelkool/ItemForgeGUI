@@ -95,11 +95,15 @@ public class AttributeRegistry {
 
 	private void prepareAttributeItem(AttributeItem item, Set<Attribute> deactivatedAttributes) {
 		ItemStack attributeItemstack = item.getItem().clone();
-
-		modifyLore(attributeItemstack, ChatColor.YELLOW + "Click to select attribute type");
 		modifyItemFlags(attributeItemstack, ItemFlag.HIDE_ATTRIBUTES);
 
-		if (deactivatedAttributes.contains(item.getAttribute())) {
+
+		if (!deactivatedAttributes.contains(item.getAttribute())) {
+			modifyLore(attributeItemstack, ChatColor.YELLOW + "Click to select attribute type");
+		} else {
+			modifyLore(attributeItemstack,
+				ChatColor.GRAY + "There are already attribute modifier set with this type.",
+				ChatColor.GRAY + "Click on the corresponding item in the 'Active Attribute Modifiers' menu to edit them");
 			attributeItemstack = ItemStackCreateHelper.notAvailable(attributeItemstack);
 		}
 

@@ -1,7 +1,7 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus;
 
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.GlobalAttributeModifierItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.ModifyAttributeModifierItems.EditValuesItems;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.ModifyAttributeModifierItems.ValuesItems;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
@@ -11,7 +11,7 @@ import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -59,10 +59,22 @@ public class CreateValueMenu extends ConfirmableMenu {
 		new SlotItemWrapper.SlotItemOperationValueEdit(35, GlobalAttributeModifierItems.plus20,AttributeModifier.Operation.MULTIPLY_SCALAR_1, 20.0)
 	);
 
-	private static final List<SlotItemWrapper.SlotItemOperationValueEdit> INFO_BOOKS = List.of(
-		new SlotItemWrapper.SlotItemOperationValueEdit(13, EditValuesItems.infoBook,AttributeModifier.Operation.ADD_NUMBER, null),
-		new SlotItemWrapper.SlotItemOperationValueEdit(22, EditValuesItems.infoBook,AttributeModifier.Operation.ADD_SCALAR, null),
-		new SlotItemWrapper.SlotItemOperationValueEdit(31, EditValuesItems.infoBook,AttributeModifier.Operation.MULTIPLY_SCALAR_1, null)
+	private static final List<SlotItemWrapper.SlotItemOperationExplanationValueEdit> INFO_BOOKS = List.of(
+		new SlotItemWrapper.SlotItemOperationExplanationValueEdit(13,
+			ValuesItems.infoBook,
+			AttributeModifier.Operation.ADD_NUMBER,
+			ValuesItems::getAddNumberExplanationLoreString,
+			null),
+		new SlotItemWrapper.SlotItemOperationExplanationValueEdit(22,
+			ValuesItems.infoBook,
+			AttributeModifier.Operation.ADD_SCALAR,
+			ValuesItems::getAddScalarExplanationLoreString,
+			null),
+		new SlotItemWrapper.SlotItemOperationExplanationValueEdit(31,
+			ValuesItems.infoBook,
+			AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+			ValuesItems::getMultiplyScalar1ExplanationLoreString,
+			null)
 	);
 
 	public CreateValueMenu(PlayerMenuUtility playerMenuUtility) {
@@ -96,7 +108,9 @@ public class CreateValueMenu extends ConfirmableMenu {
 			return;
 		}
 
-		Optional<SlotItemWrapper.SlotItemOperationValueEdit> clickedInfoBook = INFO_BOOKS.stream()
+		//TODO manual value enter does not set current value into sign as preset, it sets 0.0
+		//TODO setting 0.0 does not round to 0, which leads to red "0.0"
+		Optional<SlotItemWrapper.SlotItemOperationExplanationValueEdit> clickedInfoBook = INFO_BOOKS.stream()
 			.filter(ib -> ib.slot() == e.getSlot())
 			.findFirst();
 
@@ -107,6 +121,43 @@ public class CreateValueMenu extends ConfirmableMenu {
 
 		slotItemsClicked(e.getSlot());
 		setMenuItems();
+	}
+
+	/**
+	 * If the book was clicked with
+	 * - any form of left click: the plugin will provide a way to enter the value manually
+	 * - any form of right click: the value for the clicked operation will be set to zero
+	 * */
+	private void infoBookClicked(SlotItemWrapper.SlotItemOperationExplanationValueEdit clickedInfoBook, ClickType clickType) {
+		if (isLeft(clickType)) {
+			EnumMap<AttributeModifier.Operation, Double> operationDoubleValues = this.playerMenuUtility.getAttributeStorage().getOperationDoubleValues();
+			double valueToManualEdit = operationDoubleValues.getOrDefault(clickedInfoBook.operation(), 0d);
+
+			playerMenuUtility.setMenuTransitioning(true);
+			playerMenuUtility.getOwner().closeInventory();
+
+			playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
+				.editAttributeModifierValue(valueToManualEdit)
+				.setReturnInventory(CreateValueMenu.class)
+				.setTargetOperation(clickedInfoBook.operation())
+				.openSign());
+			MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INFORMATION);
+			return;
+		}
+
+		if (isRight(clickType)) {
+			EnumMap<AttributeModifier.Operation, Double> operationDoubleValues = this.playerMenuUtility.getAttributeStorage().getOperationDoubleValues();
+			operationDoubleValues.remove(clickedInfoBook.operation());
+			setMenuItems();
+		}
+	}
+
+	private boolean isLeft(ClickType type) {
+		return type == ClickType.LEFT || type == ClickType.SHIFT_LEFT || type == ClickType.WINDOW_BORDER_LEFT;
+	}
+
+	private boolean isRight(ClickType type) {
+		return type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT || type == ClickType.WINDOW_BORDER_RIGHT;
 	}
 
 	private void slotItemsClicked(int clickedSlot) {
@@ -128,84 +179,24 @@ public class CreateValueMenu extends ConfirmableMenu {
 		}
 	}
 
-	/**
-	 * If the book was clicked with
-	 * - any form of left click: the plugin will provide a way to enter the value manually
-	 * - any form of right click: the value for the clicked operation will be set to zero
-	 * */
-	private void infoBookClicked(SlotItemWrapper.SlotItemOperationValueEdit clickedInfoBook, ClickType clickType) {
-		if (isLeft(clickType)) {
-			EnumMap<AttributeModifier.Operation, Double> operationDoubleValues = this.playerMenuUtility.getAttributeStorage().getOperationDoubleValues();
-			double valueToManualEdit = operationDoubleValues.getOrDefault(clickedInfoBook.operation(), 0d);
-
-			playerMenuUtility.setMenuTransitioning(true);
-			playerMenuUtility.getOwner().closeInventory();
-
-			playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
-				.editAttributeModifierValue(valueToManualEdit)
-				.setReturnInventory(CreateValueMenu.class)
-				.setTargetOperation(clickedInfoBook.operation())
-				.openSign());
-			MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INFORMATION);
-		} else if (isRight(clickType)) {
-			EnumMap<AttributeModifier.Operation, Double> operationDoubleValues = this.playerMenuUtility.getAttributeStorage().getOperationDoubleValues();
-			operationDoubleValues.remove(clickedInfoBook.operation());
-		}
-	}
-
-	private boolean isLeft(ClickType type) {
-		return type == ClickType.LEFT || type == ClickType.SHIFT_LEFT || type == ClickType.WINDOW_BORDER_LEFT;
-	}
-
-	private boolean isRight(ClickType type) {
-		return type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT || type == ClickType.WINDOW_BORDER_RIGHT;
-	}
-
 	@Override
 	public void setMenuItems() {
 		addMenuBorder();
 
-		//ToDo Enhance the items description to a point where it explains it better
 		for (SlotItemWrapper.SlotItemOperationValueEdit slotItem : SLOT_ITEMS) {
-			ItemStack itemToSet = fillEditValueItemWithLoreValues(slotItem);
+			Double currentValueForOperation = this.playerMenuUtility.getAttributeStorage().getOperationDoubleValues().get(slotItem.operation());
+			ItemStack itemToSet = ItemStackCreateHelper.fillEditValueItemWithLoreValues(slotItem, currentValueForOperation);
 			this.inventory.setItem(slotItem.slot(), itemToSet);
 		}
 
-		for (SlotItemWrapper.SlotItemOperationValueEdit infoBook : INFO_BOOKS) {
-			ItemStack itemToSet = fillInfoBookItemWithValues(infoBook);
+		for (SlotItemWrapper.SlotItemOperationExplanationValueEdit infoBook : INFO_BOOKS) {
+			Double currentValueForOperation = this.playerMenuUtility.getAttributeStorage().getOperationDoubleValues().get(infoBook.operation());
+			ItemStack itemToSet = ItemStackCreateHelper.fillInfoBookItemWithValues(infoBook, currentValueForOperation);
 			this.inventory.setItem(infoBook.slot(), itemToSet);
 		}
 
 		updateConfirmSlot();
 		setFillerGlass();
-	}
-
-	private ItemStack fillEditValueItemWithLoreValues(SlotItemWrapper.SlotItemOperationValueEdit slotItem) {
-		ItemStack item = slotItem.item().clone();
-		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE, "" + slotItem.valueEdit());
-		return item;
-	}
-
-	private ItemStack fillInfoBookItemWithValues(SlotItemWrapper.SlotItemOperationValueEdit infoBook) {
-		ItemStack item = infoBook.item().clone();
-
-		AttributeModifier.Operation operation = infoBook.operation();
-		String operationValueRepresent = ItemStackModifyHelper.formatCAPSNames(operation.name());
-		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_OPERATION, operationValueRepresent);
-
-		Double currentValueForOperation = this.playerMenuUtility.getAttributeStorage()
-			.getOperationDoubleValues()
-			.get(operation);
-		String loreValueRepresent;
-		if (currentValueForOperation != null) {
-			loreValueRepresent = currentValueForOperation.toString();
-			ItemStackModifyHelper.setGlow(item, true);
-		} else {
-			loreValueRepresent = ChatColor.GRAY + "-";
-		}
-		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE, loreValueRepresent);
-
-		return item;
 	}
 
 	@Override

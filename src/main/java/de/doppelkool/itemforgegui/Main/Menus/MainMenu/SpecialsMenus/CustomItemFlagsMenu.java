@@ -42,14 +42,16 @@ public class CustomItemFlagsMenu extends Menu {
 		}
 
 		Pair<CustomItemFlag, ItemStack> customItemFlagItemStackPair = CustomItemFlagManager.getInstance().getSlotToFlag().get(e.getSlot());
-		if (customItemFlagItemStackPair != null) {
-			customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
-
-			ItemStack item = this.playerMenuUtility.getItemInHand().get();
-			new ItemInfoManager(item).updateItemInfo();
-			playerMenuUtility.getItemInHand().set(item);
+		if (customItemFlagItemStackPair == null) {
 			return;
 		}
+
+		customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
+
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
+		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+		return;
 	}
 
 	private void customFlagClicked(ItemStack currentItem, CustomItemFlag clickedCustomFlag) {

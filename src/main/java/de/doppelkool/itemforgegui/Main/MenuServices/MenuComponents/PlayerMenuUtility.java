@@ -30,6 +30,7 @@ import java.util.Optional;
 public class PlayerMenuUtility {
 
 	private Player owner;
+	private Optional<ItemStack> itemstackClone;
 	private ObservableObject<ItemStack> itemInHand;
 	private Optional<ItemForgeGuiAPI.ItemForgeCallback> APICallback = Optional.empty();
 

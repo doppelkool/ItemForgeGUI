@@ -23,46 +23,46 @@ public class GlobalAttributeModifierItems {
 	public static final ItemStack plus1;
 	public static final ItemStack plus10;
 	public static final ItemStack plus20;
-	
+
 	static {
 		minus20 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.RED + "-20",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.RED + "-20");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(minus20, SkullData.REDSTONE_TWENTY);
 
 		minus10 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.RED + "-10",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.RED + "-10");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(minus10, SkullData.REDSTONE_TEN);
 
 		minus1 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.RED + "-1",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.RED + "-1");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(minus1, SkullData.REDSTONE_ONE);
 
 		minusPoint1 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.RED + "-0.1",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.RED + "-0.1");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(minusPoint1, SkullData.REDSTONE_POINT_ONE);
 
 		plusPoint1 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.RED + "+0.1",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.GREEN + "+0.1");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(plusPoint1, SkullData.LIME_POINT_ONE);
 
 		plus1 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.GREEN + "+1",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.GREEN + "+1");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(plus1, SkullData.LIME_ONE);
 
 		plus10 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.GREEN + "+10",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.GREEN + "+10");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(plus10, SkullData.LIME_TEN);
 
 		plus20 = makeItem(Material.PLAYER_HEAD,
-			ChatColor.GREEN + "+20",
-			ChatColor.YELLOW + "Result" + ChatColor.GRAY + ": " + ChatColor.WHITE + "{currentValue} " + ChatColor.GREEN + "+20");
+			ChatColor.YELLOW  + "{currentOperationExample}",
+			ChatColor.YELLOW + "Current value" + ChatColor.GRAY + ": {currentValue}");
 		modifyToCustomHead(plus20, SkullData.LIME_TWENTY);
 	}
 

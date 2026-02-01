@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
@@ -49,9 +50,11 @@ public class PreventionFlagsMenu extends Menu {
 			return;
 		}
 
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
+		CustomItemFlagManager.getInstance().initShowPreventionFlagsFlag(item);
+
 		forgeActionClicked(e.getCurrentItem(), clickedForgeAction);
 
-		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
 		playerMenuUtility.getItemInHand().set(item);
 	}

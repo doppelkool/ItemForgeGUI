@@ -1,7 +1,5 @@
 package de.doppelkool.itemforgegui.Main.Menus;
 
-import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.MainMenuItems;
@@ -51,12 +49,6 @@ public class ItemEditMenu extends Menu {
 		} else {
 			itemToBeEdited = playerMenuUtility.getItemInHand().get().clone();
 		}
-
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemToBeEdited)) {
-			CustomItemFlagManager.getInstance().initCustomItemFlags(itemToBeEdited);
-		}
-
-		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemToBeEdited);
 
 		playerMenuUtility.getItemInHand().set(itemToBeEdited);
 	}

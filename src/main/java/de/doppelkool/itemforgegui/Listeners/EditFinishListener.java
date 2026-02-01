@@ -1,5 +1,6 @@
-package de.doppelkool.itemforgegui.API;
+package de.doppelkool.itemforgegui.Listeners;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Class Description
@@ -30,8 +32,14 @@ public class EditFinishListener implements Listener {
 		playerMenuUtility.setCurrentMenu(null);
 
 		playerMenuUtility.getAPICallback().ifPresent(cb -> {
+			ItemStack itemStack = playerMenuUtility.getItemInHand().get();
+
+			if (!playerMenuUtility.getItemstackClone().get().equals(itemStack)) {
+				UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemStack);
+			}
+
 			Bukkit.getLogger().finest("API Callback onEditFinish called");
-			cb.onEditFinish(playerMenuUtility.getItemInHand().get());
+			cb.onEditFinish(itemStack);
 			MenuManager.removePlayerMenuUtility(playerMenuUtility.getOwner());
 		});
 	}

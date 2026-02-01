@@ -1,12 +1,9 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import com.google.common.collect.Lists;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.Logger;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuServices.LoreProcessManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ObservableObject;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
@@ -24,7 +21,6 @@ import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

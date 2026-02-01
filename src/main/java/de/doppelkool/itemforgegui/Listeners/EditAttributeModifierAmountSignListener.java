@@ -51,26 +51,39 @@ public class EditAttributeModifierAmountSignListener implements Listener {
 			return;
 		}
 
-		//TODo maybe create two listeners one for creating attribute modifier and one for editing
+		Double roundedAmount = roundUp(amount);
+
 		//ToDo optimize and rewrite variables
 		if(playerMenuUtility.getAttributeStorage() != null) {
-			playerMenuUtility.getAttributeStorage().getOperationDoubleValues().put(
-				playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundUp(amount)
-			);
+			computeIntoAttributeStorage(playerMenuUtility, roundedAmount);
 		} else {
-			EnumMap<AttributeModifier.Operation, Double> operationDoubleEnumMap = playerMenuUtility.getModifyAttributeStorage().getModifierValues().get(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup());
-
-			if(operationDoubleEnumMap == null) {
-				operationDoubleEnumMap = new EnumMap<>(AttributeModifier.Operation.class);
-			}
-
-			operationDoubleEnumMap.put(playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundUp(amount));
-			playerMenuUtility.getModifyAttributeStorage().getModifierValues().put(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup(), operationDoubleEnumMap);
+			computeIntoModifierAttributeStorage(playerMenuUtility, roundedAmount);
 		}
 		endProcess(playerMenuUtility);
 	}
 
-	private double roundUp(double setValue) {
+	private void computeIntoAttributeStorage(PlayerMenuUtility playerMenuUtility, Double roundedAmount) {
+		playerMenuUtility.getAttributeStorage().getOperationDoubleValues().put(
+			playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundedAmount
+		);
+	}
+
+	private void computeIntoModifierAttributeStorage(PlayerMenuUtility playerMenuUtility, Double roundedAmount) {
+		EnumMap<AttributeModifier.Operation, Double> operationDoubleEnumMap = playerMenuUtility.getModifyAttributeStorage().getModifierValues().get(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup());
+
+		if(operationDoubleEnumMap == null) {
+			operationDoubleEnumMap = new EnumMap<>(AttributeModifier.Operation.class);
+		}
+
+		operationDoubleEnumMap.put(playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundedAmount);
+		playerMenuUtility.getModifyAttributeStorage().getModifierValues().put(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup(), operationDoubleEnumMap);
+	}
+
+	private Double roundUp(double setValue) {
+		if(setValue == 0) {
+			return null;
+		}
+
 		return BigDecimal.valueOf(setValue)
 			.setScale(3, RoundingMode.HALF_UP)
 			.doubleValue();

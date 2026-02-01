@@ -1,5 +1,6 @@
 package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
@@ -46,14 +47,17 @@ public class MinecraftItemFlagsMenu extends Menu {
 		}
 
 		Pair<ItemFlag, ItemStack> itemFlagItemStackPair = ItemFlagManager.getInstance().getSlotToFlag().get(e.getSlot());
-		if (itemFlagItemStackPair != null) {
-			itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
-
-			ItemStack item = this.playerMenuUtility.getItemInHand().get();
-			new ItemInfoManager(item).updateItemInfo();
-			playerMenuUtility.getItemInHand().set(item);
+		if (itemFlagItemStackPair == null) {
 			return;
 		}
+
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
+		CustomItemFlagManager.getInstance().initShowMinecraftItemFlagsFlag(item);
+		itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
+
+		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+		return;
 	}
 
 	private void itemFlagClicked(ItemStack currentItem, ItemFlag itemFlag) {

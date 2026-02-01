@@ -1,7 +1,6 @@
 package de.doppelkool.itemforgegui.Main.CustomItemManager.Flags;
 
 import com.jeff_media.customblockdata.CustomBlockData;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 import lombok.Getter;
@@ -120,7 +119,6 @@ public abstract class CustomFlagManager<T extends Enum<T>> {
 	public boolean isFlagApplied(@Nullable ItemStack item, @NotNull T action) {
 		return item != null
 			&& item.getItemMeta() != null
-			&& UniqueItemIdentifierManager.isUniqueItem(item)
 			&& isFlagApplied(item.getItemMeta().getPersistentDataContainer(), action);
 	}
 

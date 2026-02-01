@@ -2,8 +2,10 @@ package de.doppelkool.itemforgegui.Main.MenuServices;
 
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SkullData;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
@@ -58,6 +60,9 @@ public class ItemStackCreateHelper {
 		CURRENT_VALUE__ADD_NUMBER("currentValue_addNumber"),
 		CURRENT_VALUE__ADD_SCALAR("currentValue_addScalar"),
 		CURRENT_VALUE__MULTIPLY_SCALAR_1("currentValue_multiplyScalar1"),
+		CURRENT_OPERATION_EXPLANATION("currentOperationExplanation"),
+		CURRENT_OPERATION_EXAMPLE("currentOperationExample"),
+		OPERATION_VALUE("operationValue"),
 
 		;
 
@@ -66,6 +71,14 @@ public class ItemStackCreateHelper {
 		LoreVariable(String loreVariable) {
 			this.loreVariable = loreVariable;
 		}
+	}
+
+	public static void modifyCurrentValueVariableInDisplayName(ItemStack itemToChangeLore, LoreVariable variableString, String currentValue) {
+		ItemMeta itemMeta = itemToChangeLore.getItemMeta();
+		String futureDisplayName = itemMeta.getDisplayName();
+		futureDisplayName = futureDisplayName.replace("{" + variableString.loreVariable + "}", currentValue);
+		itemMeta.setDisplayName(futureDisplayName);
+		itemToChangeLore.setItemMeta(itemMeta);
 	}
 
 	public static void modifyCurrentValueVariableInLore(ItemStack itemToChangeLore, LoreVariable variableString, String currentValue) {
@@ -218,5 +231,53 @@ public class ItemStackCreateHelper {
 		}
 
 		return slots;
+	}
+
+	public static ItemStack fillEditValueItemWithLoreValues(SlotItemWrapper.SlotItemOperationValueEdit slotItem, Double currentValueForOperation) {
+		ItemStack item = slotItem.item().clone();
+
+		String loreValueRepresent;
+		if (currentValueForOperation != null) {
+			if(currentValueForOperation > 0) {
+				loreValueRepresent = ChatColor.GREEN + currentValueForOperation.toString();
+			} else {
+				loreValueRepresent = ChatColor.RED + currentValueForOperation.toString();
+			}
+		} else {
+			loreValueRepresent = ChatColor.GRAY + "0";
+		}
+
+		String operationValueRepresent = ItemStackModifyHelper.formatCAPSNames(slotItem.operation().name()) + ChatColor.GRAY + ": ";
+		String exampleLoreExtension;
+		if(slotItem.valueEdit() > 0) {
+			exampleLoreExtension = ChatColor.GREEN + "+" + slotItem.valueEdit();
+		} else {
+			exampleLoreExtension = ChatColor.RED + "" + slotItem.valueEdit();
+		}
+
+		ItemStackCreateHelper.modifyCurrentValueVariableInDisplayName(item, LoreVariable.CURRENT_OPERATION_EXAMPLE, operationValueRepresent + exampleLoreExtension);
+		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE, loreValueRepresent);
+		return item;
+	}
+
+	public static ItemStack fillInfoBookItemWithValues(SlotItemWrapper.SlotItemOperationExplanationValueEdit infoBook, Double currentValueForOperation) {
+		ItemStack item = infoBook.item().clone();
+
+		AttributeModifier.Operation operation = infoBook.operation();
+		String operationValueRepresent = ItemStackModifyHelper.formatCAPSNames(operation.name());
+
+		String loreValueRepresent;
+		if (currentValueForOperation != null) {
+			loreValueRepresent = currentValueForOperation.toString();
+			ItemStackModifyHelper.setGlow(item, true);
+		} else {
+			loreValueRepresent = ChatColor.GRAY + "-";
+		}
+
+		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_OPERATION, operationValueRepresent);
+		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_VALUE, loreValueRepresent);
+		ItemStackCreateHelper.modifyCurrentValueVariableInLore(item, ItemStackCreateHelper.LoreVariable.CURRENT_OPERATION_EXPLANATION, infoBook.explanationLoreString().get());
+
+		return item;
 	}
 }

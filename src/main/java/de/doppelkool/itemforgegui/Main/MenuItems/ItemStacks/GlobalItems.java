@@ -74,7 +74,7 @@ public class GlobalItems {
 		modifyToCustomHead(minus1, SkullData.REDSTONE_ONE);
 		minusPoint1 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "-0.1");
 		modifyToCustomHead(minusPoint1, SkullData.REDSTONE_POINT_ONE);
-		plusPoint1 = makeItem(Material.PLAYER_HEAD, ChatColor.RED + "+0.1");
+		plusPoint1 = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "+0.1");
 		modifyToCustomHead(plusPoint1, SkullData.LIME_POINT_ONE);
 		plus1 = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "+1");
 		modifyToCustomHead(plus1, SkullData.LIME_ONE);

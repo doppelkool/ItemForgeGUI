@@ -2,6 +2,7 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffect
 
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
@@ -11,6 +12,7 @@ import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PaginatedMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -117,6 +119,11 @@ public class SpecialsActivatedArmorEffectsMenu extends PaginatedMenu {
 		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 		Map<PotionEffectType, Integer> enchants = ArmorEffectManager.getAllActivatedPotionEffectTypesAsMap(itemInMainHand);
 		this.activatedPotionEffectTypesToStrength = new HashMap<>(enchants);
+
+		if(!this.activatedPotionEffectTypesToStrength.isEmpty()) {
+			CustomItemFlagManager.getInstance().initShowArmorEffectsFlag(itemInMainHand);
+			playerMenuUtility.getItemInHand().set(itemInMainHand);
+		}
 
 		List<PotionEffectType> enchantmentList = activatedPotionEffectTypesToStrength.keySet()
 			.stream()
