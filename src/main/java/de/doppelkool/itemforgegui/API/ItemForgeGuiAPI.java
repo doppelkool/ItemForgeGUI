@@ -29,16 +29,16 @@ public class ItemForgeGuiAPI {
 			.open();
 	}
 
-	public static String getUID(ItemStack itemStack) {
-		return UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemStack);
+	public static Optional<String> getUID(ItemStack itemStack) {
+		return UniqueItemIdentifierManager.getUID(itemStack);
 	}
 
 	public static void setRandomUID(ItemStack itemStack) {
-		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemStack);
+		UniqueItemIdentifierManager.ensureUID(itemStack);
 	}
 
 	public static void setUID(ItemStack itemStack, String specificUID) {
-		UniqueItemIdentifierManager.setUniqueItemIdentifier(itemStack, specificUID);
+		UniqueItemIdentifierManager.setUID(itemStack, specificUID);
 	}
 
 	public interface ItemForgeCallback {

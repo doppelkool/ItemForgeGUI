@@ -35,7 +35,7 @@ public class EditFinishListener implements Listener {
 			ItemStack itemStack = playerMenuUtility.getItemInHand().get();
 
 			if (!playerMenuUtility.getItemstackClone().get().equals(itemStack)) {
-				UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(itemStack);
+				UniqueItemIdentifierManager.ensureUID(itemStack);
 			}
 
 			Bukkit.getLogger().finest("API Callback onEditFinish called");

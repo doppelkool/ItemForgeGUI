@@ -29,7 +29,7 @@ public class PreventApplyListener implements Listener {
 
 		// Check if the player is trying to place a plugins item in an item frame
 		ItemStack itemInMainHand = e.getPlayer().getInventory().getItemInMainHand();
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
+		if (!UniqueItemIdentifierManager.isUnique(itemInMainHand)) {
 			return;
 		}
 
@@ -45,7 +45,7 @@ public class PreventApplyListener implements Listener {
 	public void preventPuttingItemOnArmorStand(PlayerArmorStandManipulateEvent e) {
 		Player pl = e.getPlayer();
 		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemInMainHand)) {
+		if (!UniqueItemIdentifierManager.isUnique(itemInMainHand)) {
 			return;
 		}
 

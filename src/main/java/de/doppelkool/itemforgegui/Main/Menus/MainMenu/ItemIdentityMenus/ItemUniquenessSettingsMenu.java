@@ -68,7 +68,7 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		modifyCurrentValueVariableInLore(
 			clone,
 			ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
-			UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
+			UniqueItemIdentifierManager.ensureUID(item));
 
 		this.inventory.setItem(4, clone);
 		this.inventory.setItem(12, ItemUniquenessItems.copyUniqueIdentifier);
@@ -82,8 +82,9 @@ public class ItemUniquenessSettingsMenu extends Menu {
 		playerMenuUtility.getOwner().closeInventory();
 		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
 			.editItemID(
-				UniqueItemIdentifierManager.getUniqueItemIdentifierOrEmptyString(
-					this.playerMenuUtility.getItemInHand().get().getItemMeta()))
+				UniqueItemIdentifierManager.getUID(
+					this.playerMenuUtility.getItemInHand().get())
+					.orElse(""))
 			.openSign());
 		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_UNIQUEID_INFORMATION);
 	}

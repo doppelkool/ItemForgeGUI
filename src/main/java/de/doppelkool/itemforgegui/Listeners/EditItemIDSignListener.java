@@ -56,7 +56,7 @@ public class EditItemIDSignListener implements Listener {
 		}
 
 		ItemStack itemStack = playerMenuUtility.getItemInHand().get();
-		UniqueItemIdentifierManager.setUniqueItemIdentifier(
+		UniqueItemIdentifierManager.setUID(
 			itemStack,
 			uniqueID.trim().replace(" ", "_"));
 		playerMenuUtility.getItemInHand().set(itemStack);

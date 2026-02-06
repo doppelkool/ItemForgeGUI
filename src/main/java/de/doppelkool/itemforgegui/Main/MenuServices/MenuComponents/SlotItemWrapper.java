@@ -19,10 +19,6 @@ public class SlotItemWrapper {
 
 	public record SlotItemExecute(int slot, ItemStack item, Runnable runnable) {}
 
-	public record SlotItemConsumer(int slot, ItemStack item, Consumer<Integer> runnable) {}
-
-	public record SlotExecute(int slot, Runnable runnable) {}
-
 	public record SlotItemOperationValueEdit(int slot, ItemStack item, AttributeModifier.Operation operation, Double valueEdit) {}
 
 	public record SlotItemOperationExplanationValueEdit(int slot, ItemStack item, AttributeModifier.Operation operation, Supplier<String> explanationLoreString, Double valueEdit) {}

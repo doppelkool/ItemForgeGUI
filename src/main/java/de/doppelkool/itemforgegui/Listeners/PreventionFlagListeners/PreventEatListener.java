@@ -50,12 +50,11 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
-
-		if (!UniqueItemIdentifierManager.isUniqueItem(customBlockData)) {
+		if (!UniqueItemIdentifierManager.isUnique(block)) {
 			return;
 		}
 
+		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
 		if (!PreventionFlagManager.getInstance().isFlagApplied(customBlockData, ForgeAction.EAT)) {
 			return;
 		}
@@ -76,7 +75,7 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(e.getBlockPlaced());
+		UniqueItemIdentifierManager.ensureUID(e.getBlockPlaced());
 		PreventionFlagManager.getInstance().toggleItemFlag(e.getBlockPlaced(), ForgeAction.EAT, true);
 
 		MessageManager.message(e.getPlayer(), Messages.ACTION_PREVENTED_CAKE_WITH_PF_PLACED);
@@ -90,12 +89,11 @@ public class PreventEatListener implements Listener {
 			return;
 		}
 
-		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
-
-		if (!UniqueItemIdentifierManager.isUniqueItem(customBlockData)) {
+		if (!UniqueItemIdentifierManager.isUnique(block)) {
 			return;
 		}
 
+		CustomBlockData customBlockData = new CustomBlockData(block, Main.getPlugin());
 		if (!PreventionFlagManager.getInstance().isFlagApplied(customBlockData, ForgeAction.EAT)) {
 			return;
 		}
@@ -105,7 +103,7 @@ public class PreventEatListener implements Listener {
 
 		block.setType(Material.AIR);
 		ItemStack cakeDrop = new ItemStack(Material.CAKE, 1);
-		UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(cakeDrop);
+		UniqueItemIdentifierManager.ensureUID(cakeDrop);
 		PreventionFlagManager.getInstance().toggleItemFlag(cakeDrop, ForgeAction.EAT, true);
 		block.getWorld().dropItemNaturally(block.getLocation(), cakeDrop);
 	}

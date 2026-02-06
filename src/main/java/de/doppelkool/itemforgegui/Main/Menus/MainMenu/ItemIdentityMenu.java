@@ -61,7 +61,7 @@ public class ItemIdentityMenu extends Menu {
 			modifyCurrentValueVariableInLore(
 				clone,
 				ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
-				UniqueItemIdentifierManager.getOrSetUniqueItemIdentifier(item));
+				UniqueItemIdentifierManager.ensureUID(item));
 			this.inventory.setItem(13, clone);
 		}
 
