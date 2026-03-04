@@ -53,7 +53,6 @@ public class AddAttributeModifierItems {
 		confirmSlots_deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmSlots_deactivated,
 			ChatColor.YELLOW + "Confirm Attribute Modifier Creation",
-			//TODO change respectively to value or slot select, eg. the ones that are not selected
 			ChatColor.RED + "Deactivated: No {missingProperty} selected");
 
 		confirmSlots = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Confirm");

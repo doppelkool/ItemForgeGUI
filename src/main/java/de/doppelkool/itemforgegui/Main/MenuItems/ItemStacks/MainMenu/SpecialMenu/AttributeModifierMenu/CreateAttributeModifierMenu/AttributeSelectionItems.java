@@ -56,7 +56,6 @@ public class AttributeSelectionItems {
 		confirmSlots_deactivated = makeItem(Material.BARRIER, ChatColor.GREEN + "Confirm");
 		modifyLore(confirmSlots_deactivated,
 			ChatColor.YELLOW + "Confirm Attribute Selection",
-			//TODO change respectively to value or slot select, eg. the ones that are not selected
 			ChatColor.RED + "Deactivated: No Attribute selected");
 
 		confirmSlots = makeItem(Material.PLAYER_HEAD, ChatColor.GREEN + "Confirm");

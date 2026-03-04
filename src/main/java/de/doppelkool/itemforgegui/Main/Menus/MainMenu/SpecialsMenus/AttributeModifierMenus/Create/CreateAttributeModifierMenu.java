@@ -169,8 +169,6 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 
 		if(!modifierValues.isEmpty()) {
 			AttributeModifierManager.applyAttributeModifierValuesLore(valueSelection, attribute, attributeModifiers);
-		} else {
-			//todo add empty line
 		}
 
 		ItemStackCreateHelper.modifyCurrentValueVariableInLore(
