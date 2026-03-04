@@ -46,7 +46,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 			return false;
 		}
 
-		if (!UniqueItemIdentifierManager.isUniqueItem(item)) {
+		if (!UniqueItemIdentifierManager.isUnique(item)) {
 			return false;
 		}
 
@@ -60,7 +60,7 @@ public class PreventThrowListener extends DuplicateEventManager<PlayerInteractEv
 	@EventHandler
 	public void preventUniqueArrowShoot(EntityShootBowEvent e) {
 		ItemStack shotItem = e.getConsumable();
-		if (!UniqueItemIdentifierManager.isUniqueItem(shotItem)) {
+		if (!UniqueItemIdentifierManager.isUnique(shotItem)) {
 			return;
 		}
 

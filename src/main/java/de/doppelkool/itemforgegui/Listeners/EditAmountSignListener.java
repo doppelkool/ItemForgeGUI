@@ -1,9 +1,9 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.Menus.AmountMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.AmountMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Class Description
@@ -47,7 +48,10 @@ public class EditAmountSignListener implements Listener {
 		amount = Integer.min(amount, 99);
 		amount = Integer.max(amount, 1);
 
-		pl.getInventory().getItemInMainHand().setAmount(amount);
+		ItemStack itemStack = playerMenuUtility.getItemInHand().get();
+		itemStack.setAmount(amount);
+		playerMenuUtility.getItemInHand().set(itemStack);
+
 		endProcess(playerMenuUtility);
 	}
 

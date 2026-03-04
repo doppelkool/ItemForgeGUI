@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -36,6 +35,8 @@ public class ConfigManager {
 	private final boolean showMinecraftItemFlags;
 	private final boolean showCustomArmorEffects;
 	private final boolean showCustomPreventionFlags;
+
+	private final boolean validateAttributeSlotGroups;
 
 	private ConfigManager() {
 		File pluginFolder = new File(Main.getPlugin().getDataFolder().toURI());
@@ -71,6 +72,7 @@ public class ConfigManager {
 		this.showCustomArmorEffects = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-armor-effects");
 		this.showCustomPreventionFlags = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-prevention-flags");
 
+		this.validateAttributeSlotGroups = this.config.getBoolean("attribute-modifier.validate-attribute-slotgroups");
 	}
 
 	public static ConfigManager getInstance() {

@@ -3,8 +3,9 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStackHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -114,7 +115,7 @@ public class ItemInfoManager {
 
 		armorEffects.addFirst(ARMOR_EFFECTS_HEADER);
 		for (Map.Entry<PotionEffectType, Integer> effect : effects.entrySet()) {
-			String formattedEffectType = ItemStackHelper.formatCAPSName(effect.getKey().getTranslationKey());
+			String formattedEffectType = ItemStackModifyHelper.formatTranslationalNames(effect.getKey().getTranslationKey());
 			armorEffects.add(ENTRY_COLOR + "- " + formattedEffectType + " " + effect.getValue());
 		}
 	}

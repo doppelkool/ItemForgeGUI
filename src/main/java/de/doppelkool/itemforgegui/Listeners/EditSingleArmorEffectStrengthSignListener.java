@@ -2,11 +2,11 @@ package de.doppelkool.itemforgegui.Listeners;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ArmorEffectManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
-import de.doppelkool.itemforgegui.Main.Menus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffectMenus.SpecialsActivatedArmorEffectsMenu;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.ArmorEffectMenus.SpecialsDeactivatedArmorEffectsMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
@@ -49,7 +49,7 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		}
 
 		//new strength = entered strength \/ 255
-		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = playerMenuUtility.getItemInHand().get();
 
 		strength = Integer.min(strength, 255);
 		strength = Integer.max(strength, 0);
@@ -59,21 +59,24 @@ public class EditSingleArmorEffectStrengthSignListener implements Listener {
 		} else {
 			ArmorEffectManager.addArmorEffect(itemInMainHand, playerMenuUtility.getTargetPotionEffectType(), strength);
 		}
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
 
 		endProcess(playerMenuUtility);
 	}
 
-	private void endProcess(PlayerMenuUtility util) {
-		util.getOwner().getLocation().getBlock().setType(Material.AIR);
-		util.setSignNumberEditor(null);
+	private void endProcess(PlayerMenuUtility playerMenuUtility) {
+		playerMenuUtility.getOwner().getLocation().getBlock().setType(Material.AIR);
+		playerMenuUtility.setSignNumberEditor(null);
 
-		ItemStack item = util.getOwner().getInventory().getItemInMainHand();
+		ItemStack item = playerMenuUtility.getItemInHand().get();
 		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+
 		if (ArmorEffectManager.hasArmorEffects(item)) {
-			new SpecialsActivatedArmorEffectsMenu(util)
+			new SpecialsActivatedArmorEffectsMenu(playerMenuUtility)
 				.open();
 		} else {
-			new SpecialsDeactivatedArmorEffectsMenu(util)
+			new SpecialsDeactivatedArmorEffectsMenu(playerMenuUtility)
 				.open();
 		}
 	}

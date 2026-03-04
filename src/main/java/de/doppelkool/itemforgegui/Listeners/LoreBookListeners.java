@@ -4,8 +4,9 @@ import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagMan
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ObservableObject;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -32,8 +33,7 @@ public class LoreBookListeners implements Listener {
 	public void onPlayerEditLoreBook(PlayerEditBookEvent e) {
 		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
-		ItemStack tempStoredItem = playerMenuUtility.getTempStoredItem();
-		if (tempStoredItem == null || !e.getPlayer()
+		if (!e.getPlayer()
 			.getInventory()
 			.getItemInMainHand()
 			.getItemMeta()
@@ -42,29 +42,41 @@ public class LoreBookListeners implements Listener {
 			return;
 		}
 
-		BookMeta newBookMeta = e.getNewBookMeta();
-		String content = String.join("\n", newBookMeta.getPages());
-		String formattedString = ChatColor.translateAlternateColorCodes('&', content);
-
-		new ItemInfoManager(tempStoredItem)
-			.setItemLore(List.of(formattedString.split("\n")))
-			.updateItemInfo();
-		endProcess(playerMenuUtility);
+		String parsedNewLore = parseNewLore(e.getNewBookMeta());
+		applyNewLore(playerMenuUtility.getItemInHand(), parsedNewLore);
+		replaceBackPreviousItem(playerMenuUtility);
 	}
 
-	private void endProcess(PlayerMenuUtility util) {
-		Player pl = util.getOwner();
+	private String parseNewLore(BookMeta newBookMeta) {
+		String content = String.join("\n", newBookMeta.getPages());
+		return ChatColor.translateAlternateColorCodes('&', content);
+	}
 
+	private void applyNewLore(ObservableObject<ItemStack> itemInHand, String parsedNewLore) {
+		ItemStack item = itemInHand.get().clone();
+		new ItemInfoManager(item)
+			.setItemLore(List.of(parsedNewLore.split("\n")))
+			.updateItemInfo();
+		itemInHand.set(item);
+	}
+
+	private void replaceBackPreviousItem(PlayerMenuUtility playerMenuUtility) {
 		Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
-			pl.getInventory().setItem(util.getStoredSlot(), util.getTempStoredItem());
 
-			util.setTempStoredItem(null);
-			util.setStoredSlot(-1);
+			playerMenuUtility.getAPICallback().ifPresentOrElse((apiCallback) -> {
 
-			new ItemEditMenu(util)
+				ItemStack previousItem = playerMenuUtility.getLoreProcessStorage().getItemToReplaceBack().clone();
+				playerMenuUtility.getOwner().getInventory().setItem(playerMenuUtility.getLoreProcessStorage().getSlotToEditLoreOn(), previousItem);
+			}, () -> {
+				playerMenuUtility.getItemInHand().set(playerMenuUtility.getItemInHand().get().clone());
+			});
+
+			playerMenuUtility.setLoreProcessStorage(null);
+			new ItemEditMenu(playerMenuUtility)
 				.open();
-			//Make sure server does finish book editing process and replacing it with the current slot before,
-			//so we can set the item *after* that process.
+
+		//Make sure server does finish book editing process and it replacing the book with new contents in hand,
+		//so we can replace edited book with the item *after* said process.
 		}, 2L);
 	}
 

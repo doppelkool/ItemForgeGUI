@@ -21,7 +21,7 @@ public class PreventAlteringListeners implements Listener {
 	public void preventItemDrop(PlayerDropItemEvent e) {
 		ItemStack itemStack = e.getItemDrop().getItemStack();
 
-		if (!UniqueItemIdentifierManager.isUniqueItem(itemStack)) {
+		if (!UniqueItemIdentifierManager.isUnique(itemStack)) {
 			return;
 		}
 

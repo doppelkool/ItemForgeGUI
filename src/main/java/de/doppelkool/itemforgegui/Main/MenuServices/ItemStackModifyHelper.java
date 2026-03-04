@@ -1,0 +1,205 @@
+package de.doppelkool.itemforgegui.Main.MenuServices;
+
+import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
+import de.doppelkool.itemforgegui.Main.Main;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.Resources;
+import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * Class Description
+ *
+ * @author doppelkool | github.com/doppelkool
+ */
+public class ItemStackModifyHelper {
+
+	private static final Enchantment glowEnchantment = Enchantment.LUCK_OF_THE_SEA;
+
+	public static String formatTranslationalNames(String name) {
+		String[] parts = name.split("\\.", 3);
+		String result = parts.length == 3 ? parts[2] : name;
+
+		String[] words = result.split("_");
+		StringBuilder formattedName = new StringBuilder();
+		for (String word : words) {
+			formattedName.append(Character.toUpperCase(word.charAt(0)))
+				.append(word.substring(1))
+				.append(" ");
+		}
+
+		return formattedName.toString().trim();
+	}
+
+	public static String formatCAPSNames(String name) {
+		return Arrays.stream(name.toLowerCase(Locale.ROOT)
+				.split("_"))
+				.map(w -> Character.toUpperCase(w.charAt(0)) + w.substring(1))
+				.collect(Collectors.joining(" "));
+	}
+
+	public static boolean isLeather(Material itemMaterial) {
+		return itemMaterial.name().contains("LEATHER_");
+	}
+
+	public static boolean isWolfArmor(Material type) {
+		return type == Material.WOLF_ARMOR;
+	}
+
+	public static boolean isOnlyDyeColorableWithoutMixins(Material itemMaterial) {
+
+		//Colorable item category, but given material is a variation with no color
+		if (Resources.A_NO_DYED_VARIATION_EXIST.contains(itemMaterial)) {
+			return true;
+		}
+
+		if (itemMaterial == Material.BEDROCK ||
+			itemMaterial == Material.MOSS_CARPET ||
+			(itemMaterial == Material.PALE_MOSS_CARPET)
+		) {
+			return false;
+		}
+
+		for (String items : Resources.ONLY_DYE_COLOARABLE_NO_MIXINGS_LIST) {
+			if (!itemMaterial.name().contains(items)) {
+				continue;
+			}
+
+			String colorName = itemMaterial.name().replace(items, "");
+			try {
+				DyeColor.valueOf(colorName);
+				return true;
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isDamageable(ItemStack item) {
+		return item.getType().getMaxDurability() != 0;
+	}
+
+	public static boolean hasGlow(ItemStack item) {
+		return item.getItemMeta().hasEnchants()
+			&& (item.getItemMeta().getEnchantLevel(glowEnchantment) == 1);
+	}
+
+	public static void setGlow(ItemStack item, boolean active) {
+		ItemMeta itemMeta = item.getItemMeta();
+		if (active) {
+			itemMeta.addEnchant(glowEnchantment, 1, true);
+		} else {
+			itemMeta.removeEnchant(glowEnchantment);
+		}
+		item.setItemMeta(itemMeta);
+	}
+
+	public static void setActivated(ItemStack item, boolean active) {
+		String activatedLorePart = "Activated";
+		String deactivatedLorePart = "Deactivated";
+
+		ItemMeta itemMeta = item.getItemMeta();
+
+		ArrayList<String> lore = new ArrayList<>();
+		if (itemMeta.hasLore()) {
+			lore.addAll(itemMeta.getLore());
+
+			if (lore.getFirst().contains(activatedLorePart) ||
+				lore.getFirst().contains(deactivatedLorePart)) {
+				lore.removeFirst();
+			}
+		}
+
+		if (active) {
+			lore.addFirst(ChatColor.GREEN + "" + ChatColor.ITALIC + activatedLorePart);
+		} else {
+			lore.addFirst(ChatColor.RED + "" + ChatColor.ITALIC + deactivatedLorePart);
+		}
+		itemMeta.setLore(lore);
+		item.setItemMeta(itemMeta);
+		ItemStackModifyHelper.setGlow(item, active);
+	}
+
+	public static void updateCraftingPreventionInMenuItemLore(ItemStack itemStackClone, PreventionFlagManager.CraftingPreventionFlag activeCraftingPrevention) {
+		ItemMeta itemMeta = itemStackClone.getItemMeta();
+		List<String> oldLore = itemMeta.getLore();
+
+		List<String> newLore = new ArrayList<>();
+		if (oldLore != null && !oldLore.isEmpty()) {
+			newLore.add(oldLore.get(0));
+			if (oldLore.size() > 1) {
+				newLore.add(oldLore.get(1));
+			}
+		} else {
+			newLore.add("");
+			newLore.add("");
+		}
+
+		for (PreventionFlagManager.CraftingPreventionFlag craftingPrevention : PreventionFlagManager.CraftingPreventionFlag.values()) {
+			ChatColor color = craftingPrevention.equals(activeCraftingPrevention) ? ChatColor.GREEN : ChatColor.RED;
+			newLore.add(ChatColor.GRAY + "- " + color + craftingPrevention.getItemDescription());
+		}
+
+		itemMeta.setLore(newLore);
+		itemStackClone.setItemMeta(itemMeta);
+	}
+
+	public static void addAttributeModifierToItem(ItemStack itemStack, PlayerMenuUtility.AttributeStorage attributeStorage) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		for (Map.Entry<AttributeModifier.Operation, Double> operationEntry : attributeStorage.getOperationDoubleValues().entrySet()) {
+			for(Map.Entry<EquipmentSlot, Boolean> slotMapEntry : attributeStorage.getSlotMap().entrySet()) {
+				if(slotMapEntry.getValue() == null || !slotMapEntry.getValue()) {
+					continue;
+				}
+
+				AttributeModifier attributeModifier = new AttributeModifier(
+					Main.getPlugin().getRandomKey(),
+					operationEntry.getValue(),
+					operationEntry.getKey(),
+					slotMapEntry.getKey().getGroup());
+
+				itemMeta.addAttributeModifier(attributeStorage.getAttribute(), attributeModifier);
+			}
+		}
+		itemStack.setItemMeta(itemMeta);
+	}
+
+	public static void addAttributeModifierToItem(ItemStack itemStack, PlayerMenuUtility.ModifyAttributeStorage modifyAttributeStorage) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.removeAttributeModifier(modifyAttributeStorage.getAttribute());
+
+		for(Map.Entry<EquipmentSlotGroup, EnumMap<AttributeModifier.Operation, Double>> slotMapEntry : modifyAttributeStorage.getModifierValues().entrySet()) {
+			for (Map.Entry<AttributeModifier.Operation, Double> entry : slotMapEntry.getValue().entrySet()) {
+				AttributeModifier attributeModifier = new AttributeModifier(
+					Main.getPlugin().getRandomKey(),
+					entry.getValue(),
+					entry.getKey(),
+					slotMapEntry.getKey());
+				itemMeta.addAttributeModifier(modifyAttributeStorage.getAttribute(), attributeModifier);
+			}
+		}
+		itemStack.setItemMeta(itemMeta);
+	}
+
+	public static void addAttributeModifierToItem(ItemStack itemStack, Attribute attribute, Collection<AttributeModifier> attributeModifierList) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		for(AttributeModifier attributeModifier : attributeModifierList) {
+			itemMeta.addAttributeModifier(attribute, attributeModifier);
+		}
+
+		itemStack.setItemMeta(itemMeta);
+	}
+}

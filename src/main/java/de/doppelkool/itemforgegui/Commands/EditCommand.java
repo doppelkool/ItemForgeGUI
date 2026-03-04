@@ -1,6 +1,7 @@
 package de.doppelkool.itemforgegui.Commands;
 
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
@@ -10,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * Class Description
@@ -36,7 +39,9 @@ public class EditCommand implements CommandExecutor {
 			return true;
 		}
 
-		new ItemEditMenu(MenuManager.getPlayerMenuUtility(pl))
+		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
+		playerMenuUtility.setAPICallback(Optional.empty());
+		new ItemEditMenu(playerMenuUtility)
 			.open();
 
 		return true;

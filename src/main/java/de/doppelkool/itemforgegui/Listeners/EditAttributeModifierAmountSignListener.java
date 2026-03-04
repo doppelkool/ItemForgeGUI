@@ -1,0 +1,105 @@
+package de.doppelkool.itemforgegui.Listeners;
+
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
+import lombok.SneakyThrows;
+import org.bukkit.Material;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.EnumMap;
+
+/**
+ * Class Description
+ *
+ * @author doppelkool | github.com/doppelkool
+ */
+public class EditAttributeModifierAmountSignListener implements Listener {
+	@EventHandler
+	public void onPlayerEditAttributeModifierAmountSign(SignChangeEvent e) {
+		Player pl = e.getPlayer();
+		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
+		SignNumberEditor signNumberEditor = playerMenuUtility.getSignNumberEditor();
+
+		if (signNumberEditor == null
+			|| signNumberEditor.getType() != SignNumberEditor.NUMBER_EDIT_TYPE.ATTRIBUTE_MODIFIER_VALUE
+			|| signNumberEditor.getSignLocation() == null
+			|| !SignNumberEditor.isSameBlockLocation(e.getBlock().getLocation(), signNumberEditor.getSignLocation().getBlock().getLocation())) {
+			return;
+		}
+
+		if (e.getLines().length < 1) {
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_EMPTY_INPUT);
+			endProcess(playerMenuUtility);
+			return;
+		}
+
+		Double amount = SignNumberEditor.parseDouble(e.getLine(0));
+		if (amount == null) {
+			MessageManager.message(pl, Messages.SIGN_EDITOR_EDIT_ATTRIBUTE_MODIFIER_INVALID_INPUT);
+			endProcess(playerMenuUtility);
+			return;
+		}
+
+		Double roundedAmount = roundUp(amount);
+
+		//ToDo optimize and rewrite variables
+		if(playerMenuUtility.getAttributeStorage() != null) {
+			computeIntoAttributeStorage(playerMenuUtility, roundedAmount);
+		} else {
+			computeIntoModifierAttributeStorage(playerMenuUtility, roundedAmount);
+		}
+		endProcess(playerMenuUtility);
+	}
+
+	private void computeIntoAttributeStorage(PlayerMenuUtility playerMenuUtility, Double roundedAmount) {
+		playerMenuUtility.getAttributeStorage().getOperationDoubleValues().put(
+			playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundedAmount
+		);
+	}
+
+	private void computeIntoModifierAttributeStorage(PlayerMenuUtility playerMenuUtility, Double roundedAmount) {
+		EnumMap<AttributeModifier.Operation, Double> operationDoubleEnumMap = playerMenuUtility.getModifyAttributeStorage().getModifierValues().get(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup());
+
+		if(operationDoubleEnumMap == null) {
+			operationDoubleEnumMap = new EnumMap<>(AttributeModifier.Operation.class);
+		}
+
+		operationDoubleEnumMap.put(playerMenuUtility.getSignNumberEditor().getTargetOperation(), roundedAmount);
+		playerMenuUtility.getModifyAttributeStorage().getModifierValues().put(playerMenuUtility.getModifyAttributeStorage().getSelectedSlotGroup(), operationDoubleEnumMap);
+	}
+
+	private Double roundUp(double setValue) {
+		if(setValue == 0) {
+			return null;
+		}
+
+		return BigDecimal.valueOf(setValue)
+			.setScale(3, RoundingMode.HALF_UP)
+			.doubleValue();
+	}
+
+	@SneakyThrows
+	private void endProcess(PlayerMenuUtility playerMenuUtility) {
+		playerMenuUtility.getOwner().getLocation().getBlock().setType(Material.AIR);
+
+		ItemStack item = playerMenuUtility.getItemInHand().get();
+		new ItemInfoManager(item).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(item);
+
+		playerMenuUtility.getSignNumberEditor().getReturnInventory().getConstructor(PlayerMenuUtility.class)
+			.newInstance(playerMenuUtility)
+			.open();
+		playerMenuUtility.setSignNumberEditor(null);
+	}
+}

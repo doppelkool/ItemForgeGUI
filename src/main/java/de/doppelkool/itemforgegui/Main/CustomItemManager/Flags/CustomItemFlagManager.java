@@ -2,10 +2,10 @@ package de.doppelkool.itemforgegui.Main.CustomItemManager.Flags;
 
 import de.doppelkool.itemforgegui.Main.ConfigManager;
 import de.doppelkool.itemforgegui.Main.Main;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.CustomItemFlagMenu.CustomItemFlagItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import oshi.util.tuples.Pair;
 
 /**
  * Class Description
@@ -16,9 +16,9 @@ public class CustomItemFlagManager extends CustomFlagManager<CustomItemFlag> {
 	protected static CustomItemFlagManager instance;
 
 	public CustomItemFlagManager() {
-		slotToFlag.put(11, new Pair<>(CustomItemFlag.HIDE_ITEM_FLAGS, ItemStacks.itemFlagHide));
-		slotToFlag.put(13, new Pair<>(CustomItemFlag.HIDE_PREVENTION_FLAGS, ItemStacks.preventionFlagHide));
-		slotToFlag.put(15, new Pair<>(CustomItemFlag.HIDE_ARMOR_EFFECTS, ItemStacks.armorEffectHide));
+		slotToFlag.put(11, new Pair<>(CustomItemFlag.HIDE_ITEM_FLAGS, CustomItemFlagItems.itemFlagHide));
+		slotToFlag.put(13, new Pair<>(CustomItemFlag.HIDE_PREVENTION_FLAGS, CustomItemFlagItems.preventionFlagHide));
+		slotToFlag.put(15, new Pair<>(CustomItemFlag.HIDE_ARMOR_EFFECTS, CustomItemFlagItems.armorEffectHide));
 	}
 
 	@Override
@@ -38,13 +38,24 @@ public class CustomItemFlagManager extends CustomFlagManager<CustomItemFlag> {
 		return instance;
 	}
 
-	public void initCustomItemFlags(ItemStack itemInMainHand) {
-		boolean activateHideItemFlags = !ConfigManager.getInstance().isShowMinecraftItemFlags();
-		boolean activateHideArmorEffects = !ConfigManager.getInstance().isShowCustomArmorEffects();
-		boolean activateHidePreventionFlags = !ConfigManager.getInstance().isShowCustomPreventionFlags();
+	public void initShowMinecraftItemFlagsFlag(ItemStack itemInMainHand) {
+		if (!isFlagApplied(itemInMainHand, CustomItemFlag.HIDE_ITEM_FLAGS)) {
+			boolean activateHideItemFlags = !ConfigManager.getInstance().isShowMinecraftItemFlags();
+			this.toggleItemFlag(itemInMainHand, CustomItemFlag.HIDE_ITEM_FLAGS, activateHideItemFlags);
+		}
+	}
 
-		this.toggleItemFlag(itemInMainHand,CustomItemFlag.HIDE_ITEM_FLAGS, activateHideItemFlags);
-		this.toggleItemFlag(itemInMainHand,CustomItemFlag.HIDE_ARMOR_EFFECTS, activateHideArmorEffects);
-		this.toggleItemFlag(itemInMainHand,CustomItemFlag.HIDE_PREVENTION_FLAGS, activateHidePreventionFlags);
+	public void initShowArmorEffectsFlag(ItemStack itemInMainHand) {
+		if (!isFlagApplied(itemInMainHand, CustomItemFlag.HIDE_ARMOR_EFFECTS)) {
+			boolean activateHideArmorEffects = !ConfigManager.getInstance().isShowCustomArmorEffects();
+			this.toggleItemFlag(itemInMainHand, CustomItemFlag.HIDE_ARMOR_EFFECTS, activateHideArmorEffects);
+		}
+	}
+
+	public void initShowPreventionFlagsFlag(ItemStack itemInMainHand) {
+		if (!isFlagApplied(itemInMainHand, CustomItemFlag.HIDE_PREVENTION_FLAGS)) {
+			boolean activateHidePreventionFlags = !ConfigManager.getInstance().isShowCustomPreventionFlags();
+			this.toggleItemFlag(itemInMainHand, CustomItemFlag.HIDE_PREVENTION_FLAGS, activateHidePreventionFlags);
+		}
 	}
 }

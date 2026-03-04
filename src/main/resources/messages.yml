@@ -18,7 +18,7 @@ edit-command:
   empty-item: "&cYou cannot edit an empty item"
 
 sign-editor:
-  not-placed-block-blockade: "&cThere is already a block at your location"
+  not-placed-block-blockade: "&cThere was already a block at your location. {BLOCK_NAME} was replaced"
   edit:
     amount:
       information: "&aPlease edit the content to the items future amount and click &7'&aDone&7'"
@@ -47,6 +47,11 @@ sign-editor:
       information: "&aPlease edit the content to the enchantments future strength and click &7'&aDone&7'"
       empty-input: "&cThe strength you entered is not valid"
       invalid-input: "&cThe strength you entered is not valid"
+
+    attribute-modifier:
+      information: "&aPlease edit the content to the attribute modifiers future amount and click &7'&aDone&7'"
+      empty-input: "&cThe amount you entered is not valid"
+      invalid-input: "&cThe amount you entered is not valid"
 
 book-editor:
   information: "\n &7-&aYou have received a book\n
@@ -79,3 +84,6 @@ misc:
     information: "&aCopy the unique identifier by clicking &7->"
     copy-button: "&7[&aCOPY&7]"
     manual-button: "&7[&aMANUAL&7]"
+
+attribute-modifier:
+  warning-with-same-details: "&7[&cWarning&7] &cThere are multiple Attribute Modifiers with the same key details on your item. This is currently not supported. Be careful with the result!"

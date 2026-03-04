@@ -2,12 +2,16 @@ package de.doppelkool.itemforgegui.Main;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeArmorEffect;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.AttributeItem;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SlotItemWrapper;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.PrepareInventoryResultEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -16,6 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -205,4 +210,107 @@ public class Logger {
 		));
 	}
 
+	public static void log(List<SlotItemWrapper.SlotItemExecute> list, int slot) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		String a = "";
+		for (int i = 0; i < list.size(); i++) {
+			SlotItemWrapper.SlotItemExecute a1 = list.get(i);
+			a += a1.slot() + " : " + a1.item().getType() + " : " + a1.runnable();
+		}
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			a
+		));
+	}
+
+	public static void log(AttributeItem selectedAttribute) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		if(selectedAttribute == null) {
+			Bukkit.getLogger().info(String.format(
+				"Map<PotionEffectType, Integer Log ->\n" +
+					"at: %s\n" +
+					"null",
+				stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName()));
+			return;
+		}
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"attribute: %s\n",
+				"getType: %s\n",
+				"slot: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			selectedAttribute.getAttribute(),
+			selectedAttribute.getItem().getType(),
+			selectedAttribute.getSlot()
+		));
+	}
+
+	public static void log( EnumMap<AttributeModifier. Operation, Double> enummap) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		if(enummap == null) {
+			Bukkit.getLogger().info(String.format(
+				"Map<PotionEffectType, Integer Log ->\n" +
+					"at: %s\n" +
+					"null",
+				stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName()));
+			return;
+		}
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"ADD_NUMBER: %s\n" +
+				"ADD_SCALAR: %s\n" +
+				"MULTIPLY_SCALAR_1: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			enummap.get(AttributeModifier.Operation.ADD_NUMBER),
+			enummap.get(AttributeModifier.Operation.ADD_SCALAR),
+			enummap.get(AttributeModifier.Operation.MULTIPLY_SCALAR_1)
+		));
+	}
+
+	public static void log2(Map<EquipmentSlotGroup, Map<AttributeModifier.Operation, Double>> modifierValues) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			modifierValues.entrySet().stream()
+				.map(eff -> eff.getKey().toString() + "-" + eff.getValue())
+				.collect(Collectors.toList())
+		));
+	}
+	public static void log3(Map<AttributeModifier.Operation, Double> modifierValues) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			modifierValues.entrySet().stream()
+				.map(eff -> eff.getKey().toString() + "-" + eff.getValue())
+				.collect(Collectors.toList())
+		));
+	}
+	public static void log2(List<AttributeModifier> modifiers) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+
+		Bukkit.getLogger().info(String.format(
+			"Map<PotionEffectType, Integer Log ->\n" +
+				"at: %s\n" +
+				"contains: %s\n",
+			stackTrace[2].getClassName() + "#" + stackTrace[2].getMethodName(),
+			modifiers
+		));
+	}
 }

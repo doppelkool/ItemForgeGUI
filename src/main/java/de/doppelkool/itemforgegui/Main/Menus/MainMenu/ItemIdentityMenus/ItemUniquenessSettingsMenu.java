@@ -1,0 +1,91 @@
+package de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenus;
+
+import de.doppelkool.itemforgegui.Main.CustomItemManager.UniqueItemIdentifierManager;
+import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.ItemIdentityMenu.ItemUniquenessSettingsMenu.ItemUniquenessItems;
+import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.ItemIdentityMenu;
+import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
+import de.doppelkool.itemforgegui.Main.Messages.Messages;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyCurrentValueVariableInLore;
+
+/**
+ * Submenu as part of the main function of this plugin.
+ * It provides the way to change settings that regard the uniqueness of the item.
+ * Including the plugins UID for a forged item, copying it and editing it.
+ *
+ * @author doppelkool | github.com/doppelkool
+ */
+public class ItemUniquenessSettingsMenu extends Menu {
+	public ItemUniquenessSettingsMenu(PlayerMenuUtility playerMenuUtility) {
+		super(playerMenuUtility);
+	}
+
+	@Override
+	public String getMenuName() {
+		return "Item Uniqueness Settings";
+	}
+
+	@Override
+	public int getSlots() {
+		return 9 * 3;
+	}
+
+	@Override
+	public void handleMenu(InventoryClickEvent e) {
+		if (super.handleClose(e.getSlot())) {
+			return;
+		}
+		if (super.handleBack(e.getSlot(), null, ItemIdentityMenu::new)) {
+			return;
+		}
+
+		if (e.getSlot() == 12) {
+			UniqueItemIdentifierManager.sendCopyUniqueIdentifier(this.playerMenuUtility.getOwner(), this.playerMenuUtility.getItemInHand().get());
+			this.playerMenuUtility.getOwner().closeInventory();
+			return;
+		}
+
+		if (e.getSlot() == 14) {
+			editUniqueIdentifierProcess();
+			return;
+		}
+
+	}
+
+	@Override
+	public void setMenuItems() {
+		addMenuBorder();
+
+		ItemStack item = this.playerMenuUtility.getItemInHand().get();
+
+		ItemStack clone = ItemUniquenessItems.itemUniquenessSettingsShowID.clone();
+		modifyCurrentValueVariableInLore(
+			clone,
+			ItemStackCreateHelper.LoreVariable.CURRENT_VALUE,
+			UniqueItemIdentifierManager.ensureUID(item));
+
+		this.inventory.setItem(4, clone);
+		this.inventory.setItem(12, ItemUniquenessItems.copyUniqueIdentifier);
+		this.inventory.setItem(14, ItemUniquenessItems.editUniqueIdentifier);
+
+		setFillerGlass();
+	}
+
+	private void editUniqueIdentifierProcess() {
+		playerMenuUtility.setMenuTransitioning(true);
+		playerMenuUtility.getOwner().closeInventory();
+		playerMenuUtility.setSignNumberEditor(new SignNumberEditor(playerMenuUtility.getOwner())
+			.editItemID(
+				UniqueItemIdentifierManager.getUID(
+					this.playerMenuUtility.getItemInHand().get())
+					.orElse(""))
+			.openSign());
+		MessageManager.message(playerMenuUtility.getOwner(), Messages.SIGN_EDITOR_EDIT_UNIQUEID_INFORMATION);
+	}
+}

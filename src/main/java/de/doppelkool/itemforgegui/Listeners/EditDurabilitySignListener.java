@@ -1,9 +1,9 @@
 package de.doppelkool.itemforgegui.Listeners;
 
-import de.doppelkool.itemforgegui.Main.MenuComponents.MenuManager;
-import de.doppelkool.itemforgegui.Main.MenuComponents.PlayerMenuUtility;
-import de.doppelkool.itemforgegui.Main.MenuComponents.SignNumberEditor;
-import de.doppelkool.itemforgegui.Main.Menus.DurabilityMenu;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuManager;
+import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
+import de.doppelkool.itemforgegui.Main.Menus.MainMenu.DurabilityMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
 import org.bukkit.Material;
@@ -49,7 +49,7 @@ public class EditDurabilitySignListener implements Listener {
 			return;
 		}
 
-		ItemStack itemInMainHand = pl.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand = playerMenuUtility.getItemInHand().get();
 
 		durability = Integer.min(durability, itemInMainHand.getType().getMaxDurability());
 		durability = Integer.max(durability, 0);
@@ -60,6 +60,8 @@ public class EditDurabilitySignListener implements Listener {
 		itemMeta.setDamage(itemInMainHand.getType().getMaxDurability() - durability);
 
 		itemInMainHand.setItemMeta(itemMeta);
+		playerMenuUtility.getItemInHand().set(itemInMainHand);
+
 		endProcess(playerMenuUtility);
 	}
 
