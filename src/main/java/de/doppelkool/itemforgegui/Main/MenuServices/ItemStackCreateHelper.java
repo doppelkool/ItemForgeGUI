@@ -63,6 +63,7 @@ public class ItemStackCreateHelper {
 		CURRENT_OPERATION_EXPLANATION("currentOperationExplanation"),
 		CURRENT_OPERATION_EXAMPLE("currentOperationExample"),
 		OPERATION_VALUE("operationValue"),
+		MISSING_PROPERTY("missingProperty"),
 
 		;
 

@@ -10,6 +10,7 @@ import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.PlayerMenuUtility;
+import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.SkullData;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.AttributeSelectionMenu;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenus.CreateValueMenu;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyCurrentValueVariableInLore;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyToCustomHead;
 
 /**
  * Class Description
@@ -176,6 +178,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 			ItemStackCreateHelper.LoreVariable.CURRENT_ATTRIBUTE,
 			ItemStackModifyHelper.formatTranslationalNames(attribute.getTranslationKey())
 		);
+		modifyToCustomHead(valueSelection, SkullData.LIME_ONE);
 
 		return valueSelection;
 	}
@@ -192,7 +195,7 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 
 	@Override
 	protected boolean isConfirmable() {
-		//TODO combine literally all isConfirmable in the 3 submenus together instead of retyping the criteria here
+		//TODO combine literally all isConfirmable in the 3 submenus together instead of retyping the criteria here ; same as in getMissingPropertyString() below
 		PlayerMenuUtility.AttributeStorage attributeStorage = this.playerMenuUtility.getAttributeStorage();
 		return attributeStorage.getAttribute() != null &&
 			attributeStorage.getSlotMap().containsValue(true) &&
@@ -201,8 +204,30 @@ public class CreateAttributeModifierMenu extends ConfirmableMenu {
 
 	@Override
 	protected ItemStack getConfirmableItem() {
-		return isConfirmable()
-			? AttributeSelectionItems.confirmSlots.clone()
-			: AttributeSelectionItems.confirmSlots_deactivated.clone();
+		if(isConfirmable()) {
+			return AddAttributeModifierItems.confirmSlots.clone();
+		}
+
+		ItemStack deactivatedConfirm = AddAttributeModifierItems.confirmSlots_deactivated.clone();
+
+		ItemStackCreateHelper.modifyCurrentValueVariableInLore(
+			deactivatedConfirm,
+			ItemStackCreateHelper.LoreVariable.MISSING_PROPERTY,
+			getMissingPropertyString()
+		);
+
+		return deactivatedConfirm;
+	}
+
+	private String getMissingPropertyString() {
+		PlayerMenuUtility.AttributeStorage attributeStorage = this.playerMenuUtility.getAttributeStorage();
+		boolean isMissingAttributeSelection = attributeStorage.getAttribute() == null;
+		boolean isMissingSlotSelection = !attributeStorage.getSlotMap().containsValue(true);
+		boolean isMissingValueSelection = attributeStorage.getOperationDoubleValues().isEmpty();
+
+		return
+			isMissingAttributeSelection ? "Attribute"
+			: isMissingSlotSelection ? "Slot"
+				: isMissingValueSelection ? "Value" : null;
 	}
 }
