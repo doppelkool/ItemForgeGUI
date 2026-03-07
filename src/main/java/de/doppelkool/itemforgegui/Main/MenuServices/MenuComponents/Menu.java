@@ -24,6 +24,9 @@ public abstract class Menu implements InventoryHolder {
 	protected int closeInventorySlot;
 	protected int backInventorySlot;
 
+	//ToDo Set in inventorys where its not practicle or really ness* for example in Attribute Modifier submenus
+	protected boolean showAPIItemInInventory = true;
+
 	public Menu(PlayerMenuUtility playerMenuUtility) {
 		this.playerMenuUtility = playerMenuUtility;
 
@@ -45,10 +48,22 @@ public abstract class Menu implements InventoryHolder {
 		inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 
 		this.setMenuItems();
+		this.setAPIItemInInventory();
 
 		playerMenuUtility.getOwner().openInventory(inventory);
 		playerMenuUtility.setCurrentMenu(this);
 		playerMenuUtility.setMenuTransitioning(false);
+	}
+
+	private void setAPIItemInInventory() {
+		boolean isItemEditThroughAPI = this.playerMenuUtility.getAPICallback().isPresent();
+
+		Bukkit.getLogger().info("isItemEditThroughAPI: " + isItemEditThroughAPI);
+		Bukkit.getLogger().info("showAPIItemInInventory: " + showAPIItemInInventory);
+
+		if(isItemEditThroughAPI && showAPIItemInInventory) {
+			this.inventory.setItem(8, this.playerMenuUtility.getItemInHand().get());
+		}
 	}
 
 	@Override
