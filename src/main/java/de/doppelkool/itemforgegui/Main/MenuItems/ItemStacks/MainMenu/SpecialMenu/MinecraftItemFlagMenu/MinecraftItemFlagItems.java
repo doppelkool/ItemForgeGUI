@@ -2,12 +2,14 @@ package de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMen
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.makeItem;
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyItemFlags;
 import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyLore;
+import static de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper.modifyStoredEnchantment;
 
 /**
  * Class Description
@@ -24,6 +26,7 @@ public class MinecraftItemFlagItems {
 	public static final ItemStack hideAdditionalToolTip;
 	public static final ItemStack hideDye;
 	public static final ItemStack hideArmorTrim;
+	public static final ItemStack hideStoredEnchantments;
 
 	static {
 		hideEnchantments = makeItem(Material.ENCHANTING_TABLE, ChatColor.GREEN + "Hide Enchantments");
@@ -50,5 +53,8 @@ public class MinecraftItemFlagItems {
 		hideArmorTrim = makeItem(Material.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ChatColor.GREEN + "Hide Armor Trim");
 		modifyLore(hideArmorTrim, ChatColor.YELLOW + "Hides the applied armor trim on an armor piece in its description");
 		modifyItemFlags(hideArmorTrim, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+		hideStoredEnchantments = makeItem(Material.ENCHANTED_BOOK, ChatColor.GREEN + "Hide Stored Enchantments");
+		modifyLore(hideStoredEnchantments, ChatColor.YELLOW + "Hides the stored enchantment in its description of items with stored enchantments");
+		modifyItemFlags(hideStoredEnchantments, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
 	}
 }

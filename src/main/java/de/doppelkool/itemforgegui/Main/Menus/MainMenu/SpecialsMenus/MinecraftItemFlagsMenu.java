@@ -52,23 +52,23 @@ public class MinecraftItemFlagsMenu extends Menu {
 
 		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 		CustomItemFlagManager.getInstance().initShowMinecraftItemFlagsFlag(item);
-		itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
+		determineNewStatusForItemFlagOnItem(e.getCurrentItem(), item,itemFlagItemStackPair.getA());
 	}
 
-	private void itemFlagClicked(ItemStack currentItem, ItemFlag itemFlag) {
-		ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
-		ItemMeta itemMeta = itemInMainHand.getItemMeta();
+	private void determineNewStatusForItemFlagOnItem(ItemStack menuItem, ItemStack itemToEdit, ItemFlag itemFlag) {
+		ItemMeta itemMeta = itemToEdit.getItemMeta();
 
-		if (hasGlow(currentItem)) {
+		if (hasGlow(menuItem)) {
 			itemMeta.removeItemFlags(itemFlag);
 		} else {
+			//! //Version-Change-TODO This currently adds spigots experimental and former-stable ItemFlags at once, this is just a visual issue and will be fixed in later versions | Paper doesn't have this visual issue
 			itemMeta.addItemFlags(itemFlag);
 		}
-		itemInMainHand.setItemMeta(itemMeta);
-		updateMainItem(itemInMainHand);
+		itemToEdit.setItemMeta(itemMeta);
+		updateMainItem(itemToEdit);
 
 		//Only change to activated dye if flag has been applied
-		setActivated(currentItem, itemInMainHand.getItemMeta().hasItemFlag(itemFlag));
+		setActivated(menuItem, itemToEdit.getItemMeta().hasItemFlag(itemFlag));
 	}
 
 	@Override

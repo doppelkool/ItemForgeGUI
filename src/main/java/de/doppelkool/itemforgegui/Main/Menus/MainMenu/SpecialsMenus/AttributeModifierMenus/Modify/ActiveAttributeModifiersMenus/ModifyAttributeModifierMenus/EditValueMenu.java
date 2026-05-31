@@ -193,6 +193,7 @@ public class EditValueMenu extends ConfirmableMenu {
 
 		updateConfirmSlot();
 		setFillerGlass();
+		setAPIItemInInventory(); //This will only change the menu items if reopened, since the menu is not opened as normal, instead its refilled with this method
 	}
 
 	@Override
