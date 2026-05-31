@@ -11,7 +11,6 @@ import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Modify.ActiveAttributeModifiersMenus.ModifyAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;

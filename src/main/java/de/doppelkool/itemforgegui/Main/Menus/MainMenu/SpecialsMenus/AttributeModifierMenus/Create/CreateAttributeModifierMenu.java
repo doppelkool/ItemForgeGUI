@@ -4,7 +4,6 @@ import com.google.common.collect.Multimap;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.AttributeModifierManager;
 import de.doppelkool.itemforgegui.Main.Main;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AddAttributeModifierItems;
-import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.MainMenu.SpecialMenu.AttributeModifierMenu.CreateAttributeModifierMenu.AttributeSelectionItems;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.ConfirmableMenu;

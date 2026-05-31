@@ -1,11 +1,14 @@
 package de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents;
 
+import de.doppelkool.itemforgegui.Main.ConfigManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,14 +58,11 @@ public abstract class Menu implements InventoryHolder {
 		playerMenuUtility.setMenuTransitioning(false);
 	}
 
-	private void setAPIItemInInventory() {
-		boolean isItemEditThroughAPI = this.playerMenuUtility.getAPICallback().isPresent();
-
-		Bukkit.getLogger().info("isItemEditThroughAPI: " + isItemEditThroughAPI);
-		Bukkit.getLogger().info("showAPIItemInInventory: " + showAPIItemInInventory);
-
-		if(isItemEditThroughAPI && showAPIItemInInventory) {
-			this.inventory.setItem(8, this.playerMenuUtility.getItemInHand().get());
+	protected void setAPIItemInInventory() {
+		if(this.playerMenuUtility.getAPICallback().isPresent() && showAPIItemInInventory) {
+			this.inventory.setItem(
+				ConfigManager.getInstance().getApiCallbackItemSlot(),
+				this.playerMenuUtility.getItemInHand().get());
 		}
 	}
 
@@ -123,6 +123,12 @@ public abstract class Menu implements InventoryHolder {
 			return true;
 		}
 		return false;
+	}
+
+	protected void updateMainItem(ItemStack toUpdate) {
+		new ItemInfoManager(toUpdate).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(toUpdate);
+		setAPIItemInInventory();
 	}
 
 }

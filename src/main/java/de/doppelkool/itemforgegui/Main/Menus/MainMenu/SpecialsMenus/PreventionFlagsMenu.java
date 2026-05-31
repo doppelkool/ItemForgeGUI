@@ -3,7 +3,6 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.PreventionFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.ForgeAction;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackCreateHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
@@ -54,9 +53,6 @@ public class PreventionFlagsMenu extends Menu {
 		CustomItemFlagManager.getInstance().initShowPreventionFlagsFlag(item);
 
 		forgeActionClicked(e.getCurrentItem(), clickedForgeAction);
-
-		new ItemInfoManager(item).updateItemInfo();
-		playerMenuUtility.getItemInHand().set(item);
 	}
 
 	private void forgeActionClicked(ItemStack currentItem, ForgeAction clickedAction) {
@@ -85,7 +81,7 @@ public class PreventionFlagsMenu extends Menu {
 			clickedAction,
 			newStatus);
 
-		playerMenuUtility.getItemInHand().set(itemStack);
+		updateMainItem(itemStack);
 	}
 
 	@Override

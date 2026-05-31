@@ -91,7 +91,7 @@ public class LeatherItemColorMenu extends Menu {
 
 			ItemStack itemInMainHand = this.playerMenuUtility.getItemInHand().get();
 			editItem(itemInMainHand, e.getSlot());
-			playerMenuUtility.getItemInHand().set(itemInMainHand);
+			updateMainItem(itemInMainHand);
 
 			loadAllRGBCaps();
 		}
@@ -102,7 +102,7 @@ public class LeatherItemColorMenu extends Menu {
 		ColorableArmorMeta itemInMainHandItemMeta = (ColorableArmorMeta) itemInMainHand.getItemMeta();
 		itemInMainHandItemMeta.setColor(this.playerMenuUtility.getLeatherColorPicker_ResetColor());
 		itemInMainHand.setItemMeta(itemInMainHandItemMeta);
-		playerMenuUtility.getItemInHand().set(itemInMainHand);
+		updateMainItem(itemInMainHand);
 	}
 
 	private void editItem(ItemStack itemInMainHand, int slot) {

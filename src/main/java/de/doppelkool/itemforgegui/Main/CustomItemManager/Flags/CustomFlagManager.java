@@ -103,12 +103,16 @@ public abstract class CustomFlagManager<T extends Enum<T>> {
 	}
 
 	public String extractItemFlags(PersistentDataContainer dataContainer) {
-		if (!dataContainer.has(getNameSpacedKey(), PersistentDataType.STRING)) {
+		if (!hasItemFlagHeader(dataContainer)) {
 			return "";
 		}
 
 		String s = dataContainer.get(getNameSpacedKey(), PersistentDataType.STRING);
 		return s == null ? "" : s;
+	}
+
+	private boolean hasItemFlagHeader(PersistentDataContainer dataContainer) {
+		return dataContainer.has(getNameSpacedKey(), PersistentDataType.STRING);
 	}
 
 	public boolean isFlagApplied(@NotNull PersistentDataContainer dataContainer, @NotNull T action) {
@@ -122,5 +126,10 @@ public abstract class CustomFlagManager<T extends Enum<T>> {
 			&& isFlagApplied(item.getItemMeta().getPersistentDataContainer(), action);
 	}
 
+	public boolean isCustomItemFlagHeaderInit(@Nullable ItemStack item) {
+		return item != null
+			&& item.getItemMeta() != null
+			&& hasItemFlagHeader(item.getItemMeta().getPersistentDataContainer());
+	}
 
 }

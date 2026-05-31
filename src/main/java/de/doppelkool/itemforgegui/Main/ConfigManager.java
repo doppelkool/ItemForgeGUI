@@ -38,6 +38,8 @@ public class ConfigManager {
 
 	private final boolean validateAttributeSlotGroups;
 
+	private final int apiCallbackItemSlot;
+
 	private ConfigManager() {
 		File pluginFolder = new File(Main.getPlugin().getDataFolder().toURI());
 		pluginFolder.mkdirs();
@@ -73,6 +75,8 @@ public class ConfigManager {
 		this.showCustomPreventionFlags = this.config.getBoolean("show-flags-by-default-in-item-lore.custom-prevention-flags");
 
 		this.validateAttributeSlotGroups = this.config.getBoolean("attribute-modifier.validate-attribute-slotgroups");
+
+		this.apiCallbackItemSlot = this.config.getInt("api.inventory-item.slot");
 	}
 
 	public static ConfigManager getInstance() {
