@@ -11,7 +11,6 @@ import de.doppelkool.itemforgegui.Main.MenuServices.SignNumberEditor;
 import de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus.AttributeModifierMenus.Create.CreateAttributeModifierMenu;
 import de.doppelkool.itemforgegui.Main.Messages.MessageManager;
 import de.doppelkool.itemforgegui.Main.Messages.Messages;
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -197,6 +196,7 @@ public class CreateValueMenu extends ConfirmableMenu {
 
 		updateConfirmSlot();
 		setFillerGlass();
+		setAPIItemInInventory(); //This will only change the menu items if reopened, since the menu is not opened as normal, instead its refilled with this method
 	}
 
 	@Override

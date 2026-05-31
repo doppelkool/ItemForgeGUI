@@ -33,6 +33,7 @@ public class LoreBookListeners implements Listener {
 	public void onPlayerEditLoreBook(PlayerEditBookEvent e) {
 		Player pl = e.getPlayer();
 		PlayerMenuUtility playerMenuUtility = MenuManager.getPlayerMenuUtility(pl);
+
 		if (!e.getPlayer()
 			.getInventory()
 			.getItemInMainHand()

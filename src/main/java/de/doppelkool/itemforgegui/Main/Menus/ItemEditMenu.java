@@ -184,7 +184,10 @@ public class ItemEditMenu extends Menu {
 						playerMenuUtility.setMenuTransitioning(false);
 					}),
 					AnvilGUI.ResponseAction.close(),
-					AnvilGUI.ResponseAction.openInventory(this.inventory));
+					AnvilGUI.ResponseAction.run(() -> {
+						new ItemEditMenu(playerMenuUtility)
+							.open();
+					}));
 			})
 			.itemLeft(item)
 			.plugin(Main.getPlugin())

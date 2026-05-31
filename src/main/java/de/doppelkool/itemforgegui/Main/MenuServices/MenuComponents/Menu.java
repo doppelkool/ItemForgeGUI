@@ -1,11 +1,14 @@
 package de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents;
 
+import de.doppelkool.itemforgegui.Main.ConfigManager;
+import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuItems.ItemStacks.GlobalItems;
 import de.doppelkool.itemforgegui.Main.Menus.ItemEditMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +26,9 @@ public abstract class Menu implements InventoryHolder {
 
 	protected int closeInventorySlot;
 	protected int backInventorySlot;
+
+	//ToDo Set in inventorys where its not practicle or really ness* for example in Attribute Modifier submenus
+	protected boolean showAPIItemInInventory = true;
 
 	public Menu(PlayerMenuUtility playerMenuUtility) {
 		this.playerMenuUtility = playerMenuUtility;
@@ -45,10 +51,19 @@ public abstract class Menu implements InventoryHolder {
 		inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 
 		this.setMenuItems();
+		this.setAPIItemInInventory();
 
 		playerMenuUtility.getOwner().openInventory(inventory);
 		playerMenuUtility.setCurrentMenu(this);
 		playerMenuUtility.setMenuTransitioning(false);
+	}
+
+	protected void setAPIItemInInventory() {
+		if(this.playerMenuUtility.getAPICallback().isPresent() && showAPIItemInInventory) {
+			this.inventory.setItem(
+				ConfigManager.getInstance().getApiCallbackItemSlot(),
+				this.playerMenuUtility.getItemInHand().get());
+		}
 	}
 
 	@Override
@@ -108,6 +123,12 @@ public abstract class Menu implements InventoryHolder {
 			return true;
 		}
 		return false;
+	}
+
+	protected void updateMainItem(ItemStack toUpdate) {
+		new ItemInfoManager(toUpdate).updateItemInfo();
+		playerMenuUtility.getItemInHand().set(toUpdate);
+		setAPIItemInInventory();
 	}
 
 }

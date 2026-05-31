@@ -2,7 +2,6 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.ItemFlagManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
@@ -54,10 +53,6 @@ public class MinecraftItemFlagsMenu extends Menu {
 		ItemStack item = this.playerMenuUtility.getItemInHand().get();
 		CustomItemFlagManager.getInstance().initShowMinecraftItemFlagsFlag(item);
 		itemFlagClicked(e.getCurrentItem(), itemFlagItemStackPair.getA());
-
-		new ItemInfoManager(item).updateItemInfo();
-		playerMenuUtility.getItemInHand().set(item);
-		return;
 	}
 
 	private void itemFlagClicked(ItemStack currentItem, ItemFlag itemFlag) {
@@ -70,7 +65,7 @@ public class MinecraftItemFlagsMenu extends Menu {
 			itemMeta.addItemFlags(itemFlag);
 		}
 		itemInMainHand.setItemMeta(itemMeta);
-		playerMenuUtility.getItemInHand().set(itemInMainHand);
+		updateMainItem(itemInMainHand);
 
 		//Only change to activated dye if flag has been applied
 		setActivated(currentItem, itemInMainHand.getItemMeta().hasItemFlag(itemFlag));

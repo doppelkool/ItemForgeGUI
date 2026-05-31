@@ -2,7 +2,6 @@ package de.doppelkool.itemforgegui.Main.Menus.MainMenu.SpecialsMenus;
 
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlag;
 import de.doppelkool.itemforgegui.Main.CustomItemManager.Flags.CustomItemFlagManager;
-import de.doppelkool.itemforgegui.Main.CustomItemManager.ItemInfoManager;
 import de.doppelkool.itemforgegui.Main.MenuServices.ItemStackModifyHelper;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Menu;
 import de.doppelkool.itemforgegui.Main.MenuServices.MenuComponents.Pair;
@@ -47,11 +46,6 @@ public class CustomItemFlagsMenu extends Menu {
 		}
 
 		customFlagClicked(e.getCurrentItem(), customItemFlagItemStackPair.getA());
-
-		ItemStack item = this.playerMenuUtility.getItemInHand().get();
-		new ItemInfoManager(item).updateItemInfo();
-		playerMenuUtility.getItemInHand().set(item);
-		return;
 	}
 
 	private void customFlagClicked(ItemStack currentItem, CustomItemFlag clickedCustomFlag) {
@@ -64,7 +58,7 @@ public class CustomItemFlagsMenu extends Menu {
 			itemStack,
 			clickedCustomFlag,
 			newStatus);
-		playerMenuUtility.getItemInHand().set(itemStack);
+		updateMainItem(itemStack);
 	}
 
 	@Override

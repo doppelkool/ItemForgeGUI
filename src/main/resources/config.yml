@@ -43,3 +43,8 @@
 #  false -> activates slots that an item cannot normally be equipped on
 "attribute-modifier":
   "validate-attribute-slotgroups": true
+"api":
+  "inventory-item":
+    # This sets the slot in which the item given via API will be displayed in the Menus.
+    # ! Be Careful with too high values, since this can break the plugin since some Menus are too small.
+    "slot": 8
