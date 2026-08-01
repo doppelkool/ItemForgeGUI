@@ -6,7 +6,7 @@
 
     <groupId>de.doppelkool</groupId>
     <artifactId>ItemForgeGUI</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
     <packaging>jar</packaging>
 
     <name>ItemForgeGUI</name>
@@ -41,25 +41,29 @@
     <dependencies>
         <!-- Spigot: Provided by the server -->
         <dependency>
+            <!-- https://www.spigotmc.org/wiki/buildtools/ -->
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>26.1.2-R0.1-SNAPSHOT</version>
+            <version>26.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- https://www.spigotmc.org/wiki/buildtools/ -->
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>26.1.2-R0.1-SNAPSHOT</version>
+            <version>26.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
+            <!-- https://github.com/WesJD/AnvilGUI -->
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
             <version>1.10.13-SNAPSHOT</version>
         </dependency>
 
         <dependency>
+            <!-- https://github.com/projectlombok/lombok -->
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.46</version>
@@ -67,6 +71,7 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/JetBrains/java-annotations -->
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
@@ -74,6 +79,7 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/mfnalex/CustomBlockData -->
             <groupId>com.jeff-media</groupId>
             <artifactId>custom-block-data</artifactId>
             <version>2.2.3</version>
@@ -81,6 +87,7 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/mfnalex/ArmorEquipEvent -->
             <groupId>com.jeff-media</groupId>
             <artifactId>armor-equip-event</artifactId>
             <version>1.0.3</version>
@@ -88,6 +95,7 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/mfnalex/MorePersistentDataTypes -->
             <groupId>com.jeff-media</groupId>
             <artifactId>MorePersistentDataTypes</artifactId>
             <version>2.4.0</version>
@@ -95,6 +103,7 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/Bastian/bStats -->
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>3.0.2</version>
@@ -102,12 +111,14 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/tchristofferson/Config-Updater -->
             <groupId>com.tchristofferson</groupId>
             <artifactId>ConfigUpdater</artifactId>
             <version>2.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
+            <!-- https://github.com/semver4j/semver4j -->
             <groupId>org.semver4j</groupId>
             <artifactId>semver4j</artifactId>
             <version>5.7.1</version>
